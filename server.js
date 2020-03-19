@@ -1,6 +1,6 @@
 const express = require('express');
 const https = require("https");
-const fs = require("fs");
+//const fs = require("fs");
 const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
@@ -30,14 +30,17 @@ app.use(passport.session({
 app.use("/", routes);
 app.use(express.static(__dirname + '/static'));
 
-const httpsOptions = {
+const httpsOptions = {};/*
     key: fs.readFileSync("./ssl/localhost-key.pem"),
     cert: fs.readFileSync("./ssl/localhost-cert.pem")
-};
+};*/
 
-https.createServer(httpsOptions, app).listen(port, _ => {
+https.createServer(httpsOptions, app).listen(port => {
     console.log("Server connected at:", port);
 });
+/*app.listen(port => {
+    console.log("Server connected at:", port);
+});*/
 
 
 //  ERROR CATCHER
