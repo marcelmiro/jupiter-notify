@@ -1,0 +1,60 @@
+
+//  COLOR VARS
+$bgPurple: #352746;
+$planetOrange: #ff8e00;
+
+button, a {
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+  font-family: Raleway, Montserrat sans-serif;
+  font-weight: bold;
+
+  &:hover, &:focus { outline: none; }
+}
+
+a.button {
+  display: inline-block;
+  margin: 30px auto 10px;
+  font-size: 16px;
+  padding: 18px 30px;
+  background-color: $planetOrange;
+  border-radius: 50px;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover { background: darken($planetOrange, 6%); }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+
+  color: white;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+
+  background: $bgPurple url("https://marcelmiro.github.io/jupiter-notify/assets/bg_stars_min.svg") center center no-repeat;
+  background-size: cover;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 1000px;
+  background-color: rgba(white, 0.04);
+  border-radius: 24px;
+
+  h1 { margin: 40px auto; }
+  .inner-container {
+    padding: 30px 0;
+    p {
+      width: 80%;
+      margin: 16px auto;
+    }
+  }
+}

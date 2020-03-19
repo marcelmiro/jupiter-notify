@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--    MAIN INFO    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+
+    <!--    FONTS    -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,400&display=swap" rel="stylesheet">
+
+    <!--    MAIN CSS    -->
+    <link rel="stylesheet" href="dashboard.css">
+
+    <!--    FAVICON    -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicons/site.webmanifest">
+    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#352746">
+    <link rel="shortcut icon" href="assets/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#352746">
+    <meta name="msapplication-config" content="assets/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffaa30">
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="container container-intro">
+        <div class="inner-container">
+            <div class="avatar-container">
+                <img src="<%= data["avatar_url"] %>" alt="Avatar icon" />
+            </div>
+            <div class="welcome-container">
+                <h1>Welcome,<br><%= user.username %></h1>
+            </div>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container container-social">
+        <div class="inner-container">
+            <a class="button" <% if(data.has_membership) { %> href="#" <% } %> >Join Discord</a>
+            <a class="button" href="https://twitter.com/jupiternotify" target="_blank">Follow Us On Twitter</a>
+        </div>
+    </div>
+    <div class="container container-dunno">
+        <div>
+            <button id="pay-now" <% if(data.has_membership) { %> disabled <% } %>>Pay Now</button>
+            <!--<% Object.keys(data).forEach(datum => { %>
+                <%
+                    if(data[datum].length > 50) { datumValue = data[datum].substring(0,47)+"..."; }
+                    else { datumValue = data[datum]; }
+                %>
+                <p><%= datum %>:&nbsp;<%= datumValue %></p>
+            <% }) %>-->
+        </div>
+    </div>
+
+    <div class="container container-payment">
+        <div class="inner-container">
+            <h2>Payment</h2>
+            <% if (data.has_membership) { %>
+                <div>Plan: <%= paymentDetails.interval %></div>
+                <div>Price: <%= paymentDetails.price %></div>
+                <div>Next Payment Due:<br><%= paymentDetails.nextPayment %></div>
+                <div><button>Visa <%= paymentDetails.cardLast4 %></button></div>
+            <% } %>
+            <button id="cancel-membership" <% if(!data.has_membership) { %> disabled <% } %>>Cancel Membership</button>
+        </div>
+    </div>
+</div>
+
+<div id="cancel-membership-popup" class="confirm-popup">
+    <div class="overlay"></div>
+    <div class="container">
+        <p>Are you sure?</p>
+        <div>
+            <a>Cancel</a>
+            <a href="/stripe/cancel-membership">Confirm</a>
+        </div>
+    </div>
+</div>
+
+<div id="success-payment-popup" class="confirm-popup">
+    <div class="overlay"></div>
+    <div class="container">
+        <p>Thanks for subscribing! If you have any issues, please contact a member of staff, we'll be glad to help.</p>
+        <div>
+            <a>Close</a>
+        </div>
+    </div>
+</div>
+
+<div id="fail-payment-popup" class="confirm-popup">
+    <div class="overlay"></div>
+    <div class="container">
+        <p>Thanks for subscribing! If you have any issues, please contact a member of staff, we'll be glad to help.</p>
+        <div>
+            <a>Close</a>
+        </div>
+    </div>
+</div>
+
+
+
+<!--    JS LIBRARIES    -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    let checkoutId = "<%= checkoutId %>";
+    let stripeKey = "<%= stripeKey %>";
+</script>
+
+<!--    MAIN JS    -->
+<script src="dashboard.js"></script>
+
+</body>
+</html>

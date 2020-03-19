@@ -1,0 +1,36 @@
+{
+  "name": "subscription-dashboard",
+  "version": "1.0.0",
+  "description": "Custom dashboard for monthly subscriptions",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcelmiro/subscription-dashboard.git"
+  },
+  "author": "Marcel Miro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marcelmiro/subscription-dashboard/issues"
+  },
+  "homepage": "https://github.com/marcelmiro/subscription-dashboard#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "https": "^1.0.0",
+    "passport": "^0.4.1",
+    "passport-discord": "^0.1.3",
+    "path": "^0.12.7",
+    "sqlite-async": "^1.0.12",
+    "stripe": "^8.31.0",
+    "uuidv4": "^6.0.6"
+  },
+  "devDependencies": {}
+}

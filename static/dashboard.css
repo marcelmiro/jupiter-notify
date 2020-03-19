@@ -1,0 +1,339 @@
+button, a {
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  background: none;
+  cursor: pointer;
+  font-family: Raleway, Montserrat sans-serif;
+  font-weight: bold;
+  color: white;
+}
+button:hover, button:focus, a:hover, a:focus {
+  background: none;
+}
+button:focus, a:focus {
+  outline: none;
+}
+button:disabled, a:disabled {
+  background-color: #666 !important;
+  cursor: auto !important;
+}
+button:disabled:hover, a:disabled:hover {
+  background-color: #666 !important;
+  transform: none !important;
+}
+button:disabled a, a:disabled a {
+  cursor: auto !important;
+  pointer-events: none !important;
+}
+
+/*.confirm-popup {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  .overlay { width: 100%; height: 100%; background-color: rgba(black, 50%); }
+  .container {
+    position: absolute;
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 34px 0;
+    background-color: $bgPurple;
+    border-radius: 24px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    p { margin: 0 auto 50px; font-size: 20px; }
+    > div {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-around;
+      align-items: center;
+
+      a {
+        font-weight: 400;
+        font-size: 15px;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        &:nth-of-type(1) { background: none !important; }
+        &:nth-of-type(2) {
+          font-weight: bold;
+          background-color: $planetOrange;
+          padding: 14px 28px;
+          border-radius: 30px;
+          transition: background-color 0.2s ease-in-out;
+          &:hover { background-color: darken($planetOrange, 6%); }
+        }
+      }
+    }
+  }
+}*/
+.confirm-popup {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.confirm-popup .overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.confirm-popup .container {
+  position: absolute;
+  width: 450px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 50px 0;
+  background-color: #352746;
+  border-radius: 24px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.confirm-popup .container p {
+  margin: 0 auto 50px;
+  font-size: 18px;
+  width: 80%;
+}
+.confirm-popup .container > div {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.confirm-popup .container > div a {
+  font-size: 15px;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  font-weight: 400;
+}
+.confirm-popup .container > div a:nth-of-type(2) {
+  font-weight: bold;
+  background-color: #ff8e00;
+  padding: 14px 28px;
+  border-radius: 30px;
+  transition: background-color 0.2s ease-in-out;
+}
+.confirm-popup .container > div a:nth-of-type(2):hover {
+  background-color: #e07d00;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  background: #352746 url("https://marcelmiro.github.io/jupiter-notify/assets/bg_stars_min.svg") center center no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard {
+  width: 94%;
+  height: 90%;
+  max-width: 1400px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 3fr 1.3fr 4fr;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+}
+.dashboard a:not([href]) {
+  background-color: #666 !important;
+  cursor: auto !important;
+  pointer-events: none !important;
+}
+.dashboard a:not([href]):hover {
+  background-color: #666 !important;
+  transform: none !important;
+}
+.dashboard > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.dashboard > div > div {
+  width: calc(100% - 50px);
+  height: calc(100% - 30px);
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 24px;
+}
+.dashboard .container-intro {
+  grid-area: 1/1/2/2;
+  align-items: flex-start;
+}
+.dashboard .container-intro .inner-container {
+  position: relative;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.dashboard .container-intro .inner-container .avatar-container {
+  width: 40%;
+  height: 100%;
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.dashboard .container-intro .inner-container .avatar-container img {
+  border-radius: 50%;
+  border: 8px white solid;
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 10px 10px 63px -15px rgba(0, 0, 0, 0.75);
+  margin: -50px;
+}
+.dashboard .container-intro .inner-container .welcome-container {
+  width: 60%;
+}
+.dashboard .container-intro .inner-container .welcome-container h1 {
+  font-family: Raleway, Montserrat, sans-serif;
+  margin: 0 0 0 50px;
+  font-size: 3vw;
+  max-font-size: 55px;
+}
+.dashboard .container-intro .inner-container a {
+  font-family: Raleway, Montserrat, sans-serif;
+  font-size: 16px;
+  color: white;
+  text-decoration: none;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+.dashboard .container-social {
+  grid-area: 2/1/3/2;
+}
+.dashboard .container-social .inner-container {
+  display: flex;
+  justify-content: space-around;
+  -webkit-justify-content: space-evenly !important;
+  align-items: center;
+}
+.dashboard .container-social .inner-container a {
+  width: 42%;
+  height: 54%;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dashboard .container-social .inner-container a:nth-of-type(1) {
+  background-color: #8b50c3;
+}
+.dashboard .container-social .inner-container a:nth-of-type(1):hover {
+  background-color: #7c3eb6;
+}
+.dashboard .container-social .inner-container a:nth-of-type(2) {
+  background-color: #00a1d1;
+}
+.dashboard .container-social .inner-container a:nth-of-type(2):hover {
+  background-color: #0089b2;
+}
+.dashboard .container-dunno {
+  grid-area: 3/1/4/2;
+  align-items: flex-end;
+}
+.dashboard .container-dunno > div {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.dashboard .container-dunno > div button {
+  background-color: #009000;
+  width: 36%;
+  min-height: 60px;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: bold;
+  transition: background-color 0.3s ease-out;
+}
+.dashboard .container-dunno > div button:hover {
+  background-color: #007100;
+}
+.dashboard .container-payment {
+  grid-area: 1/2/4/3;
+}
+.dashboard .container-payment .inner-container {
+  width: 100%;
+  height: 100%;
+  padding: 50px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboard .container-payment .inner-container > * {
+  background: rgba(0, 0, 0, 0.1);
+  width: 70%;
+  height: auto;
+  padding: 20px 0;
+  font-family: Raleway, Montserrat, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dashboard .container-payment .inner-container h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  background: none;
+}
+.dashboard .container-payment .inner-container > div {
+  font-size: 20px;
+  border-radius: 14px;
+}
+.dashboard .container-payment .inner-container > div button {
+  background-color: #333;
+  font-size: 32px;
+  font-weight: bold;
+  width: 60%;
+  min-height: 100px;
+  border-radius: 26px;
+  margin: 10px 0;
+  transition: background-color 0.3s ease-in-out;
+}
+.dashboard .container-payment .inner-container > div button:hover {
+  background-color: #303030;
+}
+.dashboard .container-payment .inner-container > button {
+  background-color: red;
+  width: 36%;
+  min-height: 60px;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: bold;
+  transition: background-color 0.3s ease-out;
+}
+.dashboard .container-payment .inner-container > button:hover {
+  background-color: #b80000;
+}
+
+/*# sourceMappingURL=dashboard.css.map */
