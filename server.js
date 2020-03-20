@@ -30,13 +30,16 @@ app.use(passport.session({
 app.use("/", routes);
 app.use(express.static(__dirname + '/static'));
 
-const httpsOptions = {
+/*const httpsOptions = {
     key: fs.readFileSync("./ssl/localhost-key.pem"),
     cert: fs.readFileSync("./ssl/localhost-cert.pem")
 };
 
 https.createServer(httpsOptions, app).listen(port, _ => {
     console.log("Server connected at:", port);
+});*/
+app.listen(port, _ => {
+    console.log("Server connect at:", port);
 });
 
 
