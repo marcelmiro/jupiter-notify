@@ -146,7 +146,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
                                 ].default_payment_method
                         },
                 });
-            
+
             await stripeUtils.updateStripeSubscription(SESSION["subscription"],
                 {
                     default_payment_method: CUSTOMER.subscriptions.data
