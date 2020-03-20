@@ -1,6 +1,6 @@
 const express = require('express');
-const https = require("https");
-const fs = require("fs");
+//const https = require("https");
+//const fs = require("fs");
 const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
@@ -38,6 +38,7 @@ app.use(express.static(__dirname + '/static'));
 https.createServer(httpsOptions, app).listen(port, _ => {
     console.log("Server connected at:", port);
 });*/
+
 app.listen(port, _ => {
     console.log("Server connect at:", port);
 });

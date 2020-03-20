@@ -20,15 +20,8 @@ let db;
     }
 }*/
 async function openDb() {
-    db = new Client({
-        user: "tpgooilyhjvcdo",
-        password: "3beac1a7d1cf31083858fe17ffa606b19d3f5f3d2cf1d9f99ed823d14b084309",
-        host: "ec2-54-246-90-10.eu-west-1.compute.amazonaws.com",
-        port: 5432,
-        database: "df0g3cc96374vq"
-    });
-
     try {
+        db = new Client(process.env.DATABASE_URL);
         await db.connect();
         console.log("Database has been opened.");
         return true;

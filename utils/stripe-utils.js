@@ -77,8 +77,8 @@ let createSession = async customer_id => {
                 plan: process.env.STRIPE_PLAN_ID,
             }],
         },
-        success_url: `https://localhost:8080/stripe/success?session_id={CHECKOUT_SESSION_ID}&customer_id=${customer_id}`,
-        cancel_url: 'https://localhost:8080/stripe/fail',
+        success_url: `/stripe/success?session_id={CHECKOUT_SESSION_ID}&customer_id=${customer_id}`,
+        cancel_url: '/stripe/fail',
     });
 };
 
