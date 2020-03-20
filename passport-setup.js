@@ -18,7 +18,7 @@ passport.use(new DiscordStrategy(
     {
         clientID: process.env.DISCORD_CLIENT_ID,
         clientSecret: process.env.DISCORD_CLIENT_SECRET,
-        callbackURL: "/auth/redirect"
+        callbackURL: `${process.env.URL}/auth/redirect`
     },
     /**
      * Callback function
