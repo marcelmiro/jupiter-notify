@@ -13,10 +13,10 @@ passport.deserializeUser((id, done) => {
        done(null, user);
    });
 });
-
+console.log(process.env.CLIENT_ID);
 passport.use(new DiscordStrategy(
     {
-        clientId: process.env.CLIENT_ID,
+        clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
         callbackURL: "/auth/redirect"
     },
