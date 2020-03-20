@@ -1,13 +1,13 @@
 const express = require('express');
-//const https = require("https");
-//const fs = require("fs");
+const https = require("https");
+const fs = require("fs");
 const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
-const passportSetup = require("./passport-setup");
 const routes = require("./routes");
-const dbUtils = require("./utils/db-utils");
+const passportSetup = require("./passport-setup");
 const utils = require("./utils/utils");
+const dbUtils = require("./utils/db-utils");
 
 
 const app = express();
@@ -30,18 +30,18 @@ app.use(passport.session({
 app.use("/", routes);
 app.use(express.static(__dirname + '/static'));
 
-/*const httpsOptions = {
+const httpsOptions = {
     key: fs.readFileSync("./ssl/localhost-key.pem"),
     cert: fs.readFileSync("./ssl/localhost-cert.pem")
 };
 
 https.createServer(httpsOptions, app).listen(port, _ => {
     console.log("Server connected at:", port);
-});*/
-
-app.listen(port, _ => {
-    console.log("Server connect at:", port);
 });
+
+/*app.listen(port, _ => {
+    console.log("Server connect at:", port);
+});*/
 
 
 //  ERROR CATCHER

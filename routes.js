@@ -2,7 +2,6 @@ require("dotenv").config();
 const router = require("express").Router();
 const passport = require("passport");
 const bodyParser = require('body-parser');
-const { uuid } = require('uuidv4');
 const utils = require("./utils/utils");
 const dbUtils = require("./utils/db-utils");
 const stripeUtils = require("./utils/stripe-utils");
@@ -24,9 +23,8 @@ router.get("/auth", authLoginCheck, passport.authenticate(
     { scope: "email"}
 ));
 
-router.get("/auth/redirect", passport.authenticate(
-    "discord",
-    { failureRedirect: "/" }),
+router.get("/auth/redirect",passport.authenticate(
+    "discord", { failureRedirect: "/" }),
     (req, res) => {
         res.redirect("/dashboard");
     });

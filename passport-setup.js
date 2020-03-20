@@ -18,7 +18,7 @@ passport.use(new DiscordStrategy(
     {
         clientID: process.env.DISCORD_CLIENT_ID,
         clientSecret: process.env.DISCORD_CLIENT_SECRET,
-        callbackURL: "https://jupiter-notify.herokuapp.com/auth/redirect"
+        callbackURL: "/auth/redirect"
     },
     /**
      * Callback function
@@ -39,10 +39,7 @@ passport.use(new DiscordStrategy(
             };
 
         utils.userLogin(id, username + "#" + discriminator, email, DATA).then(user => {
-            dbUtils.getAllData().then(r => {
-                console.log(r);
-                done(null, user);
-            });
+            done(null, user);
         });
     },
 ));
