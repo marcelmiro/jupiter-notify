@@ -134,6 +134,8 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
             await utils.getFromDataAndUpdate(USER["user_id"], {"has_membership":true});
             const CUSTOMER = await stripeUtils.getCustomer(SESSION["customer"]);
 
+            console.log(`User '${USER.username}' has subscribed.`);
+
             await stripeUtils.updateStripeCustomer(SESSION["customer"],
                 {
                     invoice_settings:
@@ -144,7 +146,8 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
                                 ].default_payment_method
                         },
                 });
-            await stripeUtils.updateStripeSubscription(SESSION.metadata["subscription_id"],
+            
+            await stripeUtils.updateStripeSubscription(SESSION["subscription"],
                 {
                     default_payment_method: CUSTOMER.subscriptions.data
                         [
