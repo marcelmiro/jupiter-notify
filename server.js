@@ -1,6 +1,5 @@
+require("dotenv").config();
 const express = require('express');
-const https = require("https");
-const fs = require("fs");
 const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
@@ -30,34 +29,23 @@ app.use(passport.session({
 app.use("/", routes);
 app.use(express.static(__dirname + '/static'));
 
-const httpsOptions = {
-    key: fs.readFileSync("./ssl/localhost-key.pem"),
-    cert: fs.readFileSync("./ssl/localhost-cert.pem")
-};
+if (process.env.URL.includes("localhost")) {
+    const https = require("https");
+    const fs = require("fs");
+    
+    const httpsOptions = {
+        key: fs.readFileSync("./ssl/localhost-key.pem"),
+        cert: fs.readFileSync("./ssl/localhost-cert.pem")
+    };
 
-https.createServer(httpsOptions, app).listen(port, _ => {
-    console.log("Server connected at:", port);
-});
-
-/*app.listen(port, _ => {
-    console.log("Server connect at:", port);
-});*/
-
-
-//  ERROR CATCHER
-app.use((err, req, res, next) => {
-    if (err.message === 'NoCodeProvided') {
-        return res.status(400).send({
-            status: 'ERROR',
-            error: err.message,
-        });
-    } else {
-        return res.status(500).send({
-            status: 'ERROR',
-            error: err.message,
-        });
-    }
-});
+    https.createServer(httpsOptions, app).listen(port, _ => {
+        console.log("Server connected at:", port);
+    });
+} else {
+    app.listen(port, _ => {
+        console.log("Server connect at:", port);
+    });
+}
 
 dbUtils.openDb().then(_ => {
 
