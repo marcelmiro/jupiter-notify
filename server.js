@@ -32,7 +32,7 @@ app.use(express.static(__dirname + '/static'));
 if (process.env.URL.includes("localhost")) {
     const https = require("https");
     const fs = require("fs");
-    
+
     const httpsOptions = {
         key: fs.readFileSync("./ssl/localhost-key.pem"),
         cert: fs.readFileSync("./ssl/localhost-cert.pem")
