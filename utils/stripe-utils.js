@@ -1,16 +1,19 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 
-let createStripeCustomer = async (email, discordUserId=undefined, name=undefined) => {
+let createStripeCustomer = async (email, userId= undefined, name= undefined) => {
     return await new Promise(async (resolve, reject) => {
         let obj = {email:email};
-        discordUserId ? obj["description"] = discordUserId : "";
+        userId ? obj["description"] = userId : "";
         name ? obj["name"] = name : "";
 
         await stripe.customers.create(
             obj,(err, customer) => {
                 if (err) { console.log(err); reject(); }
-                else { resolve(customer.id); }
+                else {
+                    console.log(`Customer '${email}' inserted into database.`);
+                    resolve(customer.id);
+                }
             }
         )
     });
@@ -68,19 +71,27 @@ let deleteStripeSubscription = async id => {
     });
 };
 
-let createSession = async customer_id => {
+let createSession = async customerId => {
     return await stripe.checkout.sessions.create({
-        customer: customer_id,
+        customer: customerId,
         payment_method_types: ['card'],
         subscription_data: {
             items: [{
                 plan: process.env.STRIPE_PLAN_ID,
             }],
         },
-        success_url: `${process.env.URL}/stripe/success?session_id={CHECKOUT_SESSION_ID}&customer_id=${customer_id}`,
+        success_url: `${process.env.URL}/stripe/success?session_id={CHECKOUT_SESSION_ID}&customer_id=${customerId}`,
         cancel_url: `${process.env.URL}/stripe/fail`,
     });
 };
+
+async function getAllCustomers() {
+    try {
+        return (await stripe.customers.list()).data;
+    } catch (e) {
+        console.log("Error in getAllCustomers():", e.message);
+    }
+}
 
 let getCustomer = async id => {
     return await new Promise(async (resolve, reject) => {
@@ -122,4 +133,4 @@ let createWebhook = async (body, signature) => {
 
 module.exports = {createStripeCustomer, updateStripeCustomer,
     createStripeSubscription, updateStripeSubscription, deleteStripeSubscription,
-    createSession, getCustomer, getSubscription, getPaymentMethod, createWebhook};
+    createSession, getAllCustomers, getCustomer, getSubscription, getPaymentMethod, createWebhook};

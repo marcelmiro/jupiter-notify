@@ -48,7 +48,7 @@ if (process.env.URL.includes("localhost")) {
 }
 
 dbUtils.openDb().then(_ => {
-
+    //dbUtils.getAllData().then(console.log);
 });
 // TODO Close database on exit
 //dbUtils.closeDb();

@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 
 router.get("/auth", authLoginCheck, passport.authenticate(
     "discord",
-    { scope: "email"}
+    { scope: ["identify", "email"] }
 ));
 
 router.get("/auth/redirect",passport.authenticate(
@@ -152,6 +152,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
                             CUSTOMER.subscriptions.data.length - 1
                         ].default_payment_method
                 });
+            console.log(`User '${USER["username"]}' has bought a subscription!`);
         }
 
         await res.json({received: true});

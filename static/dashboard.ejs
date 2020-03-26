@@ -29,7 +29,13 @@
     <div class="container container-intro">
         <div class="inner-container">
             <div class="avatar-container">
-                <img src="<%= data["avatar_url"] %>" alt="Avatar icon" />
+                <img src="
+                    <% if (data["avatar_url"].includes("null")) { %>
+                        https://cdn.discordapp.com/embed/avatars/1.png?size=2048
+                    <% } else { %>
+                        <%= data["avatar_url"] %>
+                    <% } %>
+                " alt="Avatar icon" />
             </div>
             <div class="welcome-container">
                 <h1>Welcome,<br><%= user.username %></h1>

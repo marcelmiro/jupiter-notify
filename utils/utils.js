@@ -12,28 +12,34 @@ const catchAsyncErrors = fn => (
 );
 
 
-let userLogin = async (user_id, username, email, data= undefined) => {
-    const PARAMS = [user_id, username, email];
+let userLogin = async (userId, username, email, data= undefined) => {
+    const PARAMS = [userId, username, email];
     if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
         console.log("userLogin() parameters are undefined.");
         return false;
     }
 
-    const DB_DATA = await dbUtils.getData("user_id", user_id);
+    const DB_DATA = await dbUtils.getData("user_id", userId);
     if (DB_DATA) {
         data = encodeURI(JSON.stringify(data));
 
         let hasChanged = false;
         if (DB_DATA.username !== username) {
             hasChanged = true;
-            await dbUtils.updateData("user_id", user_id, "username", username);
+            await dbUtils.updateData("user_id", userId, "username", username);
             console.log(`Username for user '${username}' changed.`);
         }
         if (DB_DATA.email !== email) {
             hasChanged = true;
-            await dbUtils.updateData("user_id", user_id, "email", email);
-            await stripeUtils.updateStripeEmail(DB_DATA["stripe_id"], email);
+            await dbUtils.updateData("user_id", userId, "email", email);
+            await stripeUtils.updateStripeCustomer(DB_DATA["stripe_id"], {email: email});
             console.log(`Email for user '${username}' changed.`);
+        }
+        const CUSTOMERS = await stripeUtils.getAllCustomers();
+        if (!CUSTOMERS.map(a=>a.description).includes(userId)) {
+            const STRIPE_ID = await stripeUtils.createStripeCustomer(email, userId, username);
+            await dbUtils.updateData("user_id", userId, "stripe_id", STRIPE_ID);
+            console.log(`Couldn't find customer so created '${STRIPE_ID}' stripe customer.`);
         }
         DB_DATA.data = await getFromData(DB_DATA.data, data);
         if (!hasChanged) {
@@ -44,15 +50,27 @@ let userLogin = async (user_id, username, email, data= undefined) => {
         if (!data) {
             data =
                 {
-                    "avatar_url": "https://via.placeholder.com/2048",
+                    "avatar_url": "https://cdn.discordapp.com/embed/avatars/1.png?size=2048",
                     "has_membership": false,
                 };
             data = encodeURI(JSON.stringify(data));
         } else {
             data = await getFromData(data, {"has_membership": false});
         }
-        if (await dbUtils.insertUser(user_id, username, email, data)) {
-            return await dbUtils.getData("user_id", user_id);
+
+        let stripeId;
+        const CUSTOMERS = await stripeUtils.getAllCustomers();
+        if (CUSTOMERS.map(a=>a.description).includes(userId)) {
+            stripeId = CUSTOMERS.filter(a => a.description === userId)[0].id;
+            console.log(`Customer '${username}' is already in stripe.`);
+        } else {
+            stripeId = await stripeUtils.createStripeCustomer(email, userId, username);
+        }
+
+        if (await dbUtils.insertUser(userId, username, email, stripeId, data)) {
+            return await dbUtils.getData("user_id", userId);
+        } else {
+            console.log("Error in userLogin() when inserting user in db.");
         }
     }
 };

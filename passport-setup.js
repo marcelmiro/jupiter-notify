@@ -30,6 +30,7 @@ passport.use(new DiscordStrategy(
      * @param done
      */
     (accessToken, refreshToken, profile, done) => {
+        console.log("Access token:", accessToken);
         const { id, username, discriminator, email, avatar } = profile;
         const AVATAR_URL = `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`;
 
@@ -39,7 +40,7 @@ passport.use(new DiscordStrategy(
             };
 
         utils.userLogin(id, username + "#" + discriminator, email, DATA).then(user => {
-            done(null, user);
+            return done(null, user);
         });
     },
 ));

@@ -1,7 +1,6 @@
 require('dotenv').config();
 const Client = require("pg").Client;
 const { uuid } = require('uuidv4');
-const stripeUtils = require("./stripe-utils");
 
 let db;
 /*async function openDb() {
@@ -26,7 +25,7 @@ async function openDb() {
         console.log("Database has been opened.");
         return true;
     } catch (e) {
-        console.log(e.message);
+        console.log("Error in openDb():", e.message);
         return false;
     }
 }
@@ -38,7 +37,7 @@ async function closeDb() {
         console.log("Database was closed.");
         return true;
     } catch (e) {
-        console.log(e.message);
+        console.log("Error in closeDb():", e.message);
         return false;
     }
 }
@@ -48,7 +47,7 @@ async function getAllData() {
         //return await db.all("SELECT * FROM user_data");
         return (await db.query("SELECT * FROM user_data")).rows;
     } catch (e) {
-        console.log(e.message);
+        console.log("Error in getAllData():", e.message);
         return undefined;
     }
 }
@@ -58,51 +57,33 @@ let getData = async (field, exactMatch) => {
         //return await db.get(`SELECT * FROM user_data WHERE ${field}="${exactMatch}"`);
         return (await db.query(`SELECT * FROM user_data WHERE ${field}='${exactMatch}'`)).rows[0];
     } catch (e) {
-        console.log(e.message);
+        console.log("Error in getData():", e.message);
         return undefined;
     }
 };
 
-let existsUser = async user_id => {
+let insertUser = async (userId, username, email, stripeId, data) => {
     try {
-        //return Boolean(await db.get(`SELECT * FROM user_data WHERE EXISTS(SELECT 1 FROM user_data WHERE user_id="${user_id}")`));
-        return Boolean((await db.query(`SELECT * FROM user_data WHERE EXISTS(SELECT 1 FROM user_data WHERE user_id='${user_id}')`)).rows.length > 0);
-    } catch (e) {
-        console.log(e.message);
-        return false;
-    }
-};
-
-let insertUser = async (user_id, username, email, data) => {
-    try {
-        let stripe_id;
-        try {
-            stripe_id = await stripeUtils.createStripeCustomer(email, user_id, username);
-        } catch (e) {
-            console.log(e.message);
-            return false;
-        }
-
-        //await db.run(`INSERT INTO user_data VALUES("${user_id}", "${username}", "${email}", "${uuid()}", "${stripe_id}", '${data}')`);
-        await db.query(`INSERT INTO user_data VALUES('${user_id}', '${username}', '${email}', '${uuid()}', '${stripe_id}', '${data}')`);
+        //await db.run(`INSERT INTO user_data VALUES("${userId}", "${username}", "${email}", "${uuid()}", "${stripeId}", '${data}')`);
+        await db.query(`INSERT INTO user_data VALUES('${userId}', '${username}', '${email}', '${uuid()}', '${stripeId}', '${data}')`);
         console.log(`User '${username}' inserted into database.`);
         return true;
     } catch (e) {
-        console.log(e.message);
+        console.log("Error in insertUser():", e.message);
         return false;
     }
 };
 
-let deleteUser = async user_id => {
+let deleteUser = async userId => {
     try {
-        const { username } = await getData("user_id", user_id);
-        //await db.run(`DELETE FROM user_data WHERE user_id="${user_id}"`);
-        await db.query(`DELETE FROM user_data WHERE user_id='${user_id}'`);
+        const { username } = await getData("user_id", userId);
+        //await db.run(`DELETE FROM user_data WHERE user_id="${userId}"`);
+        await db.query(`DELETE FROM user_data WHERE user_id='${userId}'`);
 
         console.log(`User '${username}' deleted from database.`);
         return true;
     } catch (e) {
-        console.log(e.message);
+        console.log("Error in deleteUser():", e.message);
         return false;
     }
 };
@@ -113,9 +94,9 @@ let updateData = async (matchField, matchValue, changeField, newValue) => {
         await db.query(`UPDATE user_data SET ${changeField}='${newValue}' WHERE ${matchField}='${matchValue}'`);
         return true;
     } catch (e) {
-        console.log(e.message);
+        console.log("Error in updateData():", e.message);
         return false;
     }
 };
 
-module.exports = {openDb, closeDb, getAllData, getData, existsUser, insertUser, deleteUser, updateData};
+module.exports = {openDb, closeDb, getAllData, getData, insertUser, deleteUser, updateData};
