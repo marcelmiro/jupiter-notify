@@ -39,7 +39,7 @@ passport.use(new DiscordStrategy(
             };
 
         utils.userLogin(id, username + "#" + discriminator, email, DATA).then(user => {
-            return done(null, user);
+            done(null, user);
         });
     },
 ));
