@@ -36,10 +36,10 @@ let createStripeSubscription = async id => {
     await stripe.subscriptions.create(
         {
             customer: id,
-            items: [{plan: process.env.STRIPE_PLAN_ID}],
+            items: [{plan: process.env.STRIPE_MEMBERSHIP_PLAN_ID}],
         }, (err, subscription) => {
             if (err) { console.log(err); return false; }
-            else { return true; }
+            else { return subscription; }
         }
     )
 };
@@ -77,7 +77,7 @@ let createSession = async customerId => {
         payment_method_types: ['card'],
         subscription_data: {
             items: [{
-                plan: process.env.STRIPE_PLAN_ID,
+                plan: process.env.STRIPE_MEMBERSHIP_PLAN_ID,
             }],
         },
         success_url: `${process.env.URL}/stripe/success?session_id={CHECKOUT_SESSION_ID}&customer_id=${customerId}`,

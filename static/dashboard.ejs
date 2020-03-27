@@ -45,7 +45,13 @@
     </div>
     <div class="container container-social">
         <div class="inner-container">
-            <a class="button" <% if(data.has_membership) { %> href="#" <% } %> >Join Discord</a>
+            <a href="/discord/join" target="_blank" class="button
+                <% if (!(data.has_membership && !userInServer)) { %>
+                    disabled
+                <% } %>
+            ">
+                Join Discord
+            </a>
             <a class="button" href="https://twitter.com/jupiternotify" target="_blank">Follow Us On Twitter</a>
         </div>
     </div>

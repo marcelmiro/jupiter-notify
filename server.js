@@ -7,6 +7,7 @@ const routes = require("./routes");
 const passportSetup = require("./passport-setup");
 const utils = require("./utils/utils");
 const dbUtils = require("./utils/db-utils");
+const botUtils = require("./utils/bot-utils");
 
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(passport.session({
 app.use("/", routes);
 app.use(express.static(__dirname + '/static'));
 
+//  Checks if is hosted in localhost. If true, opens server with local ssl certs.
 if (process.env.URL.includes("localhost")) {
     const https = require("https");
     const fs = require("fs");
@@ -51,4 +53,3 @@ dbUtils.openDb().then(_ => {
     //dbUtils.getAllData().then(console.log);
 });
 // TODO Close database on exit
-//dbUtils.closeDb();

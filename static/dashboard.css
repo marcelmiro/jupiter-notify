@@ -28,53 +28,6 @@ button:disabled a, a:disabled a {
   pointer-events: none !important;
 }
 
-/*.confirm-popup {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  .overlay { width: 100%; height: 100%; background-color: rgba(black, 50%); }
-  .container {
-    position: absolute;
-    width: 400px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 34px 0;
-    background-color: $bgPurple;
-    border-radius: 24px;
-
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
-
-    p { margin: 0 auto 50px; font-size: 20px; }
-    > div {
-      width: 100%;
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-around;
-      align-items: center;
-
-      a {
-        font-weight: 400;
-        font-size: 15px;
-        cursor: pointer !important;
-        pointer-events: auto !important;
-        &:nth-of-type(1) { background: none !important; }
-        &:nth-of-type(2) {
-          font-weight: bold;
-          background-color: $planetOrange;
-          padding: 14px 28px;
-          border-radius: 30px;
-          transition: background-color 0.2s ease-in-out;
-          &:hover { background-color: darken($planetOrange, 6%); }
-        }
-      }
-    }
-  }
-}*/
 .confirm-popup {
   display: none;
   position: absolute;
@@ -154,12 +107,12 @@ html, body {
   grid-column-gap: 0;
   grid-row-gap: 0;
 }
-.dashboard a:not([href]) {
+.dashboard a.disabled {
   background-color: #666 !important;
   cursor: auto !important;
   pointer-events: none !important;
 }
-.dashboard a:not([href]):hover {
+.dashboard a.disabled:hover {
   background-color: #666 !important;
   transform: none !important;
 }
