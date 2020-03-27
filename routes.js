@@ -47,9 +47,7 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
 
     //  Get user's stripe info to check if user has membership active
     let stripeCustomer = await stripeUtils.getCustomer(req.user["stripe_id"]);
-    console.log("stripeCustomer", stripeCustomer);
     data.has_membership = stripeCustomer.subscriptions.data.length > 0;
-    console.log("data.has_membership", data.has_membership);
 
     //  Updates user's info in db with new data
     await utils.getFromDataAndUpdate(req.user["user_id"], data);
@@ -85,8 +83,6 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
     req.login(user, err => {
         if (err) { console.log(err.message); }
     });
-
-    //botUtils.inviteUser("692779403079450635").then(console.log);
 
     //  Create new session so that user can pay for membership with Stripe Checkout
     const SESSION = await stripeUtils.createSession(req.user["stripe_id"]);
