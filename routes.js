@@ -43,7 +43,11 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
     //  Get user info
     let user = await dbUtils.getData("user_id", req.user["user_id"]);
     let data = JSON.parse(decodeURI(user.data));
-    // TODO Check if is stripe customer (Special case)
+    // TODO Check if user is a stripe customer (Special case)
+
+    // FIXME user.stripe_id contains deleted customer and not new customer id,
+    //  therefore error "Cannot read property 'data' of undefined.
+    //  I think it's because stripe_id was updated in either localhost or heroku db but no in the other.
 
     //  Get user's stripe info to check if user has membership active
     let stripeCustomer = await stripeUtils.getCustomer(req.user["stripe_id"]);
@@ -85,7 +89,11 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
     });
 
     //  Create new session so that user can pay for membership with Stripe Checkout
-    const SESSION = await stripeUtils.createSession(req.user["stripe_id"]);
+    const SESSION = {
+        membership: await stripeUtils.createMembershipSession(req.user["stripe_id"]),
+        edit_card: await stripeUtils.createEditCardSession(req.user["stripe_id"])
+    };
+
     //  Render dashboard ejs with all necessary info
     res.render("dashboard",
         {
@@ -94,7 +102,7 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
             paymentDetails: paymentDetails,
             stripeKey: process.env.STRIPE_KEY,
             customerId: user["stripe_id"],
-            checkoutId: SESSION.id,
+            sessions: SESSION,
             userInServer: Boolean(await botUtils.getUser(req.user["user_id"]))
         });
 });
@@ -117,6 +125,7 @@ router.get("/stripe/success", (req, res) => {
         let date = new Date();
         let time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(time + ": /success route problem.");
+        res.redirect("/dashboard");
     }
 });
 
@@ -142,6 +151,10 @@ router.get("/stripe/cancel-membership", async (req, res) => {
         }
     }
     res.redirect("/dashboard");
+});
+
+router.get("/stripe/change-payment", async (req,res) => {
+    res.send(req.url);
 });
 
 //  Route to invite discord user to server

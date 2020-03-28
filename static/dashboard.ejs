@@ -75,7 +75,7 @@
                 <div>Plan: <%= paymentDetails.interval %></div>
                 <div>Price: <%= paymentDetails.price %></div>
                 <div>Next Payment Due:<br><%= paymentDetails.nextPayment %></div>
-                <div><button>Visa <%= paymentDetails.cardLast4 %></button></div>
+                <div><button id="edit-card-details">Visa <%= paymentDetails.cardLast4 %></button></div>
             <% } %>
             <button id="cancel-membership" <% if(!data.has_membership) { %> disabled <% } %>>Cancel Membership</button>
         </div>
@@ -117,9 +117,9 @@
 
 <!--    JS LIBRARIES    -->
 <script src="https://js.stripe.com/v3/"></script>
-<script>
-    let checkoutId = "<%= checkoutId %>";
-    let stripeKey = "<%= stripeKey %>";
+<script type="text/javascript">
+    const STRIPE_KEY = "<%= stripeKey %>";
+    const STRIPE_SESSIONS = JSON.parse('<%-JSON.stringify(sessions)%>');
 </script>
 
 <!--    MAIN JS    -->

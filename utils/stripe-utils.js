@@ -71,7 +71,7 @@ let deleteStripeSubscription = async id => {
     });
 };
 
-let createSession = async customerId => {
+let createMembershipSession = async customerId => {
     return await stripe.checkout.sessions.create({
         customer: customerId,
         payment_method_types: ['card'],
@@ -82,6 +82,16 @@ let createSession = async customerId => {
         },
         success_url: `${process.env.URL}/stripe/success?session_id={CHECKOUT_SESSION_ID}&customer_id=${customerId}`,
         cancel_url: `${process.env.URL}/stripe/fail`,
+    });
+};
+
+let createEditCardSession = async customerId => {
+    return await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        mode: "setup",
+        customer: customerId,
+        success_url: `${process.env.URL}/stripe/change-payment`,
+        cancel_url: `${process.env.URL}/dashboard`,
     });
 };
 
@@ -133,4 +143,5 @@ let createWebhook = async (body, signature) => {
 
 module.exports = {createStripeCustomer, updateStripeCustomer,
     createStripeSubscription, updateStripeSubscription, deleteStripeSubscription,
-    createSession, getAllCustomers, getCustomer, getSubscription, getPaymentMethod, createWebhook};
+    createMembershipSession, createEditCardSession,
+    getAllCustomers, getCustomer, getSubscription, getPaymentMethod, createWebhook};
