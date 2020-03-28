@@ -45,9 +45,24 @@ let kickUser = async userId => {
         //  Checks if user is in guild, else can't kick him.
         const USER = await getUser(userId);
         if (USER) {
-            //  Kick and return user object.
+            //  Kick user from server and sends a DM to let user know. Returns user object.
             await USER.kick();
             console.log(`User '${USER.user.username}#${USER.user.discriminator}' kicked successfully.`);
+
+            USER.send(new Discord.MessageEmbed()
+                .setColor(16741888)
+                .setTitle(
+                    "You have been kicked from Jupiter Notify 😔"
+                )
+                .setDescription(
+                    "Either you cancelled your Jupiter Notify membership, or payment was declined. " +
+                    "If you need help, please contact a member of staff or dm `UNKWN#6666`."
+                )
+                .setFooter(
+                    "Hope to see you soon!",
+                    "https://cdn.discordapp.com/icons/671296843493146626/a_f0530061e23de30a6a1816f4a0a9ef5d.png?size=2048"
+                ));
+
             return USER;
         } else {
             console.log("User not found in server.");
