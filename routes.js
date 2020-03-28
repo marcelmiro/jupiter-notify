@@ -189,7 +189,9 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
         if (event.type === 'checkout.session.completed') {
             //  Get user info and update 'has_membership' data value to true
             const SESSION = event.data.object;
+            console.log("SESSION in POST:", SESSION);
             const USER = await dbUtils.getData("stripe_id", SESSION["customer"]);
+            console.log("USER in POST:", USER);
             await utils.getFromDataAndUpdate(USER["user_id"], {"has_membership":true});
             const CUSTOMER = await stripeUtils.getCustomer(SESSION["customer"]);
 
