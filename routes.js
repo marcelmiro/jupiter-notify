@@ -311,6 +311,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
             //  depending if session was in setup mode or not.
             let defaultPayment;
             if (SESSION.mode === "setup") {
+                console.log("In setup...");
                 //  Check if subscription was meant to get cancelled by the end of period,
                 //  if true, set 'cancel_at_period_end' to false.
                 if (SUBSCRIPTION.cancel_at_period_end) {
