@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--	MAIN INFO	-->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Design</title>
+
+	<!--    MAIN CSS    -->
+	<link rel="stylesheet" href="design.css">
+</head>
+<body>
+
+<main class="dashboard">
+	<div class="dashboard__welcome">
+		<img src="https://cdn.discordapp.com/avatars/298920320356712449/cf1ea85f500902f681ac19c986910e9e.png?size=2048" alt="Avatar pic" />
+		<div>
+			<div class="h1-container">
+				<!--TODO Find dynamic way to resize username text depending on length -->
+				<h1 id="discord-username">Marcel#1473</h1>
+			</div>
+			<h2>Welcome to Jupiter</h2>
+		</div>
+	</div>
+	<div class="dashboard__join">
+		<button class="button">
+			<img src="assets/icon_discord_2.svg" alt="Discord icon" />
+			<span>Join Discord</span>
+		</button>
+		<a class="button" href="https://twitter.com/jupiternotify" target="_blank">
+			<img src="assets/icon_twitter_2.svg" alt="Twitter icon" />
+			<span>Follow Us</span>
+		</a>
+	</div>
+	<div class="dashboard__membership-details">
+		<h2>Membership Details</h2>
+		<div class="container">
+			<div>
+				<h3>Plan</h3>
+				<p>Monthly</p>
+			</div>
+			<div>
+				<h3>Pricing</h3>
+				<p>$20</p>
+			</div>
+			<div>
+				<h3>Next Payment Due</h3>
+				<p>April 20th, 2020</p>
+			</div>
+			<div>
+				<h3>User Since</h3>
+				<p>July 20th, 2019</p>
+			</div>
+			<button id="cancel-membership" class="button">Cancel</button>
+			<button class="button">Transfer</button>
+		</div>
+	</div>
+	<div class="dashboard__payment-details">
+		<h2>Payment Details</h2>
+
+		<!-- TODO Add jupiter planet svg -->
+		<svg width="100%" height="100%" viewBox="0 0 324 204" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+			<g id="bg" transform="matrix(1.15309,0,0,1.22785,-27.7584,-15.488)">
+				<clipPath id="_clip1">
+					<path d="M305.057,25.058C305.057,18.639 298.641,12.614 291.806,12.614L37.324,12.614C30.489,12.614 24.073,18.639 24.073,25.058L24.073,166.314C24.073,172.732 30.489,178.758 37.324,178.758L291.806,178.758C298.641,178.758 305.057,172.732 305.057,166.314L305.057,25.058Z"/>
+				</clipPath>
+				<g clip-path="url(#_clip1)">
+					<g transform="matrix(0.867235,-0,-0,0.814432,24.0731,12.6139)">
+						<use xlink:href="#_Image2" x="0" y="0" width="324px" height="204px"/>
+					</g>
+				</g>
+			</g>
+			<g id="card-details">
+				<g id="card-name-holder" transform="matrix(1,0,0,1,-4,-6)">
+					<g id="name-container" transform="matrix(1,0,0,1.05505,4,-2.37709)">
+						<rect id="cardholder-container" x="32.31" y="152.184" width="179.059" height="19.478" style="fill:none;"/>
+					</g>
+					<g transform="matrix(1,0,0,1,34.728,177.574)">
+						<text id="cardholder-name" x="0px" y="0px" style="font-family:Clean,sans-serif;font-weight:400;font-size:27.5px;fill:white;">WWWWWWWW</text>
+					</g>
+				</g>
+				<g id="card-number" transform="matrix(1,0,0,1,0,-8)">
+					<g transform="matrix(1,0,0,1,191.615,118.587)">
+						<g id="card-last-4">
+							<text x="0px" y="0px" style="font-family:Clean,sans-serif;font-weight:400;font-size:25px;fill:white;">0000</text>
+						</g>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,29.4432,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,81.4721,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,133.439,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,40.4614,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,92.4904,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,144.458,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,51.4797,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,103.509,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,155.476,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,62.4317,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,114.461,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+					<g transform="matrix(0.134502,0,0,0.134502,166.428,99.4558)">
+						<circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+					</g>
+				</g>
+				<g transform="matrix(1,0,0,1,222.064,171.068)">
+					<g id="card-expiry-date">
+						<text x="0px" y="0px" style="font-family:Clean,sans-serif;font-weight:400;font-size:25px;fill:white;">00/00</text>
+					</g>
+				</g>
+			</g>
+			<defs>
+				<image id="_Image2" width="324px" height="204px" xlink:href="data:image/jpeg;base64,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"/>
+			</defs>
+		</svg>
+
+		<button class="button">Update Payment Method</button>
+	</div>
+</main>
+
+<!-- TODO Make real log out button -->
+<a href="/logout" style="position:absolute;top:20px;right:40px;z-index:10;font-size:20px;">Log Out</a>
+
+<!-- PLANET OPACITY 0.34 -->
+<div class="bg">
+	<img src="assets/design_test.png" alt="" />
+</div>
+
+<div id="cancel-membership-popup" class="confirm-popup">
+	<div class="overlay"></div>
+	<div class="container">
+		<p>Are you sure you want to cancel your membership?</p>
+		<div>
+			<a>Cancel</a>
+			<a href="/stripe/cancel-membership">Confirm</a>
+		</div>
+	</div>
+</div>
+
+<!--    MAIN JS    -->
+<script src="design.js"></script>
+</body>
+</html>

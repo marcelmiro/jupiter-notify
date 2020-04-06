@@ -60,16 +60,15 @@ button:hover, button:focus, a:hover, a:focus {
 button:focus, a:focus {
   outline: none;
 }
-button:disabled, button.disabled, a:disabled, a.disabled {
+button:disabled, a:disabled {
   background-color: #666 !important;
   cursor: auto !important;
-  pointer-events: none !important;
 }
-button:disabled:hover, button.disabled:hover, a:disabled:hover, a.disabled:hover {
+button:disabled:hover, a:disabled:hover {
   background-color: #666 !important;
   transform: none !important;
 }
-button:disabled a, button.disabled a, a:disabled a, a.disabled a {
+button:disabled a, a:disabled a {
   cursor: auto !important;
   pointer-events: none !important;
 }
@@ -108,11 +107,7 @@ button.button:hover, a.button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #362746;
-  background: -moz-linear-gradient(top, #352746 0%, #8b50c3 100%);
-  background: -webkit-linear-gradient(top, #352746 0%, #8b50c3 100%);
-  background: linear-gradient(to bottom, #352746 0%, #8b50c3 100%);
-  background-repeat: no-repeat;
+  background-color: #352746;
   border-radius: 32px;
   display: flex;
   flex-flow: column nowrap;
@@ -309,30 +304,23 @@ html, body {
   border-radius: 13px;
   padding: 7px 24px;
 }
-.dashboard__membership-details .container button, .dashboard__membership-details .container a {
+.dashboard__membership-details .container button {
   font-size: 23px;
   font-weight: 500;
   padding: 18px 0;
 }
-.dashboard__membership-details .container button[href], .dashboard__membership-details .container a[href] {
-  background-color: #009700;
-  transition: background-color 0.15s linear;
-}
-.dashboard__membership-details .container button[href]:hover, .dashboard__membership-details .container a[href]:hover {
-  background-color: #008300;
-}
-.dashboard__membership-details .container button#cancel-membership, .dashboard__membership-details .container a#cancel-membership {
+.dashboard__membership-details .container button:nth-of-type(1) {
   background-color: #D84546;
   transition: background-color 0.15s linear;
 }
-.dashboard__membership-details .container button#cancel-membership:hover, .dashboard__membership-details .container a#cancel-membership:hover {
+.dashboard__membership-details .container button:nth-of-type(1):hover {
   background-color: #d43435;
 }
-.dashboard__membership-details .container button#transfer-membership, .dashboard__membership-details .container a#transfer-membership {
+.dashboard__membership-details .container button:nth-of-type(2) {
   background-color: #5b2872;
   transition: background-color 0.15s linear;
 }
-.dashboard__membership-details .container button#transfer-membership:hover, .dashboard__membership-details .container a#transfer-membership:hover {
+.dashboard__membership-details .container button:nth-of-type(2):hover {
   background-color: #4c215f;
 }
 .dashboard__payment-details {
@@ -381,4 +369,4 @@ html, body {
   transform: translate(-50%, 50%);
 }
 
-/*# sourceMappingURL=dashboard.css.map */
+/*# sourceMappingURL=design.css.map */

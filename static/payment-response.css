@@ -1,9 +1,49 @@
+@font-face {
+  font-family: Clean;
+  font-weight: 100;
+  src: url("assets/fonts/Clean-100.otf");
+}
+@font-face {
+  font-family: Clean;
+  font-weight: 200;
+  src: url("assets/fonts/Clean-200.otf");
+}
+@font-face {
+  font-family: Clean;
+  font-weight: normal;
+  src: url("assets/fonts/Clean-400.otf");
+}
+@font-face {
+  font-family: Clean;
+  font-weight: 400;
+  src: url("assets/fonts/Clean-400.otf");
+}
+@font-face {
+  font-family: Clean;
+  font-weight: bold;
+  src: url("assets/fonts/Clean-500.otf");
+}
+@font-face {
+  font-family: Clean;
+  font-weight: 500;
+  src: url("assets/fonts/Clean-500.otf");
+}
+::selection {
+  color: black;
+  background: #E9F0F9;
+}
+
+::-moz-selection {
+  color: black;
+  background: #E9F0F9;
+}
+
 button, a {
   border: none;
   text-decoration: none;
   cursor: pointer;
   color: white;
-  font-family: Raleway, Montserrat sans-serif;
+  font-family: inherit;
   font-weight: bold;
 }
 button:hover, button:focus, a:hover, a:focus {
@@ -13,14 +53,14 @@ button:hover, button:focus, a:hover, a:focus {
 a.button {
   display: inline-block;
   margin: 30px auto 10px;
-  font-size: 16px;
-  padding: 18px 30px;
+  font-size: 18px;
+  padding: 17px 24px;
   background-color: #ff8e00;
   border-radius: 50px;
   transition: background-color 0.2s ease-in-out;
 }
 a.button:hover {
-  background: #e07d00;
+  background: #eb8300;
 }
 
 html, body {
@@ -30,7 +70,7 @@ html, body {
   height: 100%;
   color: white;
   text-align: center;
-  font-family: Montserrat, sans-serif;
+  font-family: Clean, sans-serif;
   background: #352746 url("https://marcelmiro.github.io/jupiter-notify/assets/bg_stars_min.svg") center center no-repeat;
   background-size: cover;
   display: flex;

@@ -7,6 +7,16 @@ $planetOrange: #ff8e00;
 
 
 //  FONTS
+@font-face { font-family: Clean; font-weight: 100; src: url("assets/fonts/Clean-100.otf"); }
+@font-face { font-family: Clean; font-weight: 200; src: url("assets/fonts/Clean-200.otf"); }
+@font-face { font-family: Clean; font-weight: normal; src: url("assets/fonts/Clean-400.otf"); }
+@font-face { font-family: Clean; font-weight: 400; src: url("assets/fonts/Clean-400.otf"); }
+@font-face { font-family: Clean; font-weight: bold; src: url("assets/fonts/Clean-500.otf"); }
+@font-face { font-family: Clean; font-weight: 500; src: url("assets/fonts/Clean-500.otf"); }
+//@font-face { font-family: Clean; font-weight: 600; src: url("assets/fonts/Clean-600.otf"); }
+//@font-face { font-family: Clean; font-weight: 700; src: url("assets/fonts/Clean-700.otf"); }
+//@font-face { font-family: Clean; font-weight: 800; src: url("assets/fonts/Clean-800.otf"); }
+
 @font-face { font-family: Whitney; src: url("assets/fonts/whitney_medium.ttf"); }
 @font-face { font-family: Whitney; font-weight: bold; src: url("assets/fonts/whitney_bold.ttf"); }
 
@@ -19,23 +29,19 @@ html, body {
   padding: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  font-family: Raleway, sans-serif;
+  font-family: Clean, sans-serif;
 }
 ::selection { color: black; background: #E9F0F9; }
 ::-moz-selection { color: black; background: #E9F0F9; }
 h1, h2, h3, h4, h5, h6 {
-  color: white;
-  font-family: Raleway, sans-serif;
-  font-weight: 400;
-  font-size: 50px;
   margin: 0;
+  font-size: 50px;
+  font-weight: 500;
 }
 p {
-  color: white;
-  font-family: Raleway, sans-serif;
-  font-weight: 200;
-  font-size: 20px;
   margin: 0;
+  font-size: 20px;
+  font-weight: 100;
 }
 a {
   font-family: inherit;
@@ -45,7 +51,7 @@ a {
   text-decoration: none;
 }
 input, textarea {
-  font-family: Raleway, sans-serif;
+  font-family: inherit;
   color: white;
   border: none;
   text-decoration: none;
@@ -58,7 +64,7 @@ button {
   text-decoration: none;
   background: none;
   cursor: pointer;
-  font-family: Raleway, sans-serif;
+  font-family: inherit;
   font-weight: 400;
   color: white;
   &:hover, &:focus { background: none; }
@@ -68,7 +74,7 @@ button.button, a.button {
   padding: 8px 26px;
   color: white;
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 500;
   text-align: center;
   text-decoration: none;
   border-radius: 30px;
@@ -200,6 +206,9 @@ button.button, a.button {
     position: relative;
     padding-top: 20px;
     * + * { margin-left: 30px; }
+    a.button:last-of-type {
+      background-color: $bgLightPurple;
+    }
   }
   .grid {
     width: 100%;
@@ -213,7 +222,7 @@ button.button, a.button {
     .text {
       h1 {
         font-size: 60px;
-        span { font-weight: 100; }
+        span { font-weight: 200; }
       }
       p {
         font-size: 24px;
@@ -228,7 +237,6 @@ button.button, a.button {
       -ms-flex-pack: justify;
       justify-content: space-between;
       align-items: center;
-
       $animationDuration: 4s;
 
       img { width: 300px; }
@@ -242,17 +250,28 @@ button.button, a.button {
         animation: jupiter-wave-animation $animationDuration cubic-bezier(0.165, 0.840, 0.440, 1.000) infinite;
         animation-delay: calc(#{$animationDuration} * 0.025);
       }
-      a.button {
+      button.button, a.button {
         z-index: 3;
         position: absolute;
         bottom: 2px;
         left: 50%;
         transform: translateX(-50%);
         border-width: 4px;
+        font-weight: 400;
 
         font-size: 28px;
         background-color: $bgLightPurple;
-        padding: 6px 80px;
+        padding: 6px 10px;
+        width: 274px;
+        white-space: nowrap;
+        box-sizing: content-box;
+        
+        &.disabled {
+          background-color: #666 !important;
+          cursor: auto !important;
+          pointer-events: none !important;
+          &:hover { background-color: #666 !important; transform: none !important; }
+        }
       }
     }
   }
@@ -269,7 +288,7 @@ button.button, a.button {
   h2 {
     position: relative;
     font-size: 42px;
-    font-weight: bold;
+    font-weight: 500;
     text-align: left;
     padding-top: 100px;
     left: 50%;
@@ -335,7 +354,7 @@ button.button, a.button {
             h6 {
               color: white;
               font-size: 18px;
-              font-weight: bold;
+              font-weight: 500;
             }
             p {
               color: white;
@@ -369,7 +388,7 @@ button.button, a.button {
       border: none;
       text-align: center;
       outline: none;
-      font-weight: bold;
+      font-weight: 500;
       font-size: 18px;
       border-radius: 8px;
       transition: all 0.2s ease-out;
@@ -411,6 +430,7 @@ button.button, a.button {
         font-size: 17px;
         font-weight: 200;
         text-align: left;
+        a { font-weight: 500; }
       }
       .grid {
         width: 100%;
@@ -437,9 +457,9 @@ button.button, a.button {
               -webkit-box-shadow: 0 0 24px 5px rgba($bgLightPurple, 0.2);
               box-shadow: 0 0 24px 5px rgba($bgLightPurple, 0.2);
             }
-            &::placeholder {color: rgba(white, 0.6); font-family: Raleway, sans-serif; }
-            &:-ms-input-placeholder { color: rgba(white, 0.6); font-family: Raleway, sans-serif; }
-            &::-ms-input-placeholder { color: rgba(white, 0.6); font-family: Raleway, sans-serif; }
+            &::placeholder {color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+            &:-ms-input-placeholder { color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+            &::-ms-input-placeholder { color: rgba(white, 0.6); font-family: Clean, sans-serif; }
           }
           textarea {
             box-sizing: border-box;
@@ -467,9 +487,9 @@ button.button, a.button {
               -webkit-box-shadow: 0 0 24px 5px rgba($bgLightPurple, 0.2);
               box-shadow: 0 0 24px 5px rgba($bgLightPurple, 0.2);
             }
-            &::placeholder {color: rgba(white, 0.6); font-family: Raleway, sans-serif; }
-            &:-ms-input-placeholder { color: rgba(white, 0.6); font-family: Raleway, sans-serif; }
-            &::-ms-input-placeholder { color: rgba(white, 0.6); font-family: Raleway, sans-serif; }
+            &::placeholder {color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+            &:-ms-input-placeholder { color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+            &::-ms-input-placeholder { color: rgba(white, 0.6); font-family: Clean, sans-serif; }
           }
 
           button {
@@ -502,10 +522,10 @@ button.button, a.button {
 
     > * {
       margin-left: 100px;
-      font-family: Raleway, sans-serif;
+      font-family: Clean, sans-serif;
       color: white;
       font-size: 16px;
-      font-weight: 200;
+      font-weight: 400;
     }
     p { margin-top: 18px; }
   }
@@ -610,7 +630,7 @@ button.button, a.button {
     }
     .dashboard-button-container {
       img { width: 250px; }
-      button.button { font-size: 24px; padding: 6px 60px; border-width: 3px; }
+      button.button, a.button { font-size: 24px; width: 230px; border-width: 3px; }
     }
   }
 }
@@ -627,7 +647,7 @@ button.button, a.button {
       }
       .dashboard-button-container {
         img { width: 250px; }
-        button.button { font-size: 24px; padding: 6px 60px; border-width: 3px; }
+        button.button, a.button { font-size: 24px; width: 230px; border-width: 3px; }
       }
     }
   }
@@ -727,7 +747,7 @@ button.button, a.button {
       .text p { width: 90%; }
       .dashboard-button-container {
         img { width: 220px; }
-        button.button { font-size: 22px; padding: 6px 50px; }
+        button.button, a.button { font-size: 22px; width: 210px; }
       }
     }
   }

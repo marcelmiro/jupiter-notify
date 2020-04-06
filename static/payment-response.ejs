@@ -4,10 +4,7 @@
 	<!--    MAIN INFO    -->
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Dashboard</title>
-	
-	<!--    FONTS    -->
-	<link href="https://fonts.googleapis.com/css?family=Raleway:100,200,400&display=swap" rel="stylesheet">
+	<title>Payment <%= status %></title>
 	
 	<!--    MAIN CSS    -->
 	<link rel="stylesheet" href="/payment-response.css">
@@ -34,10 +31,11 @@
 	<div class="inner-container">
 		<% if(status==="success") { %>
 			<p>Thanks for subscribing! If you have any issues, please contact a member of staff, we'll be glad to help.</p>
+			<a class="button" href="/dashboard">Go to Dashboard</a>
 		<% } else { %>
 			<p>Something went wrong during the payment phase. If you can't complete the payment, please contact a member of staff, we'll be glad to help.</p>
+			<a class="button" href="/">Go Back</a>
 		<% } %>
-		<a class="button" href="/dashboard">Go to Dashboard</a>
 	</div>
 </div>
 

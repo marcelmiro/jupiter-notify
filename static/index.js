@@ -1,3 +1,4 @@
+const stripe = Stripe(STRIPE_KEY);
 
 //  BROWSER COMPATIBILITY
 /**
@@ -150,10 +151,17 @@ window.addEventListener("load", function () {
         fadeOutLoader();
     }, 200);
 });
-//window.addEventListener("scroll", function () {});
 window.addEventListener("resize", function () {
     resizeCollapseList();
 });
+if (SESSION) {
+    document.getElementById("pay-now").addEventListener("click", async function() {
+        const {error} = await stripe.redirectToCheckout({
+            sessionId: SESSION.id,
+        });
+        if (error.message) { console.log(error); }
+    });
+}
 
 
 //  SCROLLMAGIC

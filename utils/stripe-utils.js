@@ -24,24 +24,9 @@ let updateStripeCustomer = async (id, data = {}) => {
         await stripe.customers.update(
             id, data, (err, customer) => {
                 if (err) { console.log(err.message); reject(err); }
-                else {
-                    console.log(`Stripe customer '${customer.id}' updated.`);
-                    resolve(customer);
-                }
+                else { resolve(customer); }
             });
     });
-};
-
-let createStripeSubscription = async id => {
-    await stripe.subscriptions.create(
-        {
-            customer: id,
-            items: [{plan: process.env.STRIPE_MEMBERSHIP_PLAN_ID}],
-        }, (err, subscription) => {
-            if (err) { console.log(err); return false; }
-            else { return subscription; }
-        }
-    )
 };
 
 let updateStripeSubscription = async (id, data = {}) => {
@@ -49,10 +34,7 @@ let updateStripeSubscription = async (id, data = {}) => {
         await stripe.subscriptions.update(
             id, data, (err, subscription) => {
                 if (err) { console.log(err.message); reject(err); }
-                else {
-                    console.log(`Stripe subscription '${subscription.id}' updated.`);
-                    resolve(subscription);
-                }
+                else { resolve(subscription); }
             });
     });
 };
@@ -63,7 +45,7 @@ let deleteStripeSubscription = async id => {
             id, (err, confirmation) => {
                 if (err) { console.log(err.message); reject(err); }
                 else {
-                    console.log(`Stripe subscription '${id}' deleted.`);
+                    console.log(`Stripe subscription '${id}' deleted successfully.`);
                     resolve(confirmation);
                 }
             }
@@ -71,7 +53,8 @@ let deleteStripeSubscription = async id => {
     });
 };
 
-let createMembershipSession = async customerId => {
+let createMembershipSession = async (customerId,
+                                     successUrl= "/stripe/success", cancelUrl= "/stripe/fail") => {
     return await stripe.checkout.sessions.create({
         customer: customerId,
         payment_method_types: ['card'],
@@ -80,19 +63,26 @@ let createMembershipSession = async customerId => {
                 plan: process.env.STRIPE_MEMBERSHIP_PLAN_ID,
             }],
         },
-        success_url: `${process.env.URL}/stripe/success?session_id={CHECKOUT_SESSION_ID}&customer_id=${customerId}`,
-        cancel_url: `${process.env.URL}/stripe/fail`,
+        success_url: `${process.env.URL}${successUrl}?session_id={CHECKOUT_SESSION_ID}&customer_id=${customerId}`,
+        cancel_url: process.env.URL + cancelUrl,
     });
 };
 
-let createEditCardSession = async customerId => {
+let createEditCardSession = async (customerId, subscriptionId) => {
     return await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        mode: "setup",
+        payment_method_types: ['card'],
+        mode: 'setup',
         customer: customerId,
-        success_url: `${process.env.URL}/stripe/change-payment`,
+        setup_intent_data: {
+            metadata: {
+                customer_id: customerId,
+                subscription_id: subscriptionId,
+            },
+        },
+        //success_url: `${process.env.URL}/stripe/change-payment`,
+        success_url: `${process.env.URL}/dashboard`,
         cancel_url: `${process.env.URL}/dashboard`,
-    });
+    })
 };
 
 async function getAllCustomers() {
@@ -114,14 +104,37 @@ let getCustomer = async id => {
     });
 };
 
-let getSubscription = async id => {
+let getSession = async id => {
     return await new Promise(async (resolve, reject) => {
-        await stripe.subscriptions.retrieve(
-            id, (err, subscription) => {
+        await stripe.checkout.sessions.retrieve(
+            id, (err, session) => {
                 if (err) { console.log(err.message); reject(err); }
-                else { resolve(subscription); }
+                else { resolve(session); }
             }
         )
+    });
+};
+
+let getSetupIntent = async id => {
+    return await new Promise(async (resolve,reject) => {
+        await stripe.setupIntents.retrieve(
+            id, (err, intent) => {
+                if (err) { console.log(err.message); reject(err); }
+                else { resolve(intent); }
+            }
+        );
+    });
+};
+
+let getAllPaymentMethods = async id => {
+    return await new Promise(async (resolve,reject) => {
+        await stripe.paymentMethods.list({
+            customer: id,
+            type: "card"
+        }, (err, paymentMethods) => {
+            if (err) { console.log(err.message); reject(err); }
+            else { resolve(paymentMethods); }
+        });
     });
 };
 
@@ -136,12 +149,34 @@ let getPaymentMethod = async id => {
     });
 };
 
+let attachPaymentMethod = async (customerId, paymentMethodId) => {
+    return await new Promise(async (resolve,reject) => {
+        await stripe.paymentMethods.attach(
+            paymentMethodId, { customer: customerId },
+            (err, paymentMethod) => {
+                if (err) { console.log(err.message); reject(err); }
+                else { resolve(paymentMethod); }
+            }
+        )
+    });
+};
+
+let detachPaymentMethod = async id => {
+    return await new Promise(async (resolve,reject) => {
+        await stripe.paymentMethods.detach(
+            id, (err, paymentMethod) => {
+                if (err) { console.log(err.message); reject(err); }
+                else { resolve(paymentMethod); }
+            }
+        )
+    });
+};
+
 let createWebhook = async (body, signature) => {
     return stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_ID);
 };
 
-
-module.exports = {createStripeCustomer, updateStripeCustomer,
-    createStripeSubscription, updateStripeSubscription, deleteStripeSubscription,
+module.exports = {createStripeCustomer, updateStripeCustomer, updateStripeSubscription, deleteStripeSubscription,
     createMembershipSession, createEditCardSession,
-    getAllCustomers, getCustomer, getSubscription, getPaymentMethod, createWebhook};
+    getAllCustomers, getCustomer, getSession, getSetupIntent, getAllPaymentMethods, getPaymentMethod,
+    attachPaymentMethod, detachPaymentMethod, createWebhook};

@@ -5,14 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Jupiter Notify</title>
-	
 	<meta name="description" content= "A private Discord group helping you secure limited items with any resellable value." />
 	<meta name="keywords" content="jupiter notify, jupiter, cop, sneakers, cop sneakers, cop alert, sneaker alert, discord community, discord cop, shopify monitor, dropshipping, drop shipping">
-	
-	<!--    FONTS    -->
-	<link href="https://fonts.googleapis.com/css?family=Raleway:100,200,400&display=swap" rel="stylesheet">
-	
-	<!--    CSS LIBRARIES    -->
 	
 	<!--    MAIN CSS    -->
 	<link rel="stylesheet" href="index.css">
@@ -37,6 +31,16 @@
 		<a class="button" href="#features">Features</a>
 		<a class="button" href="#faq">FAQ</a>
 		<a class="button" href="#contact" onclick="if(!document.getElementById('contact').classList.contains('active')){document.getElementById('contact').click();}">Contact</a>
+
+		<a class="button"
+			<% if (hasMembership) { %>
+				href="/dashboard">Dashboard
+			<% } else if (isUser) { %>
+				href="/logout">Log Out
+			<% } else { %>
+				href="/auth">Log In
+			<% } %>
+		</a>
 	</div>
 	
 	<div class="grid">
@@ -47,8 +51,17 @@
 		
 		<div class="dashboard-button-container">
 			<img class="jupiter" src="assets/jupiter_planet.png" alt="Jupiter planet image" />
-			<img class="jupiter-wave" src="assets/jupiter_planet_wave.svg" />
-			<a class="button" href="/auth">Dashboard</a>
+			<img class="jupiter-wave" src="assets/jupiter_planet_wave.svg" alt="" />
+
+			<% if (hasMembership) { %>
+				<button class="button disabled">Already Subscribed</button>
+			<% } else if (!inStock) { %>
+				<button class="button disabled">Out of Stock</button>
+			<% } else if (isUser && session) { %>
+				<button class="button" id="pay-now">Buy Membership</button>
+			<% } else { %>
+				<a class="button" href="/auth">Log In</a>
+			<% } %>
 		</div>
 	</div>
 </div>
@@ -404,9 +417,13 @@
 <script src="https://cdn.jsdelivr.net/npm/scrollmagic/scrollmagic/minified/plugins/debug.addIndicators.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/scrollmagic/scrollmagic/minified/plugins/animation.gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap/dist/gsap.min.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
 
 <!--    MAIN JS    -->
+<script type="text/javascript">
+	const STRIPE_KEY = "<%= stripeKey %>";
+	const SESSION = "<%= session %>" ? JSON.parse('<%-JSON.stringify(session)%>') : undefined;
+</script>
 <script src="index.js"></script>
-
 </body>
 </html>

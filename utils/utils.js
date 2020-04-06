@@ -18,7 +18,6 @@ let userLogin = async (userId, username, email, data= undefined) => {
         console.log("userLogin() parameters are undefined.");
         return false;
     }
-
     const DB_DATA = await dbUtils.getData("user_id", userId);
     if (DB_DATA) {
         data = encodeURI(JSON.stringify(data));
@@ -41,7 +40,7 @@ let userLogin = async (userId, username, email, data= undefined) => {
             await dbUtils.updateData("user_id", userId, "stripe_id", STRIPE_ID);
             console.log(`Couldn't find customer so created '${STRIPE_ID}' stripe customer.`);
         }
-        DB_DATA.data = await getFromData(DB_DATA.data, data);
+        DB_DATA.data = await getFromDataAndUpdate(userId, data);
         if (!hasChanged) {
             console.log(`User '${username}' is already in the database.`);
         }
@@ -93,12 +92,11 @@ let getFromData = async (dbData, newData) => {
 let getFromDataAndUpdate = async (user_id, newData) => {
     const DB_DATA = (await dbUtils.getData("user_id", user_id))["data"];
     const DATA = await getFromData(DB_DATA, newData);
-    if (!DATA) { console.log("getFromDataAndUpdate() error"); return false; }
+    if (!DATA) { console.log("getFromDataAndUpdate() error"); }
     else {
         await dbUtils.updateData("user_id", user_id, "data", DATA);
-        return true;
+        return DATA;
     }
 };
-
 
 module.exports = {catchAsyncErrors, userLogin, getFromData, getFromDataAndUpdate};

@@ -1,11 +1,9 @@
-const stripe = Stripe(STRIPE_KEY);
 const DISCORD_USERNAME_CONTAINER = document.querySelector(".dashboard__welcome .h1-container");
 const DISCORD_USERNAME = document.getElementById("discord-username");
 const CC_NAME_CONTAINER = document.getElementById("cardholder-container");
 const CC_NAME = document.getElementById("cardholder-name");
 
 
-//  EVENT HANDLERS
 window.addEventListener("load", () => {
     lengthManager();
 });
@@ -13,25 +11,11 @@ window.addEventListener("resize", () => {
     //lengthManager();
 });
 
-//  STRIPE CHECKOUT
-document.getElementById("update-payment").addEventListener("click", async () => {
-    if (!STRIPE_SESSION) {
-        console.error("Try refreshing the website. If it's not working, contact a member of staff.");
-        return false;
-    }
-    const {error} = await stripe.redirectToCheckout({
-        sessionId: STRIPE_SESSION.id
-    });
-    if (error.message) { console.error(error); }
+
+document.getElementById("cancel-membership").addEventListener("click",() => {
+    document.getElementById("cancel-membership-popup").style.display = "block";
 });
 
-
-//  CONFIRM POPUP EVENT HANDLERS
-if (document.getElementById("cancel-membership")) {
-    document.getElementById("cancel-membership").addEventListener("click",() => {
-        document.getElementById("cancel-membership-popup").style.display = "block";
-    });
-}
 document.querySelectorAll(".confirm-popup .overlay," +
     ".confirm-popup a:nth-of-type(1)").forEach(item => {
     item.addEventListener("click",() => {
@@ -55,6 +39,7 @@ function lengthManager() {
         }
         usernameLoop();
     }
+
     if (CC_NAME.getBoundingClientRect().width + 10 >= CC_NAME_CONTAINER.getBoundingClientRect().width) {
         CC_NAME.textContent = CC_NAME.textContent + "...";
         function cardNameLoop() {

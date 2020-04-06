@@ -3,12 +3,27 @@
 $bgPurple: #352746;
 $planetOrange: #ff8e00;
 
+
+//  FONTS
+@font-face { font-family: Clean; font-weight: 100; src: url("assets/fonts/Clean-100.otf"); }
+@font-face { font-family: Clean; font-weight: 200; src: url("assets/fonts/Clean-200.otf"); }
+@font-face { font-family: Clean; font-weight: normal; src: url("assets/fonts/Clean-400.otf"); }
+@font-face { font-family: Clean; font-weight: 400; src: url("assets/fonts/Clean-400.otf"); }
+@font-face { font-family: Clean; font-weight: bold; src: url("assets/fonts/Clean-500.otf"); }
+@font-face { font-family: Clean; font-weight: 500; src: url("assets/fonts/Clean-500.otf"); }
+//@font-face { font-family: Clean; font-weight: 600; src: url("assets/fonts/Clean-600.otf"); }
+//@font-face { font-family: Clean; font-weight: 700; src: url("assets/fonts/Clean-700.otf"); }
+//@font-face { font-family: Clean; font-weight: 800; src: url("assets/fonts/Clean-800.otf"); }
+
+
+::selection { color: black; background: #E9F0F9; }
+::-moz-selection { color: black; background: #E9F0F9; }
 button, a {
   border: none;
   text-decoration: none;
   cursor: pointer;
   color: white;
-  font-family: Raleway, Montserrat sans-serif;
+  font-family: inherit;
   font-weight: bold;
 
   &:hover, &:focus { outline: none; }
@@ -17,13 +32,13 @@ button, a {
 a.button {
   display: inline-block;
   margin: 30px auto 10px;
-  font-size: 16px;
-  padding: 18px 30px;
+  font-size: 18px;
+  padding: 17px 24px;
   background-color: $planetOrange;
   border-radius: 50px;
   transition: background-color 0.2s ease-in-out;
 
-  &:hover { background: darken($planetOrange, 6%); }
+  &:hover { background: darken($planetOrange, 4%); }
 }
 
 html, body {
@@ -34,7 +49,7 @@ html, body {
 
   color: white;
   text-align: center;
-  font-family: Montserrat, sans-serif;
+  font-family: Clean, sans-serif;
 
   background: $bgPurple url("https://marcelmiro.github.io/jupiter-notify/assets/bg_stars_min.svg") center center no-repeat;
   background-size: cover;
