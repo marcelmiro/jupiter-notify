@@ -304,9 +304,10 @@ html, body {
 
 .dashboard__links {
   position: absolute;
-  width: calc(90% - 20px);
-  max-width: 1580px;
-  top: 20px;
+  width: calc(90% - 40px);
+  max-width: 1560px;
+  height: calc((100% - 700px) / 2);
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -397,7 +398,7 @@ html, body {
     h2 { font-size: 44px; }
     svg { max-height: 300px; }
   }
-  .dashboard__links { top: 40px; width: calc(86% - 20px); max-width: 880px; }
+  .dashboard__links { width: calc(86% - 40px); max-width: 860px; height: 100px; }
   .bg img { min-width: 1200px; }
 }
 @media screen and (max-width: 1000px) {
@@ -438,7 +439,7 @@ html, body {
     height: 480px;
     h2 { font-size: 40px; }
   }
-  .dashboard__links { top: 20px; }
+  .dashboard__links { height: 70px; }
 }
 @media screen and (max-width: 700px) {
   .dashboard {
@@ -600,7 +601,10 @@ html, body {
     svg { height: 52%; }
     button { font-size: 18px; padding: 12px 0; }
   }
-  .dashboard__links a { font-size: 16px; }
+  .dashboard__links {
+    height: 60px; min-width: 210px;
+    a { font-size: 16px; }
+  }
 }
 @media screen and (max-width: 410px) {
   .dashboard__join button, .dashboard__join a {

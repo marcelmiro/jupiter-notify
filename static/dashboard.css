@@ -382,9 +382,10 @@ html, body {
 
 .dashboard__links {
   position: absolute;
-  width: calc(90% - 20px);
-  max-width: 1580px;
-  top: 20px;
+  width: calc(90% - 40px);
+  max-width: 1560px;
+  height: calc((100% - 700px) / 2);
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -521,9 +522,9 @@ html, body {
   }
 
   .dashboard__links {
-    top: 40px;
-    width: calc(86% - 20px);
-    max-width: 880px;
+    width: calc(86% - 40px);
+    max-width: 860px;
+    height: 100px;
   }
 
   .bg img {
@@ -594,7 +595,7 @@ html, body {
   }
 
   .dashboard__links {
-    top: 20px;
+    height: 70px;
   }
 }
 @media screen and (max-width: 700px) {
@@ -890,6 +891,10 @@ html, body {
     padding: 12px 0;
   }
 
+  .dashboard__links {
+    height: 60px;
+    min-width: 210px;
+  }
   .dashboard__links a {
     font-size: 16px;
   }

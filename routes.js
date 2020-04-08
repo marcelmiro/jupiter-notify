@@ -90,9 +90,10 @@ router.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
-router.get("/test", (req,res) => {
+//  Testing dashboard design route
+/*router.get("/test", (req,res) => {
     res.render("test");
-});
+});*/
 
 router.get("/dashboard", authDashboardCheck, async (req, res) => {
     // TODO Check if user is a stripe customer (Special case)
