@@ -62,11 +62,11 @@
             </div>
             <div>
                 <h3>Next Payment</h3>
-                <p>00/00/2020</p>
+                <p><%= membershipDetails.dateNextPayment %></p>
             </div>
             <div>
                 <h3>User Since</h3>
-                <p>00/00/2020</p>
+                <p><%= membershipDetails.dateCreated %></p>
             </div>
             <% if (membershipDetails.isCancelled) { %>
                 <a class="button" href="/stripe/renew-membership">Renew</a>

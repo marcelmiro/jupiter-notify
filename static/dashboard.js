@@ -1,8 +1,10 @@
 const stripe = Stripe(STRIPE_KEY);
 const DISCORD_USERNAME_CONTAINER = document.querySelector(".dashboard__welcome .h1-container");
 const DISCORD_USERNAME = document.getElementById("discord-username");
+const USERNAME = DISCORD_USERNAME.textContent;
 const CC_NAME_CONTAINER = document.getElementById("cardholder-container");
 const CC_NAME = document.getElementById("cardholder-name");
+const NAME = CC_NAME.textContent;
 
 
 //  EVENT HANDLERS
@@ -10,7 +12,7 @@ window.addEventListener("load", () => {
     lengthManager();
 });
 window.addEventListener("resize", () => {
-    //lengthManager();
+    lengthManager();
 });
 
 //  STRIPE CHECKOUT
@@ -45,7 +47,7 @@ document.querySelectorAll(".confirm-popup .overlay," +
 //  reduce last character and check length again until text fits inside container.
 function lengthManager() {
     if (DISCORD_USERNAME.offsetWidth + 10 >= DISCORD_USERNAME_CONTAINER.offsetWidth) {
-        DISCORD_USERNAME.textContent = DISCORD_USERNAME.textContent + "...";
+        DISCORD_USERNAME.textContent = USERNAME + "...";
         function usernameLoop() {
             if (DISCORD_USERNAME.offsetWidth + 10 >= DISCORD_USERNAME_CONTAINER.offsetWidth) {
                 let text = DISCORD_USERNAME.textContent;
@@ -56,7 +58,7 @@ function lengthManager() {
         usernameLoop();
     }
     if (CC_NAME.getBoundingClientRect().width + 10 >= CC_NAME_CONTAINER.getBoundingClientRect().width) {
-        CC_NAME.textContent = CC_NAME.textContent + "...";
+        CC_NAME.textContent = NAME + "...";
         function cardNameLoop() {
             if (CC_NAME.getBoundingClientRect().width + 10 >= CC_NAME_CONTAINER.getBoundingClientRect().width) {
                 let text = CC_NAME.textContent;

@@ -462,19 +462,18 @@ html, body {
 
   body {
     background: none;
-    display: inline-block;
     position: relative;
   }
 
   .dashboard {
-    margin: 10vh auto 5vh;
+    margin: 100px auto 50px;
     width: 86%;
     max-width: 900px;
     height: auto;
     top: 0;
     transform: translate(0, 0);
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 0.6fr repeat(2, minmax(min-content, 2fr));
+    grid-template-rows: 1fr 0.6fr repeat(2, 2fr);
     grid-column-gap: 0;
     grid-row-gap: 40px;
   }
@@ -485,6 +484,9 @@ html, body {
   .dashboard__welcome h2 {
     font-size: 50px;
   }
+  .dashboard__welcome img {
+    max-height: 222px;
+  }
 
   .dashboard__join button img, .dashboard__join a img {
     height: 32px;
@@ -494,7 +496,7 @@ html, body {
   }
 
   .dashboard__membership-details {
-    min-height: 500px !important;
+    height: 500px;
   }
   .dashboard__membership-details h2 {
     font-size: 44px;
@@ -507,7 +509,7 @@ html, body {
   }
 
   .dashboard__payment-details {
-    min-height: 500px !important;
+    height: 500px;
   }
   .dashboard__payment-details h2 {
     font-size: 44px;
@@ -517,6 +519,7 @@ html, body {
   }
 
   .dashboard__links {
+    top: 40px;
     width: calc(86% - 20px);
     max-width: 880px;
   }
@@ -543,18 +546,21 @@ html, body {
 }
 @media screen and (max-width: 800px) {
   .dashboard {
-    grid-template-rows: 0.8fr 0.6fr repeat(2, minmax(min-content, 2fr));
-    margin: 8vh auto 4vh;
+    grid-template-rows: 1fr 0.7fr repeat(2, min-content);
+    margin: 70px auto 35px;
   }
   .dashboard > div {
     border-radius: 36px;
   }
 
   .dashboard__welcome .h1-container h1 {
-    font-size: 48px;
+    font-size: 46px;
   }
   .dashboard__welcome h2 {
-    font-size: 38px;
+    font-size: 36px;
+  }
+  .dashboard__welcome img {
+    max-height: 180px;
   }
 
   .dashboard__join button img, .dashboard__join a img {
@@ -565,7 +571,7 @@ html, body {
   }
 
   .dashboard__membership-details {
-    min-height: 450px !important;
+    height: 480px;
   }
   .dashboard__membership-details h2 {
     font-size: 40px;
@@ -578,25 +584,32 @@ html, body {
   }
 
   .dashboard__payment-details {
-    min-height: 450px !important;
+    height: 480px;
   }
   .dashboard__payment-details h2 {
     font-size: 40px;
   }
+
+  .dashboard__links {
+    top: 20px;
+  }
 }
 @media screen and (max-width: 700px) {
   .dashboard {
-    grid-template-rows: 0.8fr 0.5fr repeat(2, minmax(min-content, 2fr));
+    grid-template-rows: 0.9fr 0.6fr repeat(2, min-content);
   }
   .dashboard > div {
     border-radius: 30px;
   }
 
   .dashboard__welcome .h1-container h1 {
-    font-size: 42px;
+    font-size: 40px;
   }
   .dashboard__welcome h2 {
-    font-size: 32px;
+    font-size: 30px;
+  }
+  .dashboard__welcome img {
+    max-height: 156px;
   }
 
   .dashboard__join button img, .dashboard__join a img {
@@ -607,7 +620,7 @@ html, body {
   }
 
   .dashboard__membership-details {
-    min-height: 400px !important;
+    height: 450px;
   }
   .dashboard__membership-details h2 {
     font-size: 38px;
@@ -620,7 +633,7 @@ html, body {
   }
 
   .dashboard__payment-details {
-    min-height: 400px !important;
+    height: 450px;
   }
   .dashboard__payment-details h2 {
     font-size: 38px;
@@ -643,17 +656,21 @@ html, body {
 }
 @media screen and (max-width: 600px) {
   .dashboard {
-    grid-template-rows: 0.7fr 0.5fr repeat(2, minmax(min-content, 1.8fr));
+    grid-template-rows: 0.94fr 0.6fr repeat(2, min-content);
+    grid-row-gap: 34px;
   }
   .dashboard > div {
     border-radius: 26px;
   }
 
   .dashboard__welcome .h1-container h1 {
-    font-size: 36px;
+    font-size: 34px;
   }
   .dashboard__welcome h2 {
-    font-size: 27px;
+    font-size: 25px;
+  }
+  .dashboard__welcome img {
+    max-height: 132px;
   }
 
   .dashboard__join button, .dashboard__join a {
@@ -668,7 +685,7 @@ html, body {
 
   .dashboard__membership-details {
     padding: 20px 40px 20px !important;
-    min-height: 300px !important;
+    height: 400px;
   }
   .dashboard__membership-details h2 {
     font-size: 34px;
@@ -688,7 +705,7 @@ html, body {
 
   .dashboard__payment-details {
     padding: 20px 40px 20px !important;
-    min-height: 300px !important;
+    height: 400px;
   }
   .dashboard__payment-details h2 {
     font-size: 34px;
@@ -707,14 +724,18 @@ html, body {
 }
 @media screen and (max-width: 550px) {
   .dashboard {
-    grid-template-rows: 0.56fr 0.45fr repeat(2, minmax(min-content, 1.5fr));
+    grid-template-rows: 1fr 0.6fr repeat(2, min-content);
+    grid-row-gap: 28px;
   }
 
   .dashboard__welcome .h1-container h1 {
-    font-size: 32px;
+    font-size: 31px;
   }
   .dashboard__welcome h2 {
-    font-size: 25px;
+    font-size: 24px;
+  }
+  .dashboard__welcome img {
+    max-height: 114px;
   }
 
   .dashboard__join button span, .dashboard__join a span {
@@ -745,8 +766,8 @@ html, body {
   }
 }
 @media screen and (max-width: 510px) {
-  .dashboard {
-    grid-template-rows: 0.7fr 0.5fr repeat(2, min-content);
+  .dashboard__welcome img {
+    max-height: 106px;
   }
 
   .dashboard__join button, .dashboard__join a {
@@ -761,7 +782,7 @@ html, body {
 
   .dashboard__membership-details {
     padding: 20px 30px 20px !important;
-    min-height: 350px !important;
+    height: 360px;
   }
   .dashboard__membership-details .container h3, .dashboard__membership-details .container p {
     font-size: 19px;
@@ -769,7 +790,7 @@ html, body {
 
   .dashboard__payment-details {
     padding: 20px 30px 20px !important;
-    min-height: 350px !important;
+    height: 360px;
   }
 }
 @media screen and (max-width: 480px) {
@@ -778,6 +799,9 @@ html, body {
   }
   .dashboard__welcome h2 {
     font-size: 22px;
+  }
+  .dashboard__welcome img {
+    max-height: 103px;
   }
 
   .dashboard__join button, .dashboard__join a {
@@ -805,7 +829,7 @@ html, body {
 }
 @media screen and (max-width: 440px) {
   .dashboard {
-    margin: 6vh auto 3vh;
+    margin: 60px auto 30px;
   }
   .dashboard > div {
     border-radius: 22px;
@@ -830,7 +854,7 @@ html, body {
 
   .dashboard__membership-details {
     padding: 20px 24px 20px !important;
-    min-height: 320px !important;
+    height: 320px;
   }
   .dashboard__membership-details h2 {
     font-size: 24px;
@@ -845,7 +869,7 @@ html, body {
 
   .dashboard__payment-details {
     padding: 20px 24px 20px !important;
-    min-height: 320px !important;
+    height: 320px;
   }
   .dashboard__payment-details h2 {
     font-size: 24px;
@@ -871,8 +895,12 @@ html, body {
   }
 }
 @media screen and (max-width: 400px) {
+  .dashboard {
+    grid-template-rows: 0.9fr 0.6fr repeat(2, min-content);
+  }
+
   .dashboard__membership-details {
-    min-height: 310px !important;
+    height: 300px;
   }
   .dashboard__membership-details h2 {
     font-size: 22px;
@@ -886,7 +914,7 @@ html, body {
   }
 
   .dashboard__payment-details {
-    min-height: 310px !important;
+    height: 300px;
   }
   .dashboard__payment-details h2 {
     font-size: 22px;
@@ -901,7 +929,7 @@ html, body {
 }
 @media screen and (max-width: 390px) {
   .dashboard {
-    grid-template-rows: 0.6fr 0.5fr repeat(2, min-content);
+    grid-template-rows: 0.72fr 0.55fr repeat(2, min-content);
     min-width: 250px;
   }
 
@@ -909,7 +937,7 @@ html, body {
     font-size: 22px;
   }
   .dashboard__welcome h2 {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .dashboard__join button, .dashboard__join a {
@@ -932,7 +960,7 @@ html, body {
 }
 @media screen and (max-width: 360px) {
   .dashboard__membership-details {
-    min-height: 300px !important;
+    height: 280px;
     padding: 18px 16px !important;
   }
   .dashboard__membership-details .container h3, .dashboard__membership-details .container p {
@@ -943,7 +971,7 @@ html, body {
   }
 
   .dashboard__payment-details {
-    min-height: 300px !important;
+    height: 280px;
     padding: 18px 16px !important;
   }
 }

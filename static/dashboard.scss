@@ -366,24 +366,25 @@ html, body {
 }
 @media screen and (max-width: 1300px) {
   html, body { height: auto; }
-  body { background: none; display: inline-block; position: relative; }
+  body { background: none; position: relative; }
   .dashboard {
-    margin: 10vh auto 5vh; width: 86%; max-width: 900px; height: auto; top: 0; transform: translate(0,0);
+    margin: 100px auto 50px; width: 86%; max-width: 900px; height: auto; top: 0; transform: translate(0,0);
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 0.6fr repeat(2, minmax(min-content, 2fr));
+    grid-template-rows: 1fr 0.6fr repeat(2, 2fr);
     grid-column-gap: 0;
     grid-row-gap: 40px;
   }
   .dashboard__welcome {
     .h1-container h1 { font-size: 60px; }
     h2 { font-size: 50px; }
+    img { max-height: 222px; }
   }
   .dashboard__join button, .dashboard__join a {
     img { height: 32px; }
     span { font-size: 25px; }
   }
   .dashboard__membership-details {
-    min-height: 500px !important;
+    height: 500px;
     h2 { font-size: 44px; }
     .container {
       h3 { font-size: 26px; }
@@ -391,11 +392,11 @@ html, body {
     }
   }
   .dashboard__payment-details {
-    min-height: 500px !important;
+    height: 500px;
     h2 { font-size: 44px; }
     svg { max-height: 300px; }
   }
-  .dashboard__links { width: calc(86% - 20px); max-width: 880px; }
+  .dashboard__links { top: 40px; width: calc(86% - 20px); max-width: 880px; }
   .bg img { min-width: 1200px; }
 }
 @media screen and (max-width: 1000px) {
@@ -412,19 +413,20 @@ html, body {
 }
 @media screen and (max-width: 800px) {
   .dashboard {
-    grid-template-rows: 0.8fr 0.6fr repeat(2, minmax(min-content, 2fr)); margin: 8vh auto 4vh;
+    grid-template-rows: 1fr 0.7fr repeat(2, min-content); margin: 70px auto 35px;
     > div { border-radius: 36px; }
   }
   .dashboard__welcome {
-    .h1-container h1 { font-size: 48px; }
-    h2 { font-size: 38px; }
+    .h1-container h1 { font-size: 46px; }
+    h2 { font-size: 36px; }
+    img { max-height: 180px; }
   }
   .dashboard__join button, .dashboard__join a {
     img { height: 30px; }
     span { font-size: 23px; }
   }
   .dashboard__membership-details {
-    min-height: 450px !important;
+    height: 480px;
     h2 { font-size: 40px; }
     .container {
       h3 { font-size: 25px; }
@@ -432,25 +434,27 @@ html, body {
     }
   }
   .dashboard__payment-details {
-    min-height: 450px !important;
+    height: 480px;
     h2 { font-size: 40px; }
   }
+  .dashboard__links { top: 20px; }
 }
 @media screen and (max-width: 700px) {
   .dashboard {
-    grid-template-rows: 0.8fr 0.5fr repeat(2, minmax(min-content, 2fr));
+    grid-template-rows: 0.9fr 0.6fr repeat(2, min-content);
     > div { border-radius: 30px; }
   }
   .dashboard__welcome {
-    .h1-container h1 { font-size: 42px; }
-    h2 { font-size: 32px; }
+    .h1-container h1 { font-size: 40px; }
+    h2 { font-size: 30px; }
+    img { max-height: 156px; }
   }
   .dashboard__join button, .dashboard__join a {
     img { height: 26px; }
     span { font-size: 22px; }
   }
   .dashboard__membership-details {
-    min-height: 400px !important;
+    height: 450px;
     h2 { font-size: 38px; }
     .container {
       h3 { font-size: 23px; }
@@ -458,7 +462,7 @@ html, body {
     }
   }
   .dashboard__payment-details {
-    min-height: 400px !important;
+    height: 450px;
     h2 { font-size: 38px; }
     svg { max-height: 250px; }
   }
@@ -472,12 +476,14 @@ html, body {
 }
 @media screen and (max-width: 600px) {
   .dashboard {
-    grid-template-rows: 0.7fr 0.5fr repeat(2, minmax(min-content, 1.8fr));
+    grid-template-rows: 0.94fr 0.6fr repeat(2, min-content);
+    grid-row-gap: 34px;
     > div { border-radius: 26px; }
   }
   .dashboard__welcome {
-    .h1-container h1 { font-size: 36px; }
-    h2 { font-size: 27px; }
+    .h1-container h1 { font-size: 34px; }
+    h2 { font-size: 25px; }
+    img { max-height: 132px; }
   }
   .dashboard__join button, .dashboard__join a {
     width: 44%;
@@ -486,7 +492,7 @@ html, body {
   }
   .dashboard__membership-details {
     padding: 20px 40px 20px !important;
-    min-height: 300px !important;
+    height: 400px;
     h2 { font-size: 34px; }
     .container {
       h3 { font-size: 21px; }
@@ -496,7 +502,7 @@ html, body {
   }
   .dashboard__payment-details {
     padding: 20px 40px 20px !important;
-    min-height: 300px !important;
+    height: 400px;
     h2 { font-size: 34px; }
     svg { height: 52%; }
     button { font-size: 21px; padding: 16px 0; }
@@ -504,10 +510,11 @@ html, body {
   .dashboard__links a { font-size: 19px; }
 }
 @media screen and (max-width: 550px) {
-  .dashboard { grid-template-rows: 0.56fr 0.45fr repeat(2, minmax(min-content, 1.5fr)); }
+  .dashboard { grid-template-rows: 1fr 0.6fr repeat(2, min-content); grid-row-gap: 28px; }
   .dashboard__welcome {
-    .h1-container h1 { font-size: 32px; }
-    h2 { font-size: 25px; }
+    .h1-container h1 { font-size: 31px; }
+    h2 { font-size: 24px; }
+    img { max-height: 114px; }
   }
   .dashboard__join button span, .dashboard__join a span { font-size: 18px; }
   .dashboard__membership-details {
@@ -524,7 +531,8 @@ html, body {
   .dashboard__links a { font-size: 18px; }
 }
 @media screen and (max-width: 510px) {
-  .dashboard { grid-template-rows: 0.7fr 0.5fr repeat(2, min-content); }
+  //.dashboard { grid-template-rows: 1fr 0.55fr repeat(2, min-content); }
+  .dashboard__welcome img { max-height: 106px; }
   .dashboard__join button, .dashboard__join a {
     padding: 16px 7px 16px 14px;
     img { height: 18px; }
@@ -532,20 +540,21 @@ html, body {
   }
   .dashboard__membership-details {
     padding: 20px 30px 20px !important;
-    min-height: 350px !important;
+    height: 360px;
     .container {
       h3, p { font-size: 19px; }
     }
   }
   .dashboard__payment-details {
     padding: 20px 30px 20px !important;
-    min-height: 350px !important;
+    height: 360px;
   }
 }
 @media screen and (max-width: 480px) {
   .dashboard__welcome {
     .h1-container h1 { font-size: 28px; }
     h2 { font-size: 22px; }
+    img { max-height: 103px; }
   }
   .dashboard__join button, .dashboard__join a {
     padding: 14px 7px 14px 14px;
@@ -563,7 +572,7 @@ html, body {
 }
 @media screen and (max-width: 440px) {
   .dashboard {
-    margin: 6vh auto 3vh;
+    margin: 60px auto 30px;
     > div { border-radius: 22px; }
   }
   .dashboard__welcome {
@@ -577,7 +586,7 @@ html, body {
   }
   .dashboard__membership-details {
     padding: 20px 24px 20px !important;
-    min-height: 320px !important;
+    height: 320px;
     h2 { font-size: 24px; }
     .container {
       h3, p { font-size: 16px; }
@@ -586,7 +595,7 @@ html, body {
   }
   .dashboard__payment-details {
     padding: 20px 24px 20px !important;
-    min-height: 320px !important;
+    height: 320px;
     h2 { font-size: 24px; }
     svg { height: 52%; }
     button { font-size: 18px; padding: 12px 0; }
@@ -600,8 +609,9 @@ html, body {
   }
 }
 @media screen and (max-width: 400px) {
+  .dashboard { grid-template-rows: 0.9fr 0.6fr repeat(2, min-content); }
   .dashboard__membership-details {
-    min-height: 310px !important;
+    height: 300px;
     h2 { font-size: 22px; }
     .container {
       h3, p { font-size: 15px; }
@@ -609,17 +619,17 @@ html, body {
     }
   }
   .dashboard__payment-details {
-    min-height: 310px !important;
+    height: 300px;
     h2 { font-size: 22px; }
     svg { height: 50%; }
     button { font-size: 16px; padding: 10px 0; }
   }
 }
 @media screen and (max-width: 390px) {
-  .dashboard { grid-template-rows: 0.6fr 0.5fr repeat(2, min-content); min-width: 250px; }
+  .dashboard { grid-template-rows: 0.72fr 0.55fr repeat(2, min-content); min-width: 250px; }
   .dashboard__welcome {
     .h1-container h1 { font-size: 22px; }
-    h2 { font-size: 17px; }
+    h2 { font-size: 16px; }
   }
   .dashboard__join button, .dashboard__join a { padding: 12px 6px 12px 10px; width: 47%; min-width: 121px; }
   .dashboard__membership-details {
@@ -630,13 +640,14 @@ html, body {
 }
 @media screen and (max-width: 360px) {
   .dashboard__membership-details {
-    min-height: 300px !important;
+    height: 280px;
     padding: 18px 16px !important;
     .container {
       h3, p { font-size: 14px; }
       p { padding: 7px 10px; }
     }
   }
-  .dashboard__payment-details { min-height: 300px !important; padding: 18px 16px !important; }
+  .dashboard__payment-details { height: 280px; padding: 18px 16px !important; }
 }
 //  FIXME Change .dashboard margin vh measurement.
+//  FIXME Body overflow when enlarging from <1300px to >1300px.
