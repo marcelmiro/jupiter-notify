@@ -3,11 +3,10 @@ const express = require('express');
 const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
+const bodyParser = require("body-parser");
 const routes = require("./routes");
 const passportSetup = require("./passport-setup");
-const utils = require("./utils/utils");
 const dbUtils = require("./utils/db-utils");
-const botUtils = require("./utils/bot-utils");
 
 
 const app = express();
@@ -27,6 +26,7 @@ app.use(passport.session({
     saveUninitialized: false,
     resave: false
 }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", routes);
 app.use(express.static(__dirname + '/static'));
 

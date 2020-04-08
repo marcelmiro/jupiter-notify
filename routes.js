@@ -6,6 +6,7 @@ const utils = require("./utils/utils");
 const dbUtils = require("./utils/db-utils");
 const stripeUtils = require("./utils/stripe-utils");
 const botUtils = require("./utils/bot-utils");
+const nodemailerSetup = require("./nodemailer-setup");
 
 
 //  Checks if cookie has user object to redirect to dashboard, instead of having to login again.
@@ -126,8 +127,8 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
         dateExpiry: "null",
     };
 
-    //  Get last customer's subscription.
-    const SUBSCRIPTION = CUSTOMER.subscriptions.data[CUSTOMER.subscriptions.data.length - 1];
+    //  Get customer's subscription.
+    const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
     //  Create session to update subscription payment details.
     const SESSION = await stripeUtils.createEditCardSession(req.user["stripe_id"], SUBSCRIPTION.id);
 
@@ -141,10 +142,8 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
         membershipDetails.interval = SUBSCRIPTION.plan.interval;
     }
     membershipDetails.price = "$" + (Math.round(SUBSCRIPTION.plan.amount) / 100).toFixed(2);
-    let date = new Date(SUBSCRIPTION.current_period_end * 1000);
-    membershipDetails.dateNextPayment = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-    date = new Date(SUBSCRIPTION.created * 1000);
-    membershipDetails.dateCreated = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    membershipDetails.dateNextPayment = await utils.transformDate(new Date(SUBSCRIPTION.current_period_end * 1000));
+    membershipDetails.dateCreated = await utils.transformDate(new Date(SUBSCRIPTION.created * 1000));
 
     //  If subscription has default payment, get customer's payment details.
     if (SUBSCRIPTION.default_payment_method) {
@@ -194,7 +193,7 @@ router.get("/stripe/success", (req, res) => {
         let date = new Date();
         let time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         console.log(time + ": /success route problem.");
-        res.redirect("/dashboard");
+        res.redirect("/");
     }
 });
 
@@ -222,7 +221,7 @@ router.get("/stripe/cancel-membership", async (req, res) => {
 
         //  Kick user from discord server. May log error "User was not found in Discord server.",
         //  due to not finding user in Discord server.
-        await botUtils.kickUser(req.user["user_id"]);
+        await botUtils.kickUser(req.user["user_id"], req.user["email"]);
 
         //  Debugging
         console.log(`User '${req.user["username"]}' has cancelled its membership.`);
@@ -282,6 +281,23 @@ router.get("/discord/join", async (req,res) => {
     }
 });
 
+//  Route to send emails
+router.post("/send-email", bodyParser.raw({type: 'application/json'}), async (req,res) => {
+    try {
+        const response = await nodemailerSetup.sendEmail(
+            req.body.email,
+            "SUPPORT: " + req.body.name,
+            `Name: ${req.body.name}\nEmail: ${req.body.email}\n\nText:\n${req.body.text}`,
+        );
+        console.log(`Email sent to '${response.accepted.join("', '")}'.`);
+        if (response.rejected.length > 0) {
+            console.log(`Email was rejected by '${response.rejected.join("', '")}'.`);
+        }
+    } catch (e) {
+        return res.status(400).send("Send email error:", e.message);
+    }
+});
+
 //  Webhook route for stripe events
 router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, res) => {
     // TODO Code when payment failed from customer. Event type = "invoice.payment_failed".
@@ -305,13 +321,12 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
             const SESSION = event.data.object;
             const USER = await dbUtils.getData("stripe_id", SESSION.customer);
             const CUSTOMER = await stripeUtils.getCustomer(USER["stripe_id"]);
-            const SUBSCRIPTION = CUSTOMER.subscriptions.data[CUSTOMER.subscriptions.data.length - 1];
+            const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
 
             //  Init default payment var to set it to a payment method id,
             //  depending if session was in setup mode or not.
             let defaultPayment;
             if (SESSION.mode === "setup") {
-                console.log("In setup...");
                 //  Check if subscription was meant to get cancelled by the end of period,
                 //  if true, set 'cancel_at_period_end' to false.
                 if (SUBSCRIPTION.cancel_at_period_end) {

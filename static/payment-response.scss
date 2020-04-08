@@ -1,9 +1,4 @@
 
-//  COLOR VARS
-$bgPurple: #352746;
-$planetOrange: #ff8e00;
-
-
 //  FONTS
 @font-face { font-family: Clean; font-weight: 100; src: url("assets/fonts/Clean-100.otf"); }
 @font-face { font-family: Clean; font-weight: 200; src: url("assets/fonts/Clean-200.otf"); }
@@ -31,14 +26,14 @@ button, a {
 
 a.button {
   display: inline-block;
-  margin: 30px auto 10px;
+  margin: 0;
   font-size: 18px;
   padding: 17px 24px;
-  background-color: $planetOrange;
+  background-color: #ffaa30;
   border-radius: 50px;
   transition: background-color 0.2s ease-in-out;
 
-  &:hover { background: darken($planetOrange, 4%); }
+  &:hover { background: darken(#ffaa30, 5); }
 }
 
 html, body {
@@ -50,9 +45,12 @@ html, body {
   color: white;
   text-align: center;
   font-family: Clean, sans-serif;
-
-  background: $bgPurple url("https://marcelmiro.github.io/jupiter-notify/assets/bg_stars_min.svg") center center no-repeat;
-  background-size: cover;
+  
+  background: #362746;
+  background: -moz-linear-gradient(top, #352746 0%, #8b50c3 100%);
+  background: -webkit-linear-gradient(top, #352746 0%,#8b50c3 100%);
+  background: linear-gradient(to bottom, #352746 0%,#8b50c3 100%);
+  background-repeat: no-repeat;
 
   display: flex;
   justify-content: center;
@@ -60,16 +58,15 @@ html, body {
 }
 
 .container {
-  width: 1000px;
-  background-color: rgba(white, 0.04);
+  width: 700px;
+  height: 300px;
+  background-color: rgba(white, 0.16);
   border-radius: 24px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
 
-  h1 { margin: 40px auto; }
-  .inner-container {
-    padding: 30px 0;
-    p {
-      width: 80%;
-      margin: 16px auto;
-    }
-  }
+  h1 { margin: 0 auto; }
+  p { width: 80%; margin: 0 auto; }
 }

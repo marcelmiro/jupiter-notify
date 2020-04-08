@@ -103,7 +103,7 @@ button:focus {
   outline: none;
 }
 
-button.button, a.button {
+button.button, a.button, input.button {
   padding: 8px 26px;
   color: white;
   font-size: 20px;
@@ -122,11 +122,11 @@ button.button, a.button {
   -ms-user-select: none;
   user-select: none;
 }
-button.button:hover, a.button:hover {
+button.button:hover, a.button:hover, input.button:hover {
   border: 3px solid #ffaa30;
   outline: none;
 }
-button.button:focus, a.button:focus {
+button.button:focus, a.button:focus, input.button:focus {
   outline: none;
 }
 
@@ -481,7 +481,7 @@ button.button:focus, a.button:focus {
   padding: 10px 5%;
   text-align: left;
 }
-.section-faq .container .panel .grid > div input {
+.section-faq .container .panel .grid > div input:not([type=submit]) {
   margin: 30px 0;
   width: 66%;
   background-color: rgba(255, 255, 255, 0.1);
@@ -489,19 +489,19 @@ button.button:focus, a.button:focus {
   padding: 12px 22px;
   border-radius: 20px;
 }
-.section-faq .container .panel .grid > div input:focus {
+.section-faq .container .panel .grid > div input:not([type=submit]):focus {
   -webkit-box-shadow: 0 0 24px 5px rgba(139, 80, 195, 0.2);
   box-shadow: 0 0 24px 5px rgba(139, 80, 195, 0.2);
 }
-.section-faq .container .panel .grid > div input::placeholder {
+.section-faq .container .panel .grid > div input:not([type=submit])::placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-family: Clean, sans-serif;
 }
-.section-faq .container .panel .grid > div input:-ms-input-placeholder {
+.section-faq .container .panel .grid > div input:not([type=submit]):-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-family: Clean, sans-serif;
 }
-.section-faq .container .panel .grid > div input::-ms-input-placeholder {
+.section-faq .container .panel .grid > div input:not([type=submit])::-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-family: Clean, sans-serif;
 }

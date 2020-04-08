@@ -373,14 +373,14 @@
 		
 		<button id="contact" class="accordion">Have another question? Contact Us</button>
 		<div class="panel">
-			<div class="grid">
+			<div class="form grid">
 				<div>
-					<input type="text" placeholder="Name" spellcheck="false">
-					<input type="email" placeholder="Email" spellcheck="false">
-					<button class="button">Submit</button>
+					<input type="text" placeholder="Name" spellcheck="false" required />
+					<input type="email" placeholder="Email" spellcheck="false" required />
+					<button class="button" onclick="sendEmail()">Submit</button>
 				</div>
 				<div>
-					<textarea placeholder="Text" maxlength="500" spellcheck="false"></textarea>
+					<textarea placeholder="Text" maxlength="500" spellcheck="false" required></textarea>
 				</div>
 			</div>
 		</div>

@@ -70,7 +70,7 @@ button {
   &:hover, &:focus { background: none; }
   &:focus { outline: none; }
 }
-button.button, a.button {
+button.button, a.button, input.button {
   padding: 8px 26px;
   color: white;
   font-size: 20px;
@@ -445,7 +445,7 @@ button.button, a.button {
           padding: 10px 5%;
           text-align: left;
 
-          input {
+          input:not([type="submit"]) {
             margin: 30px 0;
             width: 66%;
             background-color: rgba(white, 0.1);

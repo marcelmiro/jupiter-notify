@@ -87,6 +87,26 @@ button.button:hover, a.button:hover {
   background-color: #2b2b2b;
 }
 
+.underline, a.underline, a.underline:visited {
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  color: white;
+}
+.underline:after, a.underline:after, a.underline:visited:after {
+  content: "";
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  background: white;
+  transition: 0.4s;
+}
+.underline:hover:after, a.underline:hover:after, a.underline:visited:hover:after {
+  width: 100%;
+}
+
 .confirm-popup {
   display: none;
   position: absolute;
@@ -154,6 +174,7 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
   color: white;
   text-align: center;
   font-family: Clean, sans-serif;
@@ -183,7 +204,7 @@ html, body {
 .dashboard > div {
   padding: 14px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.16);
+  background-color: rgba(255, 255, 255, 0.16);
   border-radius: 40px;
   min-width: 0;
   min-height: 0;
@@ -315,11 +336,11 @@ html, body {
   padding: 18px 0;
 }
 .dashboard__membership-details .container button[href], .dashboard__membership-details .container a[href] {
-  background-color: #009700;
+  background-color: #5fcc76;
   transition: background-color 0.15s linear;
 }
 .dashboard__membership-details .container button[href]:hover, .dashboard__membership-details .container a[href]:hover {
-  background-color: #008300;
+  background-color: #50c769;
 }
 .dashboard__membership-details .container button#cancel-membership, .dashboard__membership-details .container a#cancel-membership {
   background-color: #D84546;
@@ -358,12 +379,30 @@ html, body {
   padding: 18px 0;
 }
 
+.dashboard__links {
+  position: absolute;
+  width: calc(90% - 20px);
+  max-width: 1580px;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboard__links a {
+  font-size: 21px;
+}
+
 .bg {
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   opacity: 1;
   z-index: 0;
   overflow: hidden;
@@ -379,6 +418,534 @@ html, body {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
+}
+
+@media screen and (max-width: 1500px) {
+  .dashboard__welcome .h1-container h1 {
+    font-size: 50px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 40px;
+  }
+
+  .dashboard__membership-details h2 {
+    font-size: 40px;
+  }
+
+  .dashboard__payment-details h2 {
+    font-size: 40px;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .dashboard__welcome .h1-container h1 {
+    font-size: 44px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 34px;
+  }
+
+  .dashboard__join button img, .dashboard__join a img {
+    height: 28px;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 21px;
+  }
+
+  .dashboard__membership-details h2, .dashboard__payment-details h2 {
+    font-size: 34px;
+  }
+}
+@media screen and (max-width: 1300px) {
+  html, body {
+    height: auto;
+  }
+
+  body {
+    background: none;
+    display: inline-block;
+    position: relative;
+  }
+
+  .dashboard {
+    margin: 10vh auto 5vh;
+    width: 86%;
+    max-width: 900px;
+    height: auto;
+    top: 0;
+    transform: translate(0, 0);
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 0.6fr repeat(2, minmax(min-content, 2fr));
+    grid-column-gap: 0;
+    grid-row-gap: 40px;
+  }
+
+  .dashboard__welcome .h1-container h1 {
+    font-size: 60px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 50px;
+  }
+
+  .dashboard__join button img, .dashboard__join a img {
+    height: 32px;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 25px;
+  }
+
+  .dashboard__membership-details {
+    min-height: 500px !important;
+  }
+  .dashboard__membership-details h2 {
+    font-size: 44px;
+  }
+  .dashboard__membership-details .container h3 {
+    font-size: 26px;
+  }
+  .dashboard__membership-details .container p {
+    font-size: 25px;
+  }
+
+  .dashboard__payment-details {
+    min-height: 500px !important;
+  }
+  .dashboard__payment-details h2 {
+    font-size: 44px;
+  }
+  .dashboard__payment-details svg {
+    max-height: 300px;
+  }
+
+  .dashboard__links {
+    width: calc(86% - 20px);
+    max-width: 880px;
+  }
+
+  .bg img {
+    min-width: 1200px;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .dashboard__welcome .h1-container h1 {
+    font-size: 58px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 48px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .dashboard__welcome .h1-container h1 {
+    font-size: 52px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 42px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .dashboard {
+    grid-template-rows: 0.8fr 0.6fr repeat(2, minmax(min-content, 2fr));
+    margin: 8vh auto 4vh;
+  }
+  .dashboard > div {
+    border-radius: 36px;
+  }
+
+  .dashboard__welcome .h1-container h1 {
+    font-size: 48px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 38px;
+  }
+
+  .dashboard__join button img, .dashboard__join a img {
+    height: 30px;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 23px;
+  }
+
+  .dashboard__membership-details {
+    min-height: 450px !important;
+  }
+  .dashboard__membership-details h2 {
+    font-size: 40px;
+  }
+  .dashboard__membership-details .container h3 {
+    font-size: 25px;
+  }
+  .dashboard__membership-details .container p {
+    font-size: 24px;
+  }
+
+  .dashboard__payment-details {
+    min-height: 450px !important;
+  }
+  .dashboard__payment-details h2 {
+    font-size: 40px;
+  }
+}
+@media screen and (max-width: 700px) {
+  .dashboard {
+    grid-template-rows: 0.8fr 0.5fr repeat(2, minmax(min-content, 2fr));
+  }
+  .dashboard > div {
+    border-radius: 30px;
+  }
+
+  .dashboard__welcome .h1-container h1 {
+    font-size: 42px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 32px;
+  }
+
+  .dashboard__join button img, .dashboard__join a img {
+    height: 26px;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 22px;
+  }
+
+  .dashboard__membership-details {
+    min-height: 400px !important;
+  }
+  .dashboard__membership-details h2 {
+    font-size: 38px;
+  }
+  .dashboard__membership-details .container h3 {
+    font-size: 23px;
+  }
+  .dashboard__membership-details .container p {
+    font-size: 22px;
+  }
+
+  .dashboard__payment-details {
+    min-height: 400px !important;
+  }
+  .dashboard__payment-details h2 {
+    font-size: 38px;
+  }
+  .dashboard__payment-details svg {
+    max-height: 250px;
+  }
+}
+@media screen and (max-width: 650px) {
+  .dashboard__join button img, .dashboard__join a img {
+    height: 22px;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 20px;
+  }
+
+  .dashboard__membership-details h2, .dashboard__payment-details h2 {
+    font-size: 36px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .dashboard {
+    grid-template-rows: 0.7fr 0.5fr repeat(2, minmax(min-content, 1.8fr));
+  }
+  .dashboard > div {
+    border-radius: 26px;
+  }
+
+  .dashboard__welcome .h1-container h1 {
+    font-size: 36px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 27px;
+  }
+
+  .dashboard__join button, .dashboard__join a {
+    width: 44%;
+  }
+  .dashboard__join button img, .dashboard__join a img {
+    height: 20px;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 19px;
+  }
+
+  .dashboard__membership-details {
+    padding: 20px 40px 20px !important;
+    min-height: 300px !important;
+  }
+  .dashboard__membership-details h2 {
+    font-size: 34px;
+  }
+  .dashboard__membership-details .container h3 {
+    font-size: 21px;
+  }
+  .dashboard__membership-details .container p {
+    margin-top: 8px;
+    font-size: 21px;
+    padding: 7px 20px;
+  }
+  .dashboard__membership-details .container button, .dashboard__membership-details .container a {
+    font-size: 21px;
+    padding: 16px 0;
+  }
+
+  .dashboard__payment-details {
+    padding: 20px 40px 20px !important;
+    min-height: 300px !important;
+  }
+  .dashboard__payment-details h2 {
+    font-size: 34px;
+  }
+  .dashboard__payment-details svg {
+    height: 52%;
+  }
+  .dashboard__payment-details button {
+    font-size: 21px;
+    padding: 16px 0;
+  }
+
+  .dashboard__links a {
+    font-size: 19px;
+  }
+}
+@media screen and (max-width: 550px) {
+  .dashboard {
+    grid-template-rows: 0.56fr 0.45fr repeat(2, minmax(min-content, 1.5fr));
+  }
+
+  .dashboard__welcome .h1-container h1 {
+    font-size: 32px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 25px;
+  }
+
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 18px;
+  }
+
+  .dashboard__membership-details h2 {
+    font-size: 30px;
+  }
+  .dashboard__membership-details .container h3, .dashboard__membership-details .container p {
+    font-size: 20px;
+  }
+  .dashboard__membership-details .container button, .dashboard__membership-details .container a {
+    font-size: 19px;
+    padding: 14px 0;
+  }
+
+  .dashboard__payment-details h2 {
+    font-size: 30px;
+  }
+  .dashboard__payment-details button {
+    font-size: 19px;
+    padding: 14px 0;
+  }
+
+  .dashboard__links a {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 510px) {
+  .dashboard {
+    grid-template-rows: 0.7fr 0.5fr repeat(2, min-content);
+  }
+
+  .dashboard__join button, .dashboard__join a {
+    padding: 16px 7px 16px 14px;
+  }
+  .dashboard__join button img, .dashboard__join a img {
+    height: 18px;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 17px;
+  }
+
+  .dashboard__membership-details {
+    padding: 20px 30px 20px !important;
+    min-height: 350px !important;
+  }
+  .dashboard__membership-details .container h3, .dashboard__membership-details .container p {
+    font-size: 19px;
+  }
+
+  .dashboard__payment-details {
+    padding: 20px 30px 20px !important;
+    min-height: 350px !important;
+  }
+}
+@media screen and (max-width: 480px) {
+  .dashboard__welcome .h1-container h1 {
+    font-size: 28px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 22px;
+  }
+
+  .dashboard__join button, .dashboard__join a {
+    padding: 14px 7px 14px 14px;
+    width: 46%;
+  }
+  .dashboard__join button img, .dashboard__join a img {
+    height: 17px;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 16px;
+  }
+
+  .dashboard__membership-details .container h3, .dashboard__membership-details .container p {
+    font-size: 18px;
+  }
+  .dashboard__membership-details .container p {
+    padding: 7px 16px;
+  }
+
+  .dashboard__payment-details svg {
+    height: 48%;
+    min-height: 100px;
+  }
+}
+@media screen and (max-width: 440px) {
+  .dashboard {
+    margin: 6vh auto 3vh;
+  }
+  .dashboard > div {
+    border-radius: 22px;
+  }
+
+  .dashboard__welcome img {
+    margin-left: 1%;
+  }
+  .dashboard__welcome .h1-container h1 {
+    font-size: 25px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 20px;
+  }
+
+  .dashboard__join {
+    padding: 6px !important;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 15px;
+  }
+
+  .dashboard__membership-details {
+    padding: 20px 24px 20px !important;
+    min-height: 320px !important;
+  }
+  .dashboard__membership-details h2 {
+    font-size: 24px;
+  }
+  .dashboard__membership-details .container h3, .dashboard__membership-details .container p {
+    font-size: 16px;
+  }
+  .dashboard__membership-details .container button, .dashboard__membership-details .container a {
+    font-size: 18px;
+    padding: 12px 0;
+  }
+
+  .dashboard__payment-details {
+    padding: 20px 24px 20px !important;
+    min-height: 320px !important;
+  }
+  .dashboard__payment-details h2 {
+    font-size: 24px;
+  }
+  .dashboard__payment-details svg {
+    height: 52%;
+  }
+  .dashboard__payment-details button {
+    font-size: 18px;
+    padding: 12px 0;
+  }
+
+  .dashboard__links a {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 410px) {
+  .dashboard__join button img, .dashboard__join a img {
+    height: 16px;
+  }
+  .dashboard__join button span, .dashboard__join a span {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .dashboard__membership-details {
+    min-height: 310px !important;
+  }
+  .dashboard__membership-details h2 {
+    font-size: 22px;
+  }
+  .dashboard__membership-details .container h3, .dashboard__membership-details .container p {
+    font-size: 15px;
+  }
+  .dashboard__membership-details .container button, .dashboard__membership-details .container a {
+    font-size: 16px;
+    padding: 10px 0;
+  }
+
+  .dashboard__payment-details {
+    min-height: 310px !important;
+  }
+  .dashboard__payment-details h2 {
+    font-size: 22px;
+  }
+  .dashboard__payment-details svg {
+    height: 50%;
+  }
+  .dashboard__payment-details button {
+    font-size: 16px;
+    padding: 10px 0;
+  }
+}
+@media screen and (max-width: 390px) {
+  .dashboard {
+    grid-template-rows: 0.6fr 0.5fr repeat(2, min-content);
+    min-width: 250px;
+  }
+
+  .dashboard__welcome .h1-container h1 {
+    font-size: 22px;
+  }
+  .dashboard__welcome h2 {
+    font-size: 17px;
+  }
+
+  .dashboard__join button, .dashboard__join a {
+    padding: 12px 6px 12px 10px;
+    width: 47%;
+    min-width: 121px;
+  }
+
+  .dashboard__membership-details {
+    padding: 18px 20px !important;
+  }
+  .dashboard__membership-details .container p {
+    margin-top: 6px;
+    padding: 7px 14px;
+  }
+
+  .dashboard__payment-details {
+    padding: 18px 20px !important;
+  }
+}
+@media screen and (max-width: 360px) {
+  .dashboard__membership-details {
+    min-height: 300px !important;
+    padding: 18px 16px !important;
+  }
+  .dashboard__membership-details .container h3, .dashboard__membership-details .container p {
+    font-size: 14px;
+  }
+  .dashboard__membership-details .container p {
+    padding: 7px 10px;
+  }
+
+  .dashboard__payment-details {
+    min-height: 300px !important;
+    padding: 18px 16px !important;
+  }
 }
 
 /*# sourceMappingURL=dashboard.css.map */

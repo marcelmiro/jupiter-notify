@@ -1,4 +1,9 @@
 const stripe = Stripe(STRIPE_KEY);
+const FORM = {
+    "name": document.querySelector("#faq .form input[type='text']"),
+    "email": document.querySelector("#faq .form input[type='email']"),
+    "text": document.querySelector("#faq .form textarea")
+};
 
 //  BROWSER COMPATIBILITY
 /**
@@ -160,6 +165,48 @@ if (SESSION) {
             sessionId: SESSION.id,
         });
         if (error.message) { console.log(error); }
+    });
+}
+
+
+//  Send email from contact form.
+function sendEmail() {
+    //  Check if there is an empty field.
+    let emptyField = false;
+    Object.values(FORM).forEach(value => {
+        if (!value.value) {
+            emptyField = true;
+        }
+    });
+    if (emptyField) {
+        alert("Please fill in every field before submitting.");
+        return false;
+    }
+
+    //  Validate email field.
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(FORM.email.value)) {
+        alert("Email validation failed.");
+        return false;
+    }
+
+    //  Replace new lines from textarea to <br> to render html code in email.
+    //FORM.text.value = FORM.text.value.replace(/\r\n|\r|\n/g,"<br>");
+
+    //  Post data to '/send-email' to send email.
+    fetch("/send-email", {
+        method: "POST",
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `type=support&name=${FORM.name.value}&email=${FORM.email.value}&text=${FORM.text.value}`,
+    }).then(() => {
+        console.log("Email sent.");
+    }).catch(err => {
+        console.error("Error on posting email info:", err.message);
+        return false;
+    });
+
+    //  Remove content from fields.
+    Object.values(FORM).forEach(value => {
+        value.value = "";
     });
 }
 

@@ -28,15 +28,13 @@
 	<% } else { %>
 		<h1>Payment was cancelled</h1>
 	<% } %>
-	<div class="inner-container">
-		<% if(status==="success") { %>
-			<p>Thanks for subscribing! If you have any issues, please contact a member of staff, we'll be glad to help.</p>
-			<a class="button" href="/dashboard">Go to Dashboard</a>
-		<% } else { %>
-			<p>Something went wrong during the payment phase. If you can't complete the payment, please contact a member of staff, we'll be glad to help.</p>
-			<a class="button" href="/">Go Back</a>
-		<% } %>
-	</div>
+	<% if(status==="success") { %>
+		<p>Thanks for subscribing! If you have any issues, please contact a member of staff, we'll be glad to help.</p>
+		<a class="button" href="/dashboard">Go to Dashboard</a>
+	<% } else { %>
+		<p>Something went wrong during the payment phase. If you can't complete the payment, please contact a member of staff, we'll be glad to help.</p>
+		<a class="button" href="/">Go Back</a>
+	<% } %>
 </div>
 
 

@@ -99,4 +99,10 @@ let getFromDataAndUpdate = async (user_id, newData) => {
     }
 };
 
-module.exports = {catchAsyncErrors, userLogin, getFromData, getFromDataAndUpdate};
+let transformDate = async (date) => {
+    const DAY = date.getDate(), MONTH = date.getMonth()+1, YEAR = date.getFullYear();
+    return (DAY.toString().length === 1 ? "0"+DAY : DAY) + "/" +
+        (MONTH.toString().length === 1 ? "0"+MONTH : MONTH) + "/" + YEAR;
+};
+
+module.exports = {catchAsyncErrors, userLogin, getFromData, getFromDataAndUpdate, transformDate};
