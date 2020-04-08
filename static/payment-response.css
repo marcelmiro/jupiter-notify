@@ -54,7 +54,7 @@ a.button {
   display: inline-block;
   margin: 0;
   font-size: 18px;
-  padding: 17px 24px;
+  padding: 15px 30px;
   background-color: #ffaa30;
   border-radius: 50px;
   transition: background-color 0.2s ease-in-out;
@@ -97,6 +97,44 @@ html, body {
 .container p {
   width: 80%;
   margin: 0 auto;
+}
+
+@media screen and (max-width: 800px) {
+  .container {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .container {
+    padding: 20px 40px;
+    box-sizing: border-box;
+    height: 350px;
+  }
+  .container h1 {
+    font-size: 28px;
+  }
+  .container p {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .container {
+    padding: 10px 30px;
+    height: auto;
+    min-width: 300px;
+  }
+  .container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .container p {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+  .container a.button {
+    font-size: 16px;
+    padding: 12px 24px;
+  }
 }
 
 /*# sourceMappingURL=payment-response.css.map */
