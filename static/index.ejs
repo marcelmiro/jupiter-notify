@@ -36,9 +36,9 @@
 			<% if (hasMembership) { %>
 				href="/dashboard">Dashboard
 			<% } else if (isUser) { %>
-				href="/logout">Log Out
+				href="/auth/logout">Log Out
 			<% } else { %>
-				href="/auth">Log In
+				href="/auth/login">Log In
 			<% } %>
 		</a>
 	</div>
@@ -60,7 +60,7 @@
 			<% } else if (isUser && session) { %>
 				<button class="button" id="pay-now">Buy Membership</button>
 			<% } else { %>
-				<a class="button" href="/auth">Log In</a>
+				<a class="button" href="/auth/login?pay">Buy Membership</a>
 			<% } %>
 		</div>
 	</div>

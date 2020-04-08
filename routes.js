@@ -24,33 +24,38 @@ router.get("/", async (req, res) => {
     const IN_STOCK = Boolean(process.env.IN_STOCK.toLowerCase() === "true");
     const IS_USER = Boolean(req.user);
 
-    //  Set default vars and set to real values depending on ifs.
-    let hasMembership = false;
-    let session = undefined;
-    if (IS_USER) {
-        if ((await stripeUtils.getCustomer(req.user["stripe_id"])).subscriptions.data.length > 0) {
-            hasMembership = true;
-        } else {
-            session = await stripeUtils.createMembershipSession(req.user["stripe_id"]);
-        }
-    }
+    //  Check if customer has subscription and if product is in stock to create session.
+    const HAS_MEMBERSHIP =
+        Boolean(IS_USER && (await stripeUtils.getCustomer(req.user["stripe_id"])).subscriptions.data.length > 0);
+    const SESSION = IS_USER && !HAS_MEMBERSHIP ?
+        await stripeUtils.createMembershipSession(req.user["stripe_id"]) : undefined;
 
     //  Render index page with necessary data.
     res.render("index",
         {
             inStock: IN_STOCK,
             isUser: IS_USER,
-            hasMembership: hasMembership,
+            hasMembership: HAS_MEMBERSHIP,
             stripeKey: process.env.STRIPE_KEY,
-            session: session,
+            session: SESSION,
         });
 });
 
 //  Discord login route
-router.get("/auth", authLoginCheck, passport.authenticate(
-    "discord",
-    { scope: ["identify", "email"] }
-));
+router.get("/auth/login", authLoginCheck, (req,res) => {
+    //  If url contains filter 'pay', set query return value to 'subscription-checkout'.
+    req.query.returnTo = req.url.includes("?pay") ? "subscription-checkout" : undefined;
+
+    //  If 'returnTo' contains string, encode to base64 to send it as an option to auth.
+    const { returnTo } = req.query;
+    const STATE = returnTo ? Buffer.from(JSON.stringify({ returnTo })).toString('base64') : undefined;
+
+    //  Authenticate.
+    passport.authenticate(
+        "discord",
+        { scope: ["identify", "email"], state: STATE }
+    )(req,res);
+});
 
 //  Discord redirect route
 router.get("/auth/redirect", passport.authenticate("discord", {
@@ -60,32 +65,50 @@ router.get("/auth/redirect", passport.authenticate("discord", {
     //  else redirect to stripe checkout to pay subscription.
     const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
     if (CUSTOMER.subscriptions.data.length > 0) {
-        res.redirect("/dashboard");
+        return res.redirect("/dashboard");
     } else {
-        res.redirect("/");
-        // Create stripe session to buy membership, and send it as script, to automatically redirect to checkout.
-        /*stripeUtils.createMembershipSession(req.user["stripe_id"]).then(session => {
-            res.send(`
-                <script src="https://js.stripe.com/v3/"></script>
-                <script type="text/javascript">
-                    const stripe = Stripe(${process.env.STRIPE_KEY});
-                    
-                    stripe.redirectToCheckout({
-                        sessionId: ${session.id}
-                    }).then(r => {
-                        if (r.error.message) { console.error(r.error); }
-                    }).catch(e => {
-                        console.error("Error when redirecting to pay membership:", e.message);
-                    });
-                </script>
-            `);
-        }).catch(err => {
-            console.log("Error when creating membership session in '/auth/redirect' route:", err.message);
-        });*/
+        //  Try to get 'returnTo' value from 'req.query.state'. If doesn't exist, fall back to catch code.
+        try {
+            //  Get and decode 'returnTo' var.
+            const { state } = req.query;
+            const { returnTo } = JSON.parse(Buffer.from(state, 'base64').toString());
+
+            //  Validate 'returnTo' var.
+            if (typeof returnTo === 'string' && (returnTo.startsWith('/') || returnTo.match(/^[A-Z0-9]/i))) {
+                //  Ifs to check if 'returnTo' is a url, or equals to a specific keyword.
+                if (returnTo.startsWith('/')) {
+                    return res.redirect(returnTo);
+                } else if (returnTo === "subscription-checkout") {
+                    //  Create session and return javascript code to generate
+                    //  stripe checkout to buy membership automatically.
+                    const SESSION = await stripeUtils.createMembershipSession(req.user["stripe_id"]);
+                    return res.send(`
+                        <script src="https://js.stripe.com/v3/"></script>
+                        <script type="text/javascript">
+                            const stripe = Stripe("${process.env.STRIPE_KEY}");
+                            
+                            stripe.redirectToCheckout({
+                                sessionId: "${SESSION.id}"
+                            }).then(r => {
+                                if (r.error.message) { console.error(r.error); }
+                            }).catch(e => {
+                                console.error("Error when redirecting to pay membership:", e.message);
+                            });
+                        </script>
+                    `);
+                } else {
+                    return res.redirect("/dashboard");
+                }
+            } else {
+                return res.redirect("/dashboard");
+            }
+        } catch (e) {
+            return res.redirect("/");
+        }
     }
 });
 
-router.get("/logout", (req, res) => {
+router.get("/auth/logout", (req, res) => {
     req.logout();
     res.redirect("/");
 });

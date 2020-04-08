@@ -637,8 +637,8 @@ button.button, a.button, input.button {
 @media screen and (max-width: 700px) {
   .section-home {
     .navbar {
-      * + * { margin-left: 20px; }
-      button.button { font-size: 18px; border-width: 3px; }
+      * + * { margin-left: 12px; }
+      a.button { font-size: 18px; border-width: 3px; }
     }
     .grid {
       .text {
@@ -665,6 +665,10 @@ button.button, a.button, input.button {
   }
 }
 @media screen and (max-width: 600px) {
+  .section-home .navbar {
+    * + * { margin-left: 10px; }
+    a.button { font-size: 16px; padding: 8px 18px; }
+  }
   .section-faq {
     h2.title-separator { font-size: 34px; margin-bottom: 32px; }
     .container {
@@ -688,6 +692,7 @@ button.button, a.button, input.button {
     }
 }
 @media screen and (max-width: 500px) {
+  .section-home .navbar a.button { font-size: 15px; padding: 8px 12px; }
   .section-features {
     h2 { font-size: 30px; left: 16%; transform: translateX(0); }
     .container {
@@ -740,8 +745,8 @@ button.button, a.button, input.button {
   .section-home {
     .navbar {
       min-width: 310px;
-      * + * { margin-left: 10px; }
-      button.button { font-size: 16px; border-width: 2px; padding: 6px 16px; }
+      * + * { margin-left: 8px; }
+      a.button { font-size: 14px; border-width: 2px; padding: 6px 10px; }
     }
     .grid {
       .text p { width: 90%; }
@@ -755,10 +760,6 @@ button.button, a.button, input.button {
 }
 @media screen and (max-width: 420px) {
   .section-home .navbar {
-    a.button {
-      font-size: 18px;
-      padding: 6px 16px;
-    }
     * + * { margin-left: 5px; }
   }
 }
@@ -778,11 +779,8 @@ button.button, a.button, input.button {
 }
 @media screen and (max-width: 350px) {
   .section-home .navbar {
-    min-width: 290px;
-    a.button {
-      font-size: 16px;
-      padding: 5px 13px;
-    }
+    left: -8px;
+    min-width: 326px;
     * + * { margin-left: 3px; }
   }
 }

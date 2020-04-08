@@ -711,9 +711,9 @@ button.button:focus, a.button:focus, input.button:focus {
 }
 @media screen and (max-width: 700px) {
   .section-home .navbar * + * {
-    margin-left: 20px;
+    margin-left: 12px;
   }
-  .section-home .navbar button.button {
+  .section-home .navbar a.button {
     font-size: 18px;
     border-width: 3px;
   }
@@ -749,6 +749,14 @@ button.button:focus, a.button:focus, input.button:focus {
   }
 }
 @media screen and (max-width: 600px) {
+  .section-home .navbar * + * {
+    margin-left: 10px;
+  }
+  .section-home .navbar a.button {
+    font-size: 16px;
+    padding: 8px 18px;
+  }
+
   .section-faq h2.title-separator {
     font-size: 34px;
     margin-bottom: 32px;
@@ -783,6 +791,11 @@ button.button:focus, a.button:focus, input.button:focus {
   }
 }
 @media screen and (max-width: 500px) {
+  .section-home .navbar a.button {
+    font-size: 15px;
+    padding: 8px 12px;
+  }
+
   .section-features h2 {
     font-size: 30px;
     left: 16%;
@@ -846,12 +859,12 @@ button.button:focus, a.button:focus, input.button:focus {
     min-width: 310px;
   }
   .section-home .navbar * + * {
-    margin-left: 10px;
+    margin-left: 8px;
   }
-  .section-home .navbar button.button {
-    font-size: 16px;
+  .section-home .navbar a.button {
+    font-size: 14px;
     border-width: 2px;
-    padding: 6px 16px;
+    padding: 6px 10px;
   }
   .section-home .grid .text p {
     width: 90%;
@@ -869,10 +882,6 @@ button.button:focus, a.button:focus, input.button:focus {
   }
 }
 @media screen and (max-width: 420px) {
-  .section-home .navbar a.button {
-    font-size: 18px;
-    padding: 6px 16px;
-  }
   .section-home .navbar * + * {
     margin-left: 5px;
   }
@@ -906,11 +915,8 @@ button.button:focus, a.button:focus, input.button:focus {
 }
 @media screen and (max-width: 350px) {
   .section-home .navbar {
-    min-width: 290px;
-  }
-  .section-home .navbar a.button {
-    font-size: 16px;
-    padding: 5px 13px;
+    left: -8px;
+    min-width: 326px;
   }
   .section-home .navbar * + * {
     margin-left: 3px;
