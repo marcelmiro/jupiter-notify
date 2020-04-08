@@ -377,7 +377,7 @@ html, body {
   .dashboard__welcome {
     .h1-container h1 { font-size: 60px; }
     h2 { font-size: 50px; }
-    img { max-height: 222px; }
+    img { max-height: 222px; max-width: 222px; }
   }
   .dashboard__join button, .dashboard__join a {
     img { height: 32px; }
@@ -419,7 +419,7 @@ html, body {
   .dashboard__welcome {
     .h1-container h1 { font-size: 46px; }
     h2 { font-size: 36px; }
-    img { max-height: 180px; }
+    img { max-height: 180px; max-width: 180px; }
   }
   .dashboard__join button, .dashboard__join a {
     img { height: 30px; }
@@ -447,7 +447,7 @@ html, body {
   .dashboard__welcome {
     .h1-container h1 { font-size: 40px; }
     h2 { font-size: 30px; }
-    img { max-height: 156px; }
+    img { max-height: 156px; max-width: 156px; }
   }
   .dashboard__join button, .dashboard__join a {
     img { height: 26px; }
@@ -483,7 +483,7 @@ html, body {
   .dashboard__welcome {
     .h1-container h1 { font-size: 34px; }
     h2 { font-size: 25px; }
-    img { max-height: 132px; }
+    img { max-height: 132px; max-width: 132px; }
   }
   .dashboard__join button, .dashboard__join a {
     width: 44%;
@@ -514,7 +514,7 @@ html, body {
   .dashboard__welcome {
     .h1-container h1 { font-size: 31px; }
     h2 { font-size: 24px; }
-    img { max-height: 114px; }
+    img { max-height: 114px; max-width: 114px; }
   }
   .dashboard__join button span, .dashboard__join a span { font-size: 18px; }
   .dashboard__membership-details {
@@ -531,8 +531,7 @@ html, body {
   .dashboard__links a { font-size: 18px; }
 }
 @media screen and (max-width: 510px) {
-  //.dashboard { grid-template-rows: 1fr 0.55fr repeat(2, min-content); }
-  .dashboard__welcome img { max-height: 106px; }
+  .dashboard__welcome img { max-height: 106px; max-width: 106px; }
   .dashboard__join button, .dashboard__join a {
     padding: 16px 7px 16px 14px;
     img { height: 18px; }
@@ -554,7 +553,7 @@ html, body {
   .dashboard__welcome {
     .h1-container h1 { font-size: 28px; }
     h2 { font-size: 22px; }
-    img { max-height: 103px; }
+    img { max-height: 103px; max-width: 103px; }
   }
   .dashboard__join button, .dashboard__join a {
     padding: 14px 7px 14px 14px;

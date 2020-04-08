@@ -486,6 +486,7 @@ html, body {
   }
   .dashboard__welcome img {
     max-height: 222px;
+    max-width: 222px;
   }
 
   .dashboard__join button img, .dashboard__join a img {
@@ -561,6 +562,7 @@ html, body {
   }
   .dashboard__welcome img {
     max-height: 180px;
+    max-width: 180px;
   }
 
   .dashboard__join button img, .dashboard__join a img {
@@ -610,6 +612,7 @@ html, body {
   }
   .dashboard__welcome img {
     max-height: 156px;
+    max-width: 156px;
   }
 
   .dashboard__join button img, .dashboard__join a img {
@@ -671,6 +674,7 @@ html, body {
   }
   .dashboard__welcome img {
     max-height: 132px;
+    max-width: 132px;
   }
 
   .dashboard__join button, .dashboard__join a {
@@ -736,6 +740,7 @@ html, body {
   }
   .dashboard__welcome img {
     max-height: 114px;
+    max-width: 114px;
   }
 
   .dashboard__join button span, .dashboard__join a span {
@@ -768,6 +773,7 @@ html, body {
 @media screen and (max-width: 510px) {
   .dashboard__welcome img {
     max-height: 106px;
+    max-width: 106px;
   }
 
   .dashboard__join button, .dashboard__join a {
@@ -802,6 +808,7 @@ html, body {
   }
   .dashboard__welcome img {
     max-height: 103px;
+    max-width: 103px;
   }
 
   .dashboard__join button, .dashboard__join a {

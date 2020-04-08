@@ -14,6 +14,9 @@ window.addEventListener("load", () => {
 window.addEventListener("resize", () => {
     lengthManager();
 });
+window.addEventListener("deviceorientation", () => {
+    lengthManager();
+});
 
 //  STRIPE CHECKOUT
 document.getElementById("update-payment").addEventListener("click", async () => {
