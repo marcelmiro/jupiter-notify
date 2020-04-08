@@ -422,6 +422,26 @@ html, body {
   transform: translate(-50%, 50%);
 }
 
+@media screen and (min-width: 1301px) and (max-height: 800px) {
+  .dashboard {
+    height: 600px;
+    grid-row-gap: 50px;
+  }
+
+  .dashboard__links {
+    height: calc((100% - 600px) / 2);
+  }
+}
+@media screen and (min-width: 1301px) and (max-height: 700px) {
+  .dashboard {
+    height: 550px;
+    grid-row-gap: 30px;
+  }
+
+  .dashboard__links {
+    height: calc((100% - 550px) / 2);
+  }
+}
 @media screen and (max-width: 1500px) {
   .dashboard__welcome .h1-container h1 {
     font-size: 50px;
