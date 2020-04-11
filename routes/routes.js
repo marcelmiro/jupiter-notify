@@ -63,6 +63,12 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
         if (!HAS_MEMBERSHIP && (!role || role.name === "renewal")) {
             return res.redirect("/");
         }
+        if (!HAS_MEMBERSHIP && (!role || role.name === "renewal")) {
+            return res.redirect("/");
+        } else if (HAS_MEMBERSHIP && !role) {
+            const ROLE_ID = (await dbUtils.getData("roles", "name", "renewal"))["role_id"];
+            await dbUtils.insertData("user_roles", [req.user["user_id"], ROLE_ID]);
+        }
 
         //  Set role, membership and payment details object.
         role = {name: role.name, admin_panel: role["perms"]["admin_panel"]};
