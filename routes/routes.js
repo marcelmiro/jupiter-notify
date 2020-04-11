@@ -58,14 +58,14 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
 
         //  Get user's role and modify object to get only necessary data.
         let role = await dbUtils.getRole(req.user["user_id"]);
-        role = {name: role.name, admin_panel: role["perms"]["admin_panel"]};
 
-        //  If user doesn't have membership, return to home page, else continue with code.
+        //  Return to home page if user doesn't have a membership, or doesn't have a role or is a 'renewal' member.
         if (!HAS_MEMBERSHIP && (!role || role.name === "renewal")) {
             return res.redirect("/");
         }
 
-        //  Set membership and payment details object.
+        //  Set role, membership and payment details object.
+        role = {name: role.name, admin_panel: role["perms"]["admin_panel"]};
         let membershipDetails = {
             isCancelled: false,
             interval: "null",
