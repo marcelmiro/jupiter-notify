@@ -60,6 +60,8 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
         let role = await dbUtils.getRole(req.user["user_id"]);
 
         //  Return to home page if user doesn't have a membership, or doesn't have a role or is a 'renewal' member.
+        console.log("HAS_MEMBERSHIP:", HAS_MEMBERSHIP);
+        console.log("role:", role);
         if (!HAS_MEMBERSHIP && (!role || role.name === "renewal")) {
             return res.redirect("/");
         }
