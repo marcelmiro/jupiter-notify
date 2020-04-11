@@ -265,6 +265,7 @@ html, body {
         font-weight: normal;
         text-align: left;
         padding-left: 8px;
+        text-transform: capitalize;
       }
       p {
         margin: 10px 0 0;
@@ -273,6 +274,7 @@ html, body {
         background-color: rgba(black, 0.2);
         border-radius: 13px;
         padding: 7px 24px;
+        text-transform: capitalize;
       }
       button, a {
         font-size: 23px;
@@ -317,6 +319,7 @@ html, body {
   align-items: center;
   
   a { font-size: 21px; }
+  a.button { position: absolute; left: 50%; transform: translateX(-50%); border-radius: 1000vmax; }
 }
 
 .bg {
@@ -385,6 +388,7 @@ html, body {
     grid-template-rows: 1fr 0.6fr repeat(2, 2fr);
     grid-column-gap: 0;
     grid-row-gap: 40px;
+    &.lifetime { grid-template-rows: 1fr 0.6fr 2fr; }
   }
   .dashboard__welcome {
     .h1-container h1 { font-size: 60px; }
@@ -408,7 +412,7 @@ html, body {
     h2 { font-size: 44px; }
     svg { max-height: 300px; }
   }
-  .dashboard__links { width: calc(86% - 40px); max-width: 860px; height: 100px; }
+  .dashboard__links { width: calc(86% - 40px); max-width: 860px; height: 100px; a:after { content: none; } }
   .bg img { min-width: 1200px; }
 }
 @media screen and (max-width: 1000px) {
@@ -425,7 +429,8 @@ html, body {
 }
 @media screen and (max-width: 800px) {
   .dashboard {
-    grid-template-rows: 1fr 0.7fr repeat(2, min-content); margin: 70px auto 35px;
+    grid-template-rows: 1fr 0.7fr repeat(2, min-content); margin: 90px auto 45px;
+    &.lifetime { grid-template-rows: 1fr 0.7fr min-content; }
     > div { border-radius: 36px; }
   }
   .dashboard__welcome {
@@ -449,11 +454,12 @@ html, body {
     height: 480px;
     h2 { font-size: 40px; }
   }
-  .dashboard__links { height: 70px; }
+  .dashboard__links { height: 90px; }
 }
 @media screen and (max-width: 700px) {
   .dashboard {
     grid-template-rows: 0.9fr 0.6fr repeat(2, min-content);
+    &.lifetime { grid-template-rows: 0.9fr 0.6fr min-content; }
     > div { border-radius: 30px; }
   }
   .dashboard__welcome {
@@ -490,6 +496,7 @@ html, body {
   .dashboard {
     grid-template-rows: 0.94fr 0.6fr repeat(2, min-content);
     grid-row-gap: 34px;
+    &.lifetime { grid-template-rows: 0.94fr 0.6fr min-content; }
     > div { border-radius: 26px; }
   }
   .dashboard__welcome {
@@ -522,7 +529,11 @@ html, body {
   .dashboard__links a { font-size: 19px; }
 }
 @media screen and (max-width: 550px) {
-  .dashboard { grid-template-rows: 1fr 0.6fr repeat(2, min-content); grid-row-gap: 28px; }
+  .dashboard {
+    grid-template-rows: 1fr 0.6fr repeat(2, min-content);
+    grid-row-gap: 28px;
+    &.lifetime { grid-template-rows: 1fr 0.6fr min-content; }
+  }
   .dashboard__welcome {
     .h1-container h1 { font-size: 31px; }
     h2 { font-size: 24px; }
@@ -583,7 +594,7 @@ html, body {
 }
 @media screen and (max-width: 440px) {
   .dashboard {
-    margin: 60px auto 30px;
+    margin: 70px auto 35px;
     > div { border-radius: 22px; }
   }
   .dashboard__welcome {
@@ -612,8 +623,9 @@ html, body {
     button { font-size: 18px; padding: 12px 0; }
   }
   .dashboard__links {
-    height: 60px; min-width: 210px;
+    height: 70px; min-width: 210px;
     a { font-size: 16px; }
+    a.button { padding: 11px 20px; }
   }
 }
 @media screen and (max-width: 410px) {
@@ -623,7 +635,10 @@ html, body {
   }
 }
 @media screen and (max-width: 400px) {
-  .dashboard { grid-template-rows: 0.9fr 0.6fr repeat(2, min-content); }
+  .dashboard {
+    grid-template-rows: 0.9fr 0.6fr repeat(2, min-content);
+    &.lifetime { grid-template-rows: 0.9fr 0.6fr min-content; }
+  }
   .dashboard__membership-details {
     height: 300px;
     h2 { font-size: 22px; }
@@ -640,7 +655,11 @@ html, body {
   }
 }
 @media screen and (max-width: 390px) {
-  .dashboard { grid-template-rows: 0.72fr 0.55fr repeat(2, min-content); min-width: 250px; }
+  .dashboard {
+    grid-template-rows: 0.72fr 0.55fr repeat(2, min-content);
+    min-width: 250px;
+    &.lifetime { grid-template-rows: 0.72fr 0.55fr min-content; }
+  }
   .dashboard__welcome {
     .h1-container h1 { font-size: 22px; }
     h2 { font-size: 16px; }
@@ -662,6 +681,29 @@ html, body {
     }
   }
   .dashboard__payment-details { height: 280px; padding: 18px 16px !important; }
+  .dashboard__links.button-container {
+    width: 90%;
+    a { font-size: 15px; }
+    a.button { padding: 10px 18px; }
+  }
+}
+@media screen and (max-width: 275px) {
+  .dashboard__links {
+    &.button-container {
+      width: 94%;
+      min-width: 250px;
+      a.button { position: relative; left: 0; transform: translateX(0); padding: 10px 14px; }
+    }
+  }
+}
+@media screen and (max-width: 250px) {
+  .dashboard__links.button-container {
+    left: 0;
+    transform: translateX(0);
+  }
+}
+@media screen and (max-width: 210px) {
+  .dashboard__links { left: 0; transform: translateX(0); }
 }
 //  FIXME Change .dashboard margin vh measurement.
 //  FIXME Body overflow when enlarging from <1300px to >1300px.

@@ -19,16 +19,45 @@
     <meta name="msapplication-TileColor" content="#352746">
     <meta name="msapplication-config" content="assets/favicons/browserconfig.xml">
     <meta name="theme-color" content="#ffaa30">
+
+    <% if (!session) { %>
+    <style>
+        @media screen and (min-width: 1301px) {
+            html, body { height: auto; }
+            body { background: none; position: relative; }
+            .dashboard {
+                margin: 100px auto 50px; width: 86%; max-width: 900px; height: auto; top: 0; transform: translate(0,0);
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 0.6fr 2fr;
+                grid-column-gap: 0;
+                grid-row-gap: 40px;
+            }
+            .dashboard__welcome .h1-container h1 { font-size: 60px; }
+            .dashboard__welcome h2 { font-size: 50px; }
+            .dashboard__welcome img { max-height: 222px; max-width: 222px; }
+
+            .dashboard__join button img, .dashboard__join a img { height: 32px; }
+            .dashboard__join button span, .dashboard__join a span { font-size: 25px; }
+
+            .dashboard__membership-details { height: 500px; }
+            .dashboard__membership-details h2 { font-size: 44px; }
+            .dashboard__membership-details .container h3 { font-size: 26px; }
+            .dashboard__membership-details .container p { font-size: 25px; }
+
+            .dashboard__links { width: calc(86% - 40px); max-width: 860px; height: 100px; }
+        }
+    </style>
+    <% } %>
 </head>
 <body>
 
-<main class="dashboard">
+<main class="dashboard <% if (!session) { %>lifetime<% } %>">
     <div class="dashboard__welcome">
         <img src="
-            <% if (data["avatar_url"].includes("null")) { %>
+            <% if (user.avatar_url.includes("null")) { %>
                 https://cdn.discordapp.com/embed/avatars/1.png?size=2048
             <% } else { %>
-                <%= data["avatar_url"] %>
+                <%= user.avatar_url %>
             <% } %>
              " alt="Avatar icon" />
         <div>
@@ -41,11 +70,11 @@
     </div>
     <div class="dashboard__join">
         <a class="button <% if (userInServer) { %> disabled <% } %>" href="/discord/join" target="_blank">
-            <img src="assets/icon_discord_2.svg" alt="Discord icon" />
+            <img src="assets/icon_discord.svg" alt="Discord icon" />
             <span>Join Discord</span>
         </a>
         <a class="button" href="https://twitter.com/jupiternotify" target="_blank">
-            <img src="assets/icon_twitter_2.svg" alt="Twitter icon" />
+            <img src="assets/icon_twitter.svg" alt="Twitter icon" />
             <span>Follow Us</span>
         </a>
     </div>
@@ -76,7 +105,8 @@
             <button id="transfer-membership" class="button">Transfer</button>
         </div>
     </div>
-    <div class="dashboard__payment-details">
+    <% if (session) { %>
+        <div class="dashboard__payment-details">
         <h2>Payment Details</h2>
 
         <!-- TODO Add jupiter planet svg -->
@@ -88,6 +118,11 @@
                 <g clip-path="url(#_clip1)">
                     <g transform="matrix(0.867235,-0,-0,0.814432,24.0731,12.6139)">
                         <use xlink:href="#_Image2" x="0" y="0" width="324px" height="204px"/>
+                    </g>
+                </g>
+                <g id="JUPITER" transform="matrix(0.0190706,0,0,0.0179094,274.704,39.5716)">
+                    <g transform="matrix(1,0,0,1,-909.5,-909.5)">
+                        <use id="Calque_1" xlink:href="#_Image3" x="0" y="0" width="1819px" height="1819px"/>
                     </g>
                 </g>
             </g>
@@ -151,16 +186,20 @@
             </g>
             <defs>
                 <image id="_Image2" width="324px" height="204px" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADMAUQDAREAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAEFAgf/xAAbEAEBAAMBAQEAAAAAAAAAAAAAATFBYVEhEf/EABkBAQEBAQEBAAAAAAAAAAAAAAIBAAcDBv/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8A85dAfYixCKlVRCg0UaFEdFBoo0hCFBVRCiVYQUxSg1VghQVIaQoFUoNWFEoQVYQUhwapDQoNWEFCgrCgUKBVODVhQKpQaHApCgWKYVSg1YcChQLFODRQZbmEdaFShIrQaENCGiisJKpCKNXqwaQhoUShDV0UCrFEKDVhQaFBqkFCiKUChQapShSHEVYFDgWKQhQasIKsOBQoNUoFUoNDgVTgWBQVKBVOBSFAq4PRZTl8dZqkIsQipVUQoNFGhRHRQaKNIsGhQVJAhqwhpilAqrBCiKQUhQapQKQolUgqwhocCqqUKBVOBQoKlAsCg1TgVYUGqUAOBSFBqnAqlApDg1SjzqlosqOYOs1SgipRUVYNCGhQaKKwkqlBoo1dLBpCGhRAoNXMWBVhDQolWFBp0oFUhoUFSg0KBVKDSHBqrAoco1SAKDVhBVhQKHBqwoFUoNgcCqUCwOCpQKpwLAhZd9cwjrAUGqSCwSKlVYIUGijRYjqHBoo0iwapQQkCGqo0xSgVSghRFIKQoNUoNIUGqQVYQ0KCpDQoFU4FFgqcGhQKpwKQoNdFACgUhwapwKpQaQoFUgsZfHMXVyZJKpQRUoqLFg0IaFBoorFaqcCjDV0QkIaFECg1dLBpCCqUSrCg0KBVKDQoKlBoUCqUGkKDVKBYTwoNWEFDg1YQVYUChQasOBVKDYFAqnAsDFSgVSFluZOrUqxCFBqlEFgkVKqwQoNFGixFhRKpARYNUoISBDVUabKBVKCFEUhpPCgVSGkKDVIasIKFBUhoUCqcCwWCpwbAoFUoFIcGuigBQaQ4FUoFWHBp9IMZbmbqysJiklUhFSiosUaEIUGjCsJlKDRRq6ICENCiCwas8KDSEFUolIUGqUCqUGhQVhQaFAqlBpCGqQ2EKBVhBQ4NWEFIUGqUCrDg1SgUKBVhwbAgXJaOMtzSOqVVQuFiEKDVWIKJCSqsEijQhosRYUSqQiwKpRKEIo1SE6UCqQhRFIaFAqkNIUGqQ1YQUKCpQQoFXpwbBYAcGqUCqUGhQK6OAFBpMlAqnAoWizHNI6oEisNMUkVRoSCosUaEIsGiisKMpQaKNIQrCGiwQoNWeFBpCgVSiUhQapQKFBqlBWFBsCg1dLApDGqQ0hQKsIKFKlWGFClCxSgVYUGqcChQasOBYEDMc1dUosGqqGYqEWDVKIKJCSqsGkVKEFFiLCSqQiwapQaEIsShAt9IapCFBUoNNlAqkNIUFSg0hBVKCpQQoNXpQLAoAcGxSCqUGhQK6OCFApsoFU9FmOaupiiEisNMVWUgoSCxFijSkgsGihQozooNFGk8IVIRRCg1YUGkKBVWIQ4NUhsCgVVgrDg0KDVWBSGNUhpCgVYQUKVKsOBQoFUoNWFAqnBoUCkpDjNc3dRFSiwaRUXMVCLEqlBFShDVWDRUoQ0UVhJVIRYNXpQaRRoUShAt9IapCFBWFBptYFUhpDiKUCihVOCpQQoNUoFgUAKJVJ51Tg0KBXRQQ4FCFmubuoCsKISKyUuViKQUJBYixUpSEWDRRoUR0UGijSEIQqohQasKDSZKDVWCFBUhpCgVSg1YcShQKqhSGNUhpCg1Z4TzoURTgWCwKpwasKBVODT9LQZkc3dPqkwqUWJSKKshCSqUEVKEitBoQ0IaKKwkqkIsGr0oNIo0KJQgq6KDViiFBqwoNNlBqkFCiKcCiwapQKsOCLBocCqQhQapBVhwKFBUoFUhxmOcunKqCsKISL1kpViKUGhCLEIqVaohQaKNCiOig0UaRYNU4IohRKsIKYpQaqwQoikFIUCqUGrCiUIKs8IKGNUhoUGqQWBQVKBYFAqnBqwoFUhZbnTpyxkqrECQWIRRXjIQkqlBFShIrQaENCGiisJKpCKNXSwaQhoUShQauYsCrCEKDVhRKdKBVIaFBUoNCgVSlCkOJVWBQ4FUhCg1SCrCgUODVhBjNrncdORkrpRFYVKFBqslKsQKDVJBYJFSqsEKDRRoUR0UGijSLBqlBCQKDVhDTFWBYpQQoikFIUGqUGkKDVIKsIaHBVRoUCqcCwKCpQLAoNU4FF0We546Y5VFjJVWIEgsQiivGQhJVIRUoqKsGhDQoNFFYqVTg0Yauig0hDQogUGrpYFWENCiVYUGnSgVSGhQVKDQoFUoNIcGqsCkODVhBQoNUgqwoFCHGdHPXTKVYiMldRRFYVKFBqslKsQKDVJBYJFSqsEKDRRosR1Cg0ISLBqlBCQKDVUaYpQKpQQoikFIUGqUGkKDVIasIKFBUhoUCqcCwWCpwbAoFUhZznzpSsiKxGGqsQJBogQqyGKSVSEVKKixYNNkNCg0UVixlOBRhpooNWENCiBQaulg0hBVKJSFBqlAqlBoUFSg0KBVKDSENUhpCgVYQUODVhBTBCznPo6SsVqVYiMldRRFYVKLBqqhViEKDYqxAoJFSqsEWDQhosRYUSqQiwKpQaEgsGqQ06UCqUEKIpDSFAqkNIUGqQ1YQUKCpCFAqnAosEODYvxQZzn7pCkysiKxGGqsQJhoISKwmKSKQ0VKKixRoQhQaMKwoylBoo00QLCSiwQoNWFBpCCqUSkKDVKBQoNUoKwoNCg1SgUhDVIaQoFWEFCg1THGc5+6MLGWK1KsRGSuow0JhUosGrFQv2LEIUGxViCiQkqrBoqUIKLEWFEqkIsCqUShCLBqkNL6UGqQBRFIaQoFUhpCgqQ0hBVKCpQQoFXpQaFACTGe+BdEGYJnTIisRhVYgrCiEisNMVWUgoSCosUaEgsCiiFGdFBoo0nhCsIaLBCg1YUGkKBVKJSFBqkNCgVVgrDg2BQaqwKQxqkNIUCrCChRGe+CdDGYWMsVqVYiMldRhoTCpRYNWYVC4WIQoNVYgsEhJVWDSKlCCixFhJVIRYFW5KJSEIo0IatKDVKAFEUoNNlAqkNJkoNUhqwgoUFSghQKvhQaKD//2Q=="/>
+                <image id="_Image3" width="1819px" height="1819px" style="opacity: 0.8;" xlink:href="assets/jupiter_planet.svg"/>
             </defs>
 		</svg>
 
         <button id="update-payment" class="button">Update Payment Method</button>
     </div>
+    <% } %>
 </main>
 
-<!-- TODO Make real log out button -->
-<div class="dashboard__links">
+<div class="dashboard__links <% if (user.role["admin_panel"]) { %>button-container<% } %>">
     <a class="underline" href="/">Home</a>
+    <% if (user.role["admin_panel"]) { %>
+        <a class="button">Admin Panel</a>
+    <% } %>
     <a class="underline" href="/auth/logout">Log Out</a>
 </div>
 
@@ -187,8 +226,15 @@
 
 <!--    MAIN JS    -->
 <script type="text/javascript">
-    const STRIPE_KEY = "<%= stripeKey %>";
-    const STRIPE_SESSION = JSON.parse('<%-JSON.stringify(session)%>');
+    let hasPayment = false;
+    let stripeKey = undefined, stripeSession = undefined;
+    if ('<%- session %>') {
+        stripeKey = "<%= stripeKey %>";
+        stripeSession = JSON.parse('<%-JSON.stringify(session)%>');
+        if (typeof stripeSession === "object") {
+            hasPayment = true;
+        }
+    }
 </script>
 <script src="dashboard.js"></script>
 </body>

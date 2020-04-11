@@ -121,6 +121,7 @@ html, body {
   .container {
     padding: 10px 30px;
     height: auto;
+    min-height: 250px;
     min-width: 300px;
   }
   .container h1 {
@@ -134,6 +135,11 @@ html, body {
   .container a.button {
     font-size: 16px;
     padding: 12px 24px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .container {
+    min-height: 300px;
   }
 }
 

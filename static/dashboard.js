@@ -1,34 +1,38 @@
-const stripe = Stripe(STRIPE_KEY);
-const DISCORD_USERNAME_CONTAINER = document.querySelector(".dashboard__welcome .h1-container");
-const DISCORD_USERNAME = document.getElementById("discord-username");
-const USERNAME = DISCORD_USERNAME.textContent;
-const CC_NAME_CONTAINER = document.getElementById("cardholder-container");
-const CC_NAME = document.getElementById("cardholder-name");
-const NAME = CC_NAME.textContent;
+const stripe = hasPayment ? Stripe(stripeKey) : undefined;
+
+
+const LENGTH_DISCORD_USERNAME = {
+    container: document.querySelector(".dashboard__welcome .h1-container"),
+    element: document.getElementById("discord-username"),
+    text: document.getElementById("discord-username").textContent
+};
+const LENGTH_CC_NAME = hasPayment ?
+    {
+        container: document.getElementById("cardholder-container"),
+        element: document.getElementById("cardholder-name"),
+        text: document.getElementById("cardholder-name").textContent
+    } : undefined;
 
 
 //  EVENT HANDLERS
 window.addEventListener("load", () => {
+    layoutHeight();
     lengthManager();
 });
 window.addEventListener("resize", () => {
-    lengthManager();
-});
-window.addEventListener("deviceorientation", () => {
+    layoutHeight();
     lengthManager();
 });
 
 //  STRIPE CHECKOUT
-document.getElementById("update-payment").addEventListener("click", async () => {
-    if (!STRIPE_SESSION) {
-        console.error("Try refreshing the website. If it's not working, contact a member of staff.");
-        return false;
-    }
-    const {error} = await stripe.redirectToCheckout({
-        sessionId: STRIPE_SESSION.id
+if (hasPayment) {
+    document.getElementById("update-payment").addEventListener("click", async () => {
+        const {error} = await stripe.redirectToCheckout({
+            sessionId: stripeSession.id
+        });
+        if (error.message) { console.error(error); }
     });
-    if (error.message) { console.error(error); }
-});
+}
 
 
 //  CONFIRM POPUP EVENT HANDLERS
@@ -49,26 +53,50 @@ document.querySelectorAll(".confirm-popup .overlay," +
 //  Function to check if length of text is almost greater than its container. If so, loop to
 //  reduce last character and check length again until text fits inside container.
 function lengthManager() {
-    if (DISCORD_USERNAME.offsetWidth + 10 >= DISCORD_USERNAME_CONTAINER.offsetWidth) {
-        DISCORD_USERNAME.textContent = USERNAME + "...";
-        function usernameLoop() {
-            if (DISCORD_USERNAME.offsetWidth + 10 >= DISCORD_USERNAME_CONTAINER.offsetWidth) {
-                let text = DISCORD_USERNAME.textContent;
-                DISCORD_USERNAME.textContent = text.slice(0,-4) + text.slice(-3);
-                usernameLoop();
+    LENGTH_DISCORD_USERNAME.element.textContent = LENGTH_DISCORD_USERNAME.text;
+    let firstLoop = true;
+    function usernameLoop() {
+        if (LENGTH_DISCORD_USERNAME.element.offsetWidth + 10 >= LENGTH_DISCORD_USERNAME.container.offsetWidth) {
+            if (firstLoop) {
+                firstLoop = false;
+                LENGTH_DISCORD_USERNAME.element.textContent = LENGTH_DISCORD_USERNAME.text + "...";
             }
+            let text = LENGTH_DISCORD_USERNAME.element.textContent;
+            LENGTH_DISCORD_USERNAME.element.textContent = text.slice(0,-4) + text.slice(-3);
+            usernameLoop();
         }
-        usernameLoop();
     }
-    if (CC_NAME.getBoundingClientRect().width + 10 >= CC_NAME_CONTAINER.getBoundingClientRect().width) {
-        CC_NAME.textContent = NAME + "...";
+    usernameLoop();
+
+    if (hasPayment) {
+        LENGTH_CC_NAME.element.textContent = LENGTH_CC_NAME.text;
+        firstLoop = true;
         function cardNameLoop() {
-            if (CC_NAME.getBoundingClientRect().width + 10 >= CC_NAME_CONTAINER.getBoundingClientRect().width) {
-                let text = CC_NAME.textContent;
-                CC_NAME.textContent = text.slice(0,-4) + text.slice(-3);
+            if (LENGTH_CC_NAME.element.getBoundingClientRect().width + 10 >= LENGTH_CC_NAME.container.getBoundingClientRect().width) {
+                if (firstLoop) {
+                    firstLoop = false;
+                    LENGTH_CC_NAME.element.textContent = LENGTH_CC_NAME.text + "...";
+                }
+                let text = LENGTH_CC_NAME.element.textContent;
+                LENGTH_CC_NAME.element.textContent = text.slice(0,-4) + text.slice(-3);
                 cardNameLoop();
             }
         }
         cardNameLoop();
+    }
+}
+
+//  Function to spread layout through 100% of viewport height, if body height < window height.
+function layoutHeight() {
+    if (document.body.offsetHeight <= window.innerHeight) {
+        document.body.style.height = window.innerHeight + "px";
+        if (!document.querySelector(".dashboard").getAttribute("style")) {
+            document.querySelector(".dashboard").style.cssText =
+                "margin: 0 auto; top: calc(50% + 20px); transform: translateY(-50%);";
+        }
+    }
+    if (document.querySelector(".dashboard").offsetHeight + 100 > window.innerHeight) {
+        document.body.removeAttribute("style");
+        document.querySelector(".dashboard").removeAttribute("style");
     }
 }

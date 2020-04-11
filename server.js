@@ -4,8 +4,8 @@ const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
-const routes = require("./routes");
-const passportSetup = require("./passport-setup");
+const routes = require("./routes/routes");
+const passportSetup = require("./setup/passport-setup");
 const dbUtils = require("./utils/db-utils");
 
 
@@ -40,16 +40,16 @@ if (process.env.URL.includes("localhost")) {
         cert: fs.readFileSync("./ssl/localhost-cert.pem")
     };
 
-    https.createServer(httpsOptions, app).listen(port, _ => {
+    https.createServer(httpsOptions, app).listen(port,() => {
         console.log("Server connected at:", port);
     });
 } else {
-    app.listen(port, _ => {
+    app.listen(port, () => {
         console.log("Server connect at:", port);
     });
 }
 
-dbUtils.openDb().then(_ => {
-    //dbUtils.getAllData().then(console.log);
+dbUtils.openDb().then(() => {
+    //dbUtils.getAllData("roles").then(console.log);
 });
 // TODO Close database on exit

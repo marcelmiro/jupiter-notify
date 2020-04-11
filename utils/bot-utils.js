@@ -1,7 +1,7 @@
 require("dotenv").config();
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const nodemailerSetup = require("../nodemailer-setup");
+const nodemailerSetup = require("../setup/nodemailer-setup");
 
 
 //  Create guild var to set is when Discord bot is ready.
@@ -20,7 +20,11 @@ let getUser = async userId => {
 let inviteUser = async userId => {
     try {
         //  Checks if user is not in guild, else can't invite as already in server.
-        if (!(await getUser(userId))) {
+        const USER = await getUser(userId);
+        if (USER) {
+            console.log(`User '${USER.username}#${USER.discriminator}' already in server.`);
+            return false;
+        } else {
             //  Get server's default channel (#general) id, and invites user to channel.
             //  Invite is 1 time use and unique. Returns discord invite url.
             const CHANNEL_ID = guild.channels.cache.first().guild.systemChannelID;
@@ -30,9 +34,6 @@ let inviteUser = async userId => {
             });
             console.log(`Created invite for user '${userId}': ${INVITE.code}`);
             return "https://discord.gg/" + INVITE;
-        } else {
-            console.log(`User '${userId}' already in server.`);
-            return false;
         }
     } catch (e) {
         console.log("Error in inviteUser():", e.message);
@@ -67,6 +68,8 @@ let kickUser = async (userId, email) => {
 
             return USER;
         } else {
+            //  TODO Send email in 'routes.js' and not here. 'kickUser()'
+            //   should return true or false if it was possible to kick user from Discord server.
             const TEXT = [
                 `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Jupiter Notify</title><style>html, body{margin: 0; padding: 0; width: 100%; background-color: #352746; font-family: Roboto, sans-serif; color: white;}.banner{display: flex; flex-flow: row nowrap; justify-content: space-around; align-items: center;}h1{font-size: 54px;}h1 span{font-weight: 200; margin-left: 6px;}img{width: 25%; max-width: 220px;}.text-container{width: 90%; margin: 0 auto;}h3{font-size: 21px;}p{font-size: 16px;}@media screen and (max-width: 600px){h1{font-size: 42px;}.text-container{width: 94%;}h3{font-size: 18px;}p{font-size: 15px;}}@media screen and (max-width: 500px){h3{margin: 26px 0;}}@media screen and (max-width: 400px){h1{font-size: 38px;}}</style></head><body><div style="width: 100%; max-width: 900px; margin: 0 auto;"><div class="banner"><h1>Jupiter<span>Notify</span></h1><img src="https://cdn.discordapp.com/avatars/686627755336663070/74da80a4836531d898b122214ebbf065.png?size=2048" alt="Jupiter Logo"/></div><div class="text-container"><h3>You have been kicked from Jupiter Notify.</h3><p>Either you cancelled your Jupiter Notify membership, or payment was declined.If you need help, please contact a member of staff or dm 'UNKWN#6666'.</p></div></div></body></html>`,
                 `Jupiter Notify\n\nYou have been kicked from Jupiter Notify.\nEither you cancelled your Jupiter Notify membership, or payment was declined. If you need help, please contact a member of staff or dm 'UNKWN#6666'.`

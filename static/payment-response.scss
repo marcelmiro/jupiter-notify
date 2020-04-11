@@ -87,9 +87,13 @@ html, body {
   .container {
     padding: 10px 30px;
     height: auto;
+    min-height: 250px;
     min-width: 300px;
     h1 { font-size: 24px; margin-bottom: 20px; }
     p { font-size: 15px; margin-bottom: 20px; }
     a.button { font-size: 16px; padding: 12px 24px; }
   }
+}
+@media screen and (max-width: 400px) {
+  .container { min-height: 300px; }
 }
