@@ -60,16 +60,17 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
         let role = await dbUtils.getRole(req.user["user_id"]);
 
         //  Return to home page if user doesn't have a membership, or doesn't have a role or is a 'renewal' member.
-        console.log("HAS_MEMBERSHIP:", HAS_MEMBERSHIP);
-        console.log("role:", role);
-        if (!HAS_MEMBERSHIP && (!role || role.name === "renewal")) {
-            return res.redirect("/");
+        if (!role) {
+            if (HAS_MEMBERSHIP) {
+                const ROLE_ID = (await dbUtils.getData("roles", "name", "renewal"))["role_id"];
+                await dbUtils.insertData("user_roles", [req.user["user_id"], ROLE_ID]);
+            } else {
+                return res.redirect("/");
+            }
         }
-        if (!HAS_MEMBERSHIP && (!role || role.name === "renewal")) {
+        if (!HAS_MEMBERSHIP && role.name === "renewal") {
+            await dbUtils.deleteData("user_roles", "user_id", req.user["user_id"]);
             return res.redirect("/");
-        } else if (HAS_MEMBERSHIP && !role) {
-            const ROLE_ID = (await dbUtils.getData("roles", "name", "renewal"))["role_id"];
-            await dbUtils.insertData("user_roles", [req.user["user_id"], ROLE_ID]);
         }
 
         //  Set role, membership and payment details object.
