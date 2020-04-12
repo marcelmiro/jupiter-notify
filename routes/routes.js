@@ -31,12 +31,22 @@ router.get("/", async (req, res) => {
         const SESSION = IS_USER && !HAS_MEMBERSHIP ?
             await stripeUtils.createMembershipSession(req.user["stripe_id"]) : undefined;
 
+        //  Check if user has permission to enter admin panel.
+        let isAdmin = false;
+        if (IS_USER) {
+            const ROLE = await dbUtils.getRole(req.user["user_id"]);
+            if ("admin_panel" in ROLE["perms"] && ROLE["perms"]["admin_panel"]) {
+                isAdmin = true;
+            }
+        }
+
         //  Render index page with necessary data.
         res.render("index",
             {
                 inStock: IN_STOCK,
                 isUser: IS_USER,
                 hasMembership: HAS_MEMBERSHIP,
+                isAdmin: isAdmin,
                 stripeKey: process.env.STRIPE_KEY,
                 session: SESSION,
             });
@@ -47,7 +57,6 @@ router.get("/", async (req, res) => {
 
 router.get("/dashboard", authDashboardCheck, async (req, res) => {
     try {
-        // TODO Check if user is a stripe customer (Special case)
         // FIXME user.stripe_id contains deleted customer and not new customer id,
         //  therefore error "Cannot read property 'data' of undefined.
         //  I think it's because stripe_id was updated in either localhost or heroku db but not in the other db.
@@ -59,7 +68,7 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
         //  Get user's role and modify object to get only necessary data.
         let role = await dbUtils.getRole(req.user["user_id"]);
 
-        //  Return to home page if user doesn't have a membership, or doesn't have a role or is a 'renewal' member.
+        //
         if (!role) {
             if (HAS_MEMBERSHIP) {
                 const ROLE_ID = (await dbUtils.getData("roles", "name", "renewal"))["role_id"];
@@ -73,8 +82,11 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
             return res.redirect("/");
         }
 
-        //  Set role, membership and payment details object.
-        role = {name: role.name, admin_panel: role["perms"]["admin_panel"]};
+        //  Set role and membership and payment details object.
+        role = {
+            name: role.name,
+            admin_panel: Boolean("admin_panel" in role["perms"] && role["perms"]["admin_panel"])
+        };
         let membershipDetails = {
             isCancelled: false,
             interval: "null",

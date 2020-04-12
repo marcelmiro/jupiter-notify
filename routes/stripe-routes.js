@@ -191,14 +191,20 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
             //  Event is triggered when a subscription is cancelled immediately,
             //  or when a cancelled subscription has reached its period end.
 
-            //  Remove user's role and debugging.
+            //  Debugging.
             console.log(`User '${USER.username}' has cancelled its membership.`);
-            await dbUtils.deleteData("user_roles", "user_id", USER["user_id"]);
-            console.log(`User '${USER.username}' doesn't have a role anymore.`);
 
-            //  Kick user from discord server. May log error "User was not found in Discord server.",
-            //  due to not finding user in Discord server. If user not found, sends email notifying the kick.
-            await botUtils.kickUser(USER["user_id"], USER["email"]);
+            //  Check if user is non-staff member to remove role and kick from server.
+            const USER_ROLE = await dbUtils.getRole(USER["user_id"]);
+            if (["renewal", "lifetime"].includes(USER_ROLE["name"])) {
+                //  Remove from 'user_roles' table and debug.
+                await dbUtils.deleteData("user_roles", "user_id", USER["user_id"]);
+                console.log(`User '${USER.username}' doesn't have a role anymore.`);
+
+                //  Kick user from discord server. May log error "User was not found in Discord server.",
+                //  due to not finding user in Discord server. If user not found, sends email notifying the kick.
+                await botUtils.kickUser(USER["user_id"], USER["email"]);
+            }
         }
         await res.json({received: true});
     } catch (e) {

@@ -167,6 +167,17 @@ if (SESSION) {
         if (error.message) { console.log(error); }
     });
 }
+if (HAS_HAMBURGER) {
+    const HAMBURGER = {
+        icon: document.querySelector(".section-home .navbar .hamburger"),
+        container: document.querySelector(".section-home .navbar .hamburger-container")
+    };
+
+    HAMBURGER.icon.addEventListener("click", () => {
+        HAMBURGER.icon.classList.toggle("active");
+        HAMBURGER.container.classList.toggle("active");
+    });
+}
 
 
 //  Send email from contact form.

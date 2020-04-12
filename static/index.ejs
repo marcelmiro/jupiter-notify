@@ -32,7 +32,7 @@
 		<a class="button" href="#faq">FAQ</a>
 		<a class="button" href="#contact" onclick="if(!document.getElementById('contact').classList.contains('active')){document.getElementById('contact').click();}">Contact</a>
 
-		<a class="button"
+		<a class="button" style="background-color:#8b50c3;"
 			<% if (hasMembership) { %>
 				href="/dashboard">Dashboard
 			<% } else if (isUser) { %>
@@ -41,6 +41,16 @@
 				href="/auth/login">Log In
 			<% } %>
 		</a>
+
+		<% if (isAdmin) { %>
+			<button class="hamburger"><img src="assets/icon_settings.svg" alt="Settings icon" /></button>
+			<div class="hamburger-container">
+				<% if (!hasMembership) { %>
+					<a class="button" href="/dashboard">Dashboard</a>
+				<% } %>
+				<a class="button">Admin Panel</a>
+			</div>
+		<% } %>
 	</div>
 	
 	<div class="grid">
@@ -66,7 +76,7 @@
 	</div>
 </div>
 
-
+<!-- TODO When low height, #333 bg overrides home section background. -->
 <div id="features" class="section section-features">
 	<svg class="bg-shape" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
 	    <g transform="matrix(1,0,0,1,27.6493,126.048)">
@@ -75,35 +85,35 @@
 	</svg>
 	
 	<h2>Features</h2>
-	<table class="container">
-		<tr>
-			<td class="text left">
-				<div class="cell">
-					<div class="card">
-						<div>
-							<h6>Releases</h6>
-							<p>Full release guidance for all profitable releases, including early links, resell estimations and post-release analysis.</p>
-						</div>
+	<div class="container">
+		<div class="text left">
+			<div class="cell">
+				<div class="card">
+					<div>
+						<h6>Releases</h6>
+						<p>Full release guidance for all profitable releases, including early links, resell estimations and post-release analysis.</p>
 					</div>
 				</div>
-				<div class="cell">
-					<div class="card">
-						<div>
-							<h6>Monitors</h6>
-							<p>24/7 custom monitors tracking 150+ websites including: DSM, Undefeated, Kith, Nike SNKRS and more!</p>
-						</div>
+			</div>
+			<div class="cell">
+				<div class="card">
+					<div>
+						<h6>Monitors</h6>
+						<p>24/7 custom monitors tracking 150+ websites including: DSM, Undefeated, Kith, Nike SNKRS and more!</p>
 					</div>
 				</div>
-				<div class="cell">
-					<div class="card">
-						<div>
-							<h6>Twitter monitors</h6>
-							<p>One of the fastest in the market. Paired with in-depth checkout guides to get ahead of everyone else.</p>
-						</div>
+			</div>
+			<div class="cell">
+				<div class="card">
+					<div>
+						<h6>Twitter monitors</h6>
+						<p>One of the fastest in the market. Paired with in-depth checkout guides to get ahead of everyone else.</p>
 					</div>
 				</div>
-			</td>
-			<td class="mobile">
+			</div>
+		</div>
+		<div class="mobile-container">
+			<div class="mobile">
 				<svg width="100%" height="100%" viewBox="0 0 1020 1996" shape-rendering="geometricPrecision" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
 					<g id="Mockup">
 						<g id="Discord-App">
@@ -295,35 +305,35 @@
 					</defs>
 				</svg>
 				<div></div>
-			</td>
-			<td class="text right">
-				<div class="cell">
-					<div class="card">
-						<div>
-							<h6>Raffle link Bot</h6>
-							<p>Enter all raffles and never miss an opportunity to make profit.</p>
-						</div>
+			</div>
+		</div>
+		<div class="text right">
+			<div class="cell">
+				<div class="card">
+					<div>
+						<h6>Raffle link Bot</h6>
+						<p>Enter all raffles and never miss an opportunity to make profit.</p>
 					</div>
 				</div>
-				<div class="cell">
-					<div class="card">
-						<div>
-							<h6>In-store info</h6>
-							<p>Get help from specialised staff for cook limited releases, shock drops and brick flips in cities like NYC.</p>
-						</div>
+			</div>
+			<div class="cell">
+				<div class="card">
+					<div>
+						<h6>In-store info</h6>
+						<p>Get help from specialised staff for cook limited releases, shock drops and brick flips in cities like NYC.</p>
 					</div>
 				</div>
-				<div class="cell">
-					<div class="card">
-						<div>
-							<h6>Community</h6>
-							<p>Friendly members willing to help each other generate profits as well as supportive staff.</p>
-						</div>
+			</div>
+			<div class="cell">
+				<div class="card">
+					<div>
+						<h6>Community</h6>
+						<p>Friendly members willing to help each other generate profits as well as supportive staff.</p>
 					</div>
 				</div>
-			</td>
-		</tr>
-	</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -390,9 +400,9 @@
 
 <div class="footer">
 	<svg class="bg-shape" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1000 120" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-	    <g transform="matrix(1,0,0,1,27.649,126.048)">
-	        <path d="M-27.649,-126.048L972.351,-6.048L-27.649,-6.048L-27.649,-126.048Z" style="fill:rgb(139,80,195);"/>
-	    </g>
+		<g transform="matrix(1,0,0,1,27.649,126.048)">
+			<path d="M-27.649,-126.048L972.351,-66.048L972.351,-6.048L-27.649,-6.048L-27.649,-126.048Z" style="fill:rgb(139,80,195);"/>
+		</g>
 	</svg>
 	
 	<div class="text">
@@ -423,6 +433,7 @@
 <script type="text/javascript">
 	const STRIPE_KEY = "<%= stripeKey %>";
 	const SESSION = "<%= session %>" ? JSON.parse('<%-JSON.stringify(session)%>') : undefined;
+	const HAS_HAMBURGER = Boolean("<%= isAdmin %>" === "true");
 </script>
 <script src="index.js"></script>
 </body>

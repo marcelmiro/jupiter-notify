@@ -99,6 +99,7 @@ button.button, a.button, input.button {
   position: relative;
   width: 100%;
   height: 100vh;
+  min-width: 330px;
   min-height: 600px;
   text-align: center;
 }
@@ -191,6 +192,7 @@ button.button, a.button, input.button {
     position: absolute;
     width: 100%;
     height: calc(100vh + 120px);
+    min-height: 800px;
     z-index: 0;
   }
   .bg-stars {
@@ -205,9 +207,35 @@ button.button, a.button, input.button {
   .navbar {
     position: relative;
     padding-top: 20px;
-    * + * { margin-left: 30px; }
-    a.button:last-of-type {
-      background-color: $bgLightPurple;
+    z-index: 5;
+    > a.button + a.button { margin-left: 30px; }
+    
+    .hamburger {
+      position: absolute;
+      left: 20px;
+      width: 44px;
+      height: 44px;
+      transition: transform 0.3s ease-out;
+      &:hover { transform: scale(1.05); }
+      img {
+        transition: transform 0.7s ease-out;
+        transform: rotate(0);
+      }
+      &.active img { transform: rotate(150deg); }
+    }
+    .hamburger-container {
+      position: absolute;
+      left: 0;
+      top: 100px;
+      transform: translateX(-150%);
+      
+      display: flex;
+      flex-flow: column nowrap;
+      transition: transform 0.7s ease-out;
+      
+      &.active {transition: transform 0.7s ease-in-out; transform: translateX(50px); }
+      > a.button { background: $bgLightPurple; }
+      * + * { margin-top: 34px; }
     }
   }
   .grid {
@@ -217,7 +245,7 @@ button.button, a.button, input.button {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 
     .text {
       h1 {
@@ -282,6 +310,7 @@ button.button, a.button, input.button {
     position: absolute;
     width: 100%;
     height: 1000px;
+    min-width: 600px;
     left: 0;
     top: 0;
   }
@@ -301,12 +330,26 @@ button.button, a.button, input.button {
     margin: 0 auto;
     top: 50%;
     transform: translateY(-63%);
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr auto 1fr;
+    -ms-grid-rows: 1fr;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 6%;
 
-    .mobile {
-      position: relative;
-      width: 25%;
-      svg {}
-      div {
+    .mobile-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .mobile {
+        position: relative;
+        height: 80%;
+        max-height: 464px;
+        max-width: 237px;
+      }
+      
+      div:not([class]) {
         position: absolute;
         width: 100%;
         height: calc(100% - 80px);
@@ -325,26 +368,22 @@ button.button, a.button, input.button {
       }
     }
     .text {
-      width: 37.5%;
-
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-around;
+      align-items: stretch;
       .cell {
         display: block;
-        width: 100%;
-        height: 33.33%;
-
         .card {
+          position: relative;
           background: $bgLightPurple;
-          width: 82%;
           height: 111px;
           border-radius: 15px;
           padding: 10px 14px;
           transition: transform 0.3s ease-in-out;
           cursor: pointer;
-          position: relative;
-          top: 50%;
-          transform: translateY(-50%);
 
-          &:hover { transform: translateY(-50%) scale(1.03); }
+          &:hover { transform: scale(1.03); }
           * + * { margin-top: 10px; }
           > div {
             position: relative;
@@ -518,7 +557,7 @@ button.button, a.button, input.button {
   .text {
     position: relative;
     top: 50%;
-    transform: translateY(-20%);
+    transform: translateY(-34%);
 
     > * {
       margin-left: 100px;
@@ -529,6 +568,12 @@ button.button, a.button, input.button {
     }
     p { margin-top: 18px; }
   }
+}
+
+
+//  BROWSER COMPATIBILITY
+@supports not (-ms-ime-align: auto) {
+  .section-home .grid { justify-content: space-evenly; }
 }
 
 
@@ -558,8 +603,12 @@ button.button, a.button, input.button {
       top: 0;
       transform: translate(0, 0);
       margin: 100px auto;
+      .mobile-container .mobile { height: 400px; }
       .text .cell {
         height: 140px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         .card {
           padding: 0 14px;
           > div {
@@ -583,13 +632,14 @@ button.button, a.button, input.button {
     .container {
       width: 600px;
       margin: 80px auto;
-      .mobile { display: none; }
+      -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 8%;
+      .mobile-container { display: none; }
       .text {
-        width: 50%;
         .cell {
           height: 180px;
           .card {
-            width: calc(100% - 80px);
             padding: 10px 14px;
             text-align: center;
             float: none;
@@ -601,6 +651,13 @@ button.button, a.button, input.button {
   }
 }
 @media screen and (max-width: 800px) {
+  .section-home .navbar {
+    .hamburger { width: 36px; height: 36px; top: 10px; left: 10px; }
+    .hamburger-container {
+      top: 70px;
+      &.active { transform: translateX(40px); }
+    }
+  }
   .section-features h2 { font-size: 32px; }
   .section-faq .container {
     width: 540px;
@@ -618,7 +675,7 @@ button.button, a.button, input.button {
     }
   }
   .footer .text {
-    > * { margin-left: 20px; font-size: 15px; }
+    > * { margin-left: 40px; font-size: 15px; }
     p { margin-top: 10px; }
   }
 }
@@ -637,8 +694,10 @@ button.button, a.button, input.button {
 @media screen and (max-width: 700px) {
   .section-home {
     .navbar {
-      * + * { margin-left: 12px; }
+      > a.button + a.button { margin-left: 12px; }
       a.button { font-size: 18px; border-width: 3px; }
+      .hamburger { width: 32px; height: 32px; }
+      .hamburger-container  * + * { margin-top: 26px; }
     }
     .grid {
       .text {
@@ -654,11 +713,12 @@ button.button, a.button, input.button {
   .section-features {
     h2 { transform: translateX(-174px); }
     .container {
-      width: 90%;
+      width: 400px;
+      -ms-grid-columns: 1fr;
+      -ms-grid-rows: 1fr 1fr;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
       .text {
-        display: block;
-        width: 400px;
-        margin: 0 auto;
         .cell { height: 160px; }
       }
     }
@@ -666,8 +726,13 @@ button.button, a.button, input.button {
 }
 @media screen and (max-width: 600px) {
   .section-home .navbar {
-    * + * { margin-left: 10px; }
+    > a.button + a.button { margin-left: 10px; }
     a.button { font-size: 16px; padding: 8px 18px; }
+    .hamburger { width: 28px; height: 28px; top: 10px; left: 10px; }
+    .hamburger-container {
+      top: 60px;
+      .active { transform: translateX(30px); }
+    }
   }
   .section-faq {
     h2.title-separator { font-size: 34px; margin-bottom: 32px; }
@@ -681,8 +746,8 @@ button.button, a.button, input.button {
     }
   }
   .footer .text {
-    transform: translateY(-10%);
-    > * { margin-left: 10px; }
+    transform: translateY(-20%);
+    > * { margin-left: 20px; }
   }
 }
 @media screen and (max-width: 550px) {
@@ -692,14 +757,17 @@ button.button, a.button, input.button {
     }
 }
 @media screen and (max-width: 500px) {
-  .section-home .navbar a.button { font-size: 15px; padding: 8px 12px; }
+  .section-home .navbar {
+    a.button { font-size: 15px; padding: 8px 12px; }
+    .hamburger { width: 22px; height: 22px; }
+    .hamburger-container.active { transform: translateX(20px); }
+  }
   .section-features {
     h2 { font-size: 30px; left: 16%; transform: translateX(0); }
     .container {
-      width: 70%;
+      width: 80%;
       margin: 40px auto;
       .text {
-        width: 100%;
         .cell .card {
           width: 100%;
           box-sizing: border-box;
@@ -745,7 +813,7 @@ button.button, a.button, input.button {
   .section-home {
     .navbar {
       min-width: 310px;
-      * + * { margin-left: 8px; }
+      > a.button + a.button { margin-left: 8px; }
       a.button { font-size: 14px; border-width: 2px; padding: 6px 10px; }
     }
     .grid {
@@ -756,14 +824,22 @@ button.button, a.button, input.button {
       }
     }
   }
-  .footer .text { transform: translateY(-2%); }
+  .footer .text { transform: translateY(-10%); }
 }
 @media screen and (max-width: 420px) {
   .section-home .navbar {
-    * + * { margin-left: 5px; }
+    > a.button + a.button { margin-left: 5px; }
   }
 }
 @media screen and (max-width: 400px) {
+  .section-home .navbar {
+    .hamburger { top: 50px; }
+    .hamburger-container {
+      top: 84px;
+      * + * { margin-top: 15px; }
+      &.active { transform: translateX(10px); }
+    }
+  }
   .section-features {
     h2 { font-size: 26px; left: 50%; transform: translateX(-130px) }
     .container { width: 90%; max-width: 270px; margin: 30px auto; }
@@ -775,17 +851,19 @@ button.button, a.button, input.button {
       textarea { min-height: 180px; }
     }
   }
-  .footer .text { transform: translateY(-1%); }
+  .footer .text { transform: translateY(-5%); }
 }
 @media screen and (max-width: 350px) {
   .section-home .navbar {
     left: -8px;
     min-width: 326px;
-    * + * { margin-left: 3px; }
+    > a.button + a.button { margin-left: 3px; }
+    .hamburger { left: 18px; }
+    .hamburger-container.active { transform: translateX(18px); }
   }
 }
 @media screen and (max-width: 320px) {
-  .section-features h2 { transform: translateX(0); left: 20px; }
+  .section-features h2 { transform: translateX(0); left: 30px; }
 }
 
 
