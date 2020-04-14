@@ -1,6 +1,5 @@
 const stripe = hasPayment ? Stripe(stripeKey) : undefined;
 
-
 const LENGTH_DISCORD_USERNAME = {
     container: document.querySelector(".dashboard__welcome .h1-container"),
     element: document.getElementById("discord-username"),

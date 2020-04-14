@@ -9,12 +9,15 @@ const stripeUtils = require("../utils/stripe-utils");
 const botUtils = require("../utils/bot-utils");
 const nodemailerSetup = require("../setup/nodemailer-setup");
 
+//  Protect static files.
+// router.use("*", (req,res,next) => { console.log("req.url:", req.path); next(); });
+
 //  Component routes
 router.use("/auth", authRoutes);
 router.use("/stripe", stripeRoutes);
 
 //  Checks if cookie has user object to keep dashboard page, if not, go back to home page.
-const authDashboardCheck = (req, res, next) => {
+const authUserCheck = (req, res, next) => {
     req.user ? next() : res.redirect("/");
 };
 
@@ -55,7 +58,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/dashboard", authDashboardCheck, async (req, res) => {
+router.get("/dashboard", authUserCheck, async (req, res) => {
     try {
         // FIXME user.stripe_id contains deleted customer and not new customer id,
         //  therefore error "Cannot read property 'data' of undefined.
@@ -68,7 +71,7 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
         //  Get user's role and modify object to get only necessary data.
         let role = await dbUtils.getRole(req.user["user_id"]);
 
-        //
+        //  Check if user can access dashboard.
         if (!role) {
             if (HAS_MEMBERSHIP) {
                 const ROLE_ID = (await dbUtils.getData("roles", "name", "renewal"))["role_id"];
@@ -144,7 +147,7 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
         //  Render dashboard ejs with all necessary data.
         res.render("dashboard",
             {
-                user: { ...req.user, ...{role: role}},
+                user: {...req.user, ...{role: role}},
                 stripeKey: process.env.STRIPE_KEY,
                 membershipDetails: membershipDetails,
                 paymentDetails: paymentDetails,
@@ -155,6 +158,25 @@ router.get("/dashboard", authDashboardCheck, async (req, res) => {
         console.log("Error in '/dashboard' route:", e.message);
         res.redirect("/");
     }
+});
+
+//  Admin panel routes.
+router.get("/admin", authUserCheck, async (req,res) => {
+    //  Get role object and check if user has 'admin_panel' permission.
+    let role = await dbUtils.getRole(req.user["user_id"]);
+    if (!("admin_panel" in role["perms"]) || !role["perms"]["admin_panel"]) {
+        return res.redirect("/");
+    }
+
+    //  Restyle object as needed.
+    role = {...role, ...{color: role.data.color}};
+    delete role["role_id"];
+    delete role.data;
+
+    res.render("admin",
+        {
+            role: role
+        });
 });
 
 //  Testing dashboard design route

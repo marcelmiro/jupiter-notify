@@ -34,6 +34,8 @@ router.get("/fail", (req, res) => {
 //  Cancel stripe subscription route
 router.get("/cancel-membership", async (req, res) => {
     try {
+        //  TODO Check if user is 'lifetime' member and do according code.
+
         //  Get customer's object.
         const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
 

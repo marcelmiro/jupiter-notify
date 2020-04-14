@@ -1,7 +1,39 @@
 const { uuid } = require('uuidv4');
+const browser = require("browser-detect");
 const dbUtils = require("./db-utils");
 const stripeUtils = require("./stripe-utils");
 
+
+//  Check if browser is not IE.
+let checkBrowser = (req, res, next) => {
+    if (browser(req.headers['user-agent']).name === "ie") {
+        res.render("ie");
+    } else {
+        next();
+    }
+};
+
+//  Authenticate static files
+let authStaticRoute = async (req, res, next) => {
+    if (!req.path.includes("/dashboard.") && !req.path.includes("/admin.")) { return next(); }
+    else if (!req.user) { return res.redirect("/"); }
+    else if (req.path.includes("/dashboard.")) {
+        const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
+        const HAS_MEMBERSHIP = Boolean(CUSTOMER.subscriptions.data.length > 0);
+        const ROLE = await dbUtils.getRole(req.user["user_id"]);
+        if (!HAS_MEMBERSHIP && !ROLE) {
+            return res.redirect("/");
+        } else if (!HAS_MEMBERSHIP && (ROLE.name === "renewal" || ROLE.name === "lifetime")) {
+            return res.redirect("/");
+        }
+    } else if (req.path.includes("/admin.")) {
+        const ROLE = await dbUtils.getRole(req.user["user_id"]);
+        if (!ROLE || !("admin_panel" in ROLE["perms"]) || !ROLE["perms"]["admin_panel"]) {
+            return res.redirect("/");
+        }
+    }
+    next();
+};
 
 //  Function that runs every time someone logs in through Discord.
 //  Function checks if user already in db and compares data to change if difference, else, creates new user in db.
@@ -71,4 +103,4 @@ let transformDate = async (date) => {
         (MONTH.toString().length === 1 ? "0"+MONTH : MONTH) + "/" + YEAR;
 };
 
-module.exports = {userLogin, transformDate};
+module.exports = {checkBrowser, authStaticRoute, userLogin, transformDate};

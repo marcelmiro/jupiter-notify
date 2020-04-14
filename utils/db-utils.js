@@ -53,6 +53,17 @@ let getRole = async userId => {
         }
     } catch (e) {
         console.log("Error in getRole():", e.message);
+        return undefined;
+    }
+};
+
+let getSetting = async name => {
+    try {
+        const VALUE = await getData("settings", "name", name);
+        return VALUE ? VALUE.value : undefined;
+    } catch (e) {
+        console.log("Error in getSetting():", e.message);
+        return undefined;
     }
 };
 
@@ -136,5 +147,5 @@ let updateData = async (table, matchField, matchValue, changeField, newValue) =>
 
 //  TODO Create function to add param to users 'data' object without overriding.
 
-module.exports = {openDb, closeDb, getAllData, getData, getRole,
+module.exports = {openDb, closeDb, getAllData, getData, getRole, getSetting,
     insertData, deleteData, updateData/*, updateOrInsertData*/};

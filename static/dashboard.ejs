@@ -62,7 +62,6 @@
              " alt="Avatar icon" />
         <div>
             <div class="h1-container">
-                <!--TODO Find dynamic way to resize username text depending on length -->
                 <h1 id="discord-username"><%= user.username %></h1>
             </div>
             <h2>Welcome to Jupiter</h2>
@@ -109,7 +108,6 @@
         <div class="dashboard__payment-details">
         <h2>Payment Details</h2>
 
-        <!-- TODO Add jupiter planet svg -->
         <svg width="100%" height="100%" viewBox="0 0 324 204" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
 			<g id="bg" transform="matrix(1.15309,0,0,1.22785,-27.7584,-15.488)">
                 <clipPath id="_clip1">
@@ -198,7 +196,7 @@
 <div class="dashboard__links <% if (user.role["admin_panel"]) { %>button-container<% } %>">
     <a class="underline" href="/">Home</a>
     <% if (user.role["admin_panel"]) { %>
-        <a class="button">Admin Panel</a>
+        <a class="button" href="/admin">Admin Panel</a>
     <% } %>
     <a class="underline" href="/auth/logout">Log Out</a>
 </div>
