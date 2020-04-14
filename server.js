@@ -9,9 +9,9 @@ const passportSetup = require("./setup/passport-setup");
 const utils = require("./utils/utils");
 const dbUtils = require("./utils/db-utils");
 
-//  Init app and set port to '8080'.
+//  Init app and set port either to env number or number by default '8080'.
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 //  Set express template to ejs and set default location of ejs files.
 app.set("view engine", "ejs");
