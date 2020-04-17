@@ -82,16 +82,10 @@ dbUtils.setSettings().then(() => {
             key: fs.readFileSync("./ssl/localhost-key.pem"),
             cert: fs.readFileSync("./ssl/localhost-cert.pem")
         }, app);
-
-        server.listen(port,() => {
-            console.log(`Server connected at: ${port}`);
-        });
-    } else {
-        server = require("http").createServer();
-
-        server.listen(port, () => {
-            console.log("Server connect at:", port);
-        });
-    }
+    } else { server = require("http").createServer(); }
+    
+    server.listen(port,() => {
+        console.log(`Server connected at: ${port}`);
+    });
     require("./setup/socket-setup")(server);
 });
