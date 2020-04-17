@@ -82,8 +82,8 @@ dbUtils.setSettings().then(() => {
             key: fs.readFileSync("./ssl/localhost-key.pem"),
             cert: fs.readFileSync("./ssl/localhost-cert.pem")
         }, app);
-    } else { server = require("http").createServer(); }
-    
+    } else { server = require("https").createServer(app); }
+
     server.listen(port,() => {
         console.log(`Server connected at: ${port}`);
     });
