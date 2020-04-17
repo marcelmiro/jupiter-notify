@@ -1,18 +1,18 @@
 require('dotenv').config();
 const Client = require("pg").Client;
 
-let db;
-async function openDb() {
+let db = undefined;
+let openDb = async () => {
     try {
         db = new Client(process.env.DATABASE_URL);
         await db.connect();
         console.log("Database has been opened.");
         return true;
     } catch (e) {
-        console.log("Error in openDb():", e.message);
+        console.error(`openDb(): ${e.message}`);
         return false;
     }
-}
+};
 
 async function closeDb() {
     try {
@@ -53,16 +53,6 @@ let getRole = async userId => {
         }
     } catch (e) {
         console.log("Error in getRole():", e.message);
-        return undefined;
-    }
-};
-
-let getSetting = async name => {
-    try {
-        const VALUE = await getData("settings", "name", name);
-        return VALUE ? VALUE.value : undefined;
-    } catch (e) {
-        console.log("Error in getSetting():", e.message);
         return undefined;
     }
 };
@@ -127,6 +117,30 @@ let updateData = async (table, matchField, matchValue, changeField, newValue) =>
     }
 };
 
+let setSettings = async () => {
+    try {
+        const SETTINGS = (await db.query(`SELECT * FROM settings`)).rows;
+        SETTINGS.forEach(row => {
+            process.env[row.name] = row.value;
+        });
+        return true;
+    } catch (e) {
+        console.log("Error in setSettings():", e.message);
+        return false;
+    }
+};
+
+let updateSetting = async (name, value) => {
+    try {
+        await updateData("settings", "name", name, "value", value);
+        process.env[name] = value;
+        return true;
+    } catch (e) {
+        console.log("Error in updateSetting():", e.message);
+        return false;
+    }
+};
+
 //  Update data if row exists, else insert into table.
 //  Unfinished function (If insert, should also contain 'matchValue' and in correct position).
 /*let updateOrInsertData = async (table, matchField, matchValue, data= {}) => {
@@ -147,5 +161,5 @@ let updateData = async (table, matchField, matchValue, changeField, newValue) =>
 
 //  TODO Create function to add param to users 'data' object without overriding.
 
-module.exports = {openDb, closeDb, getAllData, getData, getRole, getSetting,
-    insertData, deleteData, updateData/*, updateOrInsertData*/};
+module.exports = {openDb, closeDb, getAllData, getData, getRole,
+    insertData, deleteData, updateData, setSettings, updateSetting};

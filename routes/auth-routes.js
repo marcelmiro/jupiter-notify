@@ -1,6 +1,7 @@
 require("dotenv").config();
 const router = require("express").Router();
 const passport = require("passport");
+const dbUtils = require("../utils/db-utils");
 const stripeUtils = require("../utils/stripe-utils");
 
 

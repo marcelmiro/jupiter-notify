@@ -1,3 +1,114 @@
+const MEMBER_LIST = [
+    {
+        id: "001",
+        username: "FocusFon#1473",
+        role: { name: "owner", color: "#00FF00" },
+        avatar_url: "https://cdn.discordapp.com/avatars/298920320356712449/144800865267805a765bed6c43f0daba.png?size=2048"
+    },
+    {
+        id: "002",
+        username: "MarcelMiro#2569",
+        role: { name: "god", color: "#000000" },
+        avatar_url: "https://cdn.discordapp.com/avatars/298920320356712449/144800865267805a765bed6c43f0daba.png?size=2048"
+    },
+    {
+        id: "003",
+        username: "Kosiris#1234",
+        role: { name: "admin", color: "#FF0000" },
+        avatar_url: "https://cdn.discordapp.com/avatars/298920320356712449/144800865267805a765bed6c43f0daba.png?size=2048"
+    },
+    {
+        id: "004",
+        username: "UNKNWN#6666",
+        role: { name: "staff", color: "#fff52d" },
+        avatar_url: "https://cdn.discordapp.com/avatars/298920320356712449/144800865267805a765bed6c43f0daba.png?size=2048"
+    },
+    {
+        id: "005",
+        username: "5stack#3545",
+        role: { name: "renewal", color: "#1d9efc" },
+        avatar_url: "https://cdn.discordapp.com/avatars/298920320356712449/144800865267805a765bed6c43f0daba.png?size=2048"
+    },
+    {
+        id: "006",
+        username: "marie#1564",
+        role: { name: "lifetime", color: "#0072c6" },
+        avatar_url: "https://cdn.discordapp.com/avatars/298920320356712449/144800865267805a765bed6c43f0daba.png?size=2048"
+    },
+    {
+        id: "007",
+        username: "Chatalot#9849",
+        role: { name: "developer", color: "#bd71ff" },
+        avatar_url: "https://cdn.discordapp.com/avatars/298920320356712449/144800865267805a765bed6c43f0daba.png?size=2048"
+    }
+];
+
+let app = new Vue({
+    el: "main",
+    data: {
+        currentTab: 1,
+        members: MEMBER_LIST,
+        memberCount: MEMBER_LIST.length,
+        role: "all",
+        search: "",
+        showRoleDropdown: false,
+        showMemberView: false,
+    },
+    methods: {
+        refreshMembers: function() {
+            CONTENT_MEMBER.refresh_button.classList.remove("animation");
+            setTimeout(() => {
+                CONTENT_MEMBER.refresh_button.classList.add("animation");
+            }, 0);
+        },
+        addMember: function() {
+            const USER_ID = prompt("Enter user's Discord id.");
+            const ROLE_ID = USER_ID ? prompt("Enter role id.") : undefined;
+        },
+        viewMember: function(id) {
+            this.showMemberView = true;
+        }
+    },
+    filters: {
+        capitalize: value => {
+            return value.replace(/\b\w/g, letter => letter.toUpperCase());
+        }
+    },
+    computed: {
+        filteredList: function() {
+            let members = this.members.filter(member => {
+                return (
+                    member.username.toLowerCase().includes(this.search.toLowerCase()) &&
+                    (this.role.toLowerCase() !== "all" ? member.role.name.toLowerCase() === this.role.toLowerCase() : true)
+                );
+            });
+            this.memberCount = members.length;
+            return members;
+        }
+    },
+    watch: {
+        currentTab: function() {
+            TABS.forEach(t => { t.classList.remove("active"); });
+            CONTENTS.forEach(c => { c.classList.remove("active"); });
+
+            TABS[this.currentTab-1].querySelector("input").checked = true;
+            TABS[this.currentTab-1].classList.add("active");
+            CONTENTS[this.currentTab-1].classList.add("active");
+            if (CONTENTS[this.currentTab-1].classList.contains("content__console")) {
+                CONTENTS[this.currentTab-1].scrollTop = CONTENTS[this.currentTab-1].scrollHeight;
+            }
+        },
+        members: function() {},
+        role: function() { this.showRoleDropdown = false; },
+        showMemberView: function() {
+            this.showMemberView ?
+                CONTENT_MEMBER.member_view_button.classList.add("active") :
+                CONTENT_MEMBER.member_view_button.classList.remove("active");
+        },
+    },
+});
+
+
 const TABS = document.querySelectorAll(".tabs-container .tab");
 const CONTENTS = document.querySelectorAll(".content > div");
 const CONTENT_MEMBER = {
@@ -10,50 +121,3 @@ const CONTENT_MEMBER = {
     view_buttons: document.querySelectorAll(".content__members .member .view-member"),
     member_view_button: document.querySelector(".content__members .member-view")
 };
-
-//  EVENT HANDLERS
-window.addEventListener("load", () => {
-});
-window.addEventListener("resize", () => {
-});
-
-//  Click listener for panel tabs.
-TABS.forEach((tab, index) => {
-    tab.addEventListener("click", () => {
-        TABS.forEach(t => { t.classList.remove("active"); });
-        CONTENTS.forEach(c => { c.classList.remove("active"); });
-
-        tab.querySelector("input").checked = true;
-        tab.classList.add("active");
-        CONTENTS[index].classList.add("active");
-    });
-});
-
-//  Click listener for role dropdown menu in members' settings.
-CONTENT_MEMBER.role.content.querySelectorAll("label").forEach(label => {
-    label.addEventListener("click", () => {
-        CONTENT_MEMBER.role.button.querySelector("span").textContent =
-            "Role: " + label.textContent[0].toUpperCase() + label.textContent.substr(1);
-    });
-});
-
-//  Click listener for refresh button animation in members' settings.
-CONTENT_MEMBER.add_member_button.addEventListener("click", () => {
-    const USER_ID = prompt("Enter user's Discord id:");
-});
-CONTENT_MEMBER.refresh_button.addEventListener("click", () => {
-    CONTENT_MEMBER.refresh_button.classList.remove("animation");
-    setTimeout(() => {
-        CONTENT_MEMBER.refresh_button.classList.add("animation");
-    }, 0);
-});
-
-//  Click listener for view button for each member.
-CONTENT_MEMBER.view_buttons.forEach(button => {
-    button.addEventListener("click", () => {
-        CONTENT_MEMBER.member_view_button.classList.add("active");
-    });
-});
-CONTENT_MEMBER.member_view_button.querySelector("button.back").addEventListener("click", () => {
-    CONTENT_MEMBER.member_view_button.classList.remove("active");
-});

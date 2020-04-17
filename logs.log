@@ -1,0 +1,708 @@
+2020-04-16 11:14:54 INFO  Database has been opened.
+2020-04-16 11:14:54 INFO  Server connected at: 8080
+2020-04-16 11:14:55 INFO  Bot logged in as Dashboard#1824.
+2020-04-16 11:15:04 INFO  asdawda
+2020-04-16 11:15:04 INFO  Database has been opened.
+2020-04-16 12:47:25 INFO  Database has been opened.
+2020-04-16 12:47:25 INFO  Server connected at: 8080
+2020-04-16 12:47:26 INFO  Bot logged in as Dashboard#1824.
+2020-04-16 12:47:38 INFO  Database has been opened.
+2020-04-16 12:47:39 INFO  Server connected at: 8080
+2020-04-16 12:47:39 INFO  Bot logged in as Dashboard#1824.
+2020-04-16 12:48:25 INFO  Database has been opened.
+2020-04-16 12:48:26 INFO  Server connected at: 8080
+2020-04-16 12:48:26 INFO  Bot logged in as Dashboard#1824.
+2020-04-16 12:48:32 INFO  Database has been opened.
+2020-04-16 12:48:32 INFO  Server connected at: 8080
+2020-04-16 12:48:33 INFO  Bot logged in as Dashboard#1824.
+2020-04-16 12:49:51 INFO  Database has been opened.
+2020-04-16 12:49:52 INFO  Server connected at: 8080
+2020-04-16 12:49:52 INFO  Bot logged in as Dashboard#1824.
+2020-04-16 12:50:11 INFO  Database has been opened.
+2020-04-16 12:50:12 INFO  Server connected at: 8080
+2020-04-16 12:50:12 INFO  Bot logged in as Dashboard#1824.
+2020-04-16 12:50:53 INFO  Database has been opened. 
+2020-04-16 12:50:53 INFO  Server connected at: 8080 
+2020-04-16 12:50:54 INFO  Bot logged in as Dashboard#1824. 
+2020-04-16 12:53:48 INFO  Database has been opened. 
+2020-04-16 12:53:48 INFO  Server connected at: 8080 
+2020-04-16 12:53:49 INFO  Bot logged in as Dashboard#1824. 
+2020-04-16 12:54:24 INFO  Database has been opened. 
+2020-04-16 12:54:25 INFO  Server connected at: 8080 
+2020-04-16 12:54:25 INFO  Bot logged in as Dashboard#1824. 
+2020-04-16 13:15:49 INFO  Database has been opened. 
+2020-04-16 13:15:49 INFO  Server connected at: 8080 
+2020-04-16 13:15:50 INFO  Bot logged in as Dashboard#1824. 
+2020-04-16 13:19:09 INFO  Database has been opened. 
+2020-04-16 13:19:09 ERROR (node:9444) UnhandledPromiseRejectionWarning: D:\Documents\Web Dev\Jupiter Notify\routes\routes.js:185
+                    logs[index] = log.split(/^\b\s\b\s.*$);
+                                            ^
+
+SyntaxError: Invalid regular expression: missing /
+    at wrapSafe (internal/modules/cjs/loader.js:1072:16)
+    at Module._compile (internal/modules/cjs/loader.js:1122:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1178:10)
+    at Module.load (internal/modules/cjs/loader.js:1002:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:901:14)
+    at Module.require (internal/modules/cjs/loader.js:1044:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at D:\Documents\Web Dev\Jupiter Notify\server.js:42:20
+    at processTicksAndRejections (internal/process/task_queues.js:97:5) 
+2020-04-16 13:19:09 ERROR (node:9444) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1) 
+2020-04-16 13:19:09 ERROR (node:9444) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code. 
+2020-04-16 13:21:22 INFO  Database has been opened. 
+2020-04-16 14:11:01 INFO  Database has been opened. 
+2020-04-17 10:09:13 INFO  Database has been opened. 
+2020-04-17 10:09:15 INFO  Server connected at: 8080 
+2020-04-17 10:09:16 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 10:13:13 INFO  User 'Marcel#1473' logged in. 
+2020-04-17 11:29:09 INFO  Database has been opened.
+2020-04-17 11:29:10 INFO  Server connected at: 8080
+2020-04-17 11:29:10 INFO  Bot logged in as Dashboard#1824.
+2020-04-17 11:31:18 INFO  Database has been opened.
+2020-04-17 11:31:18 INFO  Server connected at: 8080
+2020-04-17 11:31:19 INFO  Bot logged in as Dashboard#1824.
+2020-04-17 11:31:21 ERROR TypeError: D:\Documents\Web Dev\Jupiter Notify\static\admin.ejs:146
+    144| 					<%- time %>
+    145| 					<% log = log.substring(time.length).split(" ").filter(Boolean) %>
+ >> 146| 					<span><b><%- log[0] %></b><%- log.shift().join(" ") %></span>
+    147| 				</div>
+    148| 			<% }); %>
+    149| 		</div>
+
+log.shift(...).join is not a function
+    at eval (eval at compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12), <anonymous>:30:29)
+    at Array.forEach (<anonymous>)
+    at eval (eval at compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12), <anonymous>:16:13)
+    at admin (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:656:17)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:36)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7)
+2020-04-17 11:32:47 INFO  User 'NyTrOuS#4556' logged in.
+2020-04-17 11:34:20 INFO  Database has been opened.
+2020-04-17 11:34:20 INFO  Server connected at: 8080
+2020-04-17 11:34:21 INFO  Bot logged in as Dashboard#1824.
+2020-04-17 13:37:37 INFO  Database has been opened. 
+2020-04-17 13:37:37 INFO  Server connected at: 8080 
+2020-04-17 13:37:37 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 17:12:59 INFO  Database has been opened. 
+2020-04-17 17:12:59 INFO  Server connected at: 8080 
+2020-04-17 17:13:00 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 17:16:27 INFO  Database has been opened. 
+2020-04-17 17:16:27 INFO  Server connected at: 8080 
+2020-04-17 17:16:28 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 17:17:28 INFO  Database has been opened. 
+2020-04-17 17:17:28 INFO  Server connected at: 8080 
+2020-04-17 17:17:28 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 17:24:02 INFO  Database has been opened. 
+2020-04-17 17:24:03 INFO  Server connected at: 8080 
+2020-04-17 17:24:03 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 17:24:32 INFO  Database has been opened. 
+2020-04-17 17:24:32 INFO  Server connected at: 8080 
+2020-04-17 17:24:33 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 17:24:52 INFO  Database has been opened. 
+2020-04-17 17:24:52 INFO  Server connected at: 8080 
+2020-04-17 17:24:53 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 17:25:11 INFO  Database has been opened. 
+2020-04-17 17:25:11 INFO  Server connected at: 8080 
+2020-04-17 17:25:12 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 17:26:02 INFO  Database has been opened. 
+2020-04-17 17:26:03 INFO  Server connected at: 8080 
+2020-04-17 17:26:04 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:04:54 INFO  Database has been opened. 
+2020-04-17 18:04:54 INFO  Server connected at: 8080 
+2020-04-17 18:04:55 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:07:37 INFO  Database has been opened. 
+2020-04-17 18:07:37 INFO  Server connected at: 8080 
+2020-04-17 18:07:38 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:19:28 INFO  Database has been opened. 
+2020-04-17 18:19:29 INFO  Server connected at: 8080 
+2020-04-17 18:19:29 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:22:25 INFO  Database has been opened. 
+2020-04-17 18:22:25 INFO  Server connected at: 8080 
+2020-04-17 18:22:26 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:24:04 INFO  Database has been opened. 
+2020-04-17 18:24:04 INFO  Server connected at: 8080 
+2020-04-17 18:24:05 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:25:47 INFO  Database has been opened. 
+2020-04-17 18:25:47 INFO  Server connected at: 8080 
+2020-04-17 18:25:48 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:26:02 INFO  Database has been opened. 
+2020-04-17 18:26:02 INFO  Server connected at: 8080 
+2020-04-17 18:26:03 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:27:33 INFO  Database has been opened. 
+2020-04-17 18:27:33 INFO  Server connected at: 8080 
+2020-04-17 18:27:34 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:30:13 INFO  Database has been opened. 
+2020-04-17 18:30:13 INFO  Server connected at: 8080 
+2020-04-17 18:30:14 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:33:01 INFO  Database has been opened. 
+2020-04-17 18:33:01 INFO  Server connected at: 8080 
+2020-04-17 18:33:02 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:33:04 ERROR (node:9304) UnhandledPromiseRejectionWarning: ReferenceError: express is not defined
+    at D:\Documents\Web Dev\Jupiter Notify\routes\routes.js:166:16
+    at Layer.handle [as handle_request] (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\router\route.js:137:13)
+    at authUserCheck (D:\Documents\Web Dev\Jupiter Notify\routes\routes.js:22:16)
+    at Layer.handle [as handle_request] (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\router\layer.js:95:5)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\router\index.js:281:22
+    at Function.process_params (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\router\index.js:335:12) 
+2020-04-17 18:33:04 ERROR (node:9304) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1) 
+2020-04-17 18:33:04 ERROR (node:9304) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code. 
+2020-04-17 18:33:36 INFO  Database has been opened. 
+2020-04-17 18:33:36 INFO  Server connected at: 8080 
+2020-04-17 18:33:37 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:34:08 INFO  Database has been opened. 
+2020-04-17 18:34:08 INFO  Server connected at: 8080 
+2020-04-17 18:34:10 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:34:52 INFO  Database has been opened. 
+2020-04-17 18:34:52 INFO  Server connected at: 8080 
+2020-04-17 18:34:53 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:34:59 INFO  Database has been opened. 
+2020-04-17 18:34:59 INFO  Server connected at: 8080 
+2020-04-17 18:35:00 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:35:45 INFO  Database has been opened. 
+2020-04-17 18:35:45 INFO  Server connected at: 8080 
+2020-04-17 18:35:46 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:36:28 INFO  Database has been opened. 
+2020-04-17 18:36:28 INFO  Server connected at: 8080 
+2020-04-17 18:36:29 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:36:41 INFO  Database has been opened. 
+2020-04-17 18:36:42 INFO  Server connected at: 8080 
+2020-04-17 18:36:42 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:37:00 INFO  Database has been opened. 
+2020-04-17 18:37:01 INFO  Server connected at: 8080 
+2020-04-17 18:37:01 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:38:07 INFO  Database has been opened. 
+2020-04-17 18:38:07 INFO  Server connected at: 8080 
+2020-04-17 18:38:08 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:38:16 INFO  Database has been opened. 
+2020-04-17 18:38:16 INFO  Server connected at: 8080 
+2020-04-17 18:38:17 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:38:33 INFO  Database has been opened. 
+2020-04-17 18:38:33 INFO  Server connected at: 8080 
+2020-04-17 18:38:34 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:39:05 INFO  Database has been opened. 
+2020-04-17 18:39:06 INFO  Server connected at: 8080 
+2020-04-17 18:39:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:39:32 INFO  Database has been opened. 
+2020-04-17 18:39:32 INFO  Server connected at: 8080 
+2020-04-17 18:39:33 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:40:48 INFO  Database has been opened. 
+2020-04-17 18:40:49 INFO  Server connected at: 8080 
+2020-04-17 18:40:49 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:41:05 INFO  Database has been opened. 
+2020-04-17 18:41:05 INFO  Server connected at: 8080 
+2020-04-17 18:41:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:41:16 INFO  Database has been opened. 
+2020-04-17 18:41:16 INFO  Server connected at: 8080 
+2020-04-17 18:41:17 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:41:27 INFO  Database has been opened. 
+2020-04-17 18:41:28 INFO  Server connected at: 8080 
+2020-04-17 18:41:28 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:42:05 INFO  Database has been opened. 
+2020-04-17 18:42:05 INFO  Server connected at: 8080 
+2020-04-17 18:42:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:42:14 INFO  Database has been opened. 
+2020-04-17 18:42:14 INFO  Server connected at: 8080 
+2020-04-17 18:42:14 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:46:07 INFO  Database has been opened. 
+2020-04-17 18:46:07 INFO  Server connected at: 8080 
+2020-04-17 18:46:08 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:46:12 INFO  Database has been opened. 
+2020-04-17 18:46:12 INFO  Server connected at: 8080 
+2020-04-17 18:46:13 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:46:38 INFO  Database has been opened. 
+2020-04-17 18:46:38 INFO  Server connected at: 8080 
+2020-04-17 18:46:39 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:46:41 INFO  Database has been opened. 
+2020-04-17 18:46:41 INFO  Server connected at: 8080 
+2020-04-17 18:46:49 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:47:10 INFO  Database has been opened. 
+2020-04-17 18:47:11 INFO  Server connected at: 8080 
+2020-04-17 18:47:11 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:48:04 INFO  Database has been opened. 
+2020-04-17 18:48:05 INFO  Server connected at: 8080 
+2020-04-17 18:48:05 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:48:31 INFO  Database has been opened. 
+2020-04-17 18:48:31 INFO  Server connected at: 8080 
+2020-04-17 18:48:32 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:48:42 INFO  Database has been opened. 
+2020-04-17 18:48:42 INFO  Server connected at: 8080 
+2020-04-17 18:48:43 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:49:17 INFO  Database has been opened. 
+2020-04-17 18:49:18 INFO  Server connected at: 8080 
+2020-04-17 18:49:19 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:49:47 INFO  Database has been opened. 
+2020-04-17 18:49:48 INFO  Server connected at: 8080 
+2020-04-17 18:49:48 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:49:57 INFO  Database has been opened. 
+2020-04-17 18:49:58 INFO  Server connected at: 8080 
+2020-04-17 18:49:59 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:52:20 INFO  User 'Marcel#1473' logged in. 
+2020-04-17 18:52:55 INFO  Database has been opened. 
+2020-04-17 18:52:55 INFO  Server connected at: 8080 
+2020-04-17 18:52:56 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:53:06 INFO  Database has been opened. 
+2020-04-17 18:53:06 INFO  Server connected at: 8080 
+2020-04-17 18:53:07 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:53:27 INFO  Database has been opened. 
+2020-04-17 18:53:28 INFO  Server connected at: 8080 
+2020-04-17 18:53:28 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:53:37 INFO  Database has been opened. 
+2020-04-17 18:53:38 INFO  Server connected at: 8080 
+2020-04-17 18:53:38 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:54:56 INFO  Database has been opened. 
+2020-04-17 18:54:56 INFO  Server connected at: 8080 
+2020-04-17 18:54:57 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:56:24 INFO  Database has been opened. 
+2020-04-17 18:56:25 INFO  Server connected at: 8080 
+2020-04-17 18:56:25 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:56:44 INFO  Database has been opened. 
+2020-04-17 18:56:45 INFO  Server connected at: 8080 
+2020-04-17 18:56:45 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:57:26 INFO  Database has been opened. 
+2020-04-17 18:57:27 INFO  Server connected at: 8080 
+2020-04-17 18:57:27 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 18:59:42 INFO  Database has been opened. 
+2020-04-17 18:59:42 INFO  Server connected at: 8080 
+2020-04-17 18:59:43 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:01:24 INFO  Database has been opened. 
+2020-04-17 19:01:24 INFO  Server connected at: 8080 
+2020-04-17 19:01:25 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:02:06 INFO  Database has been opened. 
+2020-04-17 19:02:06 INFO  Server connected at: 8080 
+2020-04-17 19:02:07 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:02:14 INFO  Database has been opened. 
+2020-04-17 19:02:14 INFO  Server connected at: 8080 
+2020-04-17 19:02:16 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:13:47 INFO  Database has been opened. 
+2020-04-17 19:13:47 INFO  Server connected at: 8080 
+2020-04-17 19:13:48 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:13:54 INFO  Database has been opened. 
+2020-04-17 19:13:54 INFO  Server connected at: 8080 
+2020-04-17 19:13:55 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:14:01 INFO  Database has been opened. 
+2020-04-17 19:14:01 INFO  Server connected at: 8080 
+2020-04-17 19:14:02 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:14:07 INFO  Database has been opened. 
+2020-04-17 19:14:07 INFO  Server connected at: 8080 
+2020-04-17 19:14:09 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:16:49 ERROR ReferenceError: D:\Documents\Web Dev\Jupiter Notify\static\admin.ejs:129
+    127| 
+    128| 			<div class="member" v-for="member in this.members">
+ >> 129| 				<% console.log(member); %>
+    130| 				<div class="member__info">
+    131| 					<img src="https://cdn.discordapp.com/embed/avatars/1.png?size=2048" alt="Discord icon" />
+    132| 					<span>MarcelMiro#1473</span>
+
+member is not defined
+    at eval (eval at compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12), <anonymous>:10:20)
+    at admin (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:656:17)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:36)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7)
+    at D:\Documents\Web Dev\Jupiter Notify\routes\routes.js:196:9 
+2020-04-17 19:17:27 INFO  Database has been opened. 
+2020-04-17 19:17:27 INFO  Server connected at: 8080 
+2020-04-17 19:17:28 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:18:55 INFO  Database has been opened. 
+2020-04-17 19:18:55 INFO  Server connected at: 8080 
+2020-04-17 19:18:56 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:22:02 INFO  Database has been opened. 
+2020-04-17 19:22:03 INFO  Server connected at: 8080 
+2020-04-17 19:22:03 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:25:05 INFO  Database has been opened. 
+2020-04-17 19:25:05 INFO  Server connected at: 8080 
+2020-04-17 19:25:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:31:07 INFO  Database has been opened. 
+2020-04-17 19:31:07 INFO  Server connected at: 8080 
+2020-04-17 19:31:08 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:33:29 INFO  Database has been opened. 
+2020-04-17 19:33:29 INFO  Server connected at: 8080 
+2020-04-17 19:33:30 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:34:36 INFO  Database has been opened. 
+2020-04-17 19:34:37 INFO  Server connected at: 8080 
+2020-04-17 19:34:37 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:34:46 INFO  Database has been opened. 
+2020-04-17 19:34:46 INFO  Server connected at: 8080 
+2020-04-17 19:34:47 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:34:49 INFO  Database has been opened. 
+2020-04-17 19:34:50 INFO  Server connected at: 8080 
+2020-04-17 19:34:58 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:35:13 INFO  Database has been opened. 
+2020-04-17 19:35:13 INFO  Server connected at: 8080 
+2020-04-17 19:35:14 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:35:27 INFO  Database has been opened. 
+2020-04-17 19:35:27 INFO  Server connected at: 8080 
+2020-04-17 19:35:28 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:35:40 INFO  Database has been opened. 
+2020-04-17 19:35:40 INFO  Server connected at: 8080 
+2020-04-17 19:35:41 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:35:48 INFO  Database has been opened. 
+2020-04-17 19:35:49 INFO  Server connected at: 8080 
+2020-04-17 19:35:50 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:36:03 INFO  Database has been opened. 
+2020-04-17 19:36:03 INFO  Server connected at: 8080 
+2020-04-17 19:36:04 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:37:38 INFO  Database has been opened. 
+2020-04-17 19:39:39 INFO  Database has been opened. 
+2020-04-17 19:39:39 INFO  Server connected at: 8080 
+2020-04-17 19:39:40 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:39:58 INFO  Database has been opened. 
+2020-04-17 19:39:59 INFO  Server connected at: 8080 
+2020-04-17 19:40:00 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:47:39 INFO  Database has been opened. 
+2020-04-17 19:47:39 INFO  Server connected at: 8080 
+2020-04-17 19:47:40 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:48:11 INFO  Database has been opened. 
+2020-04-17 19:48:11 INFO  Server connected at: 8080 
+2020-04-17 19:48:12 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:49:18 INFO  Database has been opened. 
+2020-04-17 19:49:18 INFO  Server connected at: 8080 
+2020-04-17 19:49:19 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:52:16 INFO  Database has been opened. 
+2020-04-17 19:52:17 INFO  Server connected at: 8080 
+2020-04-17 19:52:18 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:52:56 INFO  Database has been opened. 
+2020-04-17 19:52:56 INFO  Server connected at: 8080 
+2020-04-17 19:52:57 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:53:10 INFO  Database has been opened. 
+2020-04-17 19:53:10 INFO  Server connected at: 8080 
+2020-04-17 19:53:11 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:54:08 INFO  Database has been opened. 
+2020-04-17 19:54:08 INFO  Server connected at: 8080 
+2020-04-17 19:54:12 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:55:18 INFO  Database has been opened. 
+2020-04-17 19:55:19 INFO  Server connected at: 8080 
+2020-04-17 19:55:19 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:57:12 INFO  Database has been opened. 
+2020-04-17 19:57:12 INFO  Server connected at: 8080 
+2020-04-17 19:57:13 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:58:10 INFO  Database has been opened. 
+2020-04-17 19:58:10 INFO  Server connected at: 8080 
+2020-04-17 19:58:12 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:58:16 INFO  Database has been opened. 
+2020-04-17 19:58:16 INFO  Server connected at: 8080 
+2020-04-17 19:58:17 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:58:49 INFO  Database has been opened. 
+2020-04-17 19:58:49 INFO  Server connected at: 8080 
+2020-04-17 19:58:50 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:59:03 INFO  Database has been opened. 
+2020-04-17 19:59:03 INFO  Server connected at: 8080 
+2020-04-17 19:59:04 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 19:59:44 INFO  Database has been opened. 
+2020-04-17 19:59:45 INFO  Server connected at: 8080 
+2020-04-17 19:59:45 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:02:22 INFO  Database has been opened. 
+2020-04-17 20:02:22 INFO  Server connected at: 8080 
+2020-04-17 20:02:23 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:02:44 INFO  Database has been opened. 
+2020-04-17 20:02:44 INFO  Server connected at: 8080 
+2020-04-17 20:02:45 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:05:51 INFO  Database has been opened. 
+2020-04-17 20:05:51 INFO  Server connected at: 8080 
+2020-04-17 20:05:53 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:06:04 INFO  Database has been opened. 
+2020-04-17 20:06:05 INFO  Server connected at: 8080 
+2020-04-17 20:06:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:06:22 INFO  Database has been opened. 
+2020-04-17 20:06:23 INFO  Server connected at: 8080 
+2020-04-17 20:06:23 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:06:40 INFO  Database has been opened. 
+2020-04-17 20:06:41 INFO  Server connected at: 8080 
+2020-04-17 20:06:41 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:06:42 INFO  Database has been opened. 
+2020-04-17 20:06:42 INFO  Server connected at: 8080 
+2020-04-17 20:06:52 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:07:08 INFO  Database has been opened. 
+2020-04-17 20:07:08 INFO  Server connected at: 8080 
+2020-04-17 20:07:09 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:07:36 INFO  Database has been opened. 
+2020-04-17 20:07:36 INFO  Server connected at: 8080 
+2020-04-17 20:07:37 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:08:38 INFO  Database has been opened. 
+2020-04-17 20:08:38 INFO  Server connected at: 8080 
+2020-04-17 20:08:39 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:11:05 INFO  Database has been opened. 
+2020-04-17 20:11:05 INFO  Server connected at: 8080 
+2020-04-17 20:11:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:11:19 INFO  Database has been opened. 
+2020-04-17 20:11:19 INFO  Server connected at: 8080 
+2020-04-17 20:11:20 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:12:05 INFO  Database has been opened. 
+2020-04-17 20:12:05 INFO  Server connected at: 8080 
+2020-04-17 20:12:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:14:29 INFO  Database has been opened. 
+2020-04-17 20:14:29 INFO  Server connected at: 8080 
+2020-04-17 20:14:30 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:18:18 INFO  Database has been opened. 
+2020-04-17 20:18:18 INFO  Server connected at: 8080 
+2020-04-17 20:18:19 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:18:44 INFO  Database has been opened. 
+2020-04-17 20:18:44 INFO  Server connected at: 8080 
+2020-04-17 20:18:45 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:19:17 INFO  Database has been opened. 
+2020-04-17 20:19:17 INFO  Server connected at: 8080 
+2020-04-17 20:19:18 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:19:38 INFO  Database has been opened. 
+2020-04-17 20:19:38 INFO  Server connected at: 8080 
+2020-04-17 20:19:39 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:19:51 INFO  Database has been opened. 
+2020-04-17 20:19:51 INFO  Server connected at: 8080 
+2020-04-17 20:19:52 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:20:17 INFO  Database has been opened. 
+2020-04-17 20:20:18 INFO  Server connected at: 8080 
+2020-04-17 20:20:19 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:20:26 INFO  Database has been opened. 
+2020-04-17 20:20:26 INFO  Server connected at: 8080 
+2020-04-17 20:20:27 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:21:31 INFO  Database has been opened. 
+2020-04-17 20:21:31 INFO  Server connected at: 8080 
+2020-04-17 20:21:32 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:22:29 INFO  Database has been opened. 
+2020-04-17 20:22:29 INFO  Server connected at: 8080 
+2020-04-17 20:22:30 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:23:36 INFO  Database has been opened. 
+2020-04-17 20:23:36 INFO  Server connected at: 8080 
+2020-04-17 20:23:37 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:27:28 INFO  Database has been opened. 
+2020-04-17 20:27:28 INFO  Server connected at: 8080 
+2020-04-17 20:27:29 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:27:42 INFO  Database has been opened. 
+2020-04-17 20:27:42 INFO  Server connected at: 8080 
+2020-04-17 20:27:43 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:28:04 INFO  Database has been opened. 
+2020-04-17 20:28:05 INFO  Server connected at: 8080 
+2020-04-17 20:28:05 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:28:29 INFO  Database has been opened. 
+2020-04-17 20:28:29 INFO  Server connected at: 8080 
+2020-04-17 20:28:30 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:32:34 INFO  Database has been opened. 
+2020-04-17 20:32:34 INFO  Server connected at: 8080 
+2020-04-17 20:32:35 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:33:53 INFO  Database has been opened. 
+2020-04-17 20:33:53 INFO  Server connected at: 8080 
+2020-04-17 20:33:54 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:35:40 INFO  Database has been opened. 
+2020-04-17 20:35:40 INFO  Server connected at: 8080 
+2020-04-17 20:35:40 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:36:06 INFO  Database has been opened. 
+2020-04-17 20:36:07 INFO  Server connected at: 8080 
+2020-04-17 20:36:08 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:36:57 INFO  Database has been opened. 
+2020-04-17 20:36:57 INFO  Server connected at: 8080 
+2020-04-17 20:36:58 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:37:25 INFO  Database has been opened. 
+2020-04-17 20:37:25 INFO  Server connected at: 8080 
+2020-04-17 20:37:26 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:37:42 INFO  Database has been opened. 
+2020-04-17 20:37:42 INFO  Server connected at: 8080 
+2020-04-17 20:37:43 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:39:52 INFO  Database has been opened. 
+2020-04-17 20:39:52 INFO  Server connected at: 8080 
+2020-04-17 20:39:53 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:42:56 INFO  User 'Marcel#1473' logged in. 
+2020-04-17 20:43:38 INFO  Database has been opened. 
+2020-04-17 20:43:38 INFO  Server connected at: 8080 
+2020-04-17 20:43:39 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:45:02 INFO  Database has been opened. 
+2020-04-17 20:45:02 INFO  Server connected at: 8080 
+2020-04-17 20:45:03 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:45:06 INFO  Database has been opened. 
+2020-04-17 20:45:06 INFO  Server connected at: 8080 
+2020-04-17 20:45:13 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:49:48 INFO  Database has been opened. 
+2020-04-17 20:49:48 INFO  Server connected at: 8080 
+2020-04-17 20:49:49 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:49:50 INFO  Database has been opened. 
+2020-04-17 20:49:50 INFO  Server connected at: 8080 
+2020-04-17 20:49:59 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:50:50 INFO  Database has been opened. 
+2020-04-17 20:50:50 INFO  Server connected at: 8080 
+2020-04-17 20:50:51 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:52:22 INFO  Database has been opened. 
+2020-04-17 20:52:22 INFO  Server connected at: 8080 
+2020-04-17 20:52:23 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:53:13 INFO  Database has been opened. 
+2020-04-17 20:53:13 INFO  Server connected at: 8080 
+2020-04-17 20:53:14 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:53:23 INFO  Database has been opened. 
+2020-04-17 20:53:23 INFO  Server connected at: 8080 
+2020-04-17 20:53:24 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:53:33 INFO  Database has been opened. 
+2020-04-17 20:53:33 INFO  Server connected at: 8080 
+2020-04-17 20:53:34 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:54:48 INFO  Database has been opened. 
+2020-04-17 20:54:48 INFO  Server connected at: 8080 
+2020-04-17 20:54:49 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:57:14 INFO  Database has been opened. 
+2020-04-17 20:57:14 INFO  Server connected at: 8080 
+2020-04-17 20:57:15 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:57:56 INFO  Database has been opened. 
+2020-04-17 20:57:56 INFO  Server connected at: 8080 
+2020-04-17 20:57:57 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:58:03 INFO  Database has been opened. 
+2020-04-17 20:58:04 INFO  Server connected at: 8080 
+2020-04-17 20:58:04 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 20:58:29 INFO  Database has been opened. 
+2020-04-17 20:58:30 INFO  Server connected at: 8080 
+2020-04-17 20:58:30 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:03:56 INFO  Database has been opened. 
+2020-04-17 21:03:57 INFO  Server connected at: 8080 
+2020-04-17 21:03:57 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:04:46 INFO  Database has been opened. 
+2020-04-17 21:04:46 INFO  Server connected at: 8080 
+2020-04-17 21:04:47 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:05:25 INFO  Database has been opened. 
+2020-04-17 21:05:26 INFO  Server connected at: 8080 
+2020-04-17 21:05:26 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:06:23 INFO  Database has been opened. 
+2020-04-17 21:06:23 INFO  Server connected at: 8080 
+2020-04-17 21:06:24 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:08:31 INFO  Database has been opened. 
+2020-04-17 21:08:31 INFO  Server connected at: 8080 
+2020-04-17 21:08:32 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:09:40 INFO  Database has been opened. 
+2020-04-17 21:09:40 INFO  Server connected at: 8080 
+2020-04-17 21:09:41 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:10:28 INFO  Database has been opened. 
+2020-04-17 21:10:28 INFO  Server connected at: 8080 
+2020-04-17 21:10:29 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:10:47 INFO  Database has been opened. 
+2020-04-17 21:10:48 INFO  Server connected at: 8080 
+2020-04-17 21:10:48 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:11:51 INFO  Database has been opened. 
+2020-04-17 21:11:51 INFO  Server connected at: 8080 
+2020-04-17 21:11:52 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:12:16 INFO  Database has been opened. 
+2020-04-17 21:12:16 INFO  Server connected at: 8080 
+2020-04-17 21:12:17 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:13:04 INFO  Database has been opened. 
+2020-04-17 21:13:05 INFO  Server connected at: 8080 
+2020-04-17 21:13:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:13:59 INFO  Database has been opened. 
+2020-04-17 21:14:00 INFO  Server connected at: 8080 
+2020-04-17 21:14:00 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:14:12 INFO  Database has been opened. 
+2020-04-17 21:14:12 INFO  Server connected at: 8080 
+2020-04-17 21:14:13 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:14:41 INFO  Database has been opened. 
+2020-04-17 21:14:41 INFO  Server connected at: 8080 
+2020-04-17 21:14:42 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:15:23 INFO  Database has been opened. 
+2020-04-17 21:15:23 INFO  Server connected at: 8080 
+2020-04-17 21:15:23 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:17:05 INFO  Database has been opened. 
+2020-04-17 21:17:05 INFO  Server connected at: 8080 
+2020-04-17 21:17:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:17:45 INFO  Database has been opened. 
+2020-04-17 21:17:45 INFO  Server connected at: 8080 
+2020-04-17 21:17:46 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 21:19:45 INFO  Database has been opened. 
+2020-04-17 21:19:45 INFO  Server connected at: 8080 
+2020-04-17 21:19:46 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:36:19 INFO  Database has been opened. 
+2020-04-17 22:36:20 INFO  Server connected at: 8080 
+2020-04-17 22:36:20 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:39:07 INFO  Database has been opened. 
+2020-04-17 22:39:07 INFO  Server connected at: 8080 
+2020-04-17 22:39:08 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:41:04 INFO  Database has been opened. 
+2020-04-17 22:41:05 INFO  Server connected at: 8080 
+2020-04-17 22:41:05 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:41:23 INFO  Database has been opened. 
+2020-04-17 22:41:24 INFO  Server connected at: 8080 
+2020-04-17 22:41:24 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:42:45 INFO  Database has been opened. 
+2020-04-17 22:42:46 INFO  Server connected at: 8080 
+2020-04-17 22:42:46 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:42:58 INFO  Database has been opened. 
+2020-04-17 22:42:58 INFO  Server connected at: 8080 
+2020-04-17 22:42:59 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:44:09 INFO  Database has been opened. 
+2020-04-17 22:44:09 INFO  Server connected at: 8080 
+2020-04-17 22:44:10 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:47:00 INFO  Database has been opened. 
+2020-04-17 22:47:00 INFO  Server connected at: 8080 
+2020-04-17 22:47:01 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:49:09 INFO  Database has been opened. 
+2020-04-17 22:49:10 INFO  Server connected at: 8080 
+2020-04-17 22:49:10 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:51:02 INFO  Database has been opened. 
+2020-04-17 22:51:03 INFO  Server connected at: 8080 
+2020-04-17 22:51:03 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:51:50 INFO  Database has been opened. 
+2020-04-17 22:51:50 INFO  Server connected at: 8080 
+2020-04-17 22:51:51 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:54:21 INFO  Database has been opened. 
+2020-04-17 22:54:22 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:54:32 INFO  Database has been opened. 
+2020-04-17 22:54:33 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 22:57:07 INFO  Database has been opened. 
+2020-04-17 22:57:07 ERROR (node:14436) UnhandledPromiseRejectionWarning: Error: You are trying to attach socket.io to an express request handler function. Please pass a http.Server instance.
+    at Server.listen.Server.attach (D:\Documents\Web Dev\Jupiter Notify\node_modules\socket.io\lib\index.js:258:11)
+    at new Server (D:\Documents\Web Dev\Jupiter Notify\node_modules\socket.io\lib\index.js:59:17)
+    at Function.Server [as listen] (D:\Documents\Web Dev\Jupiter Notify\node_modules\socket.io\lib\index.js:44:41)
+    at D:\Documents\Web Dev\Jupiter Notify\server.js:86:41
+    at processTicksAndRejections (internal/process/task_queues.js:97:5) 
+2020-04-17 22:57:07 ERROR (node:14436) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1) 
+2020-04-17 22:57:07 ERROR (node:14436) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code. 
+2020-04-17 22:57:08 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:00:01 INFO  Database has been opened. 
+2020-04-17 23:00:01 INFO  Server connected at: 8080 
+2020-04-17 23:00:02 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:00:50 INFO  Database has been opened. 
+2020-04-17 23:00:51 INFO  Server connected at: 8080 
+2020-04-17 23:00:51 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:01:36 INFO  Database has been opened. 
+2020-04-17 23:07:50 INFO  Database has been opened. 
+2020-04-17 23:07:50 INFO  Server connected at: 8080 
+2020-04-17 23:07:51 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:07:54 INFO  Socket connected. 
+2020-04-17 23:07:57 INFO  Socket connected. 
+2020-04-17 23:09:23 INFO  Database has been opened. 
+2020-04-17 23:09:23 INFO  Server connected at: 8080 
+2020-04-17 23:09:24 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:09:25 INFO  Socket connected. 
+2020-04-17 23:09:37 INFO  Database has been opened. 
+2020-04-17 23:09:37 INFO  Server connected at: 8080 
+2020-04-17 23:09:38 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:10:50 INFO  Database has been opened. 
+2020-04-17 23:10:50 INFO  Server connected at: 8080 
+2020-04-17 23:10:51 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:11:00 INFO  Socket connected. 
+2020-04-17 23:13:19 INFO  Socket connected. 
+2020-04-17 23:13:33 INFO  Socket connected. 
+2020-04-17 23:13:34 INFO  Socket connected. 
+2020-04-17 23:13:35 INFO  Socket connected. 
+2020-04-17 23:13:39 INFO  Database has been opened. 
+2020-04-17 23:13:40 INFO  Server connected at: 8080 
+2020-04-17 23:13:40 INFO  Socket connected. 
+2020-04-17 23:13:40 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:13:43 INFO  Socket connected. 
+2020-04-17 23:13:43 INFO  Socket connected. 
+2020-04-17 23:14:43 INFO  Database has been opened. 
+2020-04-17 23:14:43 INFO  Server connected at: 8080 
+2020-04-17 23:14:43 INFO  Socket connected. 
+2020-04-17 23:14:44 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:14:45 INFO  Socket connected. 
+2020-04-17 23:20:06 INFO  Database has been opened. 
+2020-04-17 23:20:06 INFO  Server connected at: 8080 
+2020-04-17 23:20:07 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:20:07 INFO  Socket connected. 
+2020-04-17 23:23:03 INFO  Database has been opened. 
+2020-04-17 23:23:03 INFO  Server connected at: 8080 
+2020-04-17 23:23:03 INFO  Socket connected. 
+2020-04-17 23:23:04 INFO  Bot logged in as Dashboard#1824. 
+2020-04-17 23:23:07 INFO  Socket connected. 
+2020-04-17 23:23:08 INFO  Socket connected. 

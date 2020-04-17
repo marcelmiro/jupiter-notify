@@ -1,5 +1,6 @@
 require("dotenv").config();
 const router = require("express").Router();
+const fs = require("fs");
 const bodyParser = require('body-parser');
 const authRoutes = require("./auth-routes");
 const stripeRoutes = require("./stripe-routes");
@@ -173,9 +174,29 @@ router.get("/admin", authUserCheck, async (req,res) => {
     delete role["role_id"];
     delete role.data;
 
+    //  Get logs from log file.
+    let logs = [];
+    await new Promise((resolve, reject) => {
+        fs.readFile(process.env.LOGGER_NAME, 'utf8', (err, data) => {
+            if (err) { console.error("Can't read log file."); reject(err); }
+            else {
+                logs = data.split(/\r\n(?=\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s)/);
+                logs.forEach((log, index) => {
+                    log = log.replace(/\r\n/g, "<br>");
+                    log = log.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    log = log.replace(/&lt;br&gt;/g, "<br>");
+                    log = log.replace(/\s{4}/g, "&emsp;&emsp;");
+                    logs[index] = log;
+                });
+                resolve(logs);
+            }
+        });
+    });
+
     res.render("admin",
         {
-            role: role
+            role: role,
+            logs: logs
         });
 });
 

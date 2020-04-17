@@ -172,8 +172,8 @@ html, body {
 .dashboard {
   position: relative;
   margin: 0 auto;
-  width: 80%;
-  height: 80%;
+  width: 1300px;
+  height: 750px;
   max-width: 1400px;
   max-height: 800px;
   top: 50%;
@@ -184,7 +184,7 @@ html, body {
 .dashboard .tabs-container {
   height: 50px;
   min-height: 50px;
-  background: black;
+  background: #0A0A0A;
   text-align: left;
   padding: 0 5px;
   border-top-left-radius: 10px;
@@ -242,27 +242,16 @@ html, body {
   align-items: center;
 }
 .dashboard .content > div {
-  display: none;
   width: calc(100% - 80px);
   height: calc(100% - 120px);
 }
-.dashboard .content > div:nth-of-type(4) {
-  background-color: purple;
-}
-.dashboard .content > div:nth-of-type(5) {
-  background-color: yellow;
-}
-.dashboard .content > div.active {
-  display: block;
+.dashboard .content > div:not(.active) {
+  display: none;
 }
 .dashboard .content__members {
   overflow-x: hidden;
   overflow-y: auto;
   margin-top: 60px;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  align-content: center;
   scrollbar-color: white #2A2A2A;
   scrollbar-width: thin;
 }
@@ -352,7 +341,7 @@ html, body {
   position: absolute;
   top: 0;
   left: -5px;
-  min-width: 100%;
+  width: 170px;
   transform: translateY(30px);
   display: none;
   flex-flow: column nowrap;
@@ -382,7 +371,7 @@ html, body {
 .dashboard .content__members__settings .dropdown__content label:hover {
   color: #BBB;
 }
-.dashboard .content__members__settings .dropdown:hover .dropdown__content {
+.dashboard .content__members__settings .dropdown.active .dropdown__content {
   display: flex;
 }
 .dashboard .content__members__settings #refresh-members:not(.animation) img {
@@ -545,11 +534,120 @@ html, body {
   cursor: auto;
 }
 .dashboard .content__console {
-  background-color: rgba(255, 255, 255, 0.2);
+  font-family: "JetBrains Mono", "Courier New", Clean, sans-serif;
+  display: block;
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
+  padding: 15px 40px 30px;
+  box-sizing: border-box;
+  text-align: left;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: white #2A2A2A;
+  scrollbar-width: thin;
+}
+.dashboard .content__console::-webkit-scrollbar-track {
+  background-color: #2A2A2A;
+  border-radius: 1000vmax;
+}
+.dashboard .content__console::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+.dashboard .content__console::-webkit-scrollbar-thumb {
+  border-radius: 1000vmax;
+  background-color: white;
+}
+.dashboard .content__console > div + div {
+  margin-top: 6px;
+}
+.dashboard .content__console > div span b {
+  font-size: 17px;
+  font-weight: bold;
 }
 .dashboard .content__settings {
   background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 30px 40px 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: white #2A2A2A;
+  scrollbar-width: thin;
+}
+.dashboard .content__settings::-webkit-scrollbar-track {
+  background-color: #2A2A2A;
+  border-radius: 1000vmax;
+}
+.dashboard .content__settings::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+.dashboard .content__settings::-webkit-scrollbar-thumb {
+  border-radius: 1000vmax;
+  background-color: white;
+}
+.dashboard .content__settings > div {
+  margin: 10px 0;
+  position: relative;
+  width: 44%;
+  display: inline-flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.dashboard .content__settings > div * + * {
+  margin-left: 20px;
+}
+.dashboard .content__settings h2 {
+  font-size: 24px;
+  text-align: left;
+  width: 100%;
+  margin: 40px 0 0;
+}
+.dashboard .content__settings h2:nth-of-type(1) {
+  margin: 0;
+}
+.dashboard .content__settings label {
+  width: 140px;
+  text-transform: capitalize;
+  font-size: 22px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-align: left;
+}
+.dashboard .content__settings input[type=text] {
+  width: 200px;
+  height: 30px;
+  cursor: text;
+  border-radius: 8px;
+  padding: 0 10px;
+  font-size: 16px;
+  font-weight: normal;
+}
+.dashboard .content__settings input[type=text]::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: Clean, sans-serif;
+}
+.dashboard .content__settings input[type=text]:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: Clean, sans-serif;
+}
+.dashboard .content__settings input[type=text]::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: Clean, sans-serif;
+}
+.dashboard .content__settings input[type=text]:focus {
+  -webkit-box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.1);
+}
+.dashboard .content__settings button {
+  font-size: 17px;
+  padding: 12px 18px;
 }
 
 /*# sourceMappingURL=admin.css.map */

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const passport = require("passport");
 const DiscordStrategy = require("passport-discord");
 const utils = require("../utils/utils");

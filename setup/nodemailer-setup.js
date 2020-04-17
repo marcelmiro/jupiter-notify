@@ -1,11 +1,11 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+const dbUtils = require("../utils/db-utils");
 
 //  Set up SMTP email account
 const TRANSPORTER = nodemailer.createTransport({
     host: process.env.EMAIL_HOSTNAME,
-    port: parseInt(process.env.EMAIL_PORT),
-    secure: false,
+    port: process.env.EMAIL_PORT,
     auth: {
         user: process.env.EMAIL_ADDRESS,
         pass: process.env.EMAIL_PASSWORD

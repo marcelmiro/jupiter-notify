@@ -25,17 +25,17 @@
 
 <main class="dashboard">
 	<div class="tabs-container">
-		<div class="tab">
+		<div class="tab active" @click="currentTab = 1">
 			<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
 				<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
 					<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
 				</g>
 			</svg>
 
-			<input type="radio" name="tabs" id="tab-members" />
+			<input type="radio" name="tabs" id="tab-members" checked />
 			<label for="tab-members">Members</label>
 		</div>
-		<div class="tab">
+		<div class="tab" @click="currentTab = 2">
 			<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
 				<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
 					<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
@@ -45,75 +45,61 @@
 			<input type="radio" name="tabs" id="tab-console" />
 			<label for="tab-console">Console</label>
 		</div>
-		<div class="tab active">
+		<div class="tab" @click="currentTab = 3">
 			<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
 				<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
 					<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
 				</g>
 			</svg>
 
-			<input type="radio" name="tabs" id="tab-settings" checked />
+			<input type="radio" name="tabs" id="tab-settings" />
 			<label for="tab-settings">Settings</label>
-		</div>
-		<div class="tab">
-			<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-				<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
-					<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
-				</g>
-			</svg>
-
-			<input type="radio" name="tabs" id="tab4" />
-			<label for="tab4">Tab4</label>
-		</div>
-		<div class="tab">
-			<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-				<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
-					<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
-				</g>
-			</svg>
-
-			<input type="radio" name="tabs" id="tab5" />
-			<label for="tab5">Tab5</label>
 		</div>
 	</div>
 	<div class="content">
-		<div class="content__members">
+		<div class="content__members active">
 			<!-- TODO Length manager for .member__info. -->
 			<div class="content__members__settings">
 				<div class="left">
-					<input type="text" name="search" id="search-member" placeholder="username" />
+					<input type="text" name="search" v-model="search" id="search-member" placeholder="username" />
 					<label for="search-member" style="display:none;"></label>
 
-					<div class="dropdown">
-						<button class="dropdown__button"><span>Role: All</span><img src="assets/arrow_dropdown.svg" alt="Arrow down" /></button>
+					<div class="dropdown" :class="{ 'active' : showRoleDropdown }">
+						<button class="dropdown__button" @click="showRoleDropdown = !showRoleDropdown">
+							<span>Role: {{ role | capitalize }}</span>
+							<img src="assets/arrow_dropdown.svg" alt="Arrow down" />
+						</button>
 						<div class="dropdown__content">
-							<input type="radio" name="roles" id="role-all" checked />
+							<input type="radio" name="roles" id="role-all" value="all" v-model="role" checked />
 							<label for="role-all">all</label>
-							<input type="radio" name="roles" id="role-god" />
+							<input type="radio" name="roles" id="role-god" value="god" v-model="role" />
 							<label for="role-god">god</label>
-							<input type="radio" name="roles" id="role-owner" />
+							<input type="radio" name="roles" id="role-owner" value="owner" v-model="role" />
 							<label for="role-owner">owner</label>
-							<input type="radio" name="roles" id="role-admin" />
+							<input type="radio" name="roles" id="role-admin" value="admin" v-model="role" />
 							<label for="role-admin">admin</label>
-							<input type="radio" name="roles" id="role-developer" />
+							<input type="radio" name="roles" id="role-developer" value="developer" v-model="role" />
 							<label for="role-developer">developer</label>
-							<input type="radio" name="roles" id="role-staff" />
+							<input type="radio" name="roles" id="role-staff" value="staff" v-model="role" />
 							<label for="role-staff">staff</label>
-							<input type="radio" name="roles" id="role-lifetime" />
+							<input type="radio" name="roles" id="role-lifetime" value="lifetime" v-model="role" />
 							<label for="role-lifetime">lifetime</label>
-							<input type="radio" name="roles" id="role-renewal" />
+							<input type="radio" name="roles" id="role-renewal" value="renewal" v-model="role" />
 							<label for="role-renewal">renewal</label>
 						</div>
 					</div>
 				</div>
 				<div class="right">
-					<span>20 members</span>
-					<button id="add-member"><img src="assets/icon_add.svg" alt="Plus icon" /></button>
-					<button id="refresh-members"><img src="assets/icon_reload.svg" alt="Reload icon" /></button>
+					<span v-if="this.memberCount !== 1">{{ memberCount }} members</span>
+					<span v-else>{{ memberCount }} member</span>
+					<button @click="addMember"><img src="assets/icon_add.svg" alt="Plus icon" /></button>
+					<button id="refresh-members" @click="refreshMembers"><img src="assets/icon_reload.svg" alt="Reload icon" /></button>
 				</div>
 			</div>
 			<div class="member-view">
-				<button class="back"><img src="assets/arrow_left.svg" alt="Arrow left" /></button>
+				<button class="back" @click="showMemberView = false">
+					<img src="assets/arrow_left.svg" alt="Arrow left" />
+				</button>
 
 				<div class="container">
 					<div class="container__welcome">
@@ -143,32 +129,115 @@
 					</div>
 				</div>
 			</div>
-			<% for (let i=0; i<10; i++) { %>
-				<div class="member">
-					<div class="member__info">
-						<img src="https://cdn.discordapp.com/embed/avatars/1.png?size=2048" alt="Discord icon" />
-						<span>MarcelMiro#1473</span>
-						<button class="tag" style="background-color: #4FF000">owner</button>
-					</div>
-					<div class="member__links">
-						<button class="button view-member">View</button>
-						<button class="button">Edit</button>
-					</div>
+
+			<div class="member" v-for="member in this.filteredList">
+				<div class="member__info">
+					<img :src="member.avatar_url" alt="Discord icon" />
+					<span>{{ member.username }}</span>
+					<button class="tag" :style="'background-color:' + member.role.color">{{ member.role.name }}</button>
 				</div>
-			<% } %>
+				<div class="member__links">
+					<button class="button view-member" @click="viewMember(member.id)">View</button>
+					<button class="button disabled">Edit</button>
+				</div>
+			</div>
+
 		</div>
-		<div class="content__console"></div>
-		<div class="content__settings active"></div>
-		<div></div>
-		<div></div>
+		<div class="content__console">
+			<% logs.forEach(log => { %>
+				<% let time = log.split(" ", 2).join(" "); %>
+				<div>
+					<%- time %>
+					<%
+						log = log.substring(time.length).split(" ").filter(Boolean);
+						let color = log[0] === "INFO" ? "#3FBF3F" : log[0] === "ERROR" ? "#FF0000" : "#FFFFFF";
+					%>
+					<span style="color:<%=color%>"><b><%- log[0] %></b>&emsp;<%- log.slice(1).join(" ") %></span>
+				</div>
+			<% }); %>
+		</div>
+		<div class="content__settings">
+			<h2>Web config</h2>
+			<div>
+				<!-- TODO transform text to lowercase and replace '_' with ' '. -->
+				<label for="setting-in_stock">in stock</label>
+				<input id="setting-in_stock" type="text" placeholder="in stock" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+			<div>
+				<label for="setting-cookie_key">cookie key</label>
+				<input id="setting-cookie_key" type="text" placeholder="cookie key" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+
+			<h2>Stripe config</h2>
+			<div>
+				<label for="setting-stripe_key">public key</label>
+				<input id="setting-stripe_key" type="text" placeholder="public key" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+			<div>
+				<label for="setting-stripe_secret_key">secret key</label>
+				<input id="setting-stripe_secret_key" type="text" placeholder="secret key" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+			<div>
+				<label for="setting-stripe_membership_plan_id">plan id</label>
+				<input id="setting-stripe_membership_plan_id" type="text" placeholder="plan id" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+			<div>
+				<label for="setting-stripe_webhook_id">webhook id</label>
+				<input id="setting-stripe_webhook_id" type="text" placeholder="webhook id" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+
+			<h2>Discord config</h2>
+			<div>
+				<label for="setting-discord_client_id">client id</label>
+				<input id="setting-discord_client_id" type="text" placeholder="client id" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+			<div>
+				<label for="setting-discord_client_secret">client secret</label>
+				<input id="setting-discord_client_secret" type="text" placeholder="client secret" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+			<div>
+				<label for="setting-discord_bot_token">bot token</label>
+				<input id="setting-discord_bot_token" type="text" placeholder="bot token" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+			<div>
+				<label for="setting-discord_guild_id">guild id</label>
+				<input id="setting-discord_guild_id" type="text" placeholder="guild id" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+
+			<h2>Logger config</h2>
+			<div>
+				<label for="setting-logger_max_size">max size (kb)</label>
+				<input id="setting-logger_max_size" type="text" placeholder="max size (kb)" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+			<div>
+				<label for="setting-logger_new_lines">new lines</label>
+				<input id="setting-logger_new_lines" type="text" placeholder="new lines" value="true" />
+				<button class="button disabled">Update</button>
+			</div>
+		</div>
 	</div>
 </main>
 
 
 
+<!--	JS LIBS	-->
+<script src="vue.js"></script>
+<script src="socket.io.js"></script>
 <!--    MAIN JS    -->
 <script type="text/javascript">
-	console.log(JSON.parse('<%-JSON.stringify(role)%>'));
+	const SOCKET = io();
+	//console.log(JSON.parse('<%#-JSON.stringify(role)%>'));
 </script>
 <script src="admin.js"></script>
 </body>

@@ -430,6 +430,7 @@
 
 <!--    MAIN JS    -->
 <script type="text/javascript">
+	const IN_STOCK = Boolean(<%- inStock %>);
 	const STRIPE_KEY = "<%= stripeKey %>";
 	const SESSION = "<%= session %>" ? JSON.parse('<%-JSON.stringify(session)%>') : undefined;
 	const HAS_HAMBURGER = Boolean("<%= isAdmin %>" === "true");

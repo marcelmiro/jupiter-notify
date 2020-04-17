@@ -137,8 +137,8 @@ html, body {
 .dashboard {
 	position: relative;
 	margin: 0 auto;
-	width: 80%;
-	height: 80%;
+	width: 1300px;
+	height: 750px;
 	max-width: 1400px;
 	max-height: 800px;
 	top: 50%;
@@ -149,7 +149,7 @@ html, body {
 	.tabs-container {
 		height: 50px;
 		min-height: 50px;
-		background: black;
+		background: #0A0A0A;
 		text-align: left;
 		padding: 0 5px;
 		border-top-left-radius: 10px;
@@ -192,25 +192,14 @@ html, body {
 		justify-content: center;
 		align-items: center;
 		
-		> div {
-			display: none;
-			width: $contentWidth;
-			height: $contentHeight;
-			&:nth-of-type(4) { background-color: purple; }
-			&:nth-of-type(5) { background-color: yellow; }
-		}
-		> div.active { display: block; }
+		> div { width: $contentWidth; height: $contentHeight; }
+		> div:not(.active) { display: none; }
 	}
 	.content__members {
 		$heightSettings: 60px;
 		overflow-x: hidden;
 		overflow-y: auto;
 		margin-top: $heightSettings;
-		
-		display: flex;
-		flex-flow: column nowrap;
-		justify-content: flex-start;
-		align-content: center;
 		
 		scrollbar-color: white #2A2A2A;
 		scrollbar-width: thin;
@@ -269,7 +258,7 @@ html, body {
 					position: absolute;
 					top: 0;
 					left: -5px;
-					min-width: 100%;
+					width: 170px;
 					transform: translateY($heightSettings/2);
 					display: none;
 					flex-flow: column nowrap;
@@ -290,7 +279,7 @@ html, body {
 					label:last-of-type { padding-bottom: 0; }
 					label:hover { color: #BBB; }
 				}
-				&:hover .dropdown__content { display: flex; }
+				&.active .dropdown__content { display: flex; }
 			}
 			#refresh-members:not(.animation) img { transform: rotate(0); }
 			#refresh-members.animation img { transform: rotate(360deg); transition: transform 0.5s ease-out; }
@@ -391,11 +380,83 @@ html, body {
 		}
 	}
 	.content__console {
-		background-color: rgba(white, 0.2);
+		font-family: "JetBrains Mono", "Courier New", Clean, sans-serif;
+		display: block;
+		background-color: rgba(white, 0.1);
 		border-radius: 20px;
+		padding: 15px 40px 30px;
+		box-sizing: border-box;
+		text-align: left;
+		overflow-x: hidden;
+		overflow-y: auto;
+		
+		scrollbar-color: white #2A2A2A;
+		scrollbar-width: thin;
+		&::-webkit-scrollbar-track { background-color: #2A2A2A; border-radius: 1000vmax; }
+		&::-webkit-scrollbar { width: 8px; background-color: transparent; }
+		&::-webkit-scrollbar-thumb { border-radius: 1000vmax; background-color: white; }
+		
+		> div {
+			& + div { margin-top: 6px; }
+			span b { font-size: 17px; font-weight: bold; }
+		}
 	}
 	.content__settings {
 		background-color: rgba(white, 0.1);
+		border-radius: 20px;
+		padding: 30px 40px 15px;
+		box-sizing: border-box;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		//align-items: center;
+		align-content: flex-start;
+		overflow-x: hidden;
+		overflow-y: auto;
+		
+		scrollbar-color: white #2A2A2A;
+		scrollbar-width: thin;
+		&::-webkit-scrollbar-track { background-color: #2A2A2A; border-radius: 1000vmax; }
+		&::-webkit-scrollbar { width: 8px; background-color: transparent; }
+		&::-webkit-scrollbar-thumb { border-radius: 1000vmax; background-color: white; }
+		
+		> div {
+			margin: 10px 0;
+			position: relative;
+			width: 44%;
+			display: inline-flex;
+			flex-flow: row nowrap;
+			justify-content: center;
+			align-items: center;
+			* + * { margin-left: 20px; }
+		}
+		h2 { font-size: 24px; text-align: left; width: 100%; margin: 40px 0 0; }
+		h2:nth-of-type(1) { margin: 0; }
+		label {
+			width: 140px;
+			text-transform: capitalize;
+			font-size: 22px;
+			font-weight: 400;
+			white-space: nowrap;
+			text-align: left;
+		}
+		input[type=text] {
+			width: 200px;
+			height: 30px;
+			cursor: text;
+			border-radius: 8px;
+			padding: 0 10px;
+			font-size: 16px;
+			font-weight: normal;
+			&::placeholder {color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+			&:-ms-input-placeholder { color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+			&::-ms-input-placeholder { color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+			&:focus {
+				-webkit-box-shadow: 0 0 20px 0 rgba(white, 0.1);
+				box-shadow: 0 0 20px 0 rgba(white, 0.1);
+			}
+		}
+		button { font-size: 17px; padding: 12px 18px; }
 	}
 	
 }
