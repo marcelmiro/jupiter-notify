@@ -82,7 +82,6 @@ let app = new Vue({
             return members;
         },
         filteredLogs: function() {
-            console.log(JSON.stringify(this.logs));
             let tempLogs = [];
             let logs = this.logs.split(/\n(?=\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s)/);
 
