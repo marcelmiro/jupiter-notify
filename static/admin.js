@@ -90,6 +90,7 @@ let app = new Vue({
                 log = log.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 log = log.replace(/&lt;br&gt;/g, "<br>");
                 log = log.replace(/\s{4}/g, "&emsp;&emsp;");
+                console.debug(log);
 
                 let tempLog = { time: log.split(" ", 2).join(" ") };
                 tempLog.text = log.substring(tempLog.time.length).split(" ").filter(Boolean);

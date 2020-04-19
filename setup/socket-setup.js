@@ -241,7 +241,7 @@ module.exports = server => {
                 if (data.value === process.env[data.name]) {
                     return socket.emit("send-error", "You're trying to update setting with same value.");
                 }
-                
+
                 if (await dbUtils.updateSetting(data.name, data.value)) {
                     socket.emit("send-message", `Setting '${data.name}' has been updated.`);
                 } else {
