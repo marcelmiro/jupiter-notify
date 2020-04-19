@@ -76,8 +76,7 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
             } else {
                 return res.redirect("/");
             }
-        }
-        if (!HAS_MEMBERSHIP && role.name === "renewal") {
+        } else if (!HAS_MEMBERSHIP && role.name === "renewal") {
             await dbUtils.deleteData("user_roles", "user_id", req.user["user_id"]);
             return res.redirect("/");
         }
