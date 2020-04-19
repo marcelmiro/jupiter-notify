@@ -20,7 +20,7 @@ async function closeDb() {
         console.log("Database was closed.");
         return true;
     } catch (e) {
-        console.log("Error in closeDb():", e.message);
+        console.error(`closeDb(): ${e.message}`);
         return false;
     }
 }
@@ -29,7 +29,7 @@ async function getAllData(table) {
     try {
         return (await db.query(`SELECT * FROM ${table}`)).rows;
     } catch (e) {
-        console.log("Error in getAllData():", e.message);
+        console.error(`getAllData(): ${e.message}`);
         return undefined;
     }
 }
@@ -38,7 +38,7 @@ let getData = async (table, field, exactMatch) => {
     try {
         return (await db.query(`SELECT * FROM ${table} WHERE ${field}='${exactMatch}'`)).rows[0];
     } catch (e) {
-        console.log("Error in getData():", e.message);
+        console.error(`getData(): ${e.message}`);
         return undefined;
     }
 };
@@ -52,7 +52,7 @@ let getRole = async userId => {
             return undefined;
         }
     } catch (e) {
-        console.log("Error in getRole():", e.message);
+        console.error(`getRole(): ${e.message}`);
         return undefined;
     }
 };
@@ -82,7 +82,7 @@ let insertData = async (table, data= []) => {
         //console.log(`Data inserted into '${table}'.`);
         return true;
     } catch (e) {
-        console.log("Error in insertData():", e.message);
+        console.error(`insertData(): ${e.message}`);
         return false;
     }
 };
@@ -96,7 +96,7 @@ let deleteData = async (table, field, value) => {
         //console.log(`Data in field '${field}' and value '${value}', deleted successfully from table '${table}'.`);
         return true;
     } catch (e) {
-        console.log("Error in deleteData():", e.message);
+        console.error(`deleteData(): ${e.message}`);
         return false;
     }
 };
@@ -112,7 +112,7 @@ let updateData = async (table, matchField, matchValue, changeField, newValue) =>
         await db.query(`UPDATE ${table} SET ${changeField}='${newValue}' WHERE ${matchField}='${matchValue}'`);
         return true;
     } catch (e) {
-        console.log("Error in updateData():", e.message);
+        console.error(`updateData(): ${e.message}`);
         return false;
     }
 };
@@ -125,7 +125,7 @@ let setSettings = async () => {
         });
         return true;
     } catch (e) {
-        console.log("Error in setSettings():", e.message);
+        console.error(`setSettings(): ${e.message}`);
         return false;
     }
 };
@@ -136,7 +136,7 @@ let updateSetting = async (name, value) => {
         process.env[name] = value;
         return true;
     } catch (e) {
-        console.log("Error in updateSetting():", e.message);
+        console.error(`updateSetting(): ${e.message}`);
         return false;
     }
 };
@@ -155,7 +155,7 @@ let updateSetting = async (name, value) => {
             console.log("Data inserted.");
         }
     } catch (e) {
-        console.log("Error in updateOrInsertData():", e.message);
+        console.error(`updateOrInsertData(): ${e.message}`);
     }
 };*/
 

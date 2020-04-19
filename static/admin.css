@@ -402,13 +402,28 @@ html, body {
   top: 20px;
   left: 40px;
   transition: transform 0.3s ease;
-  z-index: 10;
+}
+.dashboard .content__members .member-view .loader {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 50px));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dashboard .content__members .member-view .loader svg {
+  width: 100%;
+  height: 100%;
 }
 .dashboard .content__members .member-view .container {
   margin: 0 auto;
-  padding: 0 40px 40px;
+  padding: 0 40px;
   box-sizing: border-box;
   width: min-content;
+  min-width: 460px;
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
@@ -430,11 +445,15 @@ html, body {
   border-radius: 1000vmax;
   background-color: white;
 }
-.dashboard .content__members .member-view .container__welcome {
+.dashboard .content__members .member-view .container:after {
+  content: "";
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.dashboard .content__members .member-view .container__welcome {
+  display: block;
+  width: 100%;
 }
 .dashboard .content__members .member-view .container__section {
   margin: 50px auto 0;
@@ -459,7 +478,8 @@ html, body {
   border-radius: 50%;
   width: 120px;
   position: absolute;
-  transform: translateX(calc(-100% - 50px));
+  left: 260px;
+  transform: translateY(-25%);
 }
 .dashboard .content__members .member-view .container h2 {
   font-size: 42px;
@@ -484,6 +504,17 @@ html, body {
   border-radius: 1000vmax;
   padding: 4px 12px;
   cursor: auto;
+}
+.dashboard .content__members .member-view .container button.button {
+  margin: 0 auto 40px;
+  padding: 16px 0;
+  width: 80%;
+  font-size: 24px;
+  background-color: #D84546;
+  transition: background-color 0.15s linear;
+}
+.dashboard .content__members .member-view .container button.button:hover {
+  background-color: #d43435;
 }
 .dashboard .content__members > .member + .member {
   margin-top: 50px !important;
@@ -532,6 +563,7 @@ html, body {
   padding: 4px 8px;
   border-radius: 1000vmax;
   cursor: auto;
+  min-width: 54px;
 }
 .dashboard .content__console {
   font-family: "JetBrains Mono", "Courier New", Clean, sans-serif;
@@ -561,8 +593,14 @@ html, body {
 .dashboard .content__console > div + div {
   margin-top: 6px;
 }
-.dashboard .content__console > div span b {
+.dashboard .content__console > div > div {
+  display: inline;
+  word-break: break-all;
+}
+.dashboard .content__console > div span, .dashboard .content__console > div b {
   font-size: 17px;
+}
+.dashboard .content__console > div b {
   font-weight: bold;
 }
 .dashboard .content__settings {
@@ -645,7 +683,7 @@ html, body {
   -webkit-box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.1);
 }
-.dashboard .content__settings button {
+.dashboard .content__settings button.button {
   font-size: 17px;
   padding: 12px 18px;
 }

@@ -5,6 +5,46 @@ const stripeUtils = require("../utils/stripe-utils");
 const botUtils = require("../utils/bot-utils");
 
 
+//  Pay membership route.
+router.get("/pay", async (req, res) => {
+    try {
+        //  Check if user exists and doesn't have role.
+        const IS_USER = Boolean(req.user);
+        const ROLE = IS_USER ? await dbUtils.getRole(req.user["user_id"]) : undefined;
+        if (ROLE && ["lifetime", "renewal"].indexOf(ROLE.name) > -1) { return res.redirect("/"); }
+
+        //  Check if product is in stock.
+        if (!Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
+            return res.redirect("/");
+        }
+
+        //  Check if user has subscription.
+        if (Boolean(IS_USER && (await stripeUtils.getCustomer(req.user["stripe_id"])).subscriptions.data.length > 0)) {
+            return res.redirect("/dashboard");
+        }
+
+        //  Create session and return javascript code to generate
+        //  stripe checkout to buy membership automatically.
+        const SESSION = await stripeUtils.createMembershipSession(req.user["stripe_id"]);
+        return res.send(`
+            <script src="https://js.stripe.com/v3/"></script>
+            <script type="text/javascript">
+                const stripe = Stripe("${process.env.STRIPE_KEY}");
+                stripe.redirectToCheckout({
+                    sessionId: "${SESSION.id}"
+                }).then(r => {
+                    if (r.error.message) { console.error(r.error); }
+                }).catch(e => {
+                    console.error("Error when redirecting to pay membership:", e.message);
+                });
+            </script>
+        `);
+    } catch (e) {
+        console.error(`Route '/stripe/pay': ${e.message}`);
+        res.redirect("/");
+    }
+});
+
 router.get("/success", (req, res) => {
     //  Check if url contains "?" to know if url contains url filters
     let filters = req.url.substring(req.url.indexOf("/success?") + "/success?".length).split("&");
@@ -19,10 +59,7 @@ router.get("/success", (req, res) => {
     if (filter_dict["session_id"] && filter_dict["customer_id"]) {
         res.render("payment-response", {status:"success"});
     } else {
-        //  Log error
-        let date = new Date();
-        let time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-        console.log(time + ": /success route problem.");
+        console.error("User failed route '/stripe/success' auth.");
         res.redirect("/");
     }
 });
@@ -68,7 +105,7 @@ router.get("/cancel-membership", async (req, res) => {
         if (e.message.includes("Cannot read property 'id' of undefined")) {
             console.log(`User '${req.user["username"]}' tried to cancel non-existing membership.`);
         } else {
-            console.log("Error in '/stripe/cancel-membership' route:", e.message);
+            console.error(`Route '/stripe/cancel-membership': ${e.message}`);
         }
     }
     res.redirect("/dashboard");
@@ -104,7 +141,7 @@ router.get("/renew-membership", async (req,res) => {
         //  Debugging
         console.log(`User '${req.user["username"]}' has renewed its membership.`);
     } catch (e) {
-        console.log("Error in '/stripe/renew-membership' route:", e.message);
+        console.error(`Route '/stripe/renew-membership': ${e.message}`);
     }
     res.redirect("/dashboard");
 });
@@ -120,7 +157,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
         try {
             event = await stripeUtils.createWebhook(req.body, STRIPE_SIG);
         } catch (err) {
-            return res.status(400).send(`Webhook Error: ${err.message}`);
+            return res.status(400).send(`createWebhook() in '/stripe/webhook' route: ${err.message}`);
         }
 
         //  Get necessary objects for ifs.
@@ -210,8 +247,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
         }
         await res.json({received: true});
     } catch (e) {
-        console.log("Error in '/webhook' route:", e.message);
-        return false;
+        res.status(400).send(`Route '/stripe/webhook': ${e.message}`);
     }
 });
 

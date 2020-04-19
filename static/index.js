@@ -1,4 +1,3 @@
-const stripe = Stripe(STRIPE_KEY);
 const FORM = {
     "name": document.querySelector("#faq .form input[type='text']"),
     "email": document.querySelector("#faq .form input[type='email']"),
@@ -159,14 +158,6 @@ window.addEventListener("load", function () {
 window.addEventListener("resize", function () {
     resizeCollapseList();
 });
-if (IN_STOCK && SESSION) {
-    document.getElementById("pay-now").addEventListener("click", async function() {
-        const {error} = await stripe.redirectToCheckout({
-            sessionId: SESSION.id,
-        });
-        if (error.message) { console.log(error); }
-    });
-}
 if (HAS_HAMBURGER) {
     const HAMBURGER = {
         icon: document.querySelector(".section-home .navbar .hamburger"),

@@ -48,6 +48,11 @@ router.get("/redirect", passport.authenticate("discord", {
                 if (returnTo.startsWith('/')) {
                     return res.redirect(returnTo);
                 } else if (returnTo === "subscription-checkout") {
+                    //  Check if product is still in stock.
+                    if (!Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
+                        return res.redirect("/");
+                    }
+
                     //  Create session and return javascript code to generate
                     //  stripe checkout to buy membership automatically.
                     const SESSION = await stripeUtils.createMembershipSession(req.user["stripe_id"]);

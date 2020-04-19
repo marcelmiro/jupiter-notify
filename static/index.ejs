@@ -67,8 +67,8 @@
 				<button class="button disabled">Already Subscribed</button>
 			<% } else if (!inStock) { %>
 				<button class="button disabled">Out of Stock</button>
-			<% } else if (isUser && session) { %>
-				<button class="button" id="pay-now">Buy Membership</button>
+			<% } else if (isUser) { %>
+				<a class="button" href="/stripe/pay">Buy Membership</a>
 			<% } else { %>
 				<a class="button" href="/auth/login?pay">Buy Membership</a>
 			<% } %>
@@ -426,13 +426,10 @@
 <script src="https://cdn.jsdelivr.net/npm/scrollmagic/scrollmagic/minified/plugins/debug.addIndicators.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/scrollmagic/scrollmagic/minified/plugins/animation.gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap/dist/gsap.min.js"></script>
-<script src="https://js.stripe.com/v3/"></script>
 
 <!--    MAIN JS    -->
 <script type="text/javascript">
 	const IN_STOCK = Boolean(<%- inStock %>);
-	const STRIPE_KEY = "<%= stripeKey %>";
-	const SESSION = "<%= session %>" ? JSON.parse('<%-JSON.stringify(session)%>') : undefined;
 	const HAS_HAMBURGER = Boolean("<%= isAdmin %>" === "true");
 </script>
 <script src="index.js"></script>

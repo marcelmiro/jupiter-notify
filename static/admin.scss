@@ -303,14 +303,26 @@ html, body {
 				top: 20px;
 				left: 40px;
 				transition: transform 0.3s ease;
-				z-index: 10;
+			}
+			.loader{
+				width: 80px;
+				height: 80px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, calc(-50% - 50px));
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				svg { width: 100%; height: 100%; }
 			}
 			.container {
 				margin: 0 auto;
-				padding: 0 40px 40px;
+				padding: 0 40px;
 				box-sizing: border-box;
 				//background: rgba(white, 0.1);
 				width: min-content;
+				min-width: 460px;
 				height: 100%;
 				display: flex;
 				flex-flow: column nowrap;
@@ -324,7 +336,13 @@ html, body {
 				&::-webkit-scrollbar { width: 8px; background-color: transparent; }
 				&::-webkit-scrollbar-thumb { border-radius: 1000vmax; background-color: white; }
 				
-				&__welcome { display: flex; flex-flow: row nowrap; justify-content: space-between; align-items: center; }
+				&:after {
+					content: "";
+					display: flex;
+					height: 100%;
+					width: 100%;
+				}
+				&__welcome { display: block; width: 100%; }
 				&__section {
 					margin: 50px auto 0;
 					width: 100%;
@@ -336,12 +354,21 @@ html, body {
 					> * + * { margin-top: 10px; }
 					> div { width: 100%; display: flex; flex-flow: row nowrap; justify-content: space-between; align-items: center; }
 				}
-				img.avatar { border-radius: 50%; width: 120px; position: absolute; transform: translateX(calc(-100% - 50px)); }
+				img.avatar { border-radius: 50%; width: 120px; position: absolute; left: 260px; transform: translateY(-25%); }
 				h2 { font-size: 42px; margin: 0 auto; }
 				h3 { font-size: 26px; margin: 0 0 6px; }
 				h6 { font-size: 18px; margin: 0; width: 150px; text-align: left; }
 				span { font-size: 18px; }
 				button.role { font-size: 14px; background: #222; border-radius: 1000vmax; padding: 4px 12px; cursor: auto; }
+				button.button {
+					margin: 0 auto 40px;
+					padding: 16px 0;
+					width: 80%;
+					font-size: 24px;
+					background-color: #D84546;
+					transition: background-color 0.15s linear;
+					&:hover { background-color: darken(#D84546, 4); }
+				}
 			}
 		}
 		> .member + .member { margin-top: 50px !important; }
@@ -376,6 +403,7 @@ html, body {
 				padding: 4px 8px;
 				border-radius: 1000vmax;
 				cursor: auto;
+				min-width: 54px;
 			}
 		}
 	}
@@ -398,7 +426,9 @@ html, body {
 		
 		> div {
 			& + div { margin-top: 6px; }
-			span b { font-size: 17px; font-weight: bold; }
+			> div { display: inline; word-break: break-all; }
+			span, b { font-size: 17px; }
+			b { font-weight: bold; }
 		}
 	}
 	.content__settings {
@@ -456,7 +486,7 @@ html, body {
 				box-shadow: 0 0 20px 0 rgba(white, 0.1);
 			}
 		}
-		button { font-size: 17px; padding: 12px 18px; }
+		button.button { font-size: 17px; padding: 12px 18px; }
 	}
 	
 }

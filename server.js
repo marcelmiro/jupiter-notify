@@ -54,13 +54,13 @@ dbUtils.setSettings().then(() => {
     //  Set cookie config.
     app.use(cookieSession({
         maxAge: 24*60*60*1000,
-        keys: [process.env.COOKIE_KEY]
+        keys: process.env.COOKIE_KEY.split(";")
     }));
 
     //  Set passport config and encode bodyParser to be able to carry jsons in body.
     app.use(passport.initialize());
     app.use(passport.session({
-        secret: process.env.COOKIE_KEY,
+        secret: process.env.COOKIE_KEY.split(";"),
         saveUninitialized: false,
         resave: false
     }));
@@ -75,15 +75,14 @@ dbUtils.setSettings().then(() => {
     //  If url not found, redirect to home page.
     app.use((req,res) => { res.redirect("/"); });
 
-    //  Checks if is hosted in localhost. If true, opens server with local ssl certs.
-    let server = undefined;
-    if (process.env.URL.includes("localhost")) {
-        server = require("https").createServer({
+    //  Create server depending on if local or on heroku, for https.
+    let server = process.env.URL.includes("localhost") ?
+        require("https").createServer({
             key: fs.readFileSync("./ssl/localhost-key.pem"),
             cert: fs.readFileSync("./ssl/localhost-cert.pem")
-        }, app);
-    } else { server = require("http").createServer(app); }
+        }, app) : require("http").createServer(app);
 
+    //  Listen to server and setup socket connections.
     server.listen(port,() => {
         console.log(`Server connected at: ${port}`);
     });

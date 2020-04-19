@@ -1,6 +1,5 @@
 require("dotenv").config();
 const router = require("express").Router();
-const fs = require("fs");
 const bodyParser = require('body-parser');
 const authRoutes = require("./auth-routes");
 const stripeRoutes = require("./stripe-routes");
@@ -9,9 +8,6 @@ const dbUtils = require("../utils/db-utils");
 const stripeUtils = require("../utils/stripe-utils");
 const botUtils = require("../utils/bot-utils");
 const nodemailerSetup = require("../setup/nodemailer-setup");
-
-//  Protect static files.
-// router.use("*", (req,res,next) => { console.log("req.url:", req.path); next(); });
 
 //  Component routes
 router.use("/auth", authRoutes);
@@ -51,11 +47,9 @@ router.get("/", async (req, res) => {
                 isUser: IS_USER,
                 hasMembership: HAS_MEMBERSHIP,
                 isAdmin: isAdmin,
-                stripeKey: process.env.STRIPE_KEY,
-                session: SESSION,
             });
     } catch (e) {
-        console.log("Error in '/' route:", e.message);
+        console.error(`Route '/': ${e.message}`);
     }
 });
 
@@ -156,48 +150,32 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
                 userInServer: Boolean(await botUtils.getUser(req.user["user_id"]))
             });
     } catch (e) {
-        console.log("Error in '/dashboard' route:", e.message);
+        console.error(`Route '/dashboard': ${e.message}`);
         res.redirect("/");
     }
 });
 
 //  Admin panel routes.
 router.get("/admin", authUserCheck, async (req,res) => {
-    //  Get role object and check if user has 'admin_panel' permission.
-    let role = await dbUtils.getRole(req.user["user_id"]);
-    if (!("admin_panel" in role["perms"]) || !role["perms"]["admin_panel"]) {
-        return res.redirect("/");
+    try {
+        //  Get role object and check if user has 'admin_panel' permission.
+        let role = await dbUtils.getRole(req.user["user_id"]);
+        if (!("admin_panel" in role["perms"]) || !role["perms"]["admin_panel"]) {
+            return res.redirect("/");
+        }
+
+        //  Restyle object as needed.
+        role = {...role, ...{color: role.data.color}};
+        delete role["role_id"];
+        delete role.data;
+
+        res.render("admin", {
+            role: role
+        });
+    } catch (e) {
+        console.error(`Route '/admin': ${e.message}`);
+        res.redirect("/");
     }
-
-    //  Restyle object as needed.
-    role = {...role, ...{color: role.data.color}};
-    delete role["role_id"];
-    delete role.data;
-
-    //  Get logs from log file.
-    let logs = [];
-    await new Promise((resolve, reject) => {
-        fs.readFile(process.env.LOGGER_NAME, 'utf8', (err, data) => {
-            if (err) { console.error("Can't read log file."); reject(err); }
-            else {
-                logs = data.split(/\r\n(?=\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s)/);
-                logs.forEach((log, index) => {
-                    log = log.replace(/\r\n/g, "<br>");
-                    log = log.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                    log = log.replace(/&lt;br&gt;/g, "<br>");
-                    log = log.replace(/\s{4}/g, "&emsp;&emsp;");
-                    logs[index] = log;
-                });
-                resolve(logs);
-            }
-        });
-    });
-
-    res.render("admin",
-        {
-            role: role,
-            logs: logs
-        });
 });
 
 //  Testing dashboard design route
@@ -238,16 +216,21 @@ router.get("/test", (req,res) => {
 
 //  Route to invite discord user to server
 router.get("/discord/join", async (req,res) => {
-    //  Get user's stripe info to check if user has membership active
-    const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
-    if (CUSTOMER.subscriptions.data.length > 0) {
-        //  Invites user to server. If response is true redirects to discord invite url, else closes tab.
-        botUtils.inviteUser(req.user["user_id"]).then(r => {
-            r ? res.redirect(r) : res.send(`<script>window.close();</script>`);
-        });
-    } else {
-        console.log(`User '${req.user["username"]}' trying to join Discord server without subscription.`);
-        res.redirect("/")
+    try {
+        //  Get user's stripe info to check if user has membership active
+        const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
+        if (CUSTOMER.subscriptions.data.length > 0) {
+            //  Invites user to server. If response is true redirects to discord invite url, else closes tab.
+            botUtils.inviteUser(req.user["user_id"]).then(r => {
+                r ? res.redirect(r) : res.send(`<script>window.close();</script>`);
+            });
+        } else {
+            console.log(`User '${req.user["username"]}' trying to join Discord server without subscription.`);
+            res.redirect("/")
+        }
+    } catch (e) {
+        console.error(`Route '/discord/join': ${e.message}`);
+        res.redirect("/");
     }
 });
 
@@ -265,7 +248,7 @@ router.post("/send-email", bodyParser.raw({type: 'application/json'}), async (re
             console.log(`Email was rejected by '${response.rejected.join("', '")}'.`);
         }
     } catch (e) {
-        return res.status(400).send("Send email error:", e.message);
+        return res.status(400).send(`Route '/send-email': ${e.message}`);
     }
 });
 

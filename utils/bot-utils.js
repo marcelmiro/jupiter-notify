@@ -13,7 +13,12 @@ client.on("ready",() => {
 
 //  Returns user if in guild, else returns null.
 let getUser = async userId => {
-    return guild.member(userId);
+    try {
+        return guild.member(userId);
+    } catch (e) {
+        console.error(`getUser(): ${e.message}`);
+        return undefined;
+    }
 };
 
 //  Invite user to Discord server.
@@ -36,7 +41,7 @@ let inviteUser = async userId => {
             return "https://discord.gg/" + INVITE;
         }
     } catch (e) {
-        console.log("Error in inviteUser():", e.message);
+        console.error(`inviteUser(): ${e.message}`);
         return false;
     }
 };
@@ -79,7 +84,7 @@ let kickUser = async (userId, email) => {
             return false;
         }
     } catch (e) {
-        console.log("Error in kickUser():", e.message);
+        console.error(`kickUser(): ${e.message}`);
         return false;
     }
 };

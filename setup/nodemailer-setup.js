@@ -21,25 +21,29 @@ const TRANSPORTER = nodemailer.createTransport({
  * @returns email's response or error object
  */
 let sendEmail = async (to, subject, mode, text) => {
-    return await new Promise(async (resolve, reject) => {
-        const DATA = {
-            to: to,
-            subject: subject,
-        };
-        if (mode === "all") {
-            DATA.html = text[0];
-            DATA.text = text[1];
-        } else if (mode === "html") {
-            DATA.html = text;
-        } else {
-            DATA.text = text;
-        }
+    try {
+        return await new Promise(async (resolve, reject) => {
+            const DATA = {
+                to: to,
+                subject: subject,
+            };
+            if (mode === "all") {
+                DATA.html = text[0];
+                DATA.text = text[1];
+            } else if (mode === "html") {
+                DATA.html = text;
+            } else {
+                DATA.text = text;
+            }
 
-        await TRANSPORTER.sendMail(DATA, (err, reply) => {
-            if (err) { console.log("Error in sendEmail():", err.message); reject(err); }
-            else { resolve(reply); }
+            await TRANSPORTER.sendMail(DATA, (err, reply) => {
+                if (err) { console.log("Error in sendEmail():", err.message); reject(err); }
+                else { resolve(reply); }
+            });
         });
-    });
+    } catch (e) {
+        console.error(`sendEmail(): ${e.message}`);
+    }
 };
 
 module.exports = {sendEmail};
