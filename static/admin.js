@@ -84,10 +84,11 @@ let app = new Vue({
         filteredLogs: function() {
             console.log(JSON.stringify(this.logs));
             let tempLogs = [];
-            let logs = this.logs.split(/\r\n(?=\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s)/);
-            
+            let logs = this.logs.split(/\n(?=\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s)/);
+
             logs.forEach(log => {
                 log = log.replace(/\r\n/g, "<br>");
+                log = log.replace(/\r/g, "");
                 log = log.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 log = log.replace(/&lt;br&gt;/g, "<br>");
                 log = log.replace(/\s{4}/g, "&emsp;&emsp;");
