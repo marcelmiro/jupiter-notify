@@ -53,6 +53,12 @@ router.get("/redirect", passport.authenticate("discord", {
                         return res.redirect("/");
                     }
 
+                    //  Check user doesn't have a role.
+                    const USER_ROLE = await dbUtils.getData("user_roles", "user_id", req.user["user_id"]);
+                    if (USER_ROLE) {
+                        return res.redirect("/dashboard");
+                    }
+
                     //  Create session and return javascript code to generate
                     //  stripe checkout to buy membership automatically.
                     const SESSION = await stripeUtils.createMembershipSession(req.user["stripe_id"]);

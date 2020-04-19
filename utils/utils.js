@@ -22,9 +22,7 @@ let authStaticRoute = async (req, res, next) => {
             const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
             const HAS_MEMBERSHIP = Boolean(CUSTOMER.subscriptions.data.length > 0);
             const ROLE = await dbUtils.getRole(req.user["user_id"]);
-            if (!HAS_MEMBERSHIP && !ROLE) {
-                return res.redirect("/");
-            } else if (!HAS_MEMBERSHIP && (ROLE.name === "renewal" || ROLE.name === "lifetime")) {
+            if (!HAS_MEMBERSHIP && (!ROLE || ROLE.name === "renewal")) {
                 return res.redirect("/");
             }
         } else if (req.path.includes("/admin.")) {

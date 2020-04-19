@@ -28,15 +28,16 @@ router.get("/", async (req, res) => {
         //  Check if customer has subscription and if product is in stock to create session.
         const HAS_MEMBERSHIP =
             Boolean(IS_USER && (await stripeUtils.getCustomer(req.user["stripe_id"])).subscriptions.data.length > 0);
-        const SESSION = IS_USER && !HAS_MEMBERSHIP ?
-            await stripeUtils.createMembershipSession(req.user["stripe_id"]) : undefined;
 
         //  Check if user has permission to enter admin panel.
-        let isAdmin = false;
+        let hasRole = false, isAdmin = false;
         if (IS_USER) {
             const ROLE = await dbUtils.getRole(req.user["user_id"]);
-            if ("admin_panel" in ROLE["perms"] && ROLE["perms"]["admin_panel"]) {
-                isAdmin = true;
+            if (ROLE) {
+                hasRole = true;
+                if ("admin_panel" in ROLE["perms"] && ROLE["perms"]["admin_panel"]) {
+                    isAdmin = true;
+                }
             }
         }
 
@@ -45,6 +46,7 @@ router.get("/", async (req, res) => {
             {
                 inStock: IN_STOCK,
                 isUser: IS_USER,
+                hasRole: hasRole,
                 hasMembership: HAS_MEMBERSHIP,
                 isAdmin: isAdmin,
             });
@@ -225,7 +227,7 @@ router.get("/discord/join", async (req,res) => {
                 r ? res.redirect(r) : res.send(`<script>window.close();</script>`);
             });
         } else {
-            console.log(`User '${req.user["username"]}' trying to join Discord server without subscription.`);
+            console.log(`User '${req.user["username"]}' tried to join Discord server without subscription.`);
             res.redirect("/")
         }
     } catch (e) {

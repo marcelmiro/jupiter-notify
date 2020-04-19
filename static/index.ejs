@@ -33,7 +33,7 @@
 		<a class="button" href="#contact" onclick="if(!document.getElementById('contact').classList.contains('active')){document.getElementById('contact').click();}">Contact</a>
 
 		<a class="button" style="background-color:#8b50c3;"
-			<% if (hasMembership) { %>
+			<% if (hasMembership || hasRole) { %>
 				href="/dashboard">Dashboard
 			<% } else if (isUser) { %>
 				href="/auth/logout">Log Out
@@ -63,7 +63,7 @@
 			<img class="jupiter" src="assets/jupiter_planet.png" alt="Jupiter planet image" />
 			<img class="jupiter-wave" src="assets/jupiter_planet_wave.svg" alt="" />
 
-			<% if (hasMembership) { %>
+			<% if (hasMembership || hasRole) { %>
 				<button class="button disabled">Already Subscribed</button>
 			<% } else if (!inStock) { %>
 				<button class="button disabled">Out of Stock</button>

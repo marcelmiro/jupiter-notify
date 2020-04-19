@@ -11,7 +11,7 @@ router.get("/pay", async (req, res) => {
         //  Check if user exists and doesn't have role.
         const IS_USER = Boolean(req.user);
         const ROLE = IS_USER ? await dbUtils.getRole(req.user["user_id"]) : undefined;
-        if (ROLE && ["lifetime", "renewal"].indexOf(ROLE.name) > -1) { return res.redirect("/"); }
+        if (ROLE) { return res.redirect("/"); }
 
         //  Check if product is in stock.
         if (!Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
@@ -201,10 +201,10 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
                 //  Set defaultPayment var to payment method's id from customer's subscription.
                 defaultPayment = SUBSCRIPTION.default_payment_method;
 
-                //  Set user's role to 'renewal'.
+                //  Set user's role to 'renewal' if user doesn't have a role.
                 const USER_ROLE = await dbUtils.getData("user_roles", "user_id", USER["user_id"]);
-                const RENEWAL_ROLE = await dbUtils.getData("roles", "name", "renewal");
                 if (!USER_ROLE) {
+                    const RENEWAL_ROLE = await dbUtils.getData("roles", "name", "renewal");
                     await dbUtils.insertData("user_roles", [USER["user_id"], RENEWAL_ROLE["role_id"]]);
                     console.log(`User '${USER.username}' is now a renewal member.`);
                 }
@@ -235,7 +235,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
 
             //  Check if user is non-staff member to remove role and kick from server.
             const USER_ROLE = await dbUtils.getRole(USER["user_id"]);
-            if (["renewal", "lifetime"].includes(USER_ROLE["name"])) {
+            if (USER_ROLE["name"] === "renewal") {
                 //  Remove from 'user_roles' table and debug.
                 await dbUtils.deleteData("user_roles", "user_id", USER["user_id"]);
                 console.log(`User '${USER.username}' doesn't have a role anymore.`);
