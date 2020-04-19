@@ -85,12 +85,12 @@ let app = new Vue({
             let tempLogs = [];
             let logs = this.logs.split(/\r\n(?=\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s)/);
 
+            console.log(JSON.stringify(logs));
             logs.forEach(log => {
                 log = log.replace(/\r\n/g, "<br>");
                 log = log.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 log = log.replace(/&lt;br&gt;/g, "<br>");
                 log = log.replace(/\s{4}/g, "&emsp;&emsp;");
-                console.log(log);
 
                 let tempLog = { time: log.split(" ", 2).join(" ") };
                 tempLog.text = log.substring(tempLog.time.length).split(" ").filter(Boolean);
