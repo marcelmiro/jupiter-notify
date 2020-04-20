@@ -7,7 +7,7 @@
 	<title>Payment <%= status %></title>
 	
 	<!--    MAIN CSS    -->
-	<link rel="stylesheet" href="/payment-response.css">
+	<link rel="stylesheet" href="/response.css">
 
 	<!--    FAVICON    -->
 	<link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
@@ -23,12 +23,12 @@
 <body>
 
 <div class="container">
-	<% if(status==="success") { %>
+	<% if(status==="payment-success") { %>
 		<h1>Payment was successful</h1>
 	<% } else { %>
 		<h1>Payment was cancelled</h1>
 	<% } %>
-	<% if(status==="success") { %>
+	<% if(status==="payment-success") { %>
 		<p>Thanks for subscribing! If you have any issues, please contact a member of staff, we'll be glad to help.</p>
 		<a class="button" href="/dashboard">Go to Dashboard</a>
 	<% } else { %>

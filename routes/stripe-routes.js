@@ -11,7 +11,10 @@ router.get("/pay", async (req, res) => {
         //  Check if user exists and doesn't have role.
         const IS_USER = Boolean(req.user);
         const ROLE = IS_USER ? await dbUtils.getRole(req.user["user_id"]) : undefined;
-        if (ROLE) { return res.redirect("/"); }
+        if (ROLE) {
+            if (["renewal", "lifetime"].indexOf(ROLE.name) > -1) { return res.redirect("/dashboard"); }
+            return res.redirect("/");
+        }
 
         //  Check if product is in stock.
         if (!Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
@@ -57,7 +60,7 @@ router.get("/success", (req, res) => {
 
     //  Checks if filters are true to render success page
     if (filter_dict["session_id"] && filter_dict["customer_id"]) {
-        res.render("payment-response", {status:"success"});
+        res.render("response", {status:"payment-success"});
     } else {
         console.error("User failed route '/stripe/success' auth.");
         res.redirect("/");
@@ -65,7 +68,7 @@ router.get("/success", (req, res) => {
 });
 
 router.get("/fail", (req, res) => {
-    res.render("payment-response", {status:"fail"});
+    res.render("response", {status:"payment-fail"});
 });
 
 //  Cancel stripe subscription route
@@ -144,6 +147,11 @@ router.get("/renew-membership", async (req,res) => {
         console.error(`Route '/stripe/renew-membership': ${e.message}`);
     }
     res.redirect("/dashboard");
+});
+
+//  Transfer renewal or lifetime membership to another user.
+router.get("/transfer", async (req, res) => {
+
 });
 
 //  Webhook route for stripe events

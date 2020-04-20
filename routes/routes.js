@@ -71,8 +71,13 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
         //  Check if user can access dashboard.
         if (!role) {
             if (HAS_MEMBERSHIP) {
-                const ROLE_ID = (await dbUtils.getData("roles", "name", "renewal"))["role_id"];
-                await dbUtils.insertData("user_roles", [req.user["user_id"], ROLE_ID]);
+                const RENEWAL_ROLE = await dbUtils.getData("roles", "name", "renewal");
+                const ROLE_ID = RENEWAL_ROLE ? RENEWAL_ROLE["role_id"] : undefined;
+
+                if (ROLE_ID) {
+                    await dbUtils.insertData("user_roles", [req.user["user_id"], ROLE_ID]);
+                    role = RENEWAL_ROLE;
+                }
             } else {
                 return res.redirect("/");
             }
