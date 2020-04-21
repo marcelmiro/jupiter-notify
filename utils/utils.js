@@ -59,7 +59,7 @@ let userLogin = async (userId, username, email, avatarUrl) => {
             if (DB_DATA.email !== email) {
                 hasChanged = true;
                 await dbUtils.updateData("users", "user_id", userId, "email", email);
-                await stripeUtils.updateStripeCustomer(DB_DATA["stripe_id"], {email: email});
+                await stripeUtils.updateCustomer(DB_DATA["stripe_id"], {email: email});
                 console.log(`Email for user '${username}' changed.`);
             }
             if (DB_DATA.avatar_url !== avatarUrl) {
@@ -70,7 +70,7 @@ let userLogin = async (userId, username, email, avatarUrl) => {
             //  Check if stripe customer exists linked to this user. If not, create customer with user data.
             const CUSTOMERS = await stripeUtils.getAllCustomers();
             if (!CUSTOMERS.map(a=>a.description).includes(userId)) {
-                const STRIPE_ID = await stripeUtils.createStripeCustomer(email, userId, username);
+                const STRIPE_ID = await stripeUtils.createCustomer(email, userId, username);
                 await dbUtils.updateData("users", "user_id", userId, "stripe_id", STRIPE_ID);
                 console.log(`Couldn't find customer linked to '${username}', so created '${STRIPE_ID}' stripe customer.`);
             }
@@ -87,7 +87,7 @@ let userLogin = async (userId, username, email, avatarUrl) => {
                 stripeId = CUSTOMERS.filter(a => a.description === userId)[0].id;
                 console.log(`Customer '${username}' is already in stripe.`);
             } else {
-                stripeId = await stripeUtils.createStripeCustomer(email, userId, username);
+                stripeId = await stripeUtils.createCustomer(email, userId, username);
             }
 
             //  Insert user in db.

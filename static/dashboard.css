@@ -139,9 +139,40 @@ button.button:hover, a.button:hover {
   justify-content: space-around;
   align-items: center;
 }
-.confirm-popup .container p {
+.confirm-popup .container p, .confirm-popup .container label {
   font-size: 22px;
   width: 80%;
+}
+.confirm-popup .container input[type=text] {
+  border: none;
+  outline: none;
+  text-decoration: none;
+  width: 200px;
+  height: 36px;
+  cursor: text;
+  border-radius: 14px;
+  padding: 0 20px;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: inherit;
+  color: inherit;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.confirm-popup .container input[type=text]::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: Clean, sans-serif;
+}
+.confirm-popup .container input[type=text]:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: Clean, sans-serif;
+}
+.confirm-popup .container input[type=text]::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: Clean, sans-serif;
+}
+.confirm-popup .container input[type=text]:focus {
+  -webkit-box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.1);
 }
 .confirm-popup .container > div {
   width: 100%;
@@ -166,6 +197,21 @@ button.button:hover, a.button:hover {
   transition: background-color 0.15s linear;
 }
 .confirm-popup .container > div a[href]:hover {
+  background-color: #4c215f;
+}
+.confirm-popup .container > div button {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  font-weight: 400;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 18px 32px;
+  border-radius: 30px;
+  transition: background-color 0.2s ease-in-out;
+  background-color: #5b2872;
+  transition: background-color 0.15s linear;
+}
+.confirm-popup .container > div button:hover {
   background-color: #4c215f;
 }
 
@@ -634,6 +680,36 @@ html, body {
   .dashboard__links {
     height: 90px;
   }
+
+  .confirm-popup .container {
+    width: 80%;
+    height: auto;
+    min-width: 242px;
+    max-width: 400px;
+    padding: 40px 0;
+  }
+  .confirm-popup .container > * + * {
+    margin-top: 40px;
+  }
+  .confirm-popup .container p, .confirm-popup .container label {
+    font-size: 18px;
+  }
+  .confirm-popup .container input[type=text] {
+    width: 54%;
+    height: 34px;
+    border-radius: 10px;
+  }
+  .confirm-popup .container > div a {
+    font-size: 16px;
+  }
+  .confirm-popup .container > div a[href] {
+    font-size: 18px;
+    padding: 14px 24px;
+  }
+  .confirm-popup .container > div button {
+    font-size: 18px;
+    padding: 14px 24px;
+  }
 }
 @media screen and (max-width: 700px) {
   .dashboard {
@@ -846,6 +922,14 @@ html, body {
     padding: 20px 30px 20px !important;
     height: 360px;
   }
+
+  .confirm-popup .container {
+    padding: 30px 0;
+  }
+  .confirm-popup .container input[type=text] {
+    height: 31px;
+    font-size: 16px;
+  }
 }
 @media screen and (max-width: 480px) {
   .dashboard__welcome .h1-container h1 {
@@ -880,6 +964,22 @@ html, body {
   .dashboard__payment-details svg {
     height: 48%;
     min-height: 100px;
+  }
+
+  .confirm-popup .container p, .confirm-popup .container label {
+    font-size: 16px;
+  }
+  .confirm-popup .container input[type=text] {
+    min-width: 180px;
+  }
+  .confirm-popup .container > div a {
+    font-size: 14px;
+  }
+  .confirm-popup .container > div a[href] {
+    font-size: 16px;
+  }
+  .confirm-popup .container > div button {
+    font-size: 16px;
   }
 }
 @media screen and (max-width: 440px) {

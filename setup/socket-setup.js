@@ -59,6 +59,11 @@ module.exports = server => {
                 let userList = [];
 
                 for (const user of USERS) {
+                    //  Add png extension to avatars that don't have it (So giffs are converted to png).
+                    user.avatar_url = user.avatar_url.includes(".png") ? user.avatar_url :
+                        user["avatar_url"].slice(0, user["avatar_url"].indexOf("?size=")) + ".png" +
+                        user["avatar_url"].slice(user["avatar_url"].indexOf("?size="));
+
                     const ROLE = await dbUtils.getRole(user["user_id"]);
                     if (ROLE) {
                         let temp = {
@@ -102,14 +107,16 @@ module.exports = server => {
                 if (CUSTOMER) {
                     let temp = { default_payment: Boolean(CUSTOMER["invoice_settings"]["default_payment_method"]) };
 
-                    //  Check if user has subscription
+                    //  Check if user has subscription.
                     if (CUSTOMER.subscriptions.data.length > 0) {
-                        temp["sub_id"] = CUSTOMER.subscriptions.data[0].id;
-                        temp["sub_status"] = CUSTOMER.subscriptions.data[0].status;
+                        const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
+
+                        temp["sub_id"] = SUBSCRIPTION.id;
+                        temp["sub_status"] = SUBSCRIPTION.status;
 
                         //  Get invoice and check if true.
-                        const INVOICE = await stripeUtils.getInvoice(CUSTOMER.subscriptions.data[0]["latest_invoice"]);
-                        if (INVOICE) {
+                        const INVOICE = SUBSCRIPTION.latest_invoice ? await stripeUtils.getInvoice(SUBSCRIPTION["latest_invoice"]) : undefined;
+                        if (INVOICE && "id" in INVOICE) {
                             temp["invoice_id"] = INVOICE.id;
                             temp["invoice_status"] = INVOICE.status;
                             temp["invoice_date"] = await utils.transformDate(new Date(INVOICE.created * 1000));

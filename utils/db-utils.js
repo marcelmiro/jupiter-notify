@@ -108,6 +108,11 @@ let updateData = async (table, matchField, matchValue, changeField, newValue) =>
             newValue = JSON.stringify(newValue);
         }
 
+        //  Check if row exists.
+        if (await getData(table, matchField, matchValue)) {
+            return false;
+        }
+
         //  Update db row and return.
         await db.query(`UPDATE ${table} SET ${changeField}='${newValue}' WHERE ${matchField}='${matchValue}'`);
         return true;

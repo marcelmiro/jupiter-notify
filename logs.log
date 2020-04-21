@@ -54,3 +54,541 @@
 2020-04-20 11:04:15 INFO  Database has been opened. 
 2020-04-20 11:04:16 INFO  Server connected at: 8080 
 2020-04-20 11:04:17 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 11:55:32 INFO  Database has been opened. 
+2020-04-20 11:55:33 INFO  Server connected at: 8080 
+2020-04-20 11:55:33 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 11:56:07 INFO  Database has been opened. 
+2020-04-20 11:56:08 INFO  Server connected at: 8080 
+2020-04-20 11:56:08 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 11:56:21 INFO  Database has been opened. 
+2020-04-20 11:56:21 INFO  Server connected at: 8080 
+2020-04-20 11:56:22 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:00:32 INFO  Database has been opened. 
+2020-04-20 12:00:32 INFO  Server connected at: 8080 
+2020-04-20 12:00:33 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:05:13 INFO  Database has been opened. 
+2020-04-20 12:05:13 INFO  Server connected at: 8080 
+2020-04-20 12:05:14 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:05:47 INFO  Database has been opened. 
+2020-04-20 12:05:47 INFO  Server connected at: 8080 
+2020-04-20 12:05:48 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:06:08 INFO  Database has been opened. 
+2020-04-20 12:06:08 INFO  Server connected at: 8080 
+2020-04-20 12:06:09 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:07:05 INFO  Database has been opened. 
+2020-04-20 12:07:05 INFO  Server connected at: 8080 
+2020-04-20 12:07:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:19:53 INFO  Database has been opened. 
+2020-04-20 12:19:53 INFO  Server connected at: 8080 
+2020-04-20 12:19:54 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:27:59 INFO  Database has been opened. 
+2020-04-20 12:28:00 INFO  Server connected at: 8080 
+2020-04-20 12:28:01 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:54:13 INFO  Database has been opened. 
+2020-04-20 12:54:14 INFO  Server connected at: 8080 
+2020-04-20 12:54:14 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:57:33 INFO  Database has been opened. 
+2020-04-20 12:57:34 INFO  Server connected at: 8080 
+2020-04-20 12:57:34 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:58:51 INFO  Database has been opened. 
+2020-04-20 12:58:52 INFO  Server connected at: 8080 
+2020-04-20 12:58:52 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 12:58:59 INFO  User 'Marcel#1473' logged in. 
+2020-04-20 12:59:22 ERROR SyntaxError: Unexpected token 'else' in D:\Documents\Web Dev\Jupiter Notify\static\response.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7) 
+2020-04-20 13:00:37 INFO  Database has been opened. 
+2020-04-20 13:00:38 INFO  Server connected at: 8080 
+2020-04-20 13:00:38 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:00:39 ERROR SyntaxError: Unexpected token 'else' in D:\Documents\Web Dev\Jupiter Notify\static\response.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7) 
+2020-04-20 13:02:39 INFO  Database has been opened. 
+2020-04-20 13:02:40 INFO  Server connected at: 8080 
+2020-04-20 13:02:41 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:02:42 ERROR SyntaxError: Unexpected token 'else' in D:\Documents\Web Dev\Jupiter Notify\static\response.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7) 
+2020-04-20 13:03:46 ERROR SyntaxError: Unexpected token 'else' in D:\Documents\Web Dev\Jupiter Notify\static\response.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7) 
+2020-04-20 13:05:01 ERROR SyntaxError: Unexpected token 'else' in D:\Documents\Web Dev\Jupiter Notify\static\response.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7) 
+2020-04-20 13:05:04 INFO  Database has been opened. 
+2020-04-20 13:05:05 INFO  Server connected at: 8080 
+2020-04-20 13:05:05 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:05:06 ERROR SyntaxError: Unexpected token 'else' in D:\Documents\Web Dev\Jupiter Notify\static\response.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7) 
+2020-04-20 13:06:47 ERROR SyntaxError: Unexpected token 'else' in D:\Documents\Web Dev\Jupiter Notify\static\response.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7) 
+2020-04-20 13:07:20 ERROR SyntaxError: Unexpected token 'else' in D:\Documents\Web Dev\Jupiter Notify\static\response.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7) 
+2020-04-20 13:07:59 INFO  Database has been opened. 
+2020-04-20 13:08:00 INFO  Server connected at: 8080 
+2020-04-20 13:08:00 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:09:10 ERROR Error: Could not find matching close tag for "<%".
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:705:19
+    at Array.forEach (<anonymous>)
+    at Template.generateSource (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:695:15)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:548:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10) 
+2020-04-20 13:10:19 ERROR SyntaxError: Unexpected token 'else' in D:\Documents\Web Dev\Jupiter Notify\static\response.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:626:12)
+    at Object.compile (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:366:16)
+    at handleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:215:18)
+    at tryHandleCache (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:254:16)
+    at View.exports.renderFile [as engine] (D:\Documents\Web Dev\Jupiter Notify\node_modules\ejs\lib\ejs.js:459:10)
+    at View.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:640:10)
+    at Function.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\application.js:592:3)
+    at ServerResponse.render (D:\Documents\Web Dev\Jupiter Notify\node_modules\express\lib\response.js:1012:7) 
+2020-04-20 13:14:07 INFO  Database has been opened. 
+2020-04-20 13:14:07 INFO  Server connected at: 8080 
+2020-04-20 13:14:08 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:15:05 INFO  Database has been opened. 
+2020-04-20 13:15:06 INFO  Server connected at: 8080 
+2020-04-20 13:15:07 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:15:21 INFO  Database has been opened. 
+2020-04-20 13:15:22 INFO  Server connected at: 8080 
+2020-04-20 13:15:22 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:15:30 INFO  Database has been opened. 
+2020-04-20 13:15:30 INFO  Server connected at: 8080 
+2020-04-20 13:15:31 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:17:41 INFO  Database has been opened. 
+2020-04-20 13:17:41 INFO  Server connected at: 8080 
+2020-04-20 13:17:42 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:18:34 INFO  Database has been opened. 
+2020-04-20 13:18:34 INFO  Server connected at: 8080 
+2020-04-20 13:18:35 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:21:49 INFO  Database has been opened. 
+2020-04-20 13:21:49 ERROR (node:24920) UnhandledPromiseRejectionWarning: D:\Documents\Web Dev\Jupiter Notify\routes\stripe-routes.js:183
+            console.debug("yes");
+                                ^
+
+SyntaxError: Unexpected token ';'
+    at wrapSafe (internal/modules/cjs/loader.js:1072:16)
+    at Module._compile (internal/modules/cjs/loader.js:1122:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1178:10)
+    at Module.load (internal/modules/cjs/loader.js:1002:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:901:14)
+    at Module.require (internal/modules/cjs/loader.js:1044:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at Object.<anonymous> (D:\Documents\Web Dev\Jupiter Notify\routes\routes.js:5:22)
+    at Module._compile (internal/modules/cjs/loader.js:1158:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1178:10) 
+2020-04-20 13:21:49 ERROR (node:24920) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1) 
+2020-04-20 13:21:49 ERROR (node:24920) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code. 
+2020-04-20 13:23:13 INFO  Database has been opened. 
+2020-04-20 13:23:14 INFO  Server connected at: 8080 
+2020-04-20 13:23:15 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 13:30:00 INFO  Database has been opened. 
+2020-04-20 13:30:00 INFO  Server connected at: 8080 
+2020-04-20 13:30:01 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 14:12:21 INFO  Database has been opened. 
+2020-04-20 14:12:22 INFO  Server connected at: 8080 
+2020-04-20 14:12:22 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 14:13:56 INFO  Database has been opened. 
+2020-04-20 14:13:56 INFO  Server connected at: 8080 
+2020-04-20 14:13:57 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 14:14:29 INFO  Database has been opened. 
+2020-04-20 14:14:29 INFO  Server connected at: 8080 
+2020-04-20 14:14:30 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 14:15:05 INFO  Database has been opened. 
+2020-04-20 14:15:05 INFO  Server connected at: 8080 
+2020-04-20 14:15:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 14:15:10 INFO  Database has been opened. 
+2020-04-20 14:15:10 INFO  Server connected at: 8080 
+2020-04-20 14:15:11 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 14:15:24 INFO  Database has been opened. 
+2020-04-20 14:15:24 INFO  Server connected at: 8080 
+2020-04-20 14:15:25 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 14:15:52 INFO  Database has been opened. 
+2020-04-20 14:15:52 INFO  Server connected at: 8080 
+2020-04-20 14:15:53 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 14:19:04 INFO  Database has been opened. 
+2020-04-20 14:19:05 INFO  Server connected at: 8080 
+2020-04-20 14:19:06 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 15:10:13 INFO  Database has been opened. 
+2020-04-20 15:10:13 INFO  Server connected at: 8080 
+2020-04-20 15:10:14 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 15:13:51 INFO  Database has been opened. 
+2020-04-20 15:13:52 INFO  Server connected at: 8080 
+2020-04-20 15:13:53 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 15:16:27 INFO  Database has been opened. 
+2020-04-20 15:16:27 INFO  Server connected at: 8080 
+2020-04-20 15:16:28 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 18:28:15 INFO  Database has been opened. 
+2020-04-20 18:28:15 INFO  Server connected at: 8080 
+2020-04-20 18:28:16 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 19:01:37 INFO  Database has been opened. 
+2020-04-20 19:01:37 INFO  Server connected at: 8080 
+2020-04-20 19:01:38 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 19:03:15 INFO  Database has been opened. 
+2020-04-20 19:03:15 INFO  Server connected at: 8080 
+2020-04-20 19:03:17 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 19:04:02 INFO  User 'NyTrOuS#4556' logged in. 
+2020-04-20 19:14:37 INFO  Database has been opened. 
+2020-04-20 19:14:38 INFO  Server connected at: 8080 
+2020-04-20 19:14:38 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 19:17:34 INFO  Database has been opened. 
+2020-04-20 19:17:34 INFO  Server connected at: 8080 
+2020-04-20 19:17:35 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 20:10:31 INFO  Database has been opened. 
+2020-04-20 20:10:31 INFO  Server connected at: 8080 
+2020-04-20 20:10:32 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 20:37:27 INFO  Database has been opened. 
+2020-04-20 20:37:28 INFO  Server connected at: 8080 
+2020-04-20 20:37:28 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 20:44:52 INFO  Database has been opened. 
+2020-04-20 20:44:53 INFO  Server connected at: 8080 
+2020-04-20 20:44:53 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 20:45:06 ERROR Route '/stripe/pay': IS_USER is not defined 
+2020-04-20 20:50:50 INFO  Database has been opened. 
+2020-04-20 20:50:50 INFO  Server connected at: 8080 
+2020-04-20 20:50:51 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 20:52:24 INFO  User 'NyTrOuS#4556' has cancelled its membership. 
+2020-04-20 20:54:55 INFO  Database has been opened. 
+2020-04-20 20:54:55 INFO  Server connected at: 8080 
+2020-04-20 20:54:56 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 20:55:13 INFO  User 'NyTrOuS#4556' has cancelled its membership. 
+2020-04-20 20:55:39 INFO  User 'NyTrOuS#4556' is now a renewal member. 
+2020-04-20 20:55:39 INFO  User 'NyTrOuS#4556' has bought a subscription. 
+2020-04-20 20:56:58 ERROR (node:1784) UnhandledPromiseRejectionWarning: ReferenceError: none is not defined
+    at D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:123:37
+    at new Promise (<anonymous>)
+    at Object.transferSubscription (D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:118:22)
+    at D:\Documents\Web Dev\Jupiter Notify\routes\stripe-routes.js:199:47
+    at processTicksAndRejections (internal/process/task_queues.js:97:5) 
+2020-04-20 20:56:58 ERROR (node:1784) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1) 
+2020-04-20 20:56:58 ERROR (node:1784) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code. 
+2020-04-20 20:58:13 INFO  Database has been opened. 
+2020-04-20 20:58:14 INFO  Server connected at: 8080 
+2020-04-20 20:58:15 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 20:58:31 ERROR billing_cycle_anchor cannot be later than next natural billing date (1587495510) for plan
+{"type":"StripeInvalidRequestError","raw":{"message":"billing_cycle_anchor cannot be later than next natural billing date (1587495510) for plan","param":"billing_cycle_anchor","type":"invalid_request_error","headers":{"server":"nginx","date":"Mon, 20 Apr 2020 18:58:31 GMT","content-type":"application/json","content-length":"202","connection":"keep-alive","access-control-allow-credentials":"true","access-control-allow-methods":"GET, POST, HEAD, OPTIONS, DELETE","access-control-allow-origin":"*","access-control-expose-headers":"Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required","access-control-max-age":"300","cache-control":"no-cache, no-store","request-id":"req_Z9dtMsAQpAbp4Y","stripe-version":"2020-03-02","strict-transport-security":"max-age=31556926; includeSubDomains; preload"},"statusCode":400,"requestId":"req_Z9dtMsAQpAbp4Y"},"rawType":"invalid_request_error","param":"billing_cycle_anchor","headers":{"server":"nginx","date":"Mon, 20 Apr 2020 18:58:31 GMT","content-type":"application/json","content-length":"202","connection":"keep-alive","access-control-allow-credentials":"true","access-control-allow-methods":"GET, POST, HEAD, OPTIONS, DELETE","access-control-allow-origin":"*","access-control-expose-headers":"Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required","access-control-max-age":"300","cache-control":"no-cache, no-store","request-id":"req_Z9dtMsAQpAbp4Y","stripe-version":"2020-03-02","strict-transport-security":"max-age=31556926; includeSubDomains; preload"},"requestId":"req_Z9dtMsAQpAbp4Y","statusCode":400}
+Error: billing_cycle_anchor cannot be later than next natural billing date (1587495510) for plan
+    at Function.generate (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\Error.js:38:16)
+    at IncomingMessage.<anonymous> (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\StripeResource.js:175:33)
+    at Object.onceWrapper (events.js:417:28)
+    at IncomingMessage.emit (events.js:323:22)
+    at endReadableNT (_stream_readable.js:1204:12)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) 
+2020-04-20 20:58:31 ERROR transferSubscription(): billing_cycle_anchor cannot be later than next natural billing date (1587495510) for plan 
+2020-04-20 21:49:02 INFO  Database has been opened. 
+2020-04-20 21:49:03 INFO  Server connected at: 8080 
+2020-04-20 21:49:03 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 22:23:57 INFO  Database has been opened. 
+2020-04-20 22:23:57 INFO  Server connected at: 8080 
+2020-04-20 22:23:58 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 22:43:45 INFO  Database has been opened. 
+2020-04-20 22:43:45 INFO  Server connected at: 8080 
+2020-04-20 22:43:46 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 22:51:24 INFO  Database has been opened. 
+2020-04-20 22:51:24 INFO  Server connected at: 8080 
+2020-04-20 22:51:25 INFO  Bot logged in as Dashboard#1824. 
+2020-04-20 23:00:52 INFO  Database has been opened. 
+2020-04-20 23:00:52 INFO  Server connected at: 8080 
+2020-04-20 23:00:53 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 10:05:32 INFO  Database has been opened. 
+2020-04-21 10:05:32 INFO  Server connected at: 8080 
+2020-04-21 10:05:33 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 10:46:35 INFO  Database has been opened. 
+2020-04-21 10:46:36 INFO  Server connected at: 8080 
+2020-04-21 10:46:36 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 10:54:53 INFO  Database has been opened. 
+2020-04-21 10:54:53 INFO  Server connected at: 8080 
+2020-04-21 10:54:54 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 10:58:39 INFO  Database has been opened. 
+2020-04-21 10:58:40 INFO  Server connected at: 8080 
+2020-04-21 10:58:40 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:03:51 INFO  Database has been opened. 
+2020-04-21 11:03:51 INFO  Server connected at: 8080 
+2020-04-21 11:03:52 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:06:41 INFO  Database has been opened. 
+2020-04-21 11:06:42 INFO  Server connected at: 8080 
+2020-04-21 11:06:42 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:09:18 INFO  Database has been opened. 
+2020-04-21 11:09:18 INFO  Server connected at: 8080 
+2020-04-21 11:09:19 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:13:42 INFO  Database has been opened. 
+2020-04-21 11:13:42 INFO  Server connected at: 8080 
+2020-04-21 11:13:43 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:19:11 INFO  Database has been opened. 
+2020-04-21 11:19:11 ERROR (node:8084) UnhandledPromiseRejectionWarning: D:\Documents\Web Dev\Jupiter Notify\routes\stripe-routes.js:212
+                if (!(await dbUtils.updateData("user_roles", "user_id", req.user["user_id"], "user_id", USER_ID)) {
+                                                                                                                  ^
+
+SyntaxError: Unexpected token '{'
+    at wrapSafe (internal/modules/cjs/loader.js:1072:16)
+    at Module._compile (internal/modules/cjs/loader.js:1122:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1178:10)
+    at Module.load (internal/modules/cjs/loader.js:1002:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:901:14)
+    at Module.require (internal/modules/cjs/loader.js:1044:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at Object.<anonymous> (D:\Documents\Web Dev\Jupiter Notify\routes\routes.js:5:22)
+    at Module._compile (internal/modules/cjs/loader.js:1158:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1178:10) 
+2020-04-21 11:19:11 ERROR (node:8084) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1) 
+2020-04-21 11:19:11 ERROR (node:8084) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code. 
+2020-04-21 11:24:24 INFO  Database has been opened. 
+2020-04-21 11:24:24 INFO  Server connected at: 8080 
+2020-04-21 11:24:25 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:25:06 INFO  Database has been opened. 
+2020-04-21 11:25:07 INFO  Server connected at: 8080 
+2020-04-21 11:25:07 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:26:14 INFO  User 'NyTrOuS#4556' transferred its renewal license to 'Kiwi#1234'. 
+2020-04-21 11:26:14 INFO  User 'NyTrOuS#4556' has cancelled its membership. 
+2020-04-21 11:26:14 INFO  User 'NyTrOuS#4556' doesn't have a role anymore. 
+2020-04-21 11:26:15 INFO  User was not found in Discord server. Email sent instead to 'nytrousyt@gmail.com' 
+2020-04-21 11:31:16 INFO  Database has been opened. 
+2020-04-21 11:31:16 INFO  Server connected at: 8080 
+2020-04-21 11:31:17 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:33:35 INFO  Database has been opened. 
+2020-04-21 11:33:35 INFO  Server connected at: 8080 
+2020-04-21 11:33:36 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:33:48 ERROR Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+{}
+Error: Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:21:13
+    at Array.reduce (<anonymous>)
+    at getRequestOpts (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:18:29)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:68:18
+    at new Promise (<anonymous>)
+    at makeRequest (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:66:10)
+    at Constructor.retrieve (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\StripeMethod.js:31:7)
+    at D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:261:35
+    at new Promise (<anonymous>)
+    at Object.getInvoice (D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:260:22) 
+2020-04-21 11:33:48 ERROR getInvoice(): Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`) 
+2020-04-21 11:35:17 ERROR Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+{}
+Error: Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:21:13
+    at Array.reduce (<anonymous>)
+    at getRequestOpts (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:18:29)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:68:18
+    at new Promise (<anonymous>)
+    at makeRequest (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:66:10)
+    at Constructor.retrieve (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\StripeMethod.js:31:7)
+    at D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:261:35
+    at new Promise (<anonymous>)
+    at Object.getInvoice (D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:260:22) 
+2020-04-21 11:35:17 ERROR getInvoice(): Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`) 
+2020-04-21 11:36:01 INFO  Database has been opened. 
+2020-04-21 11:36:01 INFO  Server connected at: 8080 
+2020-04-21 11:36:02 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:36:07 ERROR Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+{}
+Error: Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:21:13
+    at Array.reduce (<anonymous>)
+    at getRequestOpts (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:18:29)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:68:18
+    at new Promise (<anonymous>)
+    at makeRequest (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:66:10)
+    at Constructor.retrieve (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\StripeMethod.js:31:7)
+    at D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:261:35
+    at new Promise (<anonymous>)
+    at Object.getInvoice (D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:260:22) 
+2020-04-21 11:36:07 ERROR getInvoice(): Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`) 
+2020-04-21 11:36:36 INFO  Database has been opened. 
+2020-04-21 11:36:37 INFO  Server connected at: 8080 
+2020-04-21 11:36:37 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:36:39 ERROR Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+{}
+Error: Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:21:13
+    at Array.reduce (<anonymous>)
+    at getRequestOpts (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:18:29)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:68:18
+    at new Promise (<anonymous>)
+    at makeRequest (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:66:10)
+    at Constructor.retrieve (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\StripeMethod.js:31:7)
+    at D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:261:35
+    at new Promise (<anonymous>)
+    at Object.getInvoice (D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:260:22) 
+2020-04-21 11:36:39 ERROR getInvoice(): Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`) 
+2020-04-21 11:37:19 INFO  Database has been opened. 
+2020-04-21 11:37:19 INFO  Server connected at: 8080 
+2020-04-21 11:37:20 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:37:26 ERROR Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+{}
+Error: Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:21:13
+    at Array.reduce (<anonymous>)
+    at getRequestOpts (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:18:29)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:68:18
+    at new Promise (<anonymous>)
+    at makeRequest (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:66:10)
+    at Constructor.retrieve (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\StripeMethod.js:31:7)
+    at D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:261:35
+    at new Promise (<anonymous>)
+    at Object.getInvoice (D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:260:22) 
+2020-04-21 11:37:26 ERROR getInvoice(): Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`) 
+2020-04-21 11:41:40 INFO  Database has been opened. 
+2020-04-21 11:41:41 INFO  Server connected at: 8080 
+2020-04-21 11:41:41 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:41:42 ERROR Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+{}
+Error: Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:21:13
+    at Array.reduce (<anonymous>)
+    at getRequestOpts (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:18:29)
+    at D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:68:18
+    at new Promise (<anonymous>)
+    at makeRequest (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\makeRequest.js:66:10)
+    at Constructor.retrieve (D:\Documents\Web Dev\Jupiter Notify\node_modules\stripe\lib\StripeMethod.js:31:7)
+    at D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:261:35
+    at new Promise (<anonymous>)
+    at Object.getInvoice (D:\Documents\Web Dev\Jupiter Notify\utils\stripe-utils.js:260:22) 
+2020-04-21 11:41:42 ERROR getInvoice(): Stripe: Argument "id" must be a string, but got: null (on API request to `GET /invoices/{id}`) 
+2020-04-21 11:42:06 INFO  Database has been opened. 
+2020-04-21 11:42:06 INFO  Server connected at: 8080 
+2020-04-21 11:42:07 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:42:09 ERROR Socket on 'get-member-details': Cannot read property 'data' of undefined 
+2020-04-21 11:42:35 INFO  Database has been opened. 
+2020-04-21 11:42:35 INFO  Server connected at: 8080 
+2020-04-21 11:42:36 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:42:37 ERROR Socket on 'get-member-details': Cannot read property 'data' of undefined 
+2020-04-21 11:42:56 INFO  Database has been opened. 
+2020-04-21 11:42:56 INFO  Server connected at: 8080 
+2020-04-21 11:42:57 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:43:01 ERROR Socket on 'get-member-details': Cannot read property 'data' of undefined 
+2020-04-21 11:44:24 INFO  Database has been opened. 
+2020-04-21 11:44:24 INFO  Server connected at: 8080 
+2020-04-21 11:44:25 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:46:19 INFO  Database has been opened. 
+2020-04-21 11:46:20 INFO  Server connected at: 8080 
+2020-04-21 11:46:20 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 11:47:12 INFO  Database has been opened. 
+2020-04-21 11:47:12 INFO  Server connected at: 8080 
+2020-04-21 11:47:13 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 12:07:36 INFO  Database has been opened. 
+2020-04-21 12:07:37 INFO  Server connected at: 8080 
+2020-04-21 12:07:38 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 12:07:41 INFO  Database has been opened. 
+2020-04-21 12:07:42 INFO  Server connected at: 8080 
+2020-04-21 12:07:45 ERROR Socket on 'get-member-list': a is not defined 
+2020-04-21 12:07:47 ERROR Socket on 'get-member-list': a is not defined 
+2020-04-21 12:07:48 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 12:07:55 INFO  Database has been opened. 
+2020-04-21 12:07:55 INFO  Server connected at: 8080 
+2020-04-21 12:07:56 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 12:09:08 INFO  Database has been opened. 
+2020-04-21 12:09:08 INFO  Server connected at: 8080 
+2020-04-21 12:09:09 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 12:11:03 INFO  Database has been opened. 
+2020-04-21 12:11:04 INFO  Server connected at: 8080 
+2020-04-21 12:11:05 INFO  Bot logged in as Dashboard#1824. 
+2020-04-21 17:40:18 INFO  User 'Marcel#1473' logged in. 

@@ -4,7 +4,7 @@
 	<!--    MAIN INFO    -->
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Payment <%= status %></title>
+	<title>Jupiter Notify</title>
 	
 	<!--    MAIN CSS    -->
 	<link rel="stylesheet" href="/response.css">
@@ -23,23 +23,36 @@
 <body>
 
 <div class="container">
-	<% if(status==="payment-success") { %>
+	<% if (status === "payment-success") { %>	<%# Payment statuses%>
 		<h1>Payment was successful</h1>
-	<% } else { %>
-		<h1>Payment was cancelled</h1>
-	<% } %>
-	<% if(status==="payment-success") { %>
 		<p>Thanks for subscribing! If you have any issues, please contact a member of staff, we'll be glad to help.</p>
 		<a class="button" href="/dashboard">Go to Dashboard</a>
-	<% } else { %>
+	<% } else if (status === "payment-fail") { %>
+		<h1>Payment was cancelled</h1>
 		<p>Something went wrong during the payment phase. If you can't complete the payment, please contact a member of staff, we'll be glad to help.</p>
 		<a class="button" href="/">Go Back</a>
+	<% }
+
+	else if (status === "cancel-role") { %>		<%# Cancel statuses %>
+		<h1>Cancel was successful</h1>
+		<p>You have cancelled your membership. If there was an error, please contact a member of staff or send an email to let us know.</p>
+		<a class="button" href="/">Go Home</a>
+	<% }
+
+	else if (status === "transfer-success") { %>	<%# Transfer statuses %>
+		<h1>Transfer successful</h1>
+		<p>You transferred your membership successfully. We're sorry that you're leaving us. If you need help, don't hesitate contacting us.</p>
+		<a class="button" href="/">Go Home</a>
+	<% } else if (status === "transfer-fail") { %>
+		<h1>Transfer failed</h1>
+		<p>Transfer could not be completed. If you need help, please contact a member of staff or send us an email.</p>
+		<a class="button" href="/dashboard">Go Back</a>
+	<% } else if (status === "transfer-staff") { %>
+		<h1>Transfer failed</h1>
+		<p>You can't transfer a staff role to another person. If you need help, contact one of the owners.</p>
+		<a class="button" href="/dashboard">Go Back</a>
 	<% } %>
 </div>
-
-
-<!--    JS LIBRARIES    -->
-<script></script>
 
 </body>
 </html>

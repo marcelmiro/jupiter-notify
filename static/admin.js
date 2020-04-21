@@ -19,7 +19,7 @@ let app = new Vue({
             REFRESH_BUTTON.classList.remove("animation");
             setTimeout(() => {
                 REFRESH_BUTTON.classList.add("animation");
-            }, 0);
+            }, 10);
         },
         addMember: function() {
             const USER_ID = prompt("Enter user's Discord id.");
@@ -34,9 +34,11 @@ let app = new Vue({
             this.showMemberView = true;
         },
         memberViewScrollTop: function() {
-            setTimeout(() => {
-                document.querySelector('.content__members .member-view .container').scrollTop = 0;
-            }, 0);
+            if (document.querySelector('.content__members .member-view .container')) {
+                setTimeout(() => {
+                    document.querySelector('.content__members .member-view .container').scrollTop = 0;
+                }, 0);
+            }
         },
         deleteMember: function(id) {
             SOCKET.emit("delete-member", id);

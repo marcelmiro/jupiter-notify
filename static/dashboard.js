@@ -40,6 +40,14 @@ if (document.getElementById("cancel-membership")) {
         document.getElementById("cancel-membership-popup").style.display = "block";
     });
 }
+if (document.getElementById("transfer-membership")) {
+    document.getElementById("transfer-membership").addEventListener("click",() => {
+        document.getElementById("transfer-membership-popup").style.display = "block";
+    });
+    document.querySelector("#transfer-membership-popup button").addEventListener("click", () => {
+        window.location.href = "/stripe/transfer-membership?" + document.querySelector("#transfer-membership-popup input[type=text]").value
+    });
+}
 document.querySelectorAll(".confirm-popup .overlay," +
     ".confirm-popup a:nth-of-type(1)").forEach(item => {
     item.addEventListener("click",() => {

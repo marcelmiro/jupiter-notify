@@ -9,6 +9,7 @@ const stripeUtils = require("../utils/stripe-utils");
 const botUtils = require("../utils/bot-utils");
 const nodemailerSetup = require("../setup/nodemailer-setup");
 
+
 //  Component routes
 router.use("/auth", authRoutes);
 router.use("/stripe", stripeRoutes);
