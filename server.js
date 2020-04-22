@@ -37,7 +37,7 @@ const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 
 const dbUtils = require("./utils/db-utils");
-dbUtils.openDb().then();
+dbUtils.openDb().then(r => {console.debug(r);});
 dbUtils.setSettings().then(() => {
     const utils = require("./utils/utils");
     const routes = require("./routes/routes");

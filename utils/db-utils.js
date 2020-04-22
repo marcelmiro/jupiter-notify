@@ -109,7 +109,7 @@ let updateData = async (table, matchField, matchValue, changeField, newValue) =>
         }
 
         //  Check if row exists.
-        if (await getData(table, matchField, matchValue)) {
+        if (!(await getData(table, matchField, matchValue))) {
             return false;
         }
 

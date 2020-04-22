@@ -14,18 +14,28 @@ let checkBrowser = (req, res, next) => {
 };
 
 //  Authenticate static files
+const STATIC_SETTINGS = {
+    subscription: ["dashboard."],
+    admin: ["admin.", "vue.js", "socket.io.js"]
+}
 let authStaticRoute = async (req, res, next) => {
     try {
-        if (!req.path.includes("/dashboard.") && !req.path.includes("/admin.")) { return next(); }
+        //  If route not included in list, skip rest of code.
+        if (![...STATIC_SETTINGS.subscription, ...STATIC_SETTINGS.admin].filter(route => req.path.includes(route)).length > 0) {
+            return next();
+        }
+        //  User must be logged in for all routes in list.
         else if (!req.user) { return res.redirect("/"); }
-        else if (req.path.includes("/dashboard.")) {
+        //  Subscription routes.
+        else if (STATIC_SETTINGS.subscription.filter(route => req.path.includes(route)).length > 0) {
             const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
             const HAS_MEMBERSHIP = Boolean(CUSTOMER.subscriptions.data.length > 0);
             const ROLE = await dbUtils.getRole(req.user["user_id"]);
             if (!HAS_MEMBERSHIP && (!ROLE || ROLE.name === "renewal")) {
                 return res.redirect("/");
             }
-        } else if (req.path.includes("/admin.")) {
+        //  Admin routes.
+        } else if (STATIC_SETTINGS.admin.filter(route => req.path.includes(route)).length > 0) {
             const ROLE = await dbUtils.getRole(req.user["user_id"]);
             if (!ROLE || !("admin_panel" in ROLE["perms"]) || !ROLE["perms"]["admin_panel"]) {
                 return res.redirect("/");

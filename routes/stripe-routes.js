@@ -297,7 +297,6 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
                 if (!USER_ROLE) {
                     const RENEWAL_ROLE = await dbUtils.getData("roles", "name", "renewal");
                     await dbUtils.insertData("user_roles", [USER["user_id"], RENEWAL_ROLE["role_id"]]);
-                    console.log(`User '${USER.username}' is now a renewal member.`);
                 }
 
                 //  Debugging

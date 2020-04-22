@@ -167,7 +167,7 @@ router.get("/admin", authUserCheck, async (req,res) => {
     try {
         //  Get role object and check if user has 'admin_panel' permission.
         let role = await dbUtils.getRole(req.user["user_id"]);
-        if (!("admin_panel" in role["perms"]) || !role["perms"]["admin_panel"]) {
+        if (!(role && "admin_panel" in role["perms"] && role["perms"]["admin_panel"])) {
             return res.redirect("/");
         }
 

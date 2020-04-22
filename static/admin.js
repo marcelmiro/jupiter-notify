@@ -21,31 +21,28 @@ let app = new Vue({
                 REFRESH_BUTTON.classList.add("animation");
             }, 10);
         },
-        addMember: function() {
+        viewMember: ROLE["perms"]["view_members"] ? function(id) {
+            SOCKET.emit("get-member-details", id);
+            this.showMemberView = true;
+        } : false,
+        closeMemberView: ROLE["perms"]["view_members"] ? function() {
+            document.querySelector('.content__members .member-view .container').scrollTop = 0;
+            setTimeout(() => { this.memberView = {} }, 0);
+        } : function(){},
+        addMember: ROLE["perms"]["modify_members"] ? function() {
             const USER_ID = prompt("Enter user's Discord id.");
             const ROLE = USER_ID ? prompt("Enter role name.") : undefined;
             if (ROLE) {
                 SOCKET.emit("add-member", { user_id: USER_ID, role: ROLE });
                 SOCKET.emit("get-member-list");
             }
-        },
-        viewMember: function(id) {
-            SOCKET.emit("get-member-details", id);
-            this.showMemberView = true;
-        },
-        memberViewScrollTop: function() {
-            if (document.querySelector('.content__members .member-view .container')) {
-                setTimeout(() => {
-                    document.querySelector('.content__members .member-view .container').scrollTop = 0;
-                }, 0);
-            }
-        },
-        deleteMember: function(id) {
+        } : function(){},
+        deleteMember: ROLE["perms"]["modify_members"] ? function(id) {
             SOCKET.emit("delete-member", id);
-        },
-        updateSetting: function(name) {
+        } : function(){},
+        updateSetting: ROLE["perms"]["edit_config"] ? function(name) {
             SOCKET.emit("update-setting", { name: name, value: this.settings[name] });
-        },
+        } : function(){},
     },
 
     filters: {
@@ -83,7 +80,7 @@ let app = new Vue({
             this.memberCount = members.length;
             return members;
         },
-        filteredLogs: function() {
+        filteredLogs: ROLE["perms"]["view_console"] ? function() {
             let tempLogs = [];
             let logs = this.logs.split(/\n(?=\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s)/);
 
@@ -105,7 +102,7 @@ let app = new Vue({
             setTimeout(() => { container.scrollTop = container.scrollHeight; }, 0);
 
             return tempLogs;
-        }
+        } : function(){},
     },
 
     watch: {
@@ -141,21 +138,27 @@ let app = new Vue({
         SOCKET.on("set-member-list", list => {
             this.members = list;
         });
-        SOCKET.on("set-member-details", data => {
-            this.memberView = data;
-        });
-        SOCKET.on("get-logs", () => {
-            SOCKET.emit("get-logs");
-        });
-        SOCKET.on("send-logs", data => {
-            this.logs = data;
-        });
-        SOCKET.on("get-settings", () => {
-            SOCKET.emit("get-settings");
-        });
-        SOCKET.on("set-settings", data => {
-            this.settings = data;
-        });
+        if (ROLE["perms"]["view_members"]) {
+            SOCKET.on("set-member-details", data => {
+                this.memberView = data;
+            });
+        }
+        if (ROLE["perms"]["view_console"]) {
+            SOCKET.on("get-logs", () => {
+                SOCKET.emit("get-logs");
+            });
+            SOCKET.on("send-logs", data => {
+                this.logs = data;
+            });
+        }
+        if (ROLE["perms"]["edit_config"]) {
+            SOCKET.on("get-settings", () => {
+                SOCKET.emit("get-settings");
+            });
+            SOCKET.on("set-settings", data => {
+                this.settings = data;
+            });
+        }
     },
 });
 

@@ -12,6 +12,7 @@ const botUtils = require("../utils/bot-utils");
 module.exports = server => {
     const io = require("socket.io")(server);
 
+    //  Override log functions and emit when logging.
     const TRUE_CONSOLE_LOG = console.log;
     console.log = msg => {
         TRUE_CONSOLE_LOG(msg);
@@ -47,7 +48,6 @@ module.exports = server => {
 
     io.on("connection", socket => {
         //console.log(`User '${socket.request.user.username}' connected to socket.`);
-
         socket.on("disconnect", () => {
             //console.log(`User '${socket.request.user.username}' disconnected from socket.`);
         });
@@ -55,6 +55,12 @@ module.exports = server => {
         //  Send updated member list.
         socket.on("get-member-list", async () => {
             try {
+                //  Check if user has permission.
+                const ROLE = await dbUtils.getRole(socket.request.user.user_id);
+                if (!ROLE || !(ROLE["perms"] && "admin_panel" in ROLE["perms"] && ROLE["perms"].admin_panel)) {
+                    return socket.disconnect();
+                }
+
                 const USERS = await dbUtils.getAllData("users");
                 let userList = [];
 
@@ -64,6 +70,7 @@ module.exports = server => {
                         user["avatar_url"].slice(0, user["avatar_url"].indexOf("?size=")) + ".png" +
                         user["avatar_url"].slice(user["avatar_url"].indexOf("?size="));
 
+                    //  Get user's role and if true, push to members list.
                     const ROLE = await dbUtils.getRole(user["user_id"]);
                     if (ROLE) {
                         let temp = {
@@ -79,12 +86,18 @@ module.exports = server => {
                 socket.emit("set-member-list", userList);
             } catch (e) {
                 console.error(`Socket on 'get-member-list': ${e.message}`);
+                socket.emit("send-error", "Error when trying to get members list.");
             }
         });
 
         //  Send member details.
         socket.on("get-member-details", async userId => {
             try {
+                //  Check if user has permission.
+                if (!(socket.request.role && "view_members" in socket.request.role["perms"] && socket.request.role["perms"]["view_members"])) {
+                    return socket.emit("send-error", "You don't have permission to view a member's details.");
+                }
+
                 //  Check if user in db.
                 const USER = await dbUtils.getData("users", "user_id", userId);
                 if (!USER) { return socket.emit("send-error", "Can't find user in db."); }
@@ -128,12 +141,18 @@ module.exports = server => {
                 socket.emit("set-member-details", data);
             } catch (e) {
                 console.error(`Socket on 'get-member-details': ${e.message}`);
+                socket.emit("send-error", "Error on getting member's details.");
             }
         });
 
         //  Add member to db. (Must have logged in already).
         socket.on("add-member", async data => {
             try {
+                //  Check if user has permission.
+                if (!(socket.request.role && "modify_members" in socket.request.role["perms"] && socket.request.role["perms"]["modify_members"])) {
+                    return socket.emit("send-error", "You don't have permission to add a member.");
+                }
+
                 //  Check if user exists in db. Check if user doesn't have a role already.
                 const USER = await dbUtils.getData("users", "user_id", data["user_id"]);
                 if (!USER) { return socket.emit("send-error", "User id doesn't exist in db."); }
@@ -167,6 +186,10 @@ module.exports = server => {
 
                 //  If data inserted to 'user_roles' successfully, refresh member list and debug.
                 if (await dbUtils.insertData("user_roles", [data["user_id"], ROLE["role_id"]])) {
+                    const USER = await dbUtils.getData("users", "user_id", data.user_id);
+                    if (USER) {
+                        console.log(`User '${USER.username}' is now ${data.role}.`);
+                    }
                     io.sockets.emit("get-member-list");
                     socket.emit(
                         "send-message",
@@ -175,12 +198,18 @@ module.exports = server => {
                 }
             } catch (e) {
                 console.error(`Socket on 'add-member': ${e.message}`);
+                socket.emit("send-error", "Error when trying to add member.");
             }
         });
 
         //  Delete member from 'user_roles' table.
         socket.on("delete-member", async userId => {
             try {
+                //  Check if user has permission.
+                if (!(socket.request.role && "modify_members" in socket.request.role["perms"] && socket.request.role["perms"]["modify_members"])) {
+                    return socket.emit("send-error", "You don't have permission to delete a member.");
+                }
+
                 //  Check if user exists.
                 const USER = await dbUtils.getData("users", "user_id", userId);
                 if (!USER) { return socket.emit("send-error", "User not found in db."); }
@@ -210,12 +239,19 @@ module.exports = server => {
                 }
             } catch (e) {
                 console.error(`Socket on 'delete-member': ${e.message}`);
+                socket.emit("send-error", "Error when trying to delete member.");
             }
         });
 
         //  Get logs from log file.
         socket.on("get-logs", async () => {
             try {
+                //  Check if user has permission.
+                if (!(socket.request.role && "view_console" in socket.request.role["perms"] && socket.request.role["perms"]["view_console"])) {
+                    return false;
+                }
+
+                //  Read logger file and return data.
                 await new Promise((resolve, reject) => {
                     fs.readFile(process.env.LOGGER_NAME, 'utf8', (err, data) => {
                         if (err) { socket.emit("send-error", "Can't read logs."); reject(err); }
@@ -224,12 +260,18 @@ module.exports = server => {
                 });
             } catch (e) {
                 console.error(`Socket on 'get-logs': ${e.message}`);
+                socket.emit("send-error", "Error when getting logs.");
             }
         });
 
         //  Get settings.
         socket.on("get-settings", async () => {
             try {
+                //  Check if user has permission.
+                if (!(socket.request.role && "edit_config" in socket.request.role["perms"] && socket.request.role["perms"]["edit_config"])) {
+                    return false;
+                }
+
                 let settings = {};
                 const DB_SETTINGS = await dbUtils.getAllData("settings");
                 DB_SETTINGS.forEach(setting => {
@@ -238,12 +280,18 @@ module.exports = server => {
                 socket.emit("set-settings", settings);
             } catch (e) {
                 console.error(`Socket on 'get-settings': ${e.message}`);
+                socket.emit("send-error", "Error when getting settings.");
             }
         });
 
         //  Update setting.
         socket.on("update-setting", async data => {
             try {
+                //  Check if user has permission.
+                if (!(socket.request.role && "edit_config" in socket.request.role["perms"] && socket.request.role["perms"]["edit_config"])) {
+                    return socket.emit("send-error", "You don't have permission to edit settings.");
+                }
+
                 //  Check if value is the same.
                 if (data.value === process.env[data.name]) {
                     return socket.emit("send-error", "You're trying to update setting with same value.");
@@ -256,6 +304,7 @@ module.exports = server => {
                 }
             } catch (e) {
                 console.error(`Socket on 'update-setting': ${e.message}`);
+                socket.emit("send-error", "Error when trying to update a setting.");
             }
         });
     });
