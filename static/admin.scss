@@ -122,7 +122,7 @@ html, body {
 	padding: 0;
 	width: 100%;
 	height: 100%;
-	overflow-x: hidden;
+	overflow: auto;
 	
 	color: white;
 	text-align: center;
@@ -179,6 +179,9 @@ html, body {
 		label { position: relative; font-size: 18px; top: -4px; }
 		.tab.active { svg path { fill: #333; } }
 	}
+	
+	$heightSettings: 60px;
+	
 	.content {
 		position: relative;
 		z-index: 2;
@@ -196,7 +199,6 @@ html, body {
 		> div:not(.active) { display: none; }
 	}
 	.content__members {
-		$heightSettings: 60px;
 		overflow-x: hidden;
 		overflow-y: auto;
 		margin-top: $heightSettings;
@@ -355,7 +357,7 @@ html, body {
 					> div { width: 100%; display: flex; flex-flow: row nowrap; justify-content: space-between; align-items: center; }
 				}
 				img.avatar { border-radius: 50%; width: 120px; position: absolute; left: 260px; transform: translateY(-25%); }
-				h2 { font-size: 42px; margin: 0 auto; }
+				h2 { font-size: 42px; margin: 0 auto; display: inline-block; }
 				h3 { font-size: 26px; margin: 0 0 6px; }
 				h6 { font-size: 18px; margin: 0; width: 150px; text-align: left; }
 				span { font-size: 18px; }
@@ -405,6 +407,60 @@ html, body {
 				cursor: auto;
 				min-width: 54px;
 			}
+		}
+	}
+	.content__releases {
+		margin-top: $heightSettings;
+		
+		&__settings {
+			width: 100%;
+			height: $heightSettings;
+			position: absolute;
+			top: 0;
+			left: 0;
+			padding: 0 60px;
+			box-sizing: border-box;
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: flex-end;
+			align-items: center;
+			border-bottom: 1px solid #222;
+			
+			> * + * { margin-left: 40px; }
+			button {
+				height: calc(#{$heightSettings} / 2);
+				img { height: calc(#{$heightSettings} / 2); }
+			}
+			#refresh-releases:not(.animation) img { transform: rotate(0); }
+			#refresh-releases.animation img { transform: rotate(360deg); transition: transform 0.5s ease-out; }
+		}
+		
+		.container {
+			background-color: rgba(white, 0.1);
+			border-radius: 20px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			padding: 30px 80px;
+			
+			.release_details {
+				display: flex;
+				flex-flow: column nowrap;
+				> div { display: flex; flex-flow: row nowrap; justify-content: space-between; align-items: center; }
+				> div + div { margin-top: 20px; }
+			}
+		}
+		
+		h2 { margin: 0; display: inline-block; font-size: 24px; }
+		span { width: 120px; display: inline-block; font-size: 22px; font-weight: 400; text-align: right; }
+		button.button {
+			margin: 30px auto 0;
+			padding: 16px 32px;
+			font-size: 24px;
+			background-color: #D84546;
+			transition: background-color 0.15s linear;
+			&:hover { background-color: darken(#D84546, 4); }
 		}
 	}
 	.content__console {

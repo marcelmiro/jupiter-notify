@@ -1,7 +1,7 @@
 let app = new Vue({
     el: "main",
     data: {
-        currentTab: 1,
+        currentTab: 4,
         members: [],
         memberView: {},
         memberCount: 0,
@@ -9,22 +9,33 @@ let app = new Vue({
         search: "",
         showRoleDropdown: false,
         showMemberView: false,
+        release: {},
         logs: "",
         settings: {},
     },
 
     methods: {
-        refreshMembers: function() {
-            SOCKET.emit("get-member-list");
-            REFRESH_BUTTON.classList.remove("animation");
-            setTimeout(() => {
-                REFRESH_BUTTON.classList.add("animation");
-            }, 10);
+        refresh: function(content) {
+            let button = undefined;
+            if (content === "members") {
+                SOCKET.emit("get-member-list");
+                button = document.getElementById("refresh-members");
+            } else if (content === "release") {
+                SOCKET.emit("get-release");
+                button = document.getElementById("refresh-releases");
+            }
+
+            if (button) {
+                button.classList.remove("animation");
+                setTimeout(() => {
+                    button.classList.add("animation");
+                }, 10);
+            }
         },
         viewMember: ROLE["perms"]["view_members"] ? function(id) {
             SOCKET.emit("get-member-details", id);
             this.showMemberView = true;
-        } : false,
+        } : function(){},
         closeMemberView: ROLE["perms"]["view_members"] ? function() {
             document.querySelector('.content__members .member-view .container').scrollTop = 0;
             setTimeout(() => { this.memberView = {} }, 0);
@@ -39,6 +50,13 @@ let app = new Vue({
         } : function(){},
         deleteMember: ROLE["perms"]["modify_members"] ? function(id) {
             SOCKET.emit("delete-member", id);
+        } : function(){},
+        createRelease: ROLE["perms"]["create_releases"] ? function() {
+            const NUMBER = prompt("How many renewal licenses do you want to release?");
+            if (NUMBER) { SOCKET.emit("create-release", NUMBER); }
+        } : function(){},
+        deleteRelease: ROLE["perms"]["create_releases"] ? function() {
+            SOCKET.emit("delete-release");
         } : function(){},
         updateSetting: ROLE["perms"]["edit_config"] ? function(name) {
             SOCKET.emit("update-setting", { name: name, value: this.settings[name] });
@@ -106,21 +124,66 @@ let app = new Vue({
     },
 
     watch: {
-        currentTab: function() {
-            //  On change, remove active class to tabs and contents. Then add to current tab and content.
-            //  If content is console, scroll to bottom of box.
-            TABS.forEach(t => { t.classList.remove("active"); });
-            CONTENTS.forEach(c => { c.classList.remove("active"); });
+        currentTab: {
+            immediate: true,
+            handler() {
+                const TABS = document.querySelectorAll(".tabs-container .tab");
+                const CONTENTS = document.querySelectorAll(".content > div");
 
-            TABS[this.currentTab-1].querySelector("input").checked = true;
-            TABS[this.currentTab-1].classList.add("active");
-            CONTENTS[this.currentTab-1].classList.add("active");
-            if (CONTENTS[this.currentTab-1].classList.contains("content__console")) {
-                CONTENTS[this.currentTab-1].scrollTop = CONTENTS[this.currentTab-1].scrollHeight;
+                //  Check currentTab to receive content information from socket.
+                switch (this.currentTab) {
+                    case 1:
+                        SOCKET.emit("get-member-list");
+                        break;
+                    case 2:
+                        SOCKET.emit("get-release");
+                        break;
+                    case 3:
+                        SOCKET.emit("get-logs");
+                        break;
+                    case 4:
+                        SOCKET.emit("get-settings");
+                        break;
+                }
+
+
+                //  On change, remove active class to tabs and contents. Then add to current tab and content.
+                //  If content is console, scroll to bottom of box.
+                TABS.forEach(t => { t.classList.remove("active"); });
+                CONTENTS.forEach(c => { c.classList.remove("active"); });
+
+                TABS[this.currentTab-1].querySelector("input").checked = true;
+                TABS[this.currentTab-1].classList.add("active");
+                CONTENTS[this.currentTab-1].classList.add("active");
+                if (CONTENTS[this.currentTab-1].classList.contains("content__console")) {
+                    CONTENTS[this.currentTab-1].scrollTop = CONTENTS[this.currentTab-1].scrollHeight;
+                }
             }
         },
         role: function() { this.showRoleDropdown = false; },
-        memberView: function() { this.showMemberView = Boolean(JSON.stringify(this.memberView) !== "{}"); },
+        memberView: function() {
+            if (this.memberView.username) {
+                setTimeout(function() {
+                    let username = document.querySelector(".content__members .member-view .container h2");
+
+                    let firstLoop = true;
+                    let usernameLoop = () => {
+                        if (username.offsetWidth + 10 >= 500) {
+                            if (firstLoop) {
+                                firstLoop = false;
+                                username.textContent += "...";
+                            }
+                            username.textContent = username.textContent.slice(0,-4) + username.textContent.slice(-3);
+                            usernameLoop();
+                        }
+                    }
+                    usernameLoop();
+                }, 0);
+            }
+
+            this.showMemberView = Boolean(JSON.stringify(this.memberView) !== "{}");
+        },
+        release: function() {},
     },
 
     mounted: function() {
@@ -132,15 +195,24 @@ let app = new Vue({
             console.error(msg);
             alert(msg);
         });
-        SOCKET.on("get-member-list", () => {
-            SOCKET.emit("get-member-list");
-        });
-        SOCKET.on("set-member-list", list => {
-            this.members = list;
-        });
         if (ROLE["perms"]["view_members"]) {
+            SOCKET.on("get-member-list", () => {
+                SOCKET.emit("get-member-list");
+            });
+            SOCKET.on("set-member-list", list => {
+                this.members = list;
+                lengthManager();
+            });
             SOCKET.on("set-member-details", data => {
                 this.memberView = data;
+            });
+        }
+        if (ROLE["perms"]["create_releases"]) {
+            SOCKET.on("get-release", () => {
+                SOCKET.emit("get-release");
+            });
+            SOCKET.on("set-release", data => {
+                this.release = data;
             });
         }
         if (ROLE["perms"]["view_console"]) {
@@ -159,10 +231,29 @@ let app = new Vue({
                 this.settings = data;
             });
         }
+        SOCKET.on("test", () => { console.log("test received!"); });
+        setTimeout(() => { lengthManager(); }, 200);
     },
 });
 
 
-const TABS = document.querySelectorAll(".tabs-container .tab");
-const CONTENTS = document.querySelectorAll(".content > div");
-const REFRESH_BUTTON = document.getElementById("refresh-members");
+//  Function to check if length of text is almost greater than its container. If so, loop to
+//  reduce last character and check length again until text fits inside container.
+function lengthManager() {
+    const USERNAMES = document.querySelectorAll(".content__members .member span");
+
+    USERNAMES.forEach(username => {
+        let firstLoop = true;
+        function usernameLoop() {
+            if (username.offsetWidth + 10 >= 400) {
+                if (firstLoop) {
+                    firstLoop = false;
+                    username.textContent += "...";
+                }
+                username.textContent = username.textContent.slice(0,-4) + username.textContent.slice(-3);
+                usernameLoop();
+            }
+        }
+        usernameLoop();
+    });
+}

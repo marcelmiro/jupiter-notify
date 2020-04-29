@@ -158,7 +158,7 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
+  overflow: auto;
   color: white;
   text-align: center;
   font-family: Clean, sans-serif;
@@ -484,6 +484,7 @@ html, body {
 .dashboard .content__members .member-view .container h2 {
   font-size: 42px;
   margin: 0 auto;
+  display: inline-block;
 }
 .dashboard .content__members .member-view .container h3 {
   font-size: 26px;
@@ -564,6 +565,83 @@ html, body {
   border-radius: 1000vmax;
   cursor: auto;
   min-width: 54px;
+}
+.dashboard .content__releases {
+  margin-top: 60px;
+}
+.dashboard .content__releases__settings {
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 60px;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px solid #222;
+}
+.dashboard .content__releases__settings > * + * {
+  margin-left: 40px;
+}
+.dashboard .content__releases__settings button {
+  height: calc(60px / 2);
+}
+.dashboard .content__releases__settings button img {
+  height: calc(60px / 2);
+}
+.dashboard .content__releases__settings #refresh-releases:not(.animation) img {
+  transform: rotate(0);
+}
+.dashboard .content__releases__settings #refresh-releases.animation img {
+  transform: rotate(360deg);
+  transition: transform 0.5s ease-out;
+}
+.dashboard .content__releases .container {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px 80px;
+}
+.dashboard .content__releases .container .release_details {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.dashboard .content__releases .container .release_details > div {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboard .content__releases .container .release_details > div + div {
+  margin-top: 20px;
+}
+.dashboard .content__releases h2 {
+  margin: 0;
+  display: inline-block;
+  font-size: 24px;
+}
+.dashboard .content__releases span {
+  width: 120px;
+  display: inline-block;
+  font-size: 22px;
+  font-weight: 400;
+  text-align: right;
+}
+.dashboard .content__releases button.button {
+  margin: 30px auto 0;
+  padding: 16px 32px;
+  font-size: 24px;
+  background-color: #D84546;
+  transition: background-color 0.15s linear;
+}
+.dashboard .content__releases button.button:hover {
+  background-color: #d43435;
 }
 .dashboard .content__console {
   font-family: "JetBrains Mono", "Courier New", Clean, sans-serif;

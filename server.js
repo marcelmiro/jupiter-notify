@@ -4,7 +4,7 @@ require("dotenv").config();
 const fs = require("fs");
 function clearLog() {
     fs.stat(process.env.LOGGER_NAME, (err, stats) => {
-        if (err) { console.error("fs.stat(): Can't read log file."); }
+        if (err) console.error("fs.stat(): Can't read log file.");
         else if (stats.size > parseInt(process.env.LOGGER_MAX_SIZE) * 1000) {
             fs.readFile(process.env.LOGGER_NAME, 'utf8', (err, data) => {
                 if (err) { console.error("fs.readFile(): Can't read log file."); }
@@ -13,7 +13,7 @@ function clearLog() {
                     data = data.split("\n");
                     data = data.length > newLines ?
                         data.slice(data.length - newLines) : data.slice(data.length - data.length/2);
-                    fs.writeFile(process.env.LOGGER_NAME, ""/*data.join("\n")*/, err => {
+                    fs.writeFile(process.env.LOGGER_NAME, "\n".join(data), err => {
                         if (err) { console.error("fs.writeFile(): Can't write in log file."); }
                     });
                 }
@@ -37,7 +37,7 @@ const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 
 const dbUtils = require("./utils/db-utils");
-dbUtils.openDb().then(r => {console.debug(r);});
+dbUtils.openDb().then();
 dbUtils.setSettings().then(() => {
     const utils = require("./utils/utils");
     const routes = require("./routes/routes");
@@ -86,5 +86,5 @@ dbUtils.setSettings().then(() => {
     server.listen(port,() => {
         console.log(`Server connected at: ${port}`);
     });
-    require("./setup/socket-setup")(server);
+    require("./setup/socket-setup")(server).then();
 });

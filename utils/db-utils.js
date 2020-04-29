@@ -27,6 +27,12 @@ async function closeDb() {
 
 async function getAllData(table) {
     try {
+        //  Validate parameter 'table'.
+        if (!table) {
+            console.error("getAllData(): Parameter 'table' is undefined.");
+            return undefined;
+        }
+
         return (await db.query(`SELECT * FROM ${table}`)).rows;
     } catch (e) {
         console.error(`getAllData(): ${e.message}`);
@@ -34,9 +40,16 @@ async function getAllData(table) {
     }
 }
 
-let getData = async (table, field, exactMatch) => {
+let getData = async (table, field, value) => {
     try {
-        return (await db.query(`SELECT * FROM ${table} WHERE ${field}='${exactMatch}'`)).rows[0];
+        //  Validate params.
+        const PARAMS = [table, field];
+        if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
+            console.error("getData(): At least 1 parameter is undefined.");
+            return undefined;
+        }
+
+        return (await db.query(`SELECT * FROM ${table} WHERE ${field}='${value}'`)).rows[0];
     } catch (e) {
         console.error(`getData(): ${e.message}`);
         return undefined;
@@ -46,11 +59,7 @@ let getData = async (table, field, exactMatch) => {
 let getRole = async userId => {
     try {
         const USER_ROLE = await getData("user_roles", "user_id", userId);
-        if (USER_ROLE) {
-            return await getData("roles", "role_id", USER_ROLE["role_id"]);
-        } else {
-            return undefined;
-        }
+        return USER_ROLE ? await getData("roles", "role_id", USER_ROLE["role_id"]) : undefined;
     } catch (e) {
         console.error(`getRole(): ${e.message}`);
         return undefined;
@@ -59,10 +68,12 @@ let getRole = async userId => {
 
 let insertData = async (table, data= []) => {
     try {
-        //  Data array must have at least 1 value.
-        if (!(data.length > 0)) {
+        //  Validate params.
+        if (!table || !(data.length > 0)) {
+            console.error("insertData(): At least 1 parameter is undefined.");
             return false;
         }
+
         //  Object values must be converted to string to show correctly in a string.
         data.forEach((entry, index) => {
             if (typeof entry === "object") {
@@ -89,6 +100,13 @@ let insertData = async (table, data= []) => {
 
 let deleteData = async (table, field, value) => {
     try {
+        //  Validate params.
+        const PARAMS = [table, field];
+        if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
+            console.error("deleteData(): At least 1 parameter is undefined.");
+            return false;
+        }
+
         //  SQL query to delete row.
         await db.query(`DELETE FROM ${table} WHERE ${field}='${value}'`);
 
@@ -103,6 +121,13 @@ let deleteData = async (table, field, value) => {
 
 let updateData = async (table, matchField, matchValue, changeField, newValue) => {
     try {
+        //  Validate params.
+        const PARAMS = [table, matchField, changeField];
+        if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
+            console.error("deleteData(): At least 1 parameter is undefined.");
+            return false;
+        }
+
         //  Check if new value is object, and convert to string if so.
         if (typeof newValue === "object") {
             newValue = JSON.stringify(newValue);
@@ -137,6 +162,12 @@ let setSettings = async () => {
 
 let updateSetting = async (name, value) => {
     try {
+        //  Validate parameter 'name'.
+        if (!name) {
+            console.error("updateSetting(): Parameter 'name' is undefined.");
+            return false;
+        }
+
         await updateData("settings", "name", name, "value", value);
         process.env[name] = value;
         return true;

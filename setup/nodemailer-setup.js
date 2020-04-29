@@ -1,11 +1,9 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
-const dbUtils = require("../utils/db-utils");
 
 //  Set up SMTP email account
 const TRANSPORTER = nodemailer.createTransport({
-    host: process.env.EMAIL_HOSTNAME,
-    port: process.env.EMAIL_PORT,
+    service: "gmail",
     auth: {
         user: process.env.EMAIL_ADDRESS,
         pass: process.env.EMAIL_PASSWORD
@@ -18,10 +16,17 @@ const TRANSPORTER = nodemailer.createTransport({
  * @param subject: email's subject
  * @param mode: text mode (html or plain text or both)
  * @param text: email's text
- * @returns email's response or error object
+ * @returns email's response object or false
  */
 let sendEmail = async (to, subject, mode, text) => {
     try {
+        //  Param validation.
+        const PARAMS = [to, mode, text];
+        if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
+            console.error("sendEmail(): At least 1 input parameter is undefined.");
+            return false;
+        }
+
         return await new Promise(async (resolve, reject) => {
             const DATA = {
                 to: to,
@@ -43,7 +48,8 @@ let sendEmail = async (to, subject, mode, text) => {
         });
     } catch (e) {
         console.error(`sendEmail(): ${e.message}`);
+        return false;
     }
 };
 
-module.exports = {sendEmail};
+module.exports = { sendEmail };

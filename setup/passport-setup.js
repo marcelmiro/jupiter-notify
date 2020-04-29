@@ -6,7 +6,7 @@ const dbUtils = require("../utils/db-utils");
 
 
 passport.serializeUser((user, done) => {
-    done(null, user["cookie_id"]);
+    done(null, user.cookie_id);
 });
 
 passport.deserializeUser((id, done) => {

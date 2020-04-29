@@ -28,15 +28,15 @@ router.get("/", async (req, res) => {
 
         //  Check if customer has subscription and if product is in stock to create session.
         const HAS_MEMBERSHIP =
-            Boolean(IS_USER && (await stripeUtils.getCustomer(req.user["stripe_id"])).subscriptions.data.length > 0);
+            Boolean(IS_USER && (await stripeUtils.getCustomer(req.user.stripe_id)).subscriptions.data.length > 0);
 
         //  Check if user has permission to enter admin panel.
         let hasRole = false, isAdmin = false;
         if (IS_USER) {
-            const ROLE = await dbUtils.getRole(req.user["user_id"]);
+            const ROLE = await dbUtils.getRole(req.user.user_id);
             if (ROLE) {
                 hasRole = true;
-                if ("admin_panel" in ROLE["perms"] && ROLE["perms"]["admin_panel"]) {
+                if (ROLE["perms"]?.admin_panel) {
                     isAdmin = true;
                 }
             }
@@ -58,39 +58,36 @@ router.get("/", async (req, res) => {
 
 router.get("/dashboard", authUserCheck, async (req, res) => {
     try {
-        // FIXME user.stripe_id contains deleted customer and not new customer id,
-        //  therefore error "Cannot read property 'data' of undefined.
-        //  I think it's because stripe_id was updated in either localhost or heroku db but not in the other db.
-
         //  Get stripe customer object and check if customer has membership active.
-        const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
+        const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
         const HAS_MEMBERSHIP = Boolean(CUSTOMER.subscriptions.data.length > 0);
 
         //  Get user's role and modify object to get only necessary data.
-        let role = await dbUtils.getRole(req.user["user_id"]);
+        let role = await dbUtils.getRole(req.user.user_id);
 
         //  Check if user can access dashboard.
         if (!role) {
             if (HAS_MEMBERSHIP) {
                 const RENEWAL_ROLE = await dbUtils.getData("roles", "name", "renewal");
-                const ROLE_ID = RENEWAL_ROLE ? RENEWAL_ROLE["role_id"] : undefined;
+                const ROLE_ID = RENEWAL_ROLE?.["role_id"];
 
                 if (ROLE_ID) {
-                    await dbUtils.insertData("user_roles", [req.user["user_id"], ROLE_ID]);
+                    await dbUtils.insertData("user_roles", [req.user.user_id, ROLE_ID]);
                     role = RENEWAL_ROLE;
                 }
             } else {
                 return res.redirect("/");
             }
         } else if (!HAS_MEMBERSHIP && role.name === "renewal") {
-            await dbUtils.deleteData("user_roles", "user_id", req.user["user_id"]);
+            await dbUtils.deleteData("user_roles", "user_id", req.user.user_id);
+            await botUtils.kickUser(req.user.user_id, req.user.email);
             return res.redirect("/");
         }
 
         //  Set role and membership and payment details object.
         role = {
             name: role.name,
-            admin_panel: Boolean("admin_panel" in role["perms"] && role["perms"]["admin_panel"])
+            admin_panel: Boolean(role["perms"]?.admin_panel)
         };
         let membershipDetails = {
             isCancelled: false,
@@ -111,7 +108,7 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
         let session = undefined;
         if (SUBSCRIPTION) {
             //  Create session to update subscription payment details.
-            session = await stripeUtils.createEditCardSession(req.user["stripe_id"], SUBSCRIPTION.id);
+            session = await stripeUtils.createEditCardSession(req.user.stripe_id, SUBSCRIPTION.id);
 
             //  Get customer's membership details.
             membershipDetails.isCancelled = Boolean(SUBSCRIPTION.cancel_at_period_end);
@@ -142,7 +139,7 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
                 interval: role.name,
                 price: "Lifetime",
                 dateNextPayment: "Never",
-                dateCreated: await utils.transformDate(new Date(req.user.data["date_created"])),
+                dateCreated: await utils.transformDate(new Date(req.user.data.date_created)),
             };
         }
 
@@ -154,7 +151,7 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
                 membershipDetails: membershipDetails,
                 paymentDetails: paymentDetails,
                 session: session,
-                userInServer: Boolean(await botUtils.getUser(req.user["user_id"]))
+                userInServer: Boolean(await botUtils.getUser(req.user.user_id))
             });
     } catch (e) {
         console.error(`Route '/dashboard': ${e.message}`);
@@ -166,8 +163,8 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
 router.get("/admin", authUserCheck, async (req,res) => {
     try {
         //  Get role object and check if user has 'admin_panel' permission.
-        let role = await dbUtils.getRole(req.user["user_id"]);
-        if (!(role && "admin_panel" in role["perms"] && role["perms"]["admin_panel"])) {
+        let role = await dbUtils.getRole(req.user.user_id);
+        if (!role?.["perms"]?.admin_panel) {
             return res.redirect("/");
         }
 
@@ -224,20 +221,21 @@ router.get("/test", (req,res) => {
 //  Route to invite discord user to server
 router.get("/discord/join", async (req,res) => {
     try {
-        //  Get user's stripe info to check if user has membership active
-        const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
-        if (CUSTOMER.subscriptions.data.length > 0) {
-            //  Invites user to server. If response is true redirects to discord invite url, else closes tab.
-            botUtils.inviteUser(req.user["user_id"]).then(r => {
+        //  Get user's role and stripe info to check if user has membership active.
+        const ROLE = await dbUtils.getRole(req.user.user_id);
+        const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
+        if (ROLE || CUSTOMER.subscriptions.data.length > 0) {
+            //  Invite user to server. If response is true redirects to discord invite url, else closes tab.
+            botUtils.inviteUser(req.user.user_id).then(r => {
                 r ? res.redirect(r) : res.send(`<script>window.close();</script>`);
             });
         } else {
-            console.log(`User '${req.user["username"]}' tried to join Discord server without subscription.`);
-            res.redirect("/")
+            console.log(`User '${req.user.username}' tried to join Discord server without role or subscription.`);
+            res.redirect("/");
         }
     } catch (e) {
         console.error(`Route '/discord/join': ${e.message}`);
-        res.redirect("/");
+        res.redirect("/dashboard");
     }
 });
 

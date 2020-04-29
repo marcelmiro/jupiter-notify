@@ -32,7 +32,7 @@ router.get("/redirect", passport.authenticate("discord", {
 }), async (req, res) => {
     //  Checks if user has membership. If true, redirect to dashboard,
     //  else redirect to stripe checkout to pay subscription.
-    const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
+    const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
     if (CUSTOMER.subscriptions.data.length > 0) {
         return res.redirect("/dashboard");
     } else {
@@ -48,20 +48,25 @@ router.get("/redirect", passport.authenticate("discord", {
                 if (returnTo.startsWith('/')) {
                     return res.redirect(returnTo);
                 } else if (returnTo === "subscription-checkout") {
-                    //  Check if product is still in stock.
-                    if (!Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
+                    //  Check if product is still in stock or if stock remaining exists and is above 0.
+                    if (!process.env.RELEASE_REMAINING_STOCK && !Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
+                        return res.redirect("/");
+                    } else if (isNaN(parseInt(process.env.RELEASE_REMAINING_STOCK)) || parseInt(process.env.RELEASE_REMAINING_STOCK) <= 0) {
+                        process.env.IN_STOCK = "false";
+                        delete process.env.RELEASE_TOTAL_STOCK;
+                        delete process.env.RELEASE_REMAINING_STOCK;
                         return res.redirect("/");
                     }
 
                     //  Check user doesn't have a role.
-                    const USER_ROLE = await dbUtils.getData("user_roles", "user_id", req.user["user_id"]);
+                    const USER_ROLE = await dbUtils.getData("user_roles", "user_id", req.user.user_id);
                     if (USER_ROLE) {
                         return res.redirect("/dashboard");
                     }
 
                     //  Create session and return javascript code to generate
                     //  stripe checkout to buy membership automatically.
-                    const SESSION = await stripeUtils.createMembershipSession(req.user["stripe_id"]);
+                    const SESSION = await stripeUtils.createMembershipSession(req.user.stripe_id);
                     return res.send(`
                         <script src="https://js.stripe.com/v3/"></script>
                         <script type="text/javascript">

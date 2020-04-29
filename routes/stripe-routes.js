@@ -14,25 +14,30 @@ const authUserCheck = (req, res, next) => {
 router.get("/pay", authUserCheck, async (req, res) => {
     try {
         //  Check if user doesn't have role.
-        const ROLE = await dbUtils.getRole(req.user["user_id"]);
+        const ROLE = await dbUtils.getRole(req.user.user_id);
         if (ROLE) {
             if (["renewal", "lifetime"].indexOf(ROLE.name) > -1) { return res.redirect("/dashboard"); }
             return res.redirect("/");
         }
 
-        //  Check if product is in stock.
-        if (!Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
+        //  Check if product is still in stock or if stock remaining exists and is above 0.
+        if (!process.env.RELEASE_REMAINING_STOCK && !Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
+            return res.redirect("/");
+        } else if (isNaN(parseInt(process.env.RELEASE_REMAINING_STOCK)) || parseInt(process.env.RELEASE_REMAINING_STOCK) <= 0) {
+            process.env.IN_STOCK = "false";
+            delete process.env.RELEASE_TOTAL_STOCK;
+            delete process.env.RELEASE_REMAINING_STOCK;
             return res.redirect("/");
         }
 
         //  Check if user has subscription.
-        if ((await stripeUtils.getCustomer(req.user["stripe_id"])).subscriptions.data.length > 0) {
+        if ((await stripeUtils.getCustomer(req.user.stripe_id))?.subscriptions.data?.[0]) {
             return res.redirect("/dashboard");
         }
 
         //  Create session and return javascript code to generate
         //  stripe checkout to buy membership automatically.
-        const SESSION = await stripeUtils.createMembershipSession(req.user["stripe_id"]);
+        const SESSION = await stripeUtils.createMembershipSession(req.user.stripe_id);
         return res.send(`
             <script src="https://js.stripe.com/v3/"></script>
             <script type="text/javascript">
@@ -79,9 +84,10 @@ router.get("/fail", (req, res) => {
 router.get("/cancel-membership", authUserCheck, async (req, res) => {
     try {
         //  Check if user has role and if role is not renewal (meaning lifetime or staff).
-        const ROLE = await dbUtils.getRole(req.user["user_id"]);
+        const ROLE = await dbUtils.getRole(req.user.user_id);
         if (ROLE && ROLE.name !== "renewal") {
-            if (await dbUtils.deleteData("user_roles", "user_id", req.user["user_id"])) {
+            if (await dbUtils.deleteData("user_roles", "user_id", req.user.user_id)) {
+                await botUtils.kickUser(req.user.user_id, req.user.email);
                 return res.render("response", {status:"cancel-role"});
             } else {
                 return res.redirect("/dashboard");
@@ -89,11 +95,11 @@ router.get("/cancel-membership", authUserCheck, async (req, res) => {
         }
 
         //  Get customer's object.
-        const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
+        const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
 
         //  Check if customer has at least 1 subscription.
         if (!CUSTOMER.subscriptions.data.length > 0) {
-            console.log(`User '${req.user["username"]}' tried to cancel a non-existing membership.`);
+            console.log(`User '${req.user.username}' tried to cancel a non-existing membership.`);
             return res.redirect("/");
         }
 
@@ -102,7 +108,7 @@ router.get("/cancel-membership", authUserCheck, async (req, res) => {
 
         //  If subscription has already been cancelled, log it and return to dashboard.
         if (SUBSCRIPTION.cancel_at_period_end) {
-            console.log(`User '${req.user["username"]}' tried to cancel an already cancelled membership.`);
+            console.log(`User '${req.user.username}' tried to cancel an already cancelled membership.`);
             return res.redirect("/dashboard");
         }
 
@@ -115,10 +121,10 @@ router.get("/cancel-membership", authUserCheck, async (req, res) => {
         );
 
         //  Debugging
-        console.log(`User '${req.user["username"]}' has cancelled its membership.`);
+        console.log(`User '${req.user.username}' has cancelled its membership.`);
     } catch (e) {
         if (e.message.includes("Cannot read property 'id' of undefined")) {
-            console.log(`User '${req.user["username"]}' tried to cancel non-existing membership.`);
+            console.log(`User '${req.user.username}' tried to cancel non-existing membership.`);
         } else {
             console.error(`Route '/stripe/cancel-membership': ${e.message}`);
         }
@@ -130,17 +136,17 @@ router.get("/cancel-membership", authUserCheck, async (req, res) => {
 router.get("/renew-membership", authUserCheck, async (req,res) => {
     try {
         //  Check if user has renewal role to renew subscription.
-        const ROLE = await dbUtils.getRole(req.user["user_id"]);
+        const ROLE = await dbUtils.getRole(req.user.user_id);
         if (ROLE && ROLE.name !== "renewal") {
             return res.redirect("/dashboard");
         }
 
         //  Get customer's object.
-        const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
+        const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
 
         //  Check if customer has at least 1 subscription.
         if (!CUSTOMER.subscriptions.data.length > 0) {
-            console.log(`User '${req.user["username"]}' tried to renew a non-existing membership.`);
+            console.log(`User '${req.user.username}' tried to renew a non-existing membership.`);
             return res.redirect("/");
         }
 
@@ -149,7 +155,7 @@ router.get("/renew-membership", authUserCheck, async (req,res) => {
 
         //  If subscription is not already cancelled, log it and return to dashboard.
         if (!SUBSCRIPTION.cancel_at_period_end) {
-            console.log(`User '${req.user["username"]}' tried to renew an non-cancelled membership.`);
+            console.log(`User '${req.user.username}' tried to renew an non-cancelled membership.`);
             return res.redirect("/dashboard");
         }
 
@@ -160,7 +166,7 @@ router.get("/renew-membership", authUserCheck, async (req,res) => {
         );
 
         //  Debugging
-        console.log(`User '${req.user["username"]}' has renewed its membership.`);
+        console.log(`User '${req.user.username}' has renewed its membership.`);
     } catch (e) {
         console.error(`Route '/stripe/renew-membership': ${e.message}`);
     }
@@ -171,7 +177,7 @@ router.get("/renew-membership", authUserCheck, async (req,res) => {
 router.get("/transfer-membership", authUserCheck, async (req, res) => {
     try {
         //  Check if user has role.
-        const ROLE = await dbUtils.getRole(req.user["user_id"]);
+        const ROLE = await dbUtils.getRole(req.user.user_id);
         if (!ROLE) { return res.redirect("/"); }
 
         //  Check if user's role is not staff.
@@ -196,12 +202,13 @@ router.get("/transfer-membership", authUserCheck, async (req, res) => {
                 mode = "lifetime";
             } else if (ROLE.name === "renewal") {
                 //  Get subscription and check customer has one.
-                const CUSTOMER = await stripeUtils.getCustomer(req.user["stripe_id"]);
-                if (CUSTOMER.subscriptions.data.length === 0) { return res.render("response", {status:"transfer-fail"}); }
+                const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
+                if (!CUSTOMER || CUSTOMER.subscriptions.data.length === 0) { return res.render("response", {status:"transfer-fail"}); }
                 const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
+                if (!SUBSCRIPTION) { return res.render("response", {status:"transfer-fail"}); }
 
                 //  Create and delete subscriptions.
-                await stripeUtils.transferSubscription(USER["stripe_id"], SUBSCRIPTION.current_period_end);
+                await stripeUtils.transferSubscription(USER.stripe_id, SUBSCRIPTION.current_period_end);
                 await stripeUtils.deleteSubscription(SUBSCRIPTION.id);
 
                 mode = "renewal";
@@ -212,7 +219,7 @@ router.get("/transfer-membership", authUserCheck, async (req, res) => {
                 //  Try to update transferring user id to transferred user id.
                 //  If not possible (due to transferring user's role deleted already),
                 //  insert new user id with mode (which equals to role name).
-                if (!(await dbUtils.updateData("user_roles", "user_id", req.user["user_id"], "user_id", USER_ID))) {
+                if (!(await dbUtils.updateData("user_roles", "user_id", req.user.user_id, "user_id", USER_ID))) {
                     const ROLE = await dbUtils.getData("roles", "name", mode);
                     if (!ROLE) { return res.render("response", {status:"transfer-fail"}); }
                     await dbUtils.insertData("user_roles", [USER_ID, ROLE["role_id"]])
@@ -261,8 +268,8 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
             //  or when changing a customer's payment details.
 
             //  Get necessary objects.
-            const CUSTOMER = await stripeUtils.getCustomer(USER["stripe_id"]);
-            const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
+            const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
+            const SUBSCRIPTION = CUSTOMER?.subscriptions.data[0];
 
             //  Init default payment var to set it to a payment method id,
             //  depending if session was in setup mode or not.
@@ -270,7 +277,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
             if (SESSION.mode === "setup") {
                 //  Check if subscription was meant to get cancelled by the end of period,
                 //  if true, set 'cancel_at_period_end' to false.
-                if (SUBSCRIPTION.cancel_at_period_end) {
+                if (SUBSCRIPTION?.cancel_at_period_end) {
                     await stripeUtils.updateSubscription(SUBSCRIPTION.id, {cancel_at_period_end: false});
                 }
 
@@ -289,14 +296,35 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
                 //  Debugging
                 console.log(`User '${USER.username}' changed its payment method.`);
             } else {    //  SESSION.mode === "subscription"
+                //  Check if release is active. If so, if is number and number is greater than 0, subtract 1.
+                //  Else, delete environmental variable.
+                if (process.env.RELEASE_REMAINING_STOCK) {
+                    const REMAINING_STOCK = parseInt(process.env.RELEASE_REMAINING_STOCK);
+                    if (!isNaN(REMAINING_STOCK) && REMAINING_STOCK > 0) {
+                        process.env.RELEASE_REMAINING_STOCK = (REMAINING_STOCK - 1).toString();
+
+                        //  Check if release still has stock.
+                        if (REMAINING_STOCK - 1 <= 0) {
+                            console.log("Release has ran out of stock.");
+                            process.env.IN_STOCK = "false";
+                            delete process.env.RELEASE_TOTAL_STOCK;
+                            delete process.env.RELEASE_REMAINING_STOCK;
+                        }
+                    } else {
+                        process.env.IN_STOCK = "false";
+                        delete process.env.RELEASE_TOTAL_STOCK;
+                        delete process.env.RELEASE_REMAINING_STOCK;
+                    }
+                }
+
                 //  Set defaultPayment var to payment method's id from customer's subscription.
                 defaultPayment = SUBSCRIPTION.default_payment_method;
 
                 //  Set user's role to 'renewal' if user doesn't have a role.
-                const USER_ROLE = await dbUtils.getData("user_roles", "user_id", USER["user_id"]);
+                const USER_ROLE = await dbUtils.getData("user_roles", "user_id", USER.user_id);
                 if (!USER_ROLE) {
                     const RENEWAL_ROLE = await dbUtils.getData("roles", "name", "renewal");
-                    await dbUtils.insertData("user_roles", [USER["user_id"], RENEWAL_ROLE["role_id"]]);
+                    await dbUtils.insertData("user_roles", [USER.user_id, RENEWAL_ROLE["role_id"]]);
                 }
 
                 //  Debugging
@@ -324,14 +352,11 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
             console.log(`User '${USER.username}' has cancelled its membership.`);
 
             //  Check if user is non-staff member to remove role and kick from server.
-            const ROLE = await dbUtils.getRole(USER["user_id"]);
-            if (ROLE && ROLE.name === "renewal") {
-                //  Remove from 'user_roles' table and debug.
-                await dbUtils.deleteData("user_roles", "user_id", USER["user_id"]);
-
-                //  Kick user from discord server. May log error "User was not found in Discord server.",
-                //  due to not finding user in Discord server. If user not found, sends email notifying the kick.
-                await botUtils.kickUser(USER["user_id"], USER["email"]);
+            const ROLE = await dbUtils.getRole(USER.user_id);
+            if (ROLE?.name === "renewal") {
+                //  Remove from 'user_roles' table and kick from server.
+                await dbUtils.deleteData("user_roles", "user_id", USER.user_id);
+                await botUtils.kickUser(USER.user_id, USER.email)
             }
         }
         await res.json({received: true});
