@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+  "engines": {
+    "node": "x.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marcelmiro/subscription-dashboard.git"
@@ -34,8 +37,8 @@
     "pg": "^8.0.3",
     "simple-node-logger": "^18.12.24",
     "socket.io": "^2.3.0",
-    "stripe": "^8.47.1",
-    "uuidv4": "^6.0.7",
+    "stripe": "^8.48.0",
+    "uuidv4": "^6.0.8",
     "vue": "^2.6.11"
   },
   "devDependencies": {}
