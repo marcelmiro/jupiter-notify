@@ -56,6 +56,7 @@ dbUtils.setSettings().then(() => {
 
     //  Set helmet and rate limit config.
     app.use(helmet());
+    app.set('trust proxy', 1);
     app.use(rateLimit({
         windowMs: 60 * 1000,
         max: 400
