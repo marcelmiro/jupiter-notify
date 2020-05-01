@@ -31,6 +31,9 @@ console.error = msg => { log.error(msg); clearLog(); };
 
 
 const express = require('express');
+const helmet = require('helmet');
+const rateLimit = require("express-rate-limit");
+
 const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
@@ -50,6 +53,13 @@ dbUtils.setSettings().then(() => {
     //  Set express template to ejs and set default location of ejs files.
     app.set("view engine", "ejs");
     app.set('views', path.join(__dirname, '/static'));
+
+    //  Set helmet and rate limit config.
+    app.use(helmet());
+    app.use(rateLimit({
+        windowMs: 60 * 1000,
+        max: 400
+    }));
 
     //  Set cookie config.
     app.use(cookieSession({

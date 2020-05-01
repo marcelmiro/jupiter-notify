@@ -77,7 +77,7 @@ let setup = async server => {
                         let temp = {
                             user_id: user.user_id,
                             username: user.username,
-                            role: { name: ROLE.name, color: ROLE.data.color },
+                            role: { name: ROLE.name, color: ROLE.color },
                             avatar_url: user.avatar_url
                         };
                         temp.role.importance = ROLE["perms"]?.importance ? ROLE["perms"].importance : 10;
@@ -88,61 +88,6 @@ let setup = async server => {
             } catch (e) {
                 console.error(`Socket on 'get-member-list': ${e.message}`);
                 socket.emit("send-error", "Error when trying to get members list.");
-            }
-        });
-
-        //  Send member details.
-        socket.on("get-member-details", async userId => {
-            try {
-                //  Check if user has permission.
-                if (!socket.request.role?.["perms"]?.["view_members"]) {
-                    return socket.emit("send-error", "You don't have permission to view a member's details.");
-                }
-
-                //  Check if user in db.
-                const USER = await dbUtils.getData("users", "user_id", userId);
-                if (!USER) { return socket.emit("send-error", "Can't find user in db."); }
-
-                //  Create return object and modify object as needed.
-                let data = {...USER, ...{
-                        date_created: await utils.transformDate(new Date(USER.data.date_created)),
-                        user_in_server: Boolean(await botUtils.getUser(USER.user_id))
-                    }};
-                delete data.data;
-
-                //  Get role object.
-                const ROLE = await dbUtils.getRole(USER.user_id);
-                if (ROLE) {
-                    data = {...data, ...{ role: { name: ROLE.name, color: ROLE.data.color } }};
-                }
-
-                //  Get customer object and check if true.
-                const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
-                if (CUSTOMER) {
-                    let temp = { default_payment: Boolean(CUSTOMER.invoice_settings?.default_payment_method) };
-
-                    //  Check if user has subscription.
-                    if (CUSTOMER.subscriptions.data.length > 0) {
-                        const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
-
-                        temp.sub_id = SUBSCRIPTION.id;
-                        temp.sub_status = SUBSCRIPTION.status;
-
-                        //  Get invoice and check if true.
-                        const INVOICE = SUBSCRIPTION.latest_invoice ? await stripeUtils.getInvoice(SUBSCRIPTION.latest_invoice) : undefined;
-                        if (INVOICE?.id) {
-                            temp.invoice_id = INVOICE.id;
-                            temp.invoice_status = INVOICE.status;
-                            temp.invoice_date = await utils.transformDate(new Date(INVOICE.created * 1000));
-                        }
-                    }
-                    data = {...data, ...temp};
-                }
-
-                socket.emit("set-member-details", data);
-            } catch (e) {
-                console.error(`Socket on 'get-member-details': ${e.message}`);
-                socket.emit("send-error", "Error on getting member's details.");
             }
         });
 
@@ -167,7 +112,7 @@ let setup = async server => {
 
                 //  Check if existing role name.
                 const ROLES = await dbUtils.getAllData("roles");
-                if (!ROLES.map(role=>role.name.toLowerCase()).includes(role.toLowerCase())) {
+                if (!ROLES.map(ROLE => ROLE.name.toLowerCase()).includes(role.toLowerCase())) {
                     return socket.emit("send-error", "Role doesn't exist.");
                 }
 
@@ -177,7 +122,7 @@ let setup = async server => {
                 }
 
                 //  Get role.
-                const ROLE = ROLES.find(role => role.name.toLowerCase() === role.toLowerCase());
+                const ROLE = ROLES.find(ROLE => ROLE.name.toLowerCase() === role.toLowerCase());
 
                 //  Check if u role importance is less than user's role
                 //  (meaning someone e.g. staff can't add member to owner role).
@@ -187,10 +132,7 @@ let setup = async server => {
 
                 //  If data inserted to 'user_roles' successfully, refresh member list and debug.
                 if (await dbUtils.insertData("user_roles", [userId, ROLE["role_id"]])) {
-                    const USER = await dbUtils.getData("users", "user_id", userId);
-                    if (USER) {
-                        console.log(`User '${USER.username}' now has ${role[0].toUpperCase() + role.slice(1)} role.`);
-                    }
+                    console.log(`User '${socket.request.user.username}' added '${USER.username}' as ${role[0].toUpperCase() + role.slice(1)}.`);
                     io.sockets.emit("get-member-list");
                     socket.emit(
                         "send-message",
@@ -235,7 +177,7 @@ let setup = async server => {
 
                 //  If data deleted successfully, refresh member list and debug.
                 if (await dbUtils.deleteData("user_roles", "user_id", userId)) {
-                    console.log(`User '${socket.request.user.username}' has delete user '${USER.username}'.`);
+                    console.log(`User '${socket.request.user.username}' deleted user '${USER.username}'.`);
                     await botUtils.kickUser(userId, USER.email);
                     io.sockets.emit("get-member-list");
                     socket.emit("send-message", `User '${USER.username}' has no role now.`);
@@ -243,6 +185,207 @@ let setup = async server => {
             } catch (e) {
                 console.error(`Socket on 'delete-member': ${e.message}`);
                 socket.emit("send-error", "Error when trying to delete member.");
+            }
+        });
+
+        //  Update member info.
+        socket.on("update-member", async ({ user_id: userId, name: name, value: value }) => {
+            try {
+                //  Check if user has permission.
+                if (!socket.request.role?.["perms"]?.["modify_members"]) {
+                    return socket.emit("send-error", "You don't have permission to delete a member.");
+                }
+
+                //  Check if user exists.
+                const USER = await dbUtils.getData("users", "user_id", userId);
+                if (!USER) { return socket.emit("send-error", "User not found in db."); }
+
+                //  Check if user has role.
+                const ROLE = await dbUtils.getRole(userId);
+                if (!ROLE) { return socket.emit("send-error", "User doesn't have a role."); }
+
+                //  Get updater and updated importance.
+                const IMPORTANCE_UPDATER = socket.request.role["perms"].importance;
+                const IMPORTANCE_UPDATED = ROLE["perms"]?.importance ? ROLE["perms"].importance : 10;
+
+                //  Check if updater has less importance than updated.
+                //  If updater is 'god' or 'owner', check if updater has less or equal importance than updated.
+                if (IMPORTANCE_UPDATER > 2 && IMPORTANCE_UPDATER >= IMPORTANCE_UPDATED || IMPORTANCE_UPDATER > IMPORTANCE_UPDATED) {
+                    let article = ["a", "e", "i", "o", "u"].indexOf(ROLE.name[0].toLowerCase()) > -1 ?
+                        "an " + ROLE.name[0].toUpperCase() + ROLE.name.slice(1) :
+                        "a " + ROLE.name[0].toUpperCase() + ROLE.name.slice(1);
+
+                    return socket.emit("send-error", "You don't have permission to update " + article);
+                }
+
+
+                //  Check name value and validate, verify and update data.
+                if (name === "role") {
+                    //  Check role is not renewal (Renewals must pay for membership).
+                    if (value.toLowerCase() === "renewal") {
+                        return socket.emit("send-error", "Can't add renewal member. Member must pay subscription.");
+                    }
+
+                    //  Checked role is not the same.
+                    if (value.toLowerCase() === (await dbUtils.getRole(userId)).name.toLowerCase()) {
+                        return socket.emit("send-error", "You can't update the user's role to the same role.");
+                    }
+
+                    //  Check if existing role name and get role.
+                    const ROLES = await dbUtils.getAllData("roles");
+                    if (!ROLES.map(role => role.name.toLowerCase()).includes(value.toLowerCase())) {
+                        return socket.emit("send-error", "Role doesn't exist.");
+                    }
+                    const ROLE = ROLES.find(role => role.name.toLowerCase() === value.toLowerCase());
+
+                    //  Check if u role importance is less than user's role
+                    //  (meaning someone e.g. staff can't add member to owner role).
+                    if (socket.request.role["perms"].importance > ROLE["perms"].importance) {
+                        return socket.emit("send-error", "You can't change a member's role to a higher role than yours.");
+                    }
+
+                    //  If data inserted to 'user_roles' successfully, refresh member list and debug.
+                    if (await dbUtils.updateData("user_roles", "user_id", userId, "role_id", ROLE["role_id"])) {
+                        console.log(`User '${socket.request.user.username}' changed '${USER.username}' role to ${value[0].toUpperCase() + value.slice(1)}.`);
+                        socket.emit(
+                            "send-message",
+                            `User '${USER.username}' is now ${value[0].toUpperCase() + value.slice(1)}`
+                        );
+                    } else {
+                        return socket.emit("send-error", "An unexpected error occurred while updating user's role.");
+                    }
+                }
+                else if (["email", "cookie_id", "stripe_id"].indexOf(name) >= 0) {
+                    //  Check if 'value' containing new stripe id exists in stripe already.
+                    if (name === "stripe_id") {
+                        const CUSTOMERS = await stripeUtils.getAllCustomers();
+                        if (!CUSTOMERS.map(a=>a.id).includes(value)) {
+                            return socket.emit("send-error", "New stripe id doesn't exist in stripe yet.");
+                        }
+                    }
+
+                    //  Update user's data in db.
+                    if (await dbUtils.updateData("users", "user_id", userId, name, value)) {
+                        console.log(`User '${socket.request.user.username}' changed '${USER.username}' ${name}.`);
+                        socket.emit("send-message", `User '${USER.username}'s ${name} has been changed.`);
+                    } else {
+                        return socket.emit("send-error", `An unexpected error occurred while updating user's ${name}.`);
+                    }
+                }
+                else if (name === "subscription") {
+                    const USER = await dbUtils.getData("users", "user_id", userId);
+                    const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
+
+                    if (CUSTOMER.subscriptions.data.length > 0) {
+                        if (value === CUSTOMER.subscriptions.data[0].id) {
+                            await stripeUtils.deleteSubscription(value);
+                            //  Webhook will already log event.
+                            //console.log(`User '${socket.request.user.username}' has deleted '${USER.username}'s subscription.`);
+                            socket.emit("send-message", `User '${USER.username}'s subscription deleted successfully.`);
+                        } else {
+                            return socket.emit("send-error", "An unexpected error occurred while updating user's subscription.");
+                        }
+                    } else {
+                        return socket.emit("send-error", "User doesn't have any subscription.");
+                    }
+                }
+                else {
+                    return socket.emit("send-error", "Couldn't find value to update.");
+                }
+
+                io.sockets.emit("get-member-list");
+            } catch (e) {
+                console.error(`Socket on 'update-member': ${e.message}`);
+                socket.emit("send-error", "Error when trying to update member.");
+            }
+        });
+
+        //  Send member details.
+        socket.on("get-member-details", async userId => {
+            try {
+                //  Check if user has permission.
+                if (!socket.request.role?.["perms"]?.["view_members"]) {
+                    return socket.emit("send-error", "You don't have permission to view a member's details.");
+                }
+
+                //  Check if user in db.
+                const USER = await dbUtils.getData("users", "user_id", userId);
+                if (!USER) { return socket.emit("send-error", "Can't find user in db."); }
+
+                //  Create return object and modify object as needed.
+                let data = {...USER, ...{
+                        date_created: await utils.transformDate(new Date(USER.data.date_created)),
+                        user_in_server: Boolean(await botUtils.getUser(USER.user_id))
+                    }};
+                delete data.data;
+
+                //  Get role object.
+                const ROLE = await dbUtils.getRole(USER.user_id);
+                if (ROLE) {
+                    data = {...data, ...{ role: { name: ROLE.name, color: ROLE.color } }};
+                }
+
+                //  Get customer object and check if true.
+                const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
+                if (CUSTOMER) {
+                    let temp = { default_payment: Boolean(CUSTOMER.invoice_settings?.default_payment_method) };
+
+                    //  Check if user has subscription.
+                    if (CUSTOMER.subscriptions.data.length > 0) {
+                        const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
+
+                        temp.sub_id = SUBSCRIPTION.id;
+                        temp.sub_status = SUBSCRIPTION.status;
+
+                        //  Get invoice and check if true.
+                        const INVOICE = SUBSCRIPTION.latest_invoice ? await stripeUtils.getInvoice(SUBSCRIPTION.latest_invoice) : undefined;
+                        if (INVOICE?.id) {
+                            temp.invoice_id = INVOICE.id;
+                            temp.invoice_status = INVOICE.status;
+                            temp.invoice_date = await utils.transformDate(new Date(INVOICE.created * 1000));
+                        }
+                    }
+                    data = {...data, ...temp};
+                }
+
+                socket.emit("set-member-details", data);
+            } catch (e) {
+                console.error(`Socket on 'get-member-details': ${e.message}`);
+                socket.emit("send-error", "Error on getting member's details.");
+            }
+        });
+
+        //  Get member details to edit.
+        socket.on("get-member-edit", async userId => {
+            try {
+                //  Check if user has permission.
+                if (!socket.request.role?.["perms"]?.["modify_members"]) {
+                    return socket.emit("send-error", "You don't have permission to edit a member.");
+                }
+
+                //  Check if user in db.
+                const USER = await dbUtils.getData("users", "user_id", userId);
+                if (!USER) return socket.emit("send-error", "Can't find user in db.");
+
+                //  Get role object.
+                const ROLE = await dbUtils.getRole(userId);
+                if (!ROLE) return socket.emit("send-error", "Can't find user's role.");
+
+                //  Create return object and modify object as needed.
+                let data = {...USER, ...{ role: ROLE.name } };
+                delete data.data;
+
+                //  Get subscription if customer has one.
+                const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
+                if (CUSTOMER.subscriptions.data.length > 0) {
+                    data.subscription = CUSTOMER.subscriptions.data[0].id;
+                }
+
+                // console.debug(data);
+                socket.emit("set-member-edit", data);
+            } catch (e) {
+                console.error(`Socket on 'get-member-edit': ${e.message}`);
+                socket.emit("send-error", "Error on getting member's edit details.");
             }
         });
 

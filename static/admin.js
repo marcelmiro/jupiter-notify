@@ -1,14 +1,16 @@
 let app = new Vue({
     el: "main",
     data: {
-        currentTab: 4,
+        currentTab: 1,
         members: [],
-        memberView: {},
+        memberDetails: {},
+        memberEdit: {},
         memberCount: 0,
         role: "all",
         search: "",
         showRoleDropdown: false,
-        showMemberView: false,
+        showMemberDetails: false,
+        showMemberEdit: false,
         release: {},
         logs: "",
         settings: {},
@@ -32,15 +34,8 @@ let app = new Vue({
                 }, 10);
             }
         },
-        viewMember: ROLE["perms"]["view_members"] ? function(id) {
-            SOCKET.emit("get-member-details", id);
-            this.showMemberView = true;
-        } : function(){},
-        closeMemberView: ROLE["perms"]["view_members"] ? function() {
-            document.querySelector('.content__members .member-view .container').scrollTop = 0;
-            setTimeout(() => { this.memberView = {} }, 0);
-        } : function(){},
-        addMember: ROLE["perms"]["modify_members"] ? function() {
+
+        addMember: ROLE && ROLE["perms"] && ROLE["perms"]["modify_members"] ? function() {
             const USER_ID = prompt("Enter user's Discord id.");
             const ROLE = USER_ID ? prompt("Enter role name.") : undefined;
             if (ROLE) {
@@ -48,17 +43,42 @@ let app = new Vue({
                 SOCKET.emit("get-member-list");
             }
         } : function(){},
-        deleteMember: ROLE["perms"]["modify_members"] ? function(id) {
+        deleteMember: ROLE && ROLE["perms"] && ROLE["perms"]["modify_members"] ? function(id) {
             SOCKET.emit("delete-member", id);
         } : function(){},
-        createRelease: ROLE["perms"]["create_releases"] ? function() {
+        updateMember: ROLE && ROLE["perms"] && ROLE["perms"]["modify_members"] ? function(userId, name) {
+            SOCKET.emit("update-member", { user_id: userId, name: name, value: this.memberEdit[name] });
+        } : function(){},
+
+        openMemberDetailsView: ROLE && ROLE["perms"] && ROLE["perms"]["view_members"] ? function(id) {
+            SOCKET.emit("get-member-details", id);
+            this.showMemberDetails = true;
+        } : function(){},
+        closeMemberDetailsView: ROLE && ROLE["perms"] && ROLE["perms"]["view_members"] ? function() {
+            const CONTAINER = document.querySelector('.content__members .member-details-view .container');
+            if (CONTAINER) CONTAINER.scrollTop = 0;
+            setTimeout(() => { this.showMemberDetails = false }, 0);
+        } : function(){},
+
+        openMemberEditView: ROLE && ROLE["perms"] && ROLE["perms"]["modify_members"] ? function(id) {
+            SOCKET.emit("get-member-edit", id);
+            this.showMemberEdit = true;
+        } : function(){},
+        closeMemberEditView: ROLE && ROLE["perms"] && ROLE["perms"]["modify_members"] ? function() {
+            const CONTAINER = document.querySelector('.content__members .member-edit-view .container');
+            if (CONTAINER) CONTAINER.scrollTop = 0;
+            setTimeout(() => { this.showMemberEdit = false }, 0);
+        } : function(){},
+
+        createRelease: ROLE && ROLE["perms"] && ROLE["perms"]["create_releases"] ? function() {
             const NUMBER = prompt("How many renewal licenses do you want to release?");
             if (NUMBER) { SOCKET.emit("create-release", NUMBER); }
         } : function(){},
-        deleteRelease: ROLE["perms"]["create_releases"] ? function() {
+        deleteRelease: ROLE && ROLE["perms"] && ROLE["perms"]["create_releases"] ? function() {
             SOCKET.emit("delete-release");
         } : function(){},
-        updateSetting: ROLE["perms"]["edit_config"] ? function(name) {
+
+        updateSetting: ROLE && ROLE["perms"] && ROLE["perms"]["edit_config"] ? function(name) {
             SOCKET.emit("update-setting", { name: name, value: this.settings[name] });
         } : function(){},
     },
@@ -70,7 +90,7 @@ let app = new Vue({
     },
 
     computed: {
-        filteredMemberList: function() {
+        filteredMemberList: ROLE && ROLE["perms"] && ROLE["perms"]["view_members"] ? function() {
             let members = this.members.filter(member => {
                 return (
                     member.username.toLowerCase().includes(this.search.toLowerCase()) &&
@@ -97,8 +117,8 @@ let app = new Vue({
 
             this.memberCount = members.length;
             return members;
-        },
-        filteredLogs: ROLE["perms"]["view_console"] ? function() {
+        } : function(){},
+        filteredLogs: ROLE && ROLE["perms"] && ROLE["perms"]["view_console"] ? function() {
             let tempLogs = [];
             let logs = this.logs.split(/\n(?=\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s)/);
 
@@ -161,10 +181,10 @@ let app = new Vue({
             }
         },
         role: function() { this.showRoleDropdown = false; },
-        memberView: function() {
-            if (this.memberView.username) {
+        memberDetails: function() {
+            if (this.memberDetails.username) {
                 setTimeout(function() {
-                    let username = document.querySelector(".content__members .member-view .container h2");
+                    let username = document.querySelector(".content__members .member-details-view .container h2");
 
                     let firstLoop = true;
                     let usernameLoop = () => {
@@ -180,8 +200,32 @@ let app = new Vue({
                     usernameLoop();
                 }, 0);
             }
+        },
+        showMemberDetails: function() {
+            !this.showMemberDetails ? this.memberDetails = {} : "";
+        },
+        memberEdit: function() {
+            if (this.memberEdit.username) {
+                setTimeout(function() {
+                    let username = document.querySelector(".content__members .member-edit-view .container h2");
 
-            this.showMemberView = Boolean(JSON.stringify(this.memberView) !== "{}");
+                    let firstLoop = true;
+                    let usernameLoop = () => {
+                        if (username.offsetWidth + 10 >= 500) {
+                            if (firstLoop) {
+                                firstLoop = false;
+                                username.textContent += "...";
+                            }
+                            username.textContent = username.textContent.slice(0,-4) + username.textContent.slice(-3);
+                            usernameLoop();
+                        }
+                    }
+                    usernameLoop();
+                }, 0);
+            }
+        },
+        showMemberEdit: function() {
+            !this.showMemberEdit ? this.memberEdit = {} : "";
         },
         release: function() {},
     },
@@ -189,13 +233,14 @@ let app = new Vue({
     mounted: function() {
         SOCKET.on("send-message", msg => {
             alert(msg);
-            msg.includes("has no role now.") ? this.memberView = {} : "";
+            msg.includes("has no role now.") ? this.memberDetails = {} : "";
         });
         SOCKET.on("send-error", msg => {
             console.error(msg);
             alert(msg);
         });
-        if (ROLE["perms"]["view_members"]) {
+
+        if (ROLE && ROLE["perms"] && ROLE["perms"]["view_members"]) {
             SOCKET.on("get-member-list", () => {
                 SOCKET.emit("get-member-list");
             });
@@ -204,10 +249,19 @@ let app = new Vue({
                 lengthManager();
             });
             SOCKET.on("set-member-details", data => {
-                this.memberView = data;
+                this.memberDetails = data;
             });
         }
-        if (ROLE["perms"]["create_releases"]) {
+        if (ROLE && ROLE["perms"] && ROLE["perms"]["modify_members"]) {
+            SOCKET.on("get-member-edit", () => {
+                SOCKET.emit("get-member-edit");
+            });
+            SOCKET.on("set-member-edit", data => {
+                this.memberEdit = data;
+            });
+        }
+
+        if (ROLE && ROLE["perms"] && ROLE["perms"]["create_releases"]) {
             SOCKET.on("get-release", () => {
                 SOCKET.emit("get-release");
             });
@@ -215,7 +269,8 @@ let app = new Vue({
                 this.release = data;
             });
         }
-        if (ROLE["perms"]["view_console"]) {
+
+        if (ROLE && ROLE["perms"] && ROLE["perms"]["view_console"]) {
             SOCKET.on("get-logs", () => {
                 SOCKET.emit("get-logs");
             });
@@ -223,7 +278,8 @@ let app = new Vue({
                 this.logs = data;
             });
         }
-        if (ROLE["perms"]["edit_config"]) {
+
+        if (ROLE && ROLE["perms"] && ROLE["perms"]["edit_config"]) {
             SOCKET.on("get-settings", () => {
                 SOCKET.emit("get-settings");
             });
@@ -231,7 +287,6 @@ let app = new Vue({
                 this.settings = data;
             });
         }
-        SOCKET.on("test", () => { console.log("test received!"); });
         setTimeout(() => { lengthManager(); }, 200);
     },
 });

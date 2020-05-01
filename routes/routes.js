@@ -164,14 +164,11 @@ router.get("/admin", authUserCheck, async (req,res) => {
     try {
         //  Get role object and check if user has 'admin_panel' permission.
         let role = await dbUtils.getRole(req.user.user_id);
+        delete role["role_id"];
+
         if (!role?.["perms"]?.admin_panel) {
             return res.redirect("/");
         }
-
-        //  Restyle object as needed.
-        role = {...role, ...{color: role.data.color}};
-        delete role["role_id"];
-        delete role.data;
 
         res.render("admin", {
             role: role
@@ -242,8 +239,16 @@ router.get("/discord/join", async (req,res) => {
 //  Route to send emails
 router.post("/send-email", bodyParser.raw({type: 'application/json'}), async (req,res) => {
     try {
+        //  Validate req.body parameters.
+        const PARAMS = [req.body.name, req.body.email, req.body.text];
+        if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
+            return console.log("Route '/discord/join': At least 1 parameter is undefined.");
+        }
+
+
+
         const response = await nodemailerSetup.sendEmail(
-            req.body.email,
+            "support@jupiternotify.com",
             "SUPPORT: " + req.body.name,
             "text",
             `Name: ${req.body.name}\nEmail: ${req.body.email}\n\nText:\n${req.body.text}`,

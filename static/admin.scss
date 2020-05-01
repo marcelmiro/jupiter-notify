@@ -286,7 +286,44 @@ html, body {
 			#refresh-members:not(.animation) img { transform: rotate(0); }
 			#refresh-members.animation img { transform: rotate(360deg); transition: transform 0.5s ease-out; }
 		}
-		.member-view {
+		
+		> .member + .member { margin-top: 50px !important; }
+		.member {
+			margin: 0 auto;
+			width: 90%;
+			height: 120px;
+			max-width: 1000px;
+			padding-right: 50px;
+			border-radius: 1000vmax;
+			background-color: rgba(white, 0.2);
+			overflow: hidden;
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: space-between;
+			align-items: center;
+			
+			> div {
+				height: 100%;
+				display: flex;
+				flex-flow: row nowrap;
+				justify-content: flex-start;
+				align-items: center;
+				* + * { margin-left: 5%; }
+			}
+			.member__info { flex: 1 1 auto; }
+			.member__links { justify-content: flex-end; width: 200px; }
+			img { height: 100%; border-radius: 50%; }
+			span { font-size: 36px; font-weight: 500; }
+			button.tag {
+				font-size: 17px;
+				padding: 4px 8px;
+				border-radius: 1000vmax;
+				cursor: auto;
+				min-width: 54px;
+			}
+		}
+		
+		.member-details-view, .member-edit-view {
 			background-color: #333;
 			display: none;
 			position: absolute;
@@ -355,6 +392,7 @@ html, body {
 					white-space: nowrap;
 					> * + * { margin-top: 10px; }
 					> div { width: 100%; display: flex; flex-flow: row nowrap; justify-content: space-between; align-items: center; }
+					&:last-of-type { margin-bottom: 40px; }
 				}
 				img.avatar { border-radius: 50%; width: 120px; position: absolute; left: 260px; transform: translateY(-25%); }
 				h2 { font-size: 42px; margin: 0 auto; display: inline-block; }
@@ -362,8 +400,53 @@ html, body {
 				h6 { font-size: 18px; margin: 0; width: 150px; text-align: left; }
 				span { font-size: 18px; }
 				button.role { font-size: 14px; background: #222; border-radius: 1000vmax; padding: 4px 12px; cursor: auto; }
-				button.button {
-					margin: 0 auto 40px;
+				
+				.input-change {
+					justify-content: stretch;
+					
+					& + .input-change { margin-top: 20px; }
+					label {
+						width: 160px;
+						text-transform: capitalize;
+						font-size: 22px;
+						font-weight: 400;
+						white-space: nowrap;
+						text-align: left;
+					}
+					input[type=text] {
+						margin-right: 40px;
+						width: 200px;
+						height: 30px;
+						cursor: text;
+						border-radius: 8px;
+						padding: 0 10px;
+						font-size: 16px;
+						font-weight: normal;
+						&::placeholder {color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+						&:-ms-input-placeholder { color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+						&::-ms-input-placeholder { color: rgba(white, 0.6); font-family: Clean, sans-serif; }
+						&:focus {
+							-webkit-box-shadow: 0 0 20px 0 rgba(white, 0.1);
+							box-shadow: 0 0 20px 0 rgba(white, 0.1);
+						}
+					}
+					button.button {
+						width: 115px;
+						padding: 13px 0;
+						margin-left: auto;
+						background-color: rgba(white, 0.1);
+						transition: background-color 0.15s linear;
+						&:hover { background-color: rgba(white, 0.05); }
+						
+						&.delete {
+							background-color: #D84546;
+							&:hover { background-color: darken(#D84546, 4); }
+						}
+					}
+				}
+				
+				> .container__section > button.button.delete {
+					margin: 0 auto;
 					padding: 16px 0;
 					width: 80%;
 					font-size: 24px;
@@ -371,41 +454,6 @@ html, body {
 					transition: background-color 0.15s linear;
 					&:hover { background-color: darken(#D84546, 4); }
 				}
-			}
-		}
-		> .member + .member { margin-top: 50px !important; }
-		.member {
-			margin: 0 auto;
-			width: 90%;
-			height: 120px;
-			max-width: 1000px;
-			padding-right: 50px;
-			border-radius: 1000vmax;
-			background-color: rgba(white, 0.2);
-			overflow: hidden;
-			display: flex;
-			flex-flow: row nowrap;
-			justify-content: space-between;
-			align-items: center;
-			
-			> div {
-				height: 100%;
-				display: flex;
-				flex-flow: row nowrap;
-				justify-content: flex-start;
-				align-items: center;
-				* + * { margin-left: 5%; }
-			}
-			.member__info { flex: 1 1 auto; }
-			.member__links { justify-content: flex-end; width: 200px; }
-			img { height: 100%; border-radius: 50%; }
-			span { font-size: 36px; font-weight: 500; }
-			button.tag {
-				font-size: 17px;
-				padding: 4px 8px;
-				border-radius: 1000vmax;
-				cursor: auto;
-				min-width: 54px;
 			}
 		}
 	}
