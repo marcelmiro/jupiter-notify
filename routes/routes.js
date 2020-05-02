@@ -28,6 +28,7 @@ router.get("/", async (req, res) => {
 
         //  Check if customer has subscription and if product is in stock to create session.
         const CUSTOMER = req.user ? await stripeUtils.getCustomer(req.user.stripe_id) : undefined;
+        if (CUSTOMER.deleted) return res.redirect("/auth/logout");
         CUSTOMER ? console.debug("Currency:", (await stripeUtils.getCustomer(req.user.stripe_id)).currency) : "";
         const HAS_MEMBERSHIP =
             Boolean(IS_USER && CUSTOMER?.subscriptions?.data.length > 0);
@@ -62,8 +63,7 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
     try {
         //  Get stripe customer object and check if customer has membership active.
         const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
-        console.debug(CUSTOMER);
-        if (!CUSTOMER) return res.redirect("/stripe/logout");
+        if (!CUSTOMER || CUSTOMER.deleted) return res.redirect("/stripe/logout");
         const HAS_MEMBERSHIP = Boolean(CUSTOMER.subscriptions.data.length > 0);
 
         //  Get user's role and modify object to get only necessary data.
