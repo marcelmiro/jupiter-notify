@@ -381,7 +381,6 @@ let setup = async server => {
                     data.subscription = CUSTOMER.subscriptions.data[0].id;
                 }
 
-                // console.debug(data);
                 socket.emit("set-member-edit", data);
             } catch (e) {
                 console.error(`Socket on 'get-member-edit': ${e.message}`);

@@ -19,9 +19,7 @@ router.get("/login", authLoginCheck, (req,res) => {
         } else {
             req.query.returnTo = "subscription-checkout";
         }
-        console.debug("Login discord and redirect to checkout.");
     }
-    console.debug(req.query.returnTo);
 
     //  If 'returnTo' contains string, encode to base64 to send it as an option to auth.
     const { returnTo } = req.query;
@@ -58,11 +56,8 @@ router.get("/redirect", passport.authenticate("discord", {
                 } else if (returnTo.includes("subscription-checkout")) {
                     if (returnTo.includes("subscription-checkout-")) {
                         const CURRENCY = returnTo.substr(returnTo.indexOf("subscription-checkout-") + "subscription-checkout-".length);
-                        console.debug("Logged in and redirecting to checkout with currency:", CURRENCY);
-                        console.debug("Currency in returnTo:", CURRENCY);
                         return res.redirect("/stripe/pay?currency=" + CURRENCY);
                     } else {
-                        console.debug("Logged in and redirecting to checkout.");
                         return res.redirect("/stripe/pay");
                     }
                 } else {

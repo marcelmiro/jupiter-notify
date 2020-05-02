@@ -23,7 +23,6 @@ router.get("/pay", authUserCheck, async (req, res) => {
         if (!process.env.RELEASE_REMAINING_STOCK && !Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
             return res.redirect("/");
         } else if (process.env.RELEASE_REMAINING_STOCK && isNaN(parseInt(process.env.RELEASE_REMAINING_STOCK)) || parseInt(process.env.RELEASE_REMAINING_STOCK) <= 0) {
-            console.debug("/stripe/pay: Removing release settings.");
             process.env.IN_STOCK = "false";
             delete process.env.RELEASE_TOTAL_STOCK;
             delete process.env.RELEASE_REMAINING_STOCK;
@@ -39,7 +38,6 @@ router.get("/pay", authUserCheck, async (req, res) => {
         //  stripe checkout to buy membership automatically.
         const CURRENCY = req.url.includes("?currency=") ?
             req.url.substr(req.url.indexOf("?currency=") + "?currency=".length) : undefined;
-        console.debug("/stripe/pay: currency", CURRENCY);
         const SESSION = await stripeUtils.createMembershipSession(req.user.stripe_id, CURRENCY);
         return res.send(`
             <script src="https://js.stripe.com/v3/"></script>

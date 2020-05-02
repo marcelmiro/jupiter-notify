@@ -140,12 +140,10 @@ let createMembershipSession = async (customerId, currency = "EUR") => {
         //  OPTIMIZE ifs.
         if (CUSTOMER.currency && CUSTOMER.currency.toLowerCase() !== currency.toLowerCase()) {
             if (process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()]) {
-                console.debug("Change 1");
                 await deleteCustomer(customerId);
                 customerId = await createCustomer(CUSTOMER.email, CUSTOMER.description, CUSTOMER.name);
                 await dbUtils.updateData("users", "user_id", CUSTOMER.description, "stripe_id", customerId);
             } else if (CUSTOMER.currency.toLowerCase() !== "eur") {
-                console.debug("Change 2");
                 await deleteCustomer(customerId);
                 customerId = await createCustomer(CUSTOMER.email, CUSTOMER.description, CUSTOMER.name);
                 await dbUtils.updateData("users", "user_id", CUSTOMER.description, "stripe_id", customerId);
@@ -156,8 +154,6 @@ let createMembershipSession = async (customerId, currency = "EUR") => {
         //  Get stripe plan id depending on currency.
         const PLAN_ID = process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()] ?
             process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()] : process.env.STRIPE_PLAN_ID;
-
-        console.debug("Plan ID:", PLAN_ID);
 
         return await stripe.checkout.sessions.create({
             customer: customerId,
