@@ -61,7 +61,8 @@ router.get("/", async (req, res) => {
 router.get("/dashboard", authUserCheck, async (req, res) => {
     try {
         //  Get stripe customer object and check if customer has membership active.
-        const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id)
+        const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
+        console.debug(CUSTOMER);
         if (!CUSTOMER) return res.redirect("/stripe/logout");
         const HAS_MEMBERSHIP = Boolean(CUSTOMER.subscriptions.data.length > 0);
 
