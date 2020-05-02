@@ -271,7 +271,13 @@ button.button, a.button, input.button {
     color: #BBB; }
   .currency-popup .button {
     font-size: 28px;
-    padding: 8px 30px; }
+    padding: 8px 30px;
+    background-color: #ffaa30;
+    transition: background-color 0.2s linear;
+    border: none; }
+    .currency-popup .button:hover {
+      background-color: #ffa017;
+      border: none; }
 
 .section-home * {
   z-index: 1; }

@@ -23,7 +23,7 @@ let createCustomer = async (email, userId, name, currency= "eur") => {
                 data,(err, customer) => {
                     if (err) { console.error(err); reject(err); }
                     else {
-                        console.log(`Customer '${email}' inserted into database.`);
+                        // console.log(`Customer '${email}' inserted into database.`);
                         resolve(customer.id);
                     }
                 }
@@ -156,6 +156,8 @@ let createMembershipSession = async (customerId, currency = "EUR") => {
         //  Get stripe plan id depending on currency.
         const PLAN_ID = process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()] ?
             process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()] : process.env.STRIPE_PLAN_ID;
+
+        console.debug("Plan ID:", PLAN_ID);
 
         return await stripe.checkout.sessions.create({
             customer: customerId,
