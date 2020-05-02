@@ -321,9 +321,24 @@
 					<button class="button" @click="updateSetting('STRIPE_SECRET_KEY')">Update</button>
 				</div>
 				<div>
-					<label for="setting-stripe_membership_plan_id">plan id</label>
-					<input id="setting-stripe_membership_plan_id" type="text" placeholder="plan id" v-model="settings['STRIPE_MEMBERSHIP_PLAN_ID']" @keyup.enter="updateSetting('STRIPE_MEMBERSHIP_PLAN_ID')" />
-					<button class="button" @click="updateSetting('STRIPE_MEMBERSHIP_PLAN_ID')">Update</button>
+					<label for="setting-stripe_plan_id">plan id</label>
+					<input id="setting-stripe_plan_id" type="text" placeholder="plan id" v-model="settings['STRIPE_PLAN_ID']" @keyup.enter="updateSetting('STRIPE_PLAN_ID')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_ID')">Update</button>
+				</div>
+				<div>
+					<label for="setting-stripe_plan_id_eur">plan id eur</label>
+					<input id="setting-stripe_plan_id_eur" type="text" placeholder="plan id eur" v-model="settings['STRIPE_PLAN_ID_EUR']" @keyup.enter="updateSetting('STRIPE_PLAN_ID_EUR')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_ID_EUR')">Update</button>
+				</div>
+				<div>
+					<label for="setting-stripe_plan_id_usd">plan id usd</label>
+					<input id="setting-stripe_plan_id_usd" type="text" placeholder="plan id usd" v-model="settings['STRIPE_PLAN_ID_USD']" @keyup.enter="updateSetting('STRIPE_PLAN_ID_USD')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_ID_USD')">Update</button>
+				</div>
+				<div>
+					<label for="setting-stripe_plan_id_gbp">plan id gbp</label>
+					<input id="setting-stripe_plan_id_gbp" type="text" placeholder="plan id gbp" v-model="settings['STRIPE_PLAN_ID_GBP']" @keyup.enter="updateSetting('STRIPE_PLAN_ID_GBP')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_ID_GBP')">Update</button>
 				</div>
 				<div>
 					<label for="setting-stripe_webhook_id">webhook id</label>

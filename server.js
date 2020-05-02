@@ -13,7 +13,7 @@ function clearLog() {
                     data = data.split("\n");
                     data = data.length > newLines ?
                         data.slice(data.length - newLines) : data.slice(data.length - data.length/2);
-                    fs.writeFile(process.env.LOGGER_NAME, "\n".join(data), err => {
+                    fs.writeFile(process.env.LOGGER_NAME, data.join("\n"), err => {
                         if (err) { console.error("fs.writeFile(): Can't write in log file."); }
                     });
                 }

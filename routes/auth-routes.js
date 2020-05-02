@@ -13,7 +13,14 @@ const authLoginCheck = (req, res, next) => {
 //  Login with Discord route
 router.get("/login", authLoginCheck, (req,res) => {
     //  If url contains filter 'pay', set query return value to 'subscription-checkout'.
-    req.query.returnTo = req.url.includes("?pay") ? "subscription-checkout" : undefined;
+    req.query.returnTo = undefined;
+    if (req.url.includes("?pay")) {
+        if (req.url.includes("&currency=")) {
+            req.query.returnTo = "subscription-checkout-" + req.url.substr(req.url.indexOf("?currency=") + "?currency=".length);
+        } else {
+            req.query.returnTo = "subscription-checkout";
+        }
+    }
 
     //  If 'returnTo' contains string, encode to base64 to send it as an option to auth.
     const { returnTo } = req.query;
@@ -47,40 +54,12 @@ router.get("/redirect", passport.authenticate("discord", {
                 //  Ifs to check if 'returnTo' is a url, or equals to a specific keyword.
                 if (returnTo.startsWith('/')) {
                     return res.redirect(returnTo);
-                } else if (returnTo === "subscription-checkout") {
-                    //  Check if product is still in stock or if stock remaining exists and is above 0.
-                    if (!process.env.RELEASE_REMAINING_STOCK && !Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
-                        return res.redirect("/");
-                    } else if (isNaN(parseInt(process.env.RELEASE_REMAINING_STOCK)) || parseInt(process.env.RELEASE_REMAINING_STOCK) <= 0) {
-                        process.env.IN_STOCK = "false";
-                        delete process.env.RELEASE_TOTAL_STOCK;
-                        delete process.env.RELEASE_REMAINING_STOCK;
-                        return res.redirect("/");
+                } else if (returnTo.includes("subscription-checkout")) {
+                    if (returnTo.includes("subscription-checkout-")) {
+                        return res.redirect("/stripe/pay?currency=" + returnTo.substr(returnTo.indexOf("subscription-checkout-") + "subscription-checkout-".length));
+                    } else {
+                        return res.redirect("/stripe/pay");
                     }
-
-                    //  Check user doesn't have a role.
-                    const USER_ROLE = await dbUtils.getData("user_roles", "user_id", req.user.user_id);
-                    if (USER_ROLE) {
-                        return res.redirect("/dashboard");
-                    }
-
-                    //  Create session and return javascript code to generate
-                    //  stripe checkout to buy membership automatically.
-                    const SESSION = await stripeUtils.createMembershipSession(req.user.stripe_id);
-                    return res.send(`
-                        <script src="https://js.stripe.com/v3/"></script>
-                        <script type="text/javascript">
-                            const stripe = Stripe("${process.env.STRIPE_KEY}");
-                            
-                            stripe.redirectToCheckout({
-                                sessionId: "${SESSION.id}"
-                            }).then(r => {
-                                if (r.error.message) { console.error(r.error); }
-                            }).catch(e => {
-                                console.error("Error when redirecting to pay membership:", e.message);
-                            });
-                        </script>
-                    `);
                 } else {
                     return res.redirect("/dashboard");
                 }

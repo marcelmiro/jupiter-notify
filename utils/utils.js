@@ -73,13 +73,23 @@ let userLogin = async (userId, username, email, avatarUrl) => {
                 await dbUtils.updateData("users", "user_id", userId, "avatar_url", avatarUrl);
                 console.log(`Avatar for user '${username}' changed.`);
             }
-            //  Check if stripe customer exists linked to this user. If not, create customer with user data.
-            const CUSTOMERS = await stripeUtils.getAllCustomers();
-            if (!CUSTOMERS.map(a=>a.description).includes(userId)) {
-                const STRIPE_ID = await stripeUtils.createCustomer(email, userId, username);
-                await dbUtils.updateData("users", "user_id", userId, "stripe_id", STRIPE_ID);
-                console.log(`Couldn't find customer linked to '${username}', so created '${STRIPE_ID}' stripe customer.`);
+            //  Get stripe id from db. Check if customer doesn't exist or customer's description doesn't equal 'userId'.
+            //  If so, check if stripe customer with 'userId' exists. If so, update db 'stripe_id'.
+            //  Else, create new customer with login data.
+            const DB_CUSTOMER = await stripeUtils.getCustomer(DB_DATA.stripe_id);
+            if (!DB_CUSTOMER || DB_CUSTOMER.description !== userId) {
+                const CUSTOMERS = await stripeUtils.getAllCustomers();
+                const CUSTOMER = CUSTOMERS.find(customer => customer.description === userId);
+                if (CUSTOMER) {
+                    await dbUtils.updateData("users", "user_id", userId, "stripe_id", CUSTOMER.id);
+                    console.log(`Stripe id for user '${username}' changed.`);
+                } else {
+                    const STRIPE_ID = await stripeUtils.createCustomer(email, userId, username);
+                    await dbUtils.updateData("users", "user_id", userId, "stripe_id", STRIPE_ID);
+                    console.log(`Couldn't find customer linked to '${username}', so created new stripe customer.`);
+                }
             }
+
 
             if (!hasChanged) console.log(`User '${username}' logged in.`);
             return DB_DATA;

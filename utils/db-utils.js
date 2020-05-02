@@ -150,8 +150,8 @@ let updateData = async (table, matchField, matchValue, changeField, newValue) =>
 let setSettings = async () => {
     try {
         const SETTINGS = (await db.query(`SELECT * FROM settings`)).rows;
-        SETTINGS.forEach(row => {
-            process.env[row.name] = row.value;
+        SETTINGS.forEach(({ name: name, value: value }) => {
+            process.env[name] = value;
         });
         return true;
     } catch (e) {

@@ -1,8 +1,9 @@
 require("dotenv").config();
+const dbUtils = require("./db-utils");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 
-let createCustomer = async (email, userId= undefined, name= undefined) => {
+let createCustomer = async (email, userId, name, currency= "eur") => {
     try {
         //  Validate parameter 'email'.
         if (!email) {
@@ -10,13 +11,16 @@ let createCustomer = async (email, userId= undefined, name= undefined) => {
             return false;
         }
 
-        return await new Promise(async (resolve, reject) => {
-            let obj = {email:email};
-            userId ? obj.description = userId : "";
-            name ? obj.name = name : "";
+        //  Create customer's data object.
+        let data = {
+            email: email,
+            description: userId || "",
+            name: name || ""
+        };
 
+        return await new Promise(async (resolve, reject) => {
             await stripe.customers.create(
-                obj,(err, customer) => {
+                data,(err, customer) => {
                     if (err) { console.error(err); reject(err); }
                     else {
                         console.log(`Customer '${email}' inserted into database.`);
@@ -51,6 +55,27 @@ let updateCustomer = async (id, data = {}) => {
         return false;
     }
 };
+
+let deleteCustomer = async id => {
+    try {
+        //  Validate parameter 'id'.
+        if (!id) {
+            console.error("updateCustomer(): Parameter 'id' is undefined.");
+            return false;
+        }
+
+        return await new Promise(async (resolve, reject) => {
+            await stripe.customers.del(
+                id,(err, confirmation) => {
+                    if (err) { console.error(err); reject(err); }
+                    else { resolve(confirmation); }
+                });
+        });
+    } catch (e) {
+        console.error(`deleteCustomer(): ${e.message}`);
+        return false;
+    }
+}
 
 let updateSubscription = async (id, data = {}) => {
     try {
@@ -95,8 +120,7 @@ let deleteSubscription = async id => {
     }
 };
 
-let createMembershipSession = async (customerId,
-                                     successUrl= "/stripe/success", cancelUrl= "/stripe/fail") => {
+let createMembershipSession = async (customerId, currency = "EUR") => {
     try {
         //  Validate parameter 'customerId'.
         if (!customerId) {
@@ -104,16 +128,45 @@ let createMembershipSession = async (customerId,
             return false;
         }
 
+        //  Get customer object and check if customer exists.
+        const CUSTOMER = await getCustomer(customerId);
+        if (!CUSTOMER) {
+            console.error("createMembershipSession(): Stripe customer doesn't exist.");
+            return false;
+        }
+
+        //  Check customer's currency is the same as the currency customer wants to pay in.
+        //  If not, delete customer and create new customer with same data, but different currency.
+        //  OPTIMIZE ifs.
+        if (CUSTOMER.currency && CUSTOMER.currency.toLowerCase() !== currency.toLowerCase()) {
+            if (process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()]) {
+                console.debug("Change 1");
+                await deleteCustomer(customerId);
+                customerId = await createCustomer(CUSTOMER.email, CUSTOMER.description, CUSTOMER.name);
+                await dbUtils.updateData("users", "user_id", CUSTOMER.description, "stripe_id", customerId);
+            } else if (CUSTOMER.currency.toLowerCase() !== "eur") {
+                console.debug("Change 2");
+                await deleteCustomer(customerId);
+                customerId = await createCustomer(CUSTOMER.email, CUSTOMER.description, CUSTOMER.name);
+                await dbUtils.updateData("users", "user_id", CUSTOMER.description, "stripe_id", customerId);
+                currency = "eur";
+            }
+        }
+
+        //  Get stripe plan id depending on currency.
+        const PLAN_ID = process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()] ?
+            process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()] : process.env.STRIPE_PLAN_ID;
+
         return await stripe.checkout.sessions.create({
             customer: customerId,
             payment_method_types: ['card'],
             subscription_data: {
                 items: [{
-                    plan: process.env.STRIPE_MEMBERSHIP_PLAN_ID,
+                    plan: PLAN_ID,
                 }],
             },
-            success_url: `${process.env.URL}${successUrl}?session_id={CHECKOUT_SESSION_ID}&customer_id=${customerId}`,
-            cancel_url: process.env.URL + cancelUrl,
+            success_url: `${process.env.URL}/stripe/success?session_id={CHECKOUT_SESSION_ID}&customer_id=${customerId}`,
+            cancel_url: process.env.URL + "/stripe/fail",
         });
     } catch (e) {
         console.error(`createMembershipSession(): ${e.message}`);
@@ -374,7 +427,7 @@ let createWebhook = async (body, signature) => {
     return stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_ID);
 };
 
-module.exports = {createCustomer, updateCustomer, updateSubscription, deleteSubscription,
+module.exports = {createCustomer, updateCustomer, deleteCustomer, updateSubscription, deleteSubscription,
     createMembershipSession, createEditCardSession, transferSubscription,
     getAllCustomers, getCustomer, getSession, getSetupIntent, getAllPaymentMethods, getPaymentMethod,
     attachPaymentMethod, detachPaymentMethod, getInvoice, createWebhook};

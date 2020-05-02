@@ -16,14 +16,13 @@ router.get("/pay", authUserCheck, async (req, res) => {
         //  Check if user doesn't have role.
         const ROLE = await dbUtils.getRole(req.user.user_id);
         if (ROLE) {
-            if (["renewal", "lifetime"].indexOf(ROLE.name) > -1) { return res.redirect("/dashboard"); }
-            return res.redirect("/");
+            return res.redirect("/dashboard");
         }
 
         //  Check if product is still in stock or if stock remaining exists and is above 0.
         if (!process.env.RELEASE_REMAINING_STOCK && !Boolean(process.env.IN_STOCK.toLowerCase() === "true")) {
             return res.redirect("/");
-        } else if (isNaN(parseInt(process.env.RELEASE_REMAINING_STOCK)) || parseInt(process.env.RELEASE_REMAINING_STOCK) <= 0) {
+        } else if (process.env.RELEASE_REMAINING_STOCK && isNaN(parseInt(process.env.RELEASE_REMAINING_STOCK)) || parseInt(process.env.RELEASE_REMAINING_STOCK) <= 0) {
             process.env.IN_STOCK = "false";
             delete process.env.RELEASE_TOTAL_STOCK;
             delete process.env.RELEASE_REMAINING_STOCK;
@@ -37,7 +36,9 @@ router.get("/pay", authUserCheck, async (req, res) => {
 
         //  Create session and return javascript code to generate
         //  stripe checkout to buy membership automatically.
-        const SESSION = await stripeUtils.createMembershipSession(req.user.stripe_id);
+        const CURRENCY = req.url.includes("?currency=") ?
+            req.url.substr(req.url.indexOf("?currency=") + "?currency=".length) : undefined;
+        const SESSION = await stripeUtils.createMembershipSession(req.user.stripe_id, CURRENCY);
         return res.send(`
             <script src="https://js.stripe.com/v3/"></script>
             <script type="text/javascript">
@@ -349,7 +350,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
             //  or when a cancelled subscription has reached its period end.
 
             //  Debugging.
-            console.log(`User '${USER.username}' has cancelled its membership.`);
+            console.log(`User '${USER.username}'s membership has been deleted.`);
 
             //  Check if user is non-staff member to remove role and kick from server.
             const ROLE = await dbUtils.getRole(USER.user_id);
@@ -358,6 +359,11 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
                 await dbUtils.deleteData("user_roles", "user_id", USER.user_id);
                 await botUtils.kickUser(USER.user_id, USER.email)
             }
+
+            //  Detach all customer's cards.
+            (await stripeUtils.getAllPaymentMethods(USER.stripe_id)).data.map(pm => pm.id).forEach(pm => {
+                stripeUtils.detachPaymentMethod(pm).then();
+            });
         }
         await res.json({received: true});
     } catch (e) {

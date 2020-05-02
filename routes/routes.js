@@ -30,6 +30,9 @@ router.get("/", async (req, res) => {
         const HAS_MEMBERSHIP =
             Boolean(IS_USER && (await stripeUtils.getCustomer(req.user.stripe_id)).subscriptions.data.length > 0);
 
+        const CUSTOMER = req.user ? await stripeUtils.getCustomer(req.user.stripe_id) : undefined;
+        CUSTOMER ? console.debug("Currency:", (await stripeUtils.getCustomer(req.user.stripe_id)).currency) : "";
+
         //  Check if user has permission to enter admin panel.
         let hasRole = false, isAdmin = false;
         if (IS_USER) {
@@ -59,7 +62,8 @@ router.get("/", async (req, res) => {
 router.get("/dashboard", authUserCheck, async (req, res) => {
     try {
         //  Get stripe customer object and check if customer has membership active.
-        const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
+        const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id)
+        if (!CUSTOMER) return res.redirect("/stripe/logout");
         const HAS_MEMBERSHIP = Boolean(CUSTOMER.subscriptions.data.length > 0);
 
         //  Get user's role and modify object to get only necessary data.
@@ -119,7 +123,10 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
             } else {
                 membershipDetails.interval = SUBSCRIPTION.plan.interval;
             }
-            membershipDetails.price = "$" + (Math.round(SUBSCRIPTION.plan.amount) / 100).toFixed(2);
+            membershipDetails.price = (Math.round(SUBSCRIPTION.plan.amount) / 100).toFixed(2);
+            membershipDetails.price = CUSTOMER.currency === "eur" ? membershipDetails.price + "€" :
+                CUSTOMER.currency === "usd" ? "$" + membershipDetails.price :
+                    CUSTOMER.currency === "gbp" ? "£" + membershipDetails.price : membershipDetails.price;
             membershipDetails.dateNextPayment = await utils.transformDate(new Date(SUBSCRIPTION.current_period_end * 1000));
             membershipDetails.dateCreated = await utils.transformDate(new Date(SUBSCRIPTION.created * 1000));
 
