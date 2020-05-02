@@ -27,11 +27,10 @@ router.get("/", async (req, res) => {
         const IS_USER = Boolean(req.user);
 
         //  Check if customer has subscription and if product is in stock to create session.
-        const HAS_MEMBERSHIP =
-            Boolean(IS_USER && (await stripeUtils.getCustomer(req.user.stripe_id)).subscriptions.data.length > 0);
-
         const CUSTOMER = req.user ? await stripeUtils.getCustomer(req.user.stripe_id) : undefined;
         CUSTOMER ? console.debug("Currency:", (await stripeUtils.getCustomer(req.user.stripe_id)).currency) : "";
+        const HAS_MEMBERSHIP =
+            Boolean(IS_USER && CUSTOMER?.subscriptions?.data.length > 0);
 
         //  Check if user has permission to enter admin panel.
         let hasRole = false, isAdmin = false;
