@@ -12,7 +12,7 @@ const TRANSPORTER = nodemailer.createTransport({
         ciphers:'SSLv3'
     },
     requireTLS: true,*/
-    service: "outlook",
+    service: "hotmail",
     auth: {
         user: process.env.EMAIL_ADDRESS,
         pass: process.env.EMAIL_PASSWORD
