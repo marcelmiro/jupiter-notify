@@ -89,8 +89,6 @@ let insertData = async (table, data= []) => {
             await db.query(`INSERT INTO ${table} VALUES('${data.join("', '")}')`);
         }
 
-        //  Debugging and return.
-        //console.log(`Data inserted into '${table}'.`);
         return true;
     } catch (e) {
         console.error(`insertData(): ${e.message}`);
@@ -109,9 +107,6 @@ let deleteData = async (table, field, value) => {
 
         //  SQL query to delete row.
         await db.query(`DELETE FROM ${table} WHERE ${field}='${value}'`);
-
-        //  Debugging and return.
-        //console.log(`Data in field '${field}' and value '${value}', deleted successfully from table '${table}'.`);
         return true;
     } catch (e) {
         console.error(`deleteData(): ${e.message}`);

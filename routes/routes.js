@@ -168,6 +168,10 @@ router.get("/dashboard", authUserCheck, async (req, res) => {
 //  Admin panel routes.
 router.get("/admin", authUserCheck, async (req,res) => {
     try {
+        //  Check if customer exists and isn't a deleted object.
+        const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
+        if (!CUSTOMER || CUSTOMER.deleted) return res.redirect("/auth/logout");
+
         //  Get role object and check if user has 'admin_panel' permission.
         let role = await dbUtils.getRole(req.user.user_id);
         delete role["role_id"];

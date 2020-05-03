@@ -23,7 +23,6 @@ let createCustomer = async (email, userId, name, currency= "eur") => {
                 data,(err, customer) => {
                     if (err) { console.error(err); reject(err); }
                     else {
-                        // console.log(`Customer '${email}' inserted into database.`);
                         resolve(customer.id);
                     }
                 }
