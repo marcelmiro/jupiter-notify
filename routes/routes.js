@@ -255,14 +255,15 @@ router.post("/send-email", bodyParser.raw({type: 'application/json'}), async (re
             return console.log("Route '/discord/join': At least 1 parameter is undefined.");
         }
 
+        const DATA = {
+            from: "SUPPORT",
+            to: "support@jupiternotify.com",
+            subject: "SUPPORT: " + req.body.name,
+            mode: "text",
+            text: `Name: ${req.body.name}\nEmail: ${req.body.email}\n\nText:\n${req.body.text}`
+        };
 
-
-        const response = await nodemailerSetup.sendEmail(
-            "support@jupiternotify.com",
-            "SUPPORT: " + req.body.name,
-            "text",
-            `Name: ${req.body.name}\nEmail: ${req.body.email}\n\nText:\n${req.body.text}`,
-        );
+        const response = await nodemailerSetup.sendEmail(DATA);
         console.log(`Email sent to '${response.accepted.join("', '")}'.`);
         if (response.rejected.length > 0) {
             console.log(`Email was rejected by '${response.rejected.join("', '")}'.`);

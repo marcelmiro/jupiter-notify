@@ -3,8 +3,16 @@ const nodemailer = require("nodemailer");
 
 //  Set up SMTP email account
 const TRANSPORTER = nodemailer.createTransport({
-    service: "gmail",
-    secure: true,
+    /*service: "gmail",
+    secure: true,*/
+    /*host: "smtp.office365.com", // hostname
+    secure: false, // TLS requires secureConnection to be false
+    port: 587, // port for secure SMTP
+    tls: {
+        ciphers:'SSLv3'
+    },
+    requireTLS: true,*/
+    service: "outlook",
     auth: {
         user: process.env.EMAIL_ADDRESS,
         pass: process.env.EMAIL_PASSWORD
@@ -12,14 +20,14 @@ const TRANSPORTER = nodemailer.createTransport({
 });
 
 /**
- *
+ * @param from: sender name (not email)
  * @param to: email address to send email to
  * @param subject: email's subject
  * @param mode: text mode (html or plain text or both)
  * @param text: email's text
  * @returns email's response object or false
  */
-let sendEmail = async (to, subject, mode, text) => {
+let sendEmail = async ({ from: from, to: to, subject: subject, mode: mode, text: text }) => {
     try {
         //  Param validation.
         const PARAMS = [to, mode, text];
@@ -28,21 +36,23 @@ let sendEmail = async (to, subject, mode, text) => {
             return false;
         }
 
-        return await new Promise(async (resolve, reject) => {
-            const DATA = {
-                to: to,
-                subject: subject,
-            };
-            if (mode === "all") {
-                DATA.html = text[0];
-                DATA.text = text[1];
-            } else if (mode === "html") {
-                DATA.html = text;
-            } else {
-                DATA.text = text;
-            }
+        let data = {
+            to: to,
+            from: from ? `"${from}" <${process.env.EMAIL_ADDRESS}>` : process.env.EMAIL_ADDRESS,
+            subject: subject || "Email from Jupiter Notify"
+        };
 
-            await TRANSPORTER.sendMail(DATA, (err, reply) => {
+        if (mode === "all") {
+            data.html = text[0];
+            data.text = text[1];
+        } else if (mode === "html") {
+            data.html = text;
+        } else {
+            data.text = text;
+        }
+
+        return await new Promise(async (resolve, reject) => {
+            await TRANSPORTER.sendMail(data, (err, reply) => {
                 if (err) { console.log("Error in sendEmail():", err.message); reject(err); }
                 else { resolve(reply); }
             });
