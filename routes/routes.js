@@ -7,7 +7,7 @@ const utils = require("../utils/utils");
 const dbUtils = require("../utils/db-utils");
 const stripeUtils = require("../utils/stripe-utils");
 const botUtils = require("../utils/bot-utils");
-const nodemailerSetup = require("../setup/nodemailer-setup");
+const nodemailerSetup = require("../setup/email-setup");
 
 
 //  Component routes
@@ -263,11 +263,7 @@ router.post("/send-email", bodyParser.raw({type: 'application/json'}), async (re
             text: `Name: ${req.body.name}\nEmail: ${req.body.email}\n\nText:\n${req.body.text}`
         };
 
-        const response = await nodemailerSetup.sendEmail(DATA);
-        console.log(`Email sent to '${response.accepted.join("', '")}'.`);
-        if (response.rejected.length > 0) {
-            console.log(`Email was rejected by '${response.rejected.join("', '")}'.`);
-        }
+        return await nodemailerSetup.sendEmail(DATA);
     } catch (e) {
         return res.status(400).send(`Route '/send-email': ${e.message}`);
     }

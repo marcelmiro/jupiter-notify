@@ -1,7 +1,7 @@
 require("dotenv").config();
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const nodemailerSetup = require("../setup/nodemailer-setup");
+const nodemailerSetup = require("../setup/email-setup");
 
 
 //  Create guild var to set is when Discord bot is ready.

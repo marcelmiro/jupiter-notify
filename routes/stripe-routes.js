@@ -325,7 +325,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
                 const USER_ROLE = await dbUtils.getData("user_roles", "user_id", USER.user_id);
                 if (!USER_ROLE) {
                     const RENEWAL_ROLE = await dbUtils.getData("roles", "name", "renewal");
-                    await dbUtils.insertData("user_roles", [USER.user_id, RENEWAL_ROLE["role_id"]]);
+                    await dbUtils.insertData("user_roles", [USER.user_id, RENEWAL_ROLE ? RENEWAL_ROLE["role_id"] : 7]);
                 }
 
                 //  Debugging
