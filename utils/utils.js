@@ -49,7 +49,10 @@ let userLogin = async (userId, username, email, avatarUrl) => {
         //  Validate parameters.
         const PARAMS = [userId, username, email];
         if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
-            console.error("userLogin(): At least 1 parameter is undefined.");
+            if (!userId) console.error("userLogin(): Parameter 'userId' is undefined.");
+            else if (!username) console.error("userLogin(): Parameter 'username' is undefined.");
+            else if (!email) console.error("userLogin(): Parameter 'email' is undefined.");
+            else console.error("userLogin(): At least 1 parameter is undefined.");
             return false;
         }
 

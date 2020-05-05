@@ -6,9 +6,11 @@ let app = new Vue({
         memberDetails: {},
         memberEdit: {},
         memberCount: 0,
-        role: "all",
         search: "",
-        showRoleDropdown: false,
+        dropdowns: {
+            role: { name: "all", show: false },
+            subscription_currency: { name: "EUR", show: false }
+        },
         showMemberDetails: false,
         showMemberEdit: false,
         release: {},
@@ -94,7 +96,7 @@ let app = new Vue({
             let members = this.members.filter(member => {
                 return (
                     member.username.toLowerCase().includes(this.search.toLowerCase()) &&
-                    (this.role.toLowerCase() !== "all" ? member.role.name.toLowerCase() === this.role.toLowerCase() : true)
+                    (this.dropdowns.role.name.toLowerCase() !== "all" ? member.role.name.toLowerCase() === this.dropdowns.role.name.toLowerCase() : true)
                 );
             });
 
@@ -180,7 +182,9 @@ let app = new Vue({
                 }
             }
         },
-        role: function() { this.showRoleDropdown = false; },
+
+        "dropdowns.role.name": function() { this.dropdowns.role.show = false; },
+
         memberDetails: function() {
             if (this.memberDetails.username) {
                 setTimeout(function() {
@@ -200,9 +204,6 @@ let app = new Vue({
                     usernameLoop();
                 }, 0);
             }
-        },
-        showMemberDetails: function() {
-            !this.showMemberDetails ? this.memberDetails = {} : "";
         },
         memberEdit: function() {
             if (this.memberEdit.username) {
@@ -224,10 +225,10 @@ let app = new Vue({
                 }, 0);
             }
         },
-        showMemberEdit: function() {
-            !this.showMemberEdit ? this.memberEdit = {} : "";
-        },
-        release: function() {},
+        "memberEdit.subscription_currency": function() { this.dropdowns.subscription_currency.show = false; },
+
+        showMemberDetails: function() { !this.showMemberDetails ? this.memberDetails = {} : ""; },
+        showMemberEdit: function() { !this.showMemberEdit ? this.memberEdit = {} : ""; },
     },
 
     mounted: function() {

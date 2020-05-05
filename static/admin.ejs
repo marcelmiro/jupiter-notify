@@ -86,27 +86,27 @@
 						<input type="text" name="search" v-model="search" id="search-member" placeholder="username" />
 						<label for="search-member" style="display:none;"></label>
 
-						<div class="dropdown" :class="{'active' : showRoleDropdown}" @mouseleave="showRoleDropdown = false">
-							<button class="dropdown__button" @click="showRoleDropdown = !showRoleDropdown">
-								<span>Role: {{ role | capitalize }}</span>
+						<div class="dropdown" :class="{'active' : dropdowns.role.show}" @mouseleave="dropdowns.role.show = false">
+							<button class="dropdown__button" @click="dropdowns.role.show = !dropdowns.role.show">
+								<span>Role: {{ dropdowns.role.name | capitalize }}</span>
 								<img src="assets/arrow_dropdown.svg" alt="Arrow down" />
 							</button>
 							<div class="dropdown__content">
-								<input type="radio" name="roles" id="role-all" value="all" v-model="role" checked />
+								<input type="radio" name="roles" id="role-all" value="all" v-model="dropdowns.role.name" checked />
 								<label for="role-all">all</label>
-								<input type="radio" name="roles" id="role-god" value="god" v-model="role" />
+								<input type="radio" name="roles" id="role-god" value="god" v-model="dropdowns.role.name" />
 								<label for="role-god">god</label>
-								<input type="radio" name="roles" id="role-owner" value="owner" v-model="role" />
+								<input type="radio" name="roles" id="role-owner" value="owner" v-model="dropdowns.role.name" />
 								<label for="role-owner">owner</label>
-								<input type="radio" name="roles" id="role-admin" value="admin" v-model="role" />
+								<input type="radio" name="roles" id="role-admin" value="admin" v-model="dropdowns.role.name" />
 								<label for="role-admin">admin</label>
-								<input type="radio" name="roles" id="role-developer" value="developer" v-model="role" />
+								<input type="radio" name="roles" id="role-developer" value="developer" v-model="dropdowns.role.name" />
 								<label for="role-developer">developer</label>
-								<input type="radio" name="roles" id="role-staff" value="staff" v-model="role" />
+								<input type="radio" name="roles" id="role-staff" value="staff" v-model="dropdowns.role.name" />
 								<label for="role-staff">staff</label>
-								<input type="radio" name="roles" id="role-lifetime" value="lifetime" v-model="role" />
+								<input type="radio" name="roles" id="role-lifetime" value="lifetime" v-model="dropdowns.role.name" />
 								<label for="role-lifetime">lifetime</label>
-								<input type="radio" name="roles" id="role-renewal" value="renewal" v-model="role" />
+								<input type="radio" name="roles" id="role-renewal" value="renewal" v-model="dropdowns.role.name" />
 								<label for="role-renewal">renewal</label>
 							</div>
 						</div>
@@ -254,6 +254,27 @@
 								<label for="member-edit-sub_id">sub id</label>
 								<input id="member-edit-sub_id" type="text" v-model="memberEdit.subscription" placeholder="sub id" @keyup.enter="updateMember(memberEdit.user_id, 'subscription')" />
 								<button class="button delete" @click="updateMember(memberEdit.user_id, 'subscription')">Delete</button>
+							</div>
+							<div class="input-change" v-if="memberEdit.subscription">
+								<label for="member-edit-subscription_currency">Sub currency</label>
+								<!--<input id="member-edit-subscription_currency" type="text" v-model="memberEdit.subscription_currency" placeholder="sub id" @keyup.enter="updateMember(memberEdit.user_id, 'subscription_currency')" />-->
+
+								<div class="dropdown" :class="{'active' : dropdowns.subscription_currency.show}" @mouseleave="dropdowns.subscription_currency.show = false">
+									<button class="dropdown__button" @click="dropdowns.subscription_currency.show = !dropdowns.subscription_currency.show">
+										<span>{{ memberEdit.subscription_currency.toUpperCase() }}</span>
+										<img src="assets/arrow_dropdown.svg" alt="Arrow down" />
+									</button>
+									<div class="dropdown__content">
+										<input type="radio" name="subscription_currency" id="subscription_currency-eur" value="eur" v-model="memberEdit.subscription_currency" checked />
+										<label for="subscription_currency-eur">EUR</label>
+										<input type="radio" name="subscription_currency" id="subscription_currency-usd" value="usd" v-model="memberEdit.subscription_currency" />
+										<label for="subscription_currency-usd">USD</label>
+										<input type="radio" name="subscription_currency" id="subscription_currency-gbp" value="gbp" v-model="memberEdit.subscription_currency" />
+										<label for="subscription_currency-gbp">GBP</label>
+									</div>
+								</div>
+
+								<button class="button" @click="updateMember(memberEdit.user_id, 'subscription_currency')">Update</button>
 							</div>
 						</div>
 						<div class="container__section">

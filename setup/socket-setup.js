@@ -179,7 +179,9 @@ let setup = async server => {
                 if (ROLE.name.toLowerCase() === "renewal") {
                     const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
                     if (CUSTOMER?.subscriptions?.data.length > 0) {
-                        await stripeUtils.deleteSubscription(CUSTOMER.subscriptions.data[0].id);
+                        if (await stripeUtils.deleteSubscription(CUSTOMER.subscriptions.data[0].id)) {
+                            await dbUtils.deleteData("user_roles", "user_id", userId);
+                        }
                     }
                 }
 
@@ -297,6 +299,39 @@ let setup = async server => {
                         return socket.emit("send-error", "User doesn't have any subscription.");
                     }
                 }
+                else if (name === "subscription_currency") {
+                    //  Get user and customer objects and check if customer and subscription exist.
+                    const USER = await dbUtils.getData("users", "user_id", userId);
+                    const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
+                    if (!CUSTOMER) return socket.emit("send-error", "Couldn't find customer.");
+                    if (CUSTOMER.subscriptions.data.length === 0) return socket.emit("send-error", "Customer doesn't have a subscription.");
+                    const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
+
+                    //  Check if customer's currency is already currency to update.
+                    if (CUSTOMER.currency.toLowerCase() === value.toLowerCase()) {
+                        return socket.emit("send-error", "You can't update if the value to update is the same.");
+                    }
+
+                    //  Check if currency plan exists.
+                    if (!process.env["STRIPE_PLAN_ID_" + value.toUpperCase()]) {
+                        return socket.emit("send-error", "Currency could not be found.");
+                    }
+
+                    //  TODO Delete customer and create new one for new currency.
+                    //  Delete customer and create a new one, to create new subscription with new currency.
+                    await stripeUtils.deleteCustomer(USER.stripe_id);
+                    const CUSTOMER_ID = await stripeUtils.createCustomer(CUSTOMER.email, CUSTOMER.description, CUSTOMER.name);
+                    await dbUtils.updateData("users", "user_id", userId, "stripe_id", CUSTOMER_ID);
+
+                    //  Create and delete subscriptions.
+                    if (await stripeUtils.transferSubscription(CUSTOMER_ID, SUBSCRIPTION.current_period_end, value.toUpperCase())) {
+                        console.log(`User '${socket.request.user.username}' changed '${USER.username}'s subscription to ${value.toUpperCase()}.`);
+                        socket.emit("send-message", `User '${USER.username}'s subscription currency was changed successfully.`);
+                    } else {
+                        console.error("Socket on 'update-member': Error on transfer subscription.");
+                        return socket.emit("send-error", "Error when trying to transfer subscription.");
+                    }
+                }
                 else {
                     return socket.emit("send-error", "Couldn't find value to update.");
                 }
@@ -387,6 +422,7 @@ let setup = async server => {
                 const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
                 if (CUSTOMER.subscriptions.data.length > 0) {
                     data.subscription = CUSTOMER.subscriptions.data[0].id;
+                    data.subscription_currency = CUSTOMER.currency.toUpperCase();
                 }
 
                 socket.emit("set-member-edit", data);

@@ -497,14 +497,57 @@ html, body {
             width: 115px;
             padding: 13px 0;
             margin-left: auto;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: #222;
             transition: background-color 0.15s linear; }
             .dashboard .content__members .member-details-view .container .input-change button.button:hover, .dashboard .content__members .member-edit-view .container .input-change button.button:hover {
-              background-color: rgba(255, 255, 255, 0.05); }
+              background-color: #1f1f1f; }
             .dashboard .content__members .member-details-view .container .input-change button.button.delete, .dashboard .content__members .member-edit-view .container .input-change button.button.delete {
               background-color: #D84546; }
               .dashboard .content__members .member-details-view .container .input-change button.button.delete:hover, .dashboard .content__members .member-edit-view .container .input-change button.button.delete:hover {
                 background-color: #d43435; }
+          .dashboard .content__members .member-details-view .container .input-change .dropdown, .dashboard .content__members .member-edit-view .container .input-change .dropdown {
+            position: relative; }
+            .dashboard .content__members .member-details-view .container .input-change .dropdown__button, .dashboard .content__members .member-edit-view .container .input-change .dropdown__button {
+              font-size: 18px;
+              font-weight: 400;
+              padding: 5px 0;
+              display: flex;
+              flex-flow: row nowrap;
+              align-items: center; }
+              .dashboard .content__members .member-details-view .container .input-change .dropdown__button img, .dashboard .content__members .member-edit-view .container .input-change .dropdown__button img {
+                width: 18px;
+                margin-left: 10px; }
+            .dashboard .content__members .member-details-view .container .input-change .dropdown__content, .dashboard .content__members .member-edit-view .container .input-change .dropdown__content {
+              background: #282828;
+              position: absolute;
+              top: 0;
+              left: -5px;
+              width: 170px;
+              transform: translateY(30px);
+              display: none;
+              flex-flow: column nowrap;
+              justify-content: space-between;
+              align-items: flex-start;
+              padding: 10px;
+              text-transform: capitalize;
+              z-index: 10; }
+              .dashboard .content__members .member-details-view .container .input-change .dropdown__content input, .dashboard .content__members .member-edit-view .container .input-change .dropdown__content input {
+                display: none; }
+              .dashboard .content__members .member-details-view .container .input-change .dropdown__content label, .dashboard .content__members .member-edit-view .container .input-change .dropdown__content label {
+                font-size: 18px;
+                cursor: pointer;
+                padding-bottom: 5px;
+                width: 100%;
+                text-align: left; }
+              .dashboard .content__members .member-details-view .container .input-change .dropdown__content > label + input + label, .dashboard .content__members .member-edit-view .container .input-change .dropdown__content > label + input + label {
+                border-top: 1px solid #383838;
+                padding-top: 5px; }
+              .dashboard .content__members .member-details-view .container .input-change .dropdown__content label:last-of-type, .dashboard .content__members .member-edit-view .container .input-change .dropdown__content label:last-of-type {
+                padding-bottom: 0; }
+              .dashboard .content__members .member-details-view .container .input-change .dropdown__content label:hover, .dashboard .content__members .member-edit-view .container .input-change .dropdown__content label:hover {
+                color: #BBB; }
+            .dashboard .content__members .member-details-view .container .input-change .dropdown.active .dropdown__content, .dashboard .content__members .member-edit-view .container .input-change .dropdown.active .dropdown__content {
+              display: flex; }
         .dashboard .content__members .member-details-view .container > .container__section > button.button.delete, .dashboard .content__members .member-edit-view .container > .container__section > button.button.delete {
           margin: 0 auto;
           padding: 16px 0;

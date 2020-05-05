@@ -200,18 +200,35 @@ let createEditCardSession = async (customerId, subscriptionId) => {
     }
 };
 
-let transferSubscription = async (customerId, date) => {
+let transferSubscription = async (customerId, date, currency= undefined) => {
     try {
-        //  Validate parameter 'customerId'.
-        if (!customerId) {
-            console.error("transferSubscription(): Parameter 'customerId' is undefined.");
-            return undefined;
+        //  Validate parameters.
+        const PARAMS = [customerId, date];
+        if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
+            console.error("transferSubscription(): At least 1 parameter is undefined.");
+            return false;
         }
+
+        //  Get customer object and check if customer exists.
+        const CUSTOMER = await getCustomer(customerId);
+        if (!CUSTOMER) {
+            console.error("transferSubscription(): Stripe customer doesn't exist.");
+            return false;
+        }
+
+        //  Get plan id with most suitable currency for customer.
+        let planId = process.env.STRIPE_PLAN_ID;
+        if (CUSTOMER.currency && process.env["STRIPE_PLAN_ID_" + CUSTOMER.currency.toUpperCase()]) {
+            planId = process.env["STRIPE_PLAN_ID_" + CUSTOMER.currency.toUpperCase()];
+        } else if (currency && process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()]) {
+            planId = process.env["STRIPE_PLAN_ID_" + currency.toUpperCase()];
+        }
+
 
         return await new Promise(async (resolve, reject) => {
             await stripe.subscriptions.create({
                 customer: customerId,
-                items: [{ plan: process.env.STRIPE_MEMBERSHIP_PLAN_ID }],
+                items: [{ plan: planId }],
                 billing_cycle_anchor: date,
                 proration_behavior: "none",
             }, (err, subscription) => {

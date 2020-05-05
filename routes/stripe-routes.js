@@ -179,7 +179,7 @@ router.get("/transfer-membership", authUserCheck, async (req, res) => {
     try {
         //  Check if user has role.
         const ROLE = await dbUtils.getRole(req.user.user_id);
-        if (!ROLE) { return res.redirect("/"); }
+        if (!ROLE) return res.redirect("/");
 
         //  Check if user's role is not staff.
         if (["renewal", "lifetime"].indexOf(ROLE.name) === -1) {
@@ -191,7 +191,10 @@ router.get("/transfer-membership", authUserCheck, async (req, res) => {
             //  Get user id from url and check if user exists in db.
             const USER_ID = req.url.substr("/transfer-membership?".length);
             const USER = await dbUtils.getData("users", "user_id", USER_ID);
-            if (!USER) { return res.render("response", {status:"transfer-fail"}); }
+            if (!USER) return res.render("response", {status:"transfer-fail"});
+
+            //  Check if user already has a role.
+            if (await dbUtils.getRole(USER_ID)) return res.render("response", {status:"transfer-fail"});
 
             //  Check if user is 'renewal' or 'lifetime'.
             if (["renewal", "lifetime"].indexOf(ROLE.name) === -1) {
@@ -204,13 +207,13 @@ router.get("/transfer-membership", authUserCheck, async (req, res) => {
             } else if (ROLE.name === "renewal") {
                 //  Get subscription and check customer has one.
                 const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);
-                if (!CUSTOMER || CUSTOMER.subscriptions.data.length === 0) { return res.render("response", {status:"transfer-fail"}); }
+                if (!CUSTOMER || CUSTOMER.subscriptions.data.length === 0) return res.render("response", {status:"transfer-fail"});
                 const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
-                if (!SUBSCRIPTION) { return res.render("response", {status:"transfer-fail"}); }
 
                 //  Create and delete subscriptions.
-                await stripeUtils.transferSubscription(USER.stripe_id, SUBSCRIPTION.current_period_end);
-                await stripeUtils.deleteSubscription(SUBSCRIPTION.id);
+                if (await stripeUtils.transferSubscription(USER.stripe_id, SUBSCRIPTION.current_period_end, CUSTOMER.currency)) {
+                    await stripeUtils.deleteSubscription(SUBSCRIPTION.id);
+                } else return res.render("response", {status:"transfer-fail"});
 
                 mode = "renewal";
             }
@@ -229,12 +232,10 @@ router.get("/transfer-membership", authUserCheck, async (req, res) => {
                 //  Debugging and return success response.
                 console.log(`User '${req.user.username}' transferred its ${mode} license to '${USER.username}'.`);
                 return res.render("response", {status:"transfer-success"});
-            } else {
-                //  Mode was not assigned.
+            } else {    //  Mode was not assigned.
                 return res.render("response", {status:"transfer-fail"});
             }
-        } else {
-            //  Url doesn't match.
+        } else {    //  Url doesn't match.
             return res.render("response", {status:"transfer-fail"});
         }
     } catch (e) {
