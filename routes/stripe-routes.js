@@ -88,7 +88,7 @@ router.get("/cancel-membership", authUserCheck, async (req, res) => {
         const ROLE = await dbUtils.getRole(req.user.user_id);
         if (ROLE && ROLE.name !== "renewal") {
             if (await dbUtils.deleteData("user_roles", "user_id", req.user.user_id)) {
-                await botUtils.kickUser(req.user.user_id, req.user.email);
+                await botUtils.kickUser(req.user.user_id);
                 return res.render("response", {status:"cancel-role"});
             } else {
                 return res.redirect("/dashboard");
@@ -357,7 +357,7 @@ router.post("/webhook", bodyParser.raw({type: 'application/json'}), async (req, 
             if (ROLE?.name === "renewal") {
                 //  Remove from 'user_roles' table and kick from server.
                 await dbUtils.deleteData("user_roles", "user_id", USER.user_id);
-                await botUtils.kickUser(USER.user_id, USER.email)
+                await botUtils.kickUser(USER.user_id)
             }
 
             //  Detach all customer's cards.

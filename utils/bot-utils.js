@@ -52,7 +52,7 @@ let inviteUser = async userId => {
 };
 
 //  Kick user from Discord server.
-let kickUser = async (userId, email) => {
+let kickUser = async userId => {
     try {
         //  Checks if user is in guild, else can't kick him.
         const USER = await getUser(userId);
@@ -75,30 +75,8 @@ let kickUser = async (userId, email) => {
             //  Kick user from server.
             await USER.kick();
             console.log(`User '${USER.user.username}#${USER.user.discriminator}' was kicked successfully from server.`);
-        } else {
-            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                console.error("kickUser(): Email doesn't exist.");
-                return false;
-            }
-
-            const DATA = {
-                from: "Jupiter Notify",
-                to: email,
-                subject: "You have been kicked from Jupiter Notify",
-                mode: "all",
-                text: [
-                    `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Jupiter Notify</title><style>html, body{margin: 0; padding: 0; width: 100%; font-family: Roboto, sans-serif;}.banner{display: flex; flex-flow: row nowrap; justify-content: space-around; align-items: center;}h1{font-size: 54px;}h1 span{font-weight: 200; margin-left: 6px;}img{width: 25%; max-width: 220px;}.text-container{width: 90%; margin: 0 auto;}h3{font-size: 21px;}p{font-size: 16px;}@media screen and (max-width: 600px){h1{font-size: 42px;}.text-container{width: 94%;}h3{font-size: 18px;}p{font-size: 15px;}}@media screen and (max-width: 500px){h3{margin: 26px 0;}}@media screen and (max-width: 400px){h1{font-size: 38px;}}</style></head><body><div style="width: 100%; max-width: 900px; margin: 0 auto;"><div class="banner"><h1>Jupiter<span>Notify</span></h1><img src="https://cdn.discordapp.com/avatars/686627755336663070/74da80a4836531d898b122214ebbf065.png?size=2048" alt="Jupiter Logo"/></div><div class="text-container"><h3>You have been kicked from Jupiter Notify.</h3><p>Either you cancelled your Jupiter Notify membership, or payment was declined. If you need help, please contact a member of staff or email us at <a href="mailto: support@jupiternotify.com">support@jupiternotify.com</a>.</p></div></div></body></html>`,
-                    `Jupiter Notify\n\nYou have been kicked from Jupiter Notify.\nEither you cancelled your Jupiter Notify membership, or payment was declined. If you need help, please contact a member of staff or email us at support@jupiternotify.com.`
-                ]
-            };
-
-            if (await nodemailerSetup.sendEmail(DATA)) {
-                console.log(`Couldn't kick user from server. Email sent to '${email}'`);
-            } else {
-                return false;
-            }
-        }
-        return true;
+            return true;
+        } else return false;
     } catch (e) {
         console.error(`kickUser(): ${e.message}`);
         return false;

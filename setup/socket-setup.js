@@ -175,10 +175,18 @@ let setup = async server => {
                     return socket.emit("send-error", "You don't have permission to delete " + article);
                 }
 
+                //  If role is renewal, delete subscription first.
+                if (ROLE.name.toLowerCase() === "renewal") {
+                    const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
+                    if (CUSTOMER?.subscriptions?.data.length > 0) {
+                        await stripeUtils.deleteSubscription(CUSTOMER.subscriptions.data[0].id);
+                    }
+                }
+
                 //  If data deleted successfully, refresh member list and debug.
                 if (await dbUtils.deleteData("user_roles", "user_id", userId)) {
                     console.log(`User '${socket.request.user.username}' deleted user '${USER.username}'.`);
-                    await botUtils.kickUser(userId, USER.email);
+                    await botUtils.kickUser(userId);
                     io.sockets.emit("get-member-list");
                     socket.emit("send-message", `User '${USER.username}' has no role now.`);
                 }

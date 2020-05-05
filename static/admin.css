@@ -651,7 +651,8 @@ html, body {
       font-size: 22px;
       font-weight: 400;
       white-space: nowrap;
-      text-align: left; }
+      text-align: left;
+      cursor: text; }
     .dashboard .content__settings input[type=text] {
       width: 200px;
       height: 30px;

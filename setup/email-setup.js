@@ -18,11 +18,15 @@ let sendEmail = async ({ from: from, to: to, subject: subject, mode: mode, text:
             console.error("sendEmail(): At least 1 input parameter is undefined.");
             return false;
         }
+        if (!to || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) {
+            console.error("sendEmail(): To email doesn't exist.");
+            return false;
+        }
 
         let msg = {
             to: to,
             from: { name: from ? from : "Jupiter Notify", email: process.env.EMAIL_ADDRESS },
-            subject: subject || "Email from Jupiter Notify"
+            subject: subject || "Jupiter Notify"
         };
 
         if (mode === "all") {
