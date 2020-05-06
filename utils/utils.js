@@ -110,7 +110,7 @@ let userLogin = async (userId, username, email, avatarUrl) => {
             //  Insert user in db.
             if (await dbUtils.insertData("users",
                 [userId, uuid(), stripeId, username, email, avatarUrl, {date_created: (new Date()).valueOf()}])) {
-                console.log(`User ${username} inserted in db.`);
+                console.log(`User '${username}' inserted in db.`);
                 return await dbUtils.getData("users", "user_id", userId);
             } else {
                 console.log("Error in userLogin() when inserting user in db.");
