@@ -317,7 +317,6 @@ let setup = async server => {
                         return socket.emit("send-error", "Currency could not be found.");
                     }
 
-                    //  TODO Delete customer and create new one for new currency.
                     //  Delete customer and create a new one, to create new subscription with new currency.
                     await stripeUtils.deleteCustomer(USER.stripe_id);
                     const CUSTOMER_ID = await stripeUtils.createCustomer(CUSTOMER.email, CUSTOMER.description, CUSTOMER.name);
