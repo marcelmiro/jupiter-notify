@@ -9,7 +9,7 @@ let guild;
 client.on("ready",() => {
     guild = client.guilds.cache.get(process.env.DISCORD_GUILD_ID);
     console.log(`Bot logged in as ${client.user.tag}.`);
-    console.debug("Guild:", guild);
+    console.log("Guild:", guild);
 });
 
 //  Returns user if in guild, else returns null.
