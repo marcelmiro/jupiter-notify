@@ -25,18 +25,16 @@
 
 <main class="dashboard">
 	<div class="tabs-container">
-		<% if (role && role["perms"] && role["perms"]["view_members"]) { %>
-			<div class="tab active" @click="currentTab = 1">
-				<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-					<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
-						<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
-					</g>
-				</svg>
+		<div class="tab active" @click="currentTab = 1">
+			<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+				<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
+					<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
+				</g>
+			</svg>
 
-				<input type="radio" name="tabs" id="tab-members" checked />
-				<label for="tab-members">Members</label>
-			</div>
-		<% } %>
+			<input type="radio" name="tabs" id="tab-members" checked />
+			<label for="tab-members">Members</label>
+		</div>
 
 		<% if (role && role["perms"] && role["perms"]["create_releases"]) { %>
 			<div class="tab" @click="currentTab = 2">

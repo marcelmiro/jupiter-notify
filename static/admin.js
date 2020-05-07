@@ -92,7 +92,7 @@ let app = new Vue({
     },
 
     computed: {
-        filteredMemberList: ROLE && ROLE["perms"] && ROLE["perms"]["view_members"] ? function() {
+        filteredMemberList: function() {
             let members = this.members.filter(member => {
                 return (
                     member.username.toLowerCase().includes(this.search.toLowerCase()) &&
@@ -119,7 +119,7 @@ let app = new Vue({
 
             this.memberCount = members.length;
             return members;
-        } : function(){},
+        },
         filteredLogs: ROLE && ROLE["perms"] && ROLE["perms"]["view_console"] ? function() {
             let tempLogs = [];
             let logs = this.logs.split(/\n(?=\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s)/);
@@ -241,18 +241,17 @@ let app = new Vue({
             alert(msg);
         });
 
-        if (ROLE && ROLE["perms"] && ROLE["perms"]["view_members"]) {
-            SOCKET.on("get-member-list", () => {
-                SOCKET.emit("get-member-list");
-            });
-            SOCKET.on("set-member-list", list => {
-                this.members = list;
-                lengthManager();
-            });
-            SOCKET.on("set-member-details", data => {
-                this.memberDetails = data;
-            });
-        }
+        SOCKET.on("get-member-list", () => {
+            SOCKET.emit("get-member-list");
+        });
+        SOCKET.on("set-member-list", list => {
+            this.members = list;
+            lengthManager();
+        });
+        SOCKET.on("set-member-details", data => {
+            this.memberDetails = data;
+        });
+
         if (ROLE && ROLE["perms"] && ROLE["perms"]["modify_members"]) {
             SOCKET.on("get-member-edit", () => {
                 SOCKET.emit("get-member-edit");
