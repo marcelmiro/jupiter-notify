@@ -9,9 +9,6 @@ let guild;
 client.on("ready",() => {
     guild = client.guilds.cache.get(process.env.DISCORD_GUILD_ID);
     console.log(`Bot logged in as ${client.user.tag}.`);
-    setTimeout(() => {
-        console.debug("Guild:", guild);
-    }, 1000);
 });
 
 //  Returns user if in guild, else returns null.
