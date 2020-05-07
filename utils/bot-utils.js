@@ -9,6 +9,7 @@ let guild;
 client.on("ready",() => {
     guild = client.guilds.cache.get(process.env.DISCORD_GUILD_ID);
     console.log(`Bot logged in as ${client.user.tag}.`);
+    console.debug("Guild:", guild);
 });
 
 //  Returns user if in guild, else returns null.
@@ -58,7 +59,8 @@ let kickUser = async userId => {
         const USER = await getUser(userId);
         if (USER) {
             //  Send direct message to user to let them know they have been kicked from server.
-            await USER.send(new Discord.MessageEmbed()
+            //  Comment send message to user on kick from Discord server.
+            /*await USER.send(new Discord.MessageEmbed()
                 .setColor(16741888)
                 .setTitle(
                     "You have been kicked from Jupiter Notify 😔"
@@ -70,11 +72,11 @@ let kickUser = async userId => {
                 .setFooter(
                     "Hope to see you soon!",
                     "https://cdn.discordapp.com/icons/671296843493146626/a_f0530061e23de30a6a1816f4a0a9ef5d.png?size=2048"
-                ));
+                ));*/
 
             //  Kick user from server.
             await USER.kick();
-            console.log(`User '${USER.user.username}#${USER.user.discriminator}' was kicked successfully from server.`);
+            console.log(`User '${USER.user.username}#${USER.user.discriminator}' was kicked successfully from Discord server.`);
             return true;
         } else return false;
     } catch (e) {
