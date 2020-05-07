@@ -196,11 +196,6 @@ router.get("/transfer-membership", authUserCheck, async (req, res) => {
             //  Check if user already has a role.
             if (await dbUtils.getRole(USER_ID)) return res.render("response", {status:"transfer-fail"});
 
-            //  Check if user is 'renewal' or 'lifetime'.
-            if (["renewal", "lifetime"].indexOf(ROLE.name) === -1) {
-                return res.render("response", {status:"transfer-fail"});
-            }
-
             let mode = undefined;
             if (ROLE.name === "lifetime") {
                 mode = "lifetime";
@@ -216,6 +211,8 @@ router.get("/transfer-membership", authUserCheck, async (req, res) => {
                 } else return res.render("response", {status:"transfer-fail"});
 
                 mode = "renewal";
+            } else {
+                return res.render("response", {status:"transfer-fail"});
             }
 
             //  Check if mode was assigned.
