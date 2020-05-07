@@ -79,73 +79,74 @@
 	</div>
 
 	<div class="content">
-		<% if (role && role["perms"] && role["perms"]["view_members"]) { %>
-			<div class="content__members active">
-				<div class="content__members__settings">
-					<div class="left">
-						<input type="text" name="search" v-model="search" id="search-member" placeholder="username" />
-						<label for="search-member" style="display:none;"></label>
+		<div class="content__members active">
+			<div class="content__members__settings">
+				<div class="left">
+					<input type="text" name="search" v-model="search" id="search-member" placeholder="username" />
+					<label for="search-member" style="display:none;"></label>
 
-						<div class="dropdown" :class="{'active' : dropdowns.role.show}" @mouseleave="dropdowns.role.show = false">
-							<button class="dropdown__button" @click="dropdowns.role.show = !dropdowns.role.show">
-								<span>Role: {{ dropdowns.role.name | capitalize }}</span>
-								<img src="assets/arrow_dropdown.svg" alt="Arrow down" />
-							</button>
-							<div class="dropdown__content">
-								<input type="radio" name="roles" id="role-all" value="all" v-model="dropdowns.role.name" checked />
-								<label for="role-all">all</label>
-								<input type="radio" name="roles" id="role-god" value="god" v-model="dropdowns.role.name" />
-								<label for="role-god">god</label>
-								<input type="radio" name="roles" id="role-owner" value="owner" v-model="dropdowns.role.name" />
-								<label for="role-owner">owner</label>
-								<input type="radio" name="roles" id="role-admin" value="admin" v-model="dropdowns.role.name" />
-								<label for="role-admin">admin</label>
-								<input type="radio" name="roles" id="role-developer" value="developer" v-model="dropdowns.role.name" />
-								<label for="role-developer">developer</label>
-								<input type="radio" name="roles" id="role-staff" value="staff" v-model="dropdowns.role.name" />
-								<label for="role-staff">staff</label>
-								<input type="radio" name="roles" id="role-partner" value="partner" v-model="dropdowns.role.name" />
-								<label for="role-partner">partner</label>
-								<input type="radio" name="roles" id="role-lifetime" value="lifetime" v-model="dropdowns.role.name" />
-								<label for="role-lifetime">lifetime</label>
-								<input type="radio" name="roles" id="role-renewal" value="renewal" v-model="dropdowns.role.name" />
-								<label for="role-renewal">renewal</label>
-							</div>
+					<div class="dropdown" :class="{'active' : dropdowns.role.show}" @mouseleave="dropdowns.role.show = false">
+						<button class="dropdown__button" @click="dropdowns.role.show = !dropdowns.role.show">
+							<span>Role: {{ dropdowns.role.name | capitalize }}</span>
+							<img src="assets/arrow_dropdown.svg" alt="Arrow down" />
+						</button>
+						<div class="dropdown__content">
+							<input type="radio" name="roles" id="role-all" value="all" v-model="dropdowns.role.name" checked />
+							<label for="role-all">all</label>
+							<input type="radio" name="roles" id="role-god" value="god" v-model="dropdowns.role.name" />
+							<label for="role-god">god</label>
+							<input type="radio" name="roles" id="role-owner" value="owner" v-model="dropdowns.role.name" />
+							<label for="role-owner">owner</label>
+							<input type="radio" name="roles" id="role-admin" value="admin" v-model="dropdowns.role.name" />
+							<label for="role-admin">admin</label>
+							<input type="radio" name="roles" id="role-developer" value="developer" v-model="dropdowns.role.name" />
+							<label for="role-developer">developer</label>
+							<input type="radio" name="roles" id="role-staff" value="staff" v-model="dropdowns.role.name" />
+							<label for="role-staff">staff</label>
+							<input type="radio" name="roles" id="role-partner" value="partner" v-model="dropdowns.role.name" />
+							<label for="role-partner">partner</label>
+							<input type="radio" name="roles" id="role-lifetime" value="lifetime" v-model="dropdowns.role.name" />
+							<label for="role-lifetime">lifetime</label>
+							<input type="radio" name="roles" id="role-renewal" value="renewal" v-model="dropdowns.role.name" />
+							<label for="role-renewal">renewal</label>
 						</div>
 					</div>
-					<div class="right">
-						<span v-if="this.memberCount !== 1">{{ memberCount }} members</span>
-						<span v-else>{{ memberCount }} member</span>
-						<% if (role && "modify_members" in role["perms"] && role["perms"]["modify_members"]) { %>
-							<button @click="addMember"><img src="assets/icon_add.svg" alt="Plus icon" /></button>
-						<% } %>
-						<button id="refresh-members" @click="refresh('members')"><img src="assets/icon_reload.svg" alt="Reload icon" /></button>
-					</div>
 				</div>
+				<div class="right">
+					<span v-if="this.memberCount !== 1">{{ memberCount }} members</span>
+					<span v-else>{{ memberCount }} member</span>
+					<% if (role && "modify_members" in role["perms"] && role["perms"]["modify_members"]) { %>
+						<button @click="addMember"><img src="assets/icon_add.svg" alt="Plus icon" /></button>
+					<% } %>
+					<button id="refresh-members" @click="refresh('members')"><img src="assets/icon_reload.svg" alt="Reload icon" /></button>
+				</div>
+			</div>
 
-				<div class="member" v-for="member in this.filteredMemberList">
-					<div class="member__info">
-						<img :src="member.avatar_url" alt="Discord icon" />
-						<span>{{ member.username }}</span>
-						<button class="tag" :style="'background-color:' + member.role.color">{{ member.role.name }}</button>
-					</div>
-					<div class="member__links">
+			<div class="member" v-for="member in this.filteredMemberList">
+				<div class="member__info">
+					<img :src="member.avatar_url" alt="Discord icon" />
+					<span>{{ member.username }}</span>
+					<button class="tag" :style="'background-color:' + member.role.color">{{ member.role.name }}</button>
+				</div>
+				<div class="member__links">
+					<% if (role && role["perms"] && role["perms"]["view_members"]) { %>
 						<button class="button view_member" @click="openMemberDetailsView(member.user_id)">View</button>
+					<% } %>
 
-						<% if (role && role["perms"] && role["perms"]["modify_members"]) { %>
-							<button class="button edit_member" @click="openMemberEditView(member.user_id)">Edit</button>
-						<% } %>
-					</div>
+					<% if (role && role["perms"] && role["perms"]["modify_members"]) { %>
+						<button class="button edit_member" @click="openMemberEditView(member.user_id)">Edit</button>
+					<% } %>
 				</div>
+			</div>
 
-				<div :class="{'member-details-view': true, 'active': showMemberDetails}">
-					<button class="back" @click="closeMemberDetailsView">
-						<img src="assets/arrow_left.svg" alt="Arrow left" />
-					</button>
+			<div :class="{'member-details-view': true, 'active': showMemberDetails}">
+				<button class="back" @click="closeMemberDetailsView">
+					<img src="assets/arrow_left.svg" alt="Arrow left" />
+				</button>
 
-					<div class="loader" v-if="JSON.stringify(memberDetails) === '{}'">
-						<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-							 width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+				<div class="loader" v-if="JSON.stringify(memberDetails) === '{}'">
+					<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						 width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 						<path fill="#FFF" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
 							<animateTransform attributeType="xml"
 											  attributeName="transform"
@@ -156,136 +157,135 @@
 											  repeatCount="indefinite"/>
 						</path>
 					</svg>
-					</div>
-					<div class="container" v-else>
-						<div class="container__welcome">
-							<img class="avatar"
-								 :src="memberDetails.avatar_url || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'"
-								 alt="Discord icon" />
-							<h2>{{ memberDetails.username || "Not found" }}</h2>
-						</div>
-						<div class="container__section">
-							<h3>Basic info</h3>
-							<div>
-								<h6>Role</h6>
-								<button class="role" :style="'background-color:' + (memberDetails.role && memberDetails.role.color ? memberDetails.role.color : '#222222')">
-									{{ memberDetails.role && memberDetails.role.name ? memberDetails.role.name : "null" }}
-								</button>
-							</div>
-							<div><h6>User id</h6><span>{{ memberDetails.user_id || "undefined" }}</span></div>
-							<div><h6>Email</h6><span>{{ memberDetails.email || "undefined" }}</span></div>
-							<div><h6>User since</h6><span>{{ memberDetails.date_created || "undefined" }}</span></div>
-							<div><h6>User in server</h6><span>{{ memberDetails.user_in_server || false }}</span></div>
-							<div><h6>Cookie id</h6><span>{{ memberDetails.cookie_id || "undefined" }}</span></div>
-						</div>
-
-						<div class="container__section" v-if="memberDetails.sub_id">
-							<h3>Stripe info</h3>
-							<div><h6>Customer id</h6><span>{{ memberDetails.stripe_id || "undefined" }}</span></div>
-							<div><h6>Subscription id</h6><span>{{ memberDetails.sub_id || "undefined" }}</span></div>
-							<div><h6>Subscription status</h6><span>{{ memberDetails.sub_status || "undefined" }}</span></div>
-							<div><h6>Has default payment</h6><span>{{ memberDetails.default_payment || "undefined" }}</span></div>
-						</div>
-						<div class="container__section" v-else>
-							<h3>Stripe info</h3>
-							<div><h6>Customer id</h6><span>{{ memberDetails.stripe_id || "undefined" }}</span></div>
-							<div>
-								<h6>Subscription</h6>
-								<span v-if="memberDetails.role && memberDetails.role.name !== 'renewal'">lifetime</span>
-								<span v-else>undefined</span>
-							</div>
-						</div>
-
-						<div class="container__section" v-if="memberDetails.invoice_id">
-							<h3>Last payment</h3>
-							<div><h6>Id</h6><span>{{ memberDetails.invoice_id || "undefined" }}</span></div>
-							<div><h6>Status</h6><span>{{ memberDetails.invoice_status || "undefined" }}</span></div>
-							<div><h6>Date</h6><span>{{ memberDetails.invoice_date || "undefined" }}</span></div>
-						</div>
-					</div>
 				</div>
-
-				<div :class="{'member-edit-view': true, 'active': showMemberEdit}">
-					<button class="back" @click="closeMemberEditView">
-						<img src="assets/arrow_left.svg" alt="Arrow left" />
-					</button>
-
-					<div class="loader" v-if="JSON.stringify(memberEdit) === '{}'">
-						<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-							 width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-						<path fill="#FFF" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
-							<animateTransform attributeType="xml"
-											  attributeName="transform"
-											  type="rotate"
-											  from="0 25 25"
-											  to="360 25 25"
-											  dur="0.6s"
-											  repeatCount="indefinite"/>
-						</path>
-					</svg>
+				<div class="container" v-else>
+					<div class="container__welcome">
+						<img class="avatar"
+							 :src="memberDetails.avatar_url || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'"
+							 alt="Discord icon" />
+						<h2>{{ memberDetails.username || "Not found" }}</h2>
 					</div>
-					<div class="container" v-else>
-						<div class="container__welcome">
-							<img class="avatar"
-								 :src="memberEdit.avatar_url || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'"
-								 alt="Discord icon" />
-							<h2>{{ memberEdit.username || "Not found" }}</h2>
+					<div class="container__section">
+						<h3>Basic info</h3>
+						<div>
+							<h6>Role</h6>
+							<button class="role" :style="'background-color:' + (memberDetails.role && memberDetails.role.color ? memberDetails.role.color : '#222222')">
+								{{ memberDetails.role && memberDetails.role.name ? memberDetails.role.name : "null" }}
+							</button>
 						</div>
-						<div class="container__section">
-							<div class="input-change">
-								<label for="member-edit-role">role</label>
-								<input id="member-edit-role" type="text" v-model="memberEdit.role" placeholder="role" @keyup.enter="updateMember(memberEdit.user_id, 'role')" />
-								<button class="button" @click="updateMember(memberEdit.user_id, 'role')">Update</button>
-							</div>
-							<div class="input-change">
-								<label for="member-edit-email">email</label>
-								<input id="member-edit-email" type="text" v-model="memberEdit.email" placeholder="email" @keyup.enter="updateMember(memberEdit.user_id, 'email')" />
-								<button class="button" @click="updateMember(memberEdit.user_id, 'email')">Update</button>
-							</div>
-							<div class="input-change">
-								<label for="member-edit-cookie_id">cookie id</label>
-								<input id="member-edit-cookie_id" type="text" v-model="memberEdit.cookie_id" placeholder="cookie id" @keyup.enter="updateMember(memberEdit.user_id, 'cookie_id')" />
-								<button class="button" @click="updateMember(memberEdit.user_id, 'cookie_id')">Update</button>
-							</div>
-							<div class="input-change">
-								<label for="member-edit-stripe_id">stripe id</label>
-								<input id="member-edit-stripe_id" type="text" v-model="memberEdit.stripe_id" placeholder="stripe id" @keyup.enter="updateMember(memberEdit.user_id, 'stripe_id')" />
-								<button class="button" @click="updateMember(memberEdit.user_id, 'stripe_id')">Update</button>
-							</div>
-							<div class="input-change" v-if="memberEdit.subscription">
-								<label for="member-edit-sub_id">sub id</label>
-								<input id="member-edit-sub_id" type="text" v-model="memberEdit.subscription" placeholder="sub id" @keyup.enter="updateMember(memberEdit.user_id, 'subscription')" />
-								<button class="button delete" @click="updateMember(memberEdit.user_id, 'subscription')">Delete</button>
-							</div>
-							<div class="input-change" v-if="memberEdit.subscription">
-								<label for="member-edit-subscription_currency">Sub currency</label>
-								<!--<input id="member-edit-subscription_currency" type="text" v-model="memberEdit.subscription_currency" placeholder="sub id" @keyup.enter="updateMember(memberEdit.user_id, 'subscription_currency')" />-->
+						<div><h6>User id</h6><span>{{ memberDetails.user_id || "undefined" }}</span></div>
+						<div><h6>Email</h6><span>{{ memberDetails.email || "undefined" }}</span></div>
+						<div><h6>User since</h6><span>{{ memberDetails.date_created || "undefined" }}</span></div>
+						<div><h6>User in server</h6><span>{{ memberDetails.user_in_server || false }}</span></div>
+						<div><h6>Cookie id</h6><span>{{ memberDetails.cookie_id || "undefined" }}</span></div>
+					</div>
 
-								<div class="dropdown" :class="{'active' : dropdowns.subscription_currency.show}" @mouseleave="dropdowns.subscription_currency.show = false">
-									<button class="dropdown__button" @click="dropdowns.subscription_currency.show = !dropdowns.subscription_currency.show">
-										<span>{{ memberEdit.subscription_currency.toUpperCase() }}</span>
-										<img src="assets/arrow_dropdown.svg" alt="Arrow down" />
-									</button>
-									<div class="dropdown__content">
-										<input type="radio" name="subscription_currency" id="subscription_currency-eur" value="eur" v-model="memberEdit.subscription_currency" checked />
-										<label for="subscription_currency-eur">EUR</label>
-										<input type="radio" name="subscription_currency" id="subscription_currency-usd" value="usd" v-model="memberEdit.subscription_currency" />
-										<label for="subscription_currency-usd">USD</label>
-										<input type="radio" name="subscription_currency" id="subscription_currency-gbp" value="gbp" v-model="memberEdit.subscription_currency" />
-										<label for="subscription_currency-gbp">GBP</label>
-									</div>
-								</div>
+					<div class="container__section" v-if="memberDetails.sub_id">
+						<h3>Stripe info</h3>
+						<div><h6>Customer id</h6><span>{{ memberDetails.stripe_id || "undefined" }}</span></div>
+						<div><h6>Subscription id</h6><span>{{ memberDetails.sub_id || "undefined" }}</span></div>
+						<div><h6>Subscription status</h6><span>{{ memberDetails.sub_status || "undefined" }}</span></div>
+						<div><h6>Has default payment</h6><span>{{ memberDetails.default_payment || "undefined" }}</span></div>
+					</div>
+					<div class="container__section" v-else>
+						<h3>Stripe info</h3>
+						<div><h6>Customer id</h6><span>{{ memberDetails.stripe_id || "undefined" }}</span></div>
+						<div>
+							<h6>Subscription</h6>
+							<span v-if="memberDetails.role && memberDetails.role.name !== 'renewal'">lifetime</span>
+							<span v-else>undefined</span>
+						</div>
+					</div>
 
-								<button class="button" @click="updateMember(memberEdit.user_id, 'subscription_currency')">Update</button>
-							</div>
-						</div>
-						<div class="container__section">
-							<button class="button delete" @click="deleteMember(memberEdit.user_id)">Delete Member</button>
-						</div>
+					<div class="container__section" v-if="memberDetails.invoice_id">
+						<h3>Last payment</h3>
+						<div><h6>Id</h6><span>{{ memberDetails.invoice_id || "undefined" }}</span></div>
+						<div><h6>Status</h6><span>{{ memberDetails.invoice_status || "undefined" }}</span></div>
+						<div><h6>Date</h6><span>{{ memberDetails.invoice_date || "undefined" }}</span></div>
 					</div>
 				</div>
 			</div>
-		<% } %>
+
+			<div :class="{'member-edit-view': true, 'active': showMemberEdit}">
+				<button class="back" @click="closeMemberEditView">
+					<img src="assets/arrow_left.svg" alt="Arrow left" />
+				</button>
+
+				<div class="loader" v-if="JSON.stringify(memberEdit) === '{}'">
+					<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						 width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+						<path fill="#FFF" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+							<animateTransform attributeType="xml"
+											  attributeName="transform"
+											  type="rotate"
+											  from="0 25 25"
+											  to="360 25 25"
+											  dur="0.6s"
+											  repeatCount="indefinite"/>
+						</path>
+					</svg>
+				</div>
+				<div class="container" v-else>
+					<div class="container__welcome">
+						<img class="avatar"
+							 :src="memberEdit.avatar_url || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'"
+							 alt="Discord icon" />
+						<h2>{{ memberEdit.username || "Not found" }}</h2>
+					</div>
+					<div class="container__section">
+						<div class="input-change">
+							<label for="member-edit-role">role</label>
+							<input id="member-edit-role" type="text" v-model="memberEdit.role" placeholder="role" @keyup.enter="updateMember(memberEdit.user_id, 'role')" />
+							<button class="button" @click="updateMember(memberEdit.user_id, 'role')">Update</button>
+						</div>
+						<div class="input-change">
+							<label for="member-edit-email">email</label>
+							<input id="member-edit-email" type="text" v-model="memberEdit.email" placeholder="email" @keyup.enter="updateMember(memberEdit.user_id, 'email')" />
+							<button class="button" @click="updateMember(memberEdit.user_id, 'email')">Update</button>
+						</div>
+						<div class="input-change">
+							<label for="member-edit-cookie_id">cookie id</label>
+							<input id="member-edit-cookie_id" type="text" v-model="memberEdit.cookie_id" placeholder="cookie id" @keyup.enter="updateMember(memberEdit.user_id, 'cookie_id')" />
+							<button class="button" @click="updateMember(memberEdit.user_id, 'cookie_id')">Update</button>
+						</div>
+						<div class="input-change">
+							<label for="member-edit-stripe_id">stripe id</label>
+							<input id="member-edit-stripe_id" type="text" v-model="memberEdit.stripe_id" placeholder="stripe id" @keyup.enter="updateMember(memberEdit.user_id, 'stripe_id')" />
+							<button class="button" @click="updateMember(memberEdit.user_id, 'stripe_id')">Update</button>
+						</div>
+						<div class="input-change" v-if="memberEdit.subscription">
+							<label for="member-edit-sub_id">sub id</label>
+							<input id="member-edit-sub_id" type="text" v-model="memberEdit.subscription" placeholder="sub id" @keyup.enter="updateMember(memberEdit.user_id, 'subscription')" />
+							<button class="button delete" @click="updateMember(memberEdit.user_id, 'subscription')">Delete</button>
+						</div>
+						<div class="input-change" v-if="memberEdit.subscription">
+							<label for="member-edit-subscription_currency">Sub currency</label>
+							<!--<input id="member-edit-subscription_currency" type="text" v-model="memberEdit.subscription_currency" placeholder="sub id" @keyup.enter="updateMember(memberEdit.user_id, 'subscription_currency')" />-->
+
+							<div class="dropdown" :class="{'active' : dropdowns.subscription_currency.show}" @mouseleave="dropdowns.subscription_currency.show = false">
+								<button class="dropdown__button" @click="dropdowns.subscription_currency.show = !dropdowns.subscription_currency.show">
+									<span>{{ memberEdit.subscription_currency.toUpperCase() }}</span>
+									<img src="assets/arrow_dropdown.svg" alt="Arrow down" />
+								</button>
+								<div class="dropdown__content">
+									<input type="radio" name="subscription_currency" id="subscription_currency-eur" value="eur" v-model="memberEdit.subscription_currency" checked />
+									<label for="subscription_currency-eur">EUR</label>
+									<input type="radio" name="subscription_currency" id="subscription_currency-usd" value="usd" v-model="memberEdit.subscription_currency" />
+									<label for="subscription_currency-usd">USD</label>
+									<input type="radio" name="subscription_currency" id="subscription_currency-gbp" value="gbp" v-model="memberEdit.subscription_currency" />
+									<label for="subscription_currency-gbp">GBP</label>
+								</div>
+							</div>
+
+							<button class="button" @click="updateMember(memberEdit.user_id, 'subscription_currency')">Update</button>
+						</div>
+					</div>
+					<div class="container__section">
+						<button class="button delete" @click="deleteMember(memberEdit.user_id)">Delete Member</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<% if (role && role["perms"] && role["perms"]["create_releases"]) { %>
 			<div class="content__releases">
