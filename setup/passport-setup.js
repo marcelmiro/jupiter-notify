@@ -32,7 +32,9 @@ passport.use(new DiscordStrategy(
      */
     (accessToken, refreshToken, profile, done) => {
         const { id, username, discriminator, email, avatar } = profile;
-        const AVATAR_URL = `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`;
+        const AVATAR_URL = avatar.includes("null") ?
+            "https://cdn.discordapp.com/embed/avatars/1.png?size=2048" :
+            `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`;
 
         utils.userLogin(id, username + "#" + discriminator, email, AVATAR_URL).then(user => {
             done(null, user);
