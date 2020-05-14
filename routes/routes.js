@@ -228,7 +228,6 @@ router.get("/test", (req,res) => {
 //  Route to invite discord user to server
 router.get("/discord/join", async (req,res) => {
     try {
-        return false;
         //  Get user's role and stripe info to check if user has membership active.
         const ROLE = await dbUtils.getRole(req.user.user_id);
         const CUSTOMER = await stripeUtils.getCustomer(req.user.stripe_id);

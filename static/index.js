@@ -102,60 +102,22 @@ if (document.querySelector(".currency-popup")) {
 }
 
 
-//  FEATURES SECTION
-let cards = document.querySelectorAll(".section-features .container .cell .card");
-let svgChannelText = document.querySelector(".section-features .container .mobile svg #Channel-text text tspan");
-let channels = ["welcome", "releases", "dsm-monitor", "twitter-monitor", "raffle-links", "nyc-info", "chat"];
+//  TOOLS SECTION
+if (document.getElementById("slideshow")) {
+    $("#slideshow > div:gt(0)").hide();
 
-cards.forEach(function(card) {
-    card.addEventListener("mouseenter", function () {
-        let channelText = channels[Array.from(cards).indexOf(card)+1];
-        fadeText(svgChannelText, channelText);
-        phoneAnimation(channelText);
-    });
-
-    card.addEventListener("mouseleave", function () {
-        fadeText(svgChannelText, channels[0]);
-        phoneAnimation("default");
-    });
-});
-
-function fadeText(element, text) {
-    $(element).stop(true, true);
-    $(element).fadeOut(200, function() {element.textContent = text;});
-    $(element).fadeIn(200);
-}
-
-let tween = gsap.timeline();
-function phoneAnimation(word) {
-    tween.totalProgress(1).kill();
-    let animContainer = document.querySelector(".section-features .container .mobile div");
-    if (word === "default") {
-        $(animContainer).empty();
-    } else if (word === "dsm-monitor") {
-        $(animContainer).fadeIn(200);
-        for (let i=0; i<2; i++) {
-            let message = document.createElement("img");
-            message.setAttribute("src", "assets/message_monitor.png");
-            message.setAttribute("alt", "Discord message example");
-            message.setAttribute("style", "left:43%;");
-            animContainer.appendChild(message);
+    setInterval(function() {
+        if (document.getElementById("slideshow")) {
+            $('#slideshow > div:first')
+                .fadeOut(1000)
+                .next()
+                .fadeIn(1000)
+                .end()
+                .appendTo('#slideshow');
         }
-
-        let messages = animContainer.children;
-        tween = gsap.timeline();
-
-        tween.to(messages[0],{duration: 0.5, left: "50%", opacity:1, ease: Power1.easeOut, onComplete: function() {
-            let height;
-            try { height = messages[0].offsetHeight; }
-            catch (e) { phoneAnimation("default"); return; }
-
-            tween.to(messages[0], {duration: 1.4, y: -height - 20, ease: Power3.easeOut}, 1.2);
-        }}, 0.2);
-        tween.to(messages[1], {duration: 0.6, left: "50%", opacity: 1}, 1.7);
-    }
+    }, 4000);
 }
-//phoneAnimation("releases");
+
 
 //  FAQS SECTION
 let accordions = document.querySelectorAll(".section-faq .container .accordion");
