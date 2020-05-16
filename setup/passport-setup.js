@@ -32,9 +32,17 @@ passport.use(new DiscordStrategy(
      */
     (accessToken, refreshToken, profile, done) => {
         const { id, username, discriminator, email, avatar } = profile;
-        const AVATAR_URL = avatar.includes("null") ?
+        /*const AVATAR_URL = avatar ?
             "https://cdn.discordapp.com/embed/avatars/1.png?size=2048" :
-            `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`;
+            `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`;*/
+        
+        let AVATAR_URL = undefined;
+        if (avatar) {
+            AVATAR_URL = `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`;
+        } else {
+            console.log(`On DiscordStrategy login: avatar property was false. avatar = ${avatar}`);
+            AVATAR_URL = "https://cdn.discordapp.com/embed/avatars/1.png?size=2048";
+        }
 
         utils.userLogin(id, username + "#" + discriminator, email, AVATAR_URL).then(user => {
             done(null, user);
