@@ -89,7 +89,7 @@ let userLogin = async (userId, username, email, avatarUrl) => {
                 } else {
                     const STRIPE_ID = await stripeUtils.createCustomer(email, userId, username);
                     await dbUtils.updateData("users", "user_id", userId, "stripe_id", STRIPE_ID);
-                    console.log(`Couldn't find customer linked to '${username}', so created new stripe customer.`);
+                    console.log(`Couldn't find customer linked to '${username}' so created new stripe customer.`);
                 }
             }
 

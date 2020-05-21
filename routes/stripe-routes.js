@@ -114,7 +114,7 @@ router.get("/cancel-membership", authUserCheck, async (req, res) => {
         }
 
         //  Update customer's first subscription object to cancel at the end of the period.
-        //  Disable proration, so user is not billed a portion of the total price of the membership,
+        //  Disable proration so user is not billed a portion of the total price of the membership,
         //  as membership is still active until period ends.
         await stripeUtils.updateSubscription(
             SUBSCRIPTION.id,

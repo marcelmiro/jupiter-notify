@@ -574,7 +574,7 @@ let setup = async server => {
 
                 //  Deny access to change 'IN_STOCK' if release running.
                 if (name === "IN_STOCK" && process.env.RELEASE_REMAINING_STOCK) {
-                    return socket.emit("send-error", "A stock release is running right now, so you can't edit this setting.");
+                    return socket.emit("send-error", "A stock release is running right now so you can't edit this setting.");
                 }
 
                 if (await dbUtils.updateSetting(name, value)) {
