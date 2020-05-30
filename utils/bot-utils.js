@@ -9,9 +9,9 @@ let guild;
 client.on("ready",() => {
     guild = client.guilds.cache.get(process.env.DISCORD_GUILD_ID);
     console.log(`Bot logged in as ${client.user.tag}.`);
-    let CHANNEL_ID = guild.channels.cache[0].id;
+    let CHANNEL_ID = guild.channels.cache;
     console.log(CHANNEL_ID);
-    console.log(client.channels.cache.get(CHANNEL_ID));
+    //console.log(client.channels.cache.get(CHANNEL_ID));
 });
 
 //  Returns user if in guild, else returns null.
