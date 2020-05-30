@@ -9,7 +9,7 @@ let guild;
 client.on("ready",() => {
     guild = client.guilds.cache.get(process.env.DISCORD_GUILD_ID);
     console.log(`Bot logged in as ${client.user.tag}.`);
-    let CHANNEL_ID = guild.channels.cache.first();
+    let CHANNEL_ID = guild.channels.cache;
     console.log(CHANNEL_ID);
 });
 
@@ -27,6 +27,7 @@ let getUser = async userId => {
 //  Invite user to Discord server.
 let inviteUser = async userId => {
     try {
+        return false;
         //  Validate 'userId'.
         if (!userId || isNaN(parseInt(userId))) return;
 
