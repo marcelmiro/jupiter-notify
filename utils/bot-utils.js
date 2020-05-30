@@ -11,7 +11,7 @@ client.on("ready",() => {
     console.log(`Bot logged in as ${client.user.tag}.`);
     try {
         //console.debug(guild.channels.cache[0]);
-        console.log(guild.channels.cache.filter(c => c.type === 'text').find(x => x.position===0));
+        console.log(guild.channels.cache.filter(c => c.type === 'text').first());
         //console.log(guild.channels.cache[0].id);
     } catch (y) {
         console.error("m2");
