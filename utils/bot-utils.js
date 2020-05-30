@@ -9,13 +9,6 @@ let guild;
 client.on("ready",() => {
     guild = client.guilds.cache.get(process.env.DISCORD_GUILD_ID);
     console.log(`Bot logged in as ${client.user.tag}.`);
-    try {
-        //console.debug(guild.channels.cache[0]);
-        console.log(guild.channels.cache.filter(c => c.type === "text").sort((a, b) => a.rawPosition - b.rawPosition).first());
-        //console.log(guild.channels.cache[0].id);
-    } catch (y) {
-        console.error("m2");
-    }
 });
 
 //  Returns user if in guild, else returns null.
@@ -32,7 +25,6 @@ let getUser = async userId => {
 //  Invite user to Discord server.
 let inviteUser = async userId => {
     try {
-        return false;
         //  Validate 'userId'.
         if (!userId || isNaN(parseInt(userId))) return;
 
@@ -44,8 +36,9 @@ let inviteUser = async userId => {
         } else {
             //  Get server's default channel (#general) id, and invites user to channel.
             //  Invite is 1 time use and unique. Returns discord invite url.
-            const CHANNEL_ID = guild.channels.cache.first().guild.systemChannelID;
-            const INVITE = await client.channels.cache.get(CHANNEL_ID).createInvite({
+            const CHANNEL = guild.channels.cache.filter(c => c.type === "text")
+                .sort((a, b) => a.rawPosition - b.rawPosition).first();
+            const INVITE = await CHANNEL.createInvite({
                 maxUses: 1,
                 unique: true,
             });
