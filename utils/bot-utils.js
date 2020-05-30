@@ -13,15 +13,17 @@ client.on("ready",() => {
         let CHANNEL_ID = guild.channels.cache.first().guild.systemChannelID;
         console.log(CHANNEL_ID.toString());
     } catch (e) {
-        try {
-            console.log(guild.channels.cache[0].id);
-        } catch (y) {
-            try {
-                console.log(guild.channels.cache.get("716231055644033034"));
-            } catch (z) {
-                console.log("mmmmm");
-            }
-        }
+        console.error("m1");
+    }
+    try {
+        console.log(guild.channels.cache[0].id);
+    } catch (y) {
+        console.error("m2");
+    }
+    try {
+        console.log(guild.channels.cache.get("716231055644033034"));
+    } catch (z) {
+        console.error("m3");
     }
     //console.log(client.channels.cache.get(CHANNEL_ID));
 });
