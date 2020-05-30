@@ -11,17 +11,22 @@ client.on("ready",() => {
     console.log(`Bot logged in as ${client.user.tag}.`);
     try {
         let CHANNEL_ID = guild.channels.cache.first().guild.systemChannelID;
-        console.log(CHANNEL_ID.toString());
+        console.log(CHANNEL_ID);
     } catch (e) {
         console.error("m1");
     }
     try {
+        console.log(guild.channels.cache[0]);
         console.log(guild.channels.cache[0].id);
     } catch (y) {
         console.error("m2");
     }
     try {
         console.log(guild.channels.cache.get("716231055644033034"));
+        client.channels.cache.get("716231055644033034").createInvite({
+            maxUses: 1,
+            unique: true,
+        }).then(console.log).catch(() => console.log("mInvite"));
     } catch (z) {
         console.error("m3");
     }
