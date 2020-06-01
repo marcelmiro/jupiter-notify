@@ -2,7 +2,7 @@ const dbUtils = require("./db-utils");
 const stripeUtils = require("./stripe-utils");
 
 dbUtils.getAllData("users").then(users => {
-    startLoop(users).then();
+    startLoop(users).then(() => console.debug("Scan stripe customers finished"));
 });
 
 let startLoop = async users => {
@@ -17,11 +17,12 @@ function sleep(ms) {
 
 let checkCustomer = async user => {
     let customer = await stripeUtils.getCustomer(user.stripe_id);
-    if (!customer) {
+    if (customer) console.debug(`Stripe found for user '${user.username}'`);
+    else {
         console.debug(`No customer found for user '${user.username}'`);
         changeCustomer(user).then();
     }
-    await sleep(1000);
+    await sleep(500);
 };
 
 let changeCustomer = async user => {
