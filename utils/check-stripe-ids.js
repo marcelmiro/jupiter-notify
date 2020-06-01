@@ -1,29 +1,6 @@
 const dbUtils = require("./db-utils");
 const stripeUtils = require("./stripe-utils");
 
-dbUtils.getAllData("users").then(users => {
-    startLoop(users).then(() => console.debug("Scan stripe customers finished"));
-});
-
-let startLoop = async users => {
-    for (const user of users) {
-        await checkCustomer(user);
-    }
-};
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-let checkCustomer = async user => {
-    let customer = await stripeUtils.getCustomer(user.stripe_id);
-    if (customer) console.debug(`Stripe found for user '${user.username}'`);
-    else {
-        console.debug(`No customer found for user '${user.username}'`);
-        changeCustomer(user).then();
-    }
-    await sleep(500);
-};
 
 let changeCustomer = async user => {
     const CUSTOMERS = await stripeUtils.getAllCustomers();
@@ -37,3 +14,25 @@ let changeCustomer = async user => {
         console.log(`Couldn't find customer linked to '${user.username}' so created new stripe customer.`);
     }
 };
+
+let scan = async () => {
+    try {
+        const USERS = await dbUtils.getAllData("users");
+        for (const user of USERS) {
+            const CUSTOMER = await stripeUtils.getCustomer(user.stripe_id);
+            if (CUSTOMER) console.debug(`Customer found for user '${user.username}'`);
+            else {
+                console.debug(`No customer found for user '${user.username}'`);
+                changeCustomer(user).then();
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        console.log("Scan stripe customers finished");
+    } catch (e) {
+        console.error("scan(): Error on scanning stripe customer ids.");
+    }
+};
+
+module.exports = scan;
+//require("./utils/check-stripe-ids")().then();
