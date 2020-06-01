@@ -174,6 +174,7 @@ router.get("/admin", authUserCheck, async (req,res) => {
 
         //  Get role object and check if user has 'admin_panel' permission.
         let role = await dbUtils.getRole(req.user.user_id);
+        if (!role) return res.redirect("/");
         delete role["role_id"];
 
         if (!role?.["perms"]?.admin_panel) {
@@ -190,7 +191,7 @@ router.get("/admin", authUserCheck, async (req,res) => {
 });
 
 //  Testing dashboard design route
-router.get("/test", (req,res) => {
+/*router.get("/test", (req,res) => {
     const USER = {
         user_id: "1234567890",
         cookie_id: "1234567890",
@@ -223,7 +224,7 @@ router.get("/test", (req,res) => {
             session: "123",
             userInServer: false
         });
-});
+});*/
 
 //  Route to invite discord user to server
 router.get("/discord/join", async (req,res) => {

@@ -155,11 +155,11 @@ let setup = async server => {
 
                 //  Check if user exists.
                 const USER = await dbUtils.getData("users", "user_id", userId);
-                if (!USER) { return socket.emit("send-error", "User not found in db."); }
+                if (!USER) return socket.emit("send-error", "User not found in db.");
 
                 //  Check if user has role.
                 const ROLE = await dbUtils.getRole(userId);
-                if (!ROLE) { return socket.emit("send-error", "User doesn't have a role."); }
+                if (!ROLE) return socket.emit("send-error", "User doesn't have a role.");
 
                 //  Get deleter and deleted importance.
                 const IMPORTANCE_DELETER = socket.request.role["perms"].importance;
@@ -191,6 +191,7 @@ let setup = async server => {
                     await botUtils.kickUser(userId);
                     io.sockets.emit("get-member-list");
                     socket.emit("send-message", `User '${USER.username}' has no role now.`);
+                    console.log(`User '${socket.request.user.username}' deleted '${USER.username}'s role.`);
                 }
             } catch (e) {
                 console.error(`Socket on 'delete-member': ${e.message}`);
