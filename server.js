@@ -98,5 +98,4 @@ dbUtils.setSettings().then(() => {
         console.log(`Server connected at: ${port}`);
     });
     require("./setup/socket-setup")(server).then();
-    require("./utils/check-stripe-ids");
 });
