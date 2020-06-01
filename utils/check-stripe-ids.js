@@ -2,17 +2,29 @@ const dbUtils = require("./db-utils");
 const stripeUtils = require("./stripe-utils");
 
 dbUtils.getAllData("users").then(users => {
-    for (const user of users) {
-        stripeUtils.getCustomer(user.stripe_id).then(customer => {
-            if (!customer) {
-                console.debug(`No customer found for user '${user.username}'`);
-                changeId(user).then();
-            }
-        });
-    }
+    startLoop(users).then();
 });
 
-let changeId = async user => {
+let startLoop = async users => {
+    for (const user of users) {
+        await checkCustomer(user);
+    }
+};
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+let checkCustomer = async user => {
+    let customer = await stripeUtils.getCustomer(user.stripe_id);
+    if (!customer) {
+        console.debug(`No customer found for user '${user.username}'`);
+        changeCustomer(user).then();
+    }
+    await sleep(1000);
+};
+
+let changeCustomer = async user => {
     const CUSTOMERS = await stripeUtils.getAllCustomers();
     const CUSTOMER = CUSTOMERS.find(customer => customer.description === user.user_id);
     if (CUSTOMER) {
