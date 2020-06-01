@@ -4,8 +4,7 @@ const stripeUtils = require("./stripe-utils");
 dbUtils.getAllData("users").then(users => {
     for (const user of users) {
         stripeUtils.getCustomer(user.stripe_id).then(customer => {
-            if (customer) console.debug(`Customer found for user '${user.username}'`);
-            else {
+            if (!customer) {
                 console.debug(`No customer found for user '${user.username}'`);
                 changeId(user).then();
             }
