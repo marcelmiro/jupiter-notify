@@ -195,11 +195,11 @@
 						</div>
 					</div>
 
-					<div class="container__section" v-if="memberDetails.invoice_id">
+					<div class="container__section" v-if="memberDetails.last_invoice_id">
 						<h3>Last payment</h3>
-						<div><h6>Id</h6><span>{{ memberDetails.invoice_id || "undefined" }}</span></div>
-						<div><h6>Status</h6><span>{{ memberDetails.invoice_status || "undefined" }}</span></div>
-						<div><h6>Date</h6><span>{{ memberDetails.invoice_date || "undefined" }}</span></div>
+						<div><h6>Id</h6><span>{{ memberDetails.last_invoice_id || "undefined" }}</span></div>
+						<div><h6>Status</h6><span>{{ memberDetails.last_invoice_status || "undefined" }}</span></div>
+						<div><h6>Date</h6><span>{{ memberDetails.last_invoice_date || "undefined" }}</span></div>
 					</div>
 				</div>
 			</div>
@@ -271,6 +271,11 @@
 							</div>
 
 							<button class="button" @click="updateMember(memberEdit.user_id, 'subscription_currency')">Update</button>
+						</div>
+						<div class="input-change" v-if="memberEdit.subscription">
+							<label for="member-edit-trial_days">sub trial</label>
+							<input id="member-edit-trial_days" type="text" v-model="memberEdit.trial_days" placeholder="trial days" @keyup.enter="updateMember(memberEdit.trial_days, 'trial_days')" />
+							<button class="button" @click="updateMember(memberEdit.user_id, 'trial_days')">Update</button>
 						</div>
 					</div>
 					<div class="container__section">

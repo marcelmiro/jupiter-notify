@@ -1,9 +1,9 @@
 require("dotenv").config();
 const dbUtils = require("./db-utils");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
-let createCustomer = async (email, userId, name, currency= "eur") => {
+let createCustomer = async (email, userId, name) => {
     try {
         //  Validate parameter 'email'.
         if (!email) {
@@ -22,9 +22,7 @@ let createCustomer = async (email, userId, name, currency= "eur") => {
             await stripe.customers.create(
                 data,(err, customer) => {
                     if (err) { console.error(err); reject(err); }
-                    else {
-                        resolve(customer.id);
-                    }
+                    else resolve(customer.id);
                 }
             )
         });
@@ -46,7 +44,7 @@ let updateCustomer = async (id, data = {}) => {
             await stripe.customers.update(
                 id, data, (err, customer) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(customer); }
+                    else resolve(customer);
                 });
         });
     } catch (e) {
@@ -67,7 +65,7 @@ let deleteCustomer = async id => {
             await stripe.customers.del(
                 id,(err, confirmation) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(confirmation); }
+                    else resolve(confirmation);
                 });
         });
     } catch (e) {
@@ -88,7 +86,7 @@ let updateSubscription = async (id, data = {}) => {
             await stripe.subscriptions.update(
                 id, data, (err, subscription) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(subscription); }
+                    else resolve(subscription);
                 });
         });
     } catch (e) {
@@ -107,9 +105,9 @@ let deleteSubscription = async id => {
 
         return await new Promise(async (resolve, reject) => {
             await stripe.subscriptions.del(
-                id, (err, confirmation) => {
+                id, { prorate: false }, (err, confirmation) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(confirmation); }
+                    else resolve(confirmation);
                 }
             );
         });
@@ -157,6 +155,7 @@ let createMembershipSession = async (customerId, currency = "EUR") => {
         return await stripe.checkout.sessions.create({
             customer: customerId,
             payment_method_types: ['card'],
+            mode: "subscription",
             subscription_data: {
                 items: [{
                     plan: PLAN_ID,
@@ -233,7 +232,7 @@ let transferSubscription = async (customerId, date, currency= undefined) => {
                 proration_behavior: "none",
             }, (err, subscription) => {
                 if (err) { console.error(err); reject(err); }
-                else { resolve(subscription); }
+                else resolve(subscription);
             });
         });
     } catch (e) {
@@ -246,8 +245,7 @@ async function getAllCustomers() {
     try {
         return (await stripe.customers.list()).data;
     } catch (e) {
-        console.error(`getAllCustomers(): ${e.message}`);
-        return undefined;
+        return console.error(`getAllCustomers(): ${e.message}`);
     }
 }
 
@@ -255,21 +253,19 @@ let getCustomer = async id => {
     try {
         //  Validate parameter 'id'.
         if (!id) {
-            console.error("getCustomer(): Parameter 'id' is undefined.");
-            return undefined;
+            return console.error("getCustomer(): Parameter 'id' is undefined.");
         }
 
         return await new Promise(async (resolve, reject) => {
             await stripe.customers.retrieve(
                 id, (err, customer) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(customer); }
+                    else resolve(customer);
                 }
             )
         });
     } catch (e) {
-        console.error(`getCustomer(): ${e.message}`);
-        return undefined;
+        return console.error(`getCustomer(): ${e.message}`);
     }
 };
 
@@ -277,21 +273,19 @@ let getSession = async id => {
     try {
         //  Validate parameter 'id'.
         if (!id) {
-            console.error("getSession(): Parameter 'id' is undefined.");
-            return undefined;
+            return console.error("getSession(): Parameter 'id' is undefined.");
         }
 
         return await new Promise(async (resolve, reject) => {
             await stripe.checkout.sessions.retrieve(
                 id, (err, session) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(session); }
+                    else resolve(session);
                 }
             )
         });
     } catch (e) {
-        console.error(`getSession(): ${e.message}`);
-        return undefined;
+        return console.error(`getSession(): ${e.message}`);
     }
 };
 
@@ -299,21 +293,19 @@ let getSetupIntent = async id => {
     try {
         //  Validate parameter 'id'.
         if (!id) {
-            console.error("getSetupIntent(): Parameter 'id' is undefined.");
-            return undefined;
+            return console.error("getSetupIntent(): Parameter 'id' is undefined.");
         }
 
         return await new Promise(async (resolve,reject) => {
             await stripe.setupIntents.retrieve(
                 id, (err, intent) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(intent); }
+                    else resolve(intent);
                 }
             );
         });
     } catch (e) {
-        console.error(`getSetupIntent(): ${e.message}`);
-        return undefined;
+        return console.error(`getSetupIntent(): ${e.message}`);
     }
 };
 
@@ -321,8 +313,7 @@ let getAllPaymentMethods = async id => {
     try {
         //  Validate parameter 'id'.
         if (!id) {
-            console.error("getAllPaymentMethods(): Parameter 'id' is undefined.");
-            return undefined;
+            return console.error("getAllPaymentMethods(): Parameter 'id' is undefined.");
         }
 
         return await new Promise(async (resolve,reject) => {
@@ -331,12 +322,11 @@ let getAllPaymentMethods = async id => {
                 type: "card"
             }, (err, paymentMethods) => {
                 if (err) { console.error(err); reject(err); }
-                else { resolve(paymentMethods); }
+                else resolve(paymentMethods);
             });
         });
     } catch (e) {
-        console.error(`getAllPaymentMethods(): ${e.message}`);
-        return undefined;
+        return console.error(`getAllPaymentMethods(): ${e.message}`);
     }
 };
 
@@ -344,21 +334,19 @@ let getPaymentMethod = async id => {
     try {
         //  Validate parameter 'id'.
         if (!id) {
-            console.error("getPaymentMethod(): Parameter 'id' is undefined.");
-            return undefined;
+            return console.error("getPaymentMethod(): Parameter 'id' is undefined.");
         }
 
         return await new Promise(async (resolve, reject) => {
             await stripe.paymentMethods.retrieve(
                 id, (err, paymentMethod) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(paymentMethod); }
+                    else resolve(paymentMethod);
                 }
             );
         });
     } catch (e) {
-        console.error(`getPaymentMethod(): ${e.message}`);
-        return undefined;
+        return console.error(`getPaymentMethod(): ${e.message}`);
     }
 };
 
@@ -367,8 +355,7 @@ let attachPaymentMethod = async (customerId, paymentMethodId) => {
         //  Validate parameters.
         const PARAMS = [customerId, paymentMethodId];
         if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
-            console.error("attachPaymentMethod(): At least 1 parameter is undefined.");
-            return undefined;
+            return console.error("attachPaymentMethod(): At least 1 parameter is undefined.");
         }
 
         return await new Promise(async (resolve,reject) => {
@@ -376,13 +363,12 @@ let attachPaymentMethod = async (customerId, paymentMethodId) => {
                 paymentMethodId, { customer: customerId },
                 (err, paymentMethod) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(paymentMethod); }
+                    else resolve(paymentMethod);
                 }
             )
         });
     } catch (e) {
-        console.error(`attachPaymentMethod(): ${e.message}`);
-        return undefined;
+        return console.error(`attachPaymentMethod(): ${e.message}`);
     }
 };
 
@@ -390,21 +376,19 @@ let detachPaymentMethod = async id => {
     try {
         //  Validate parameter 'id'.
         if (!id) {
-            console.error("detachPaymentMethod(): Parameter 'id' is undefined.");
-            return undefined;
+            return console.error("detachPaymentMethod(): Parameter 'id' is undefined.");
         }
 
         return await new Promise(async (resolve,reject) => {
             await stripe.paymentMethods.detach(
                 id, (err, paymentMethod) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(paymentMethod); }
+                    else resolve(paymentMethod);
                 }
             )
         });
     } catch (e) {
-        console.error(`detachPaymentMethod(): ${e.message}`);
-        return undefined;
+        return console.error(`detachPaymentMethod(): ${e.message}`);
     }
 };
 
@@ -412,36 +396,54 @@ let getInvoice = async id => {
     try {
         //  Validate parameter 'id'.
         if (!id) {
-            console.error("getInvoice(): Parameter 'id' is undefined.");
-            return undefined;
+            return console.error("getInvoice(): Parameter 'id' is undefined.");
         }
 
         return await new Promise(async (resolve, reject) => {
             await stripe.invoices.retrieve(
                 id, (err, invoice) => {
                     if (err) { console.error(err); reject(err); }
-                    else { resolve(invoice); }
+                    else resolve(invoice);
                 }
             );
         });
     } catch (e) {
-        console.error(`getInvoice(): ${e.message}`);
-        return undefined;
+        return console.error(`getInvoice(): ${e.message}`);
     }
 };
+
+let getNextInvoice = async (customerId, subscriptionId) => {
+    try {
+        //  Validate parameter 'customerId'.
+        if (!customerId) {
+            return console.error("getNextInvoice(): Parameter 'customerId' is undefined.");
+        }
+
+        let data = { customer: customerId };
+        subscriptionId ? data.subscription = subscriptionId : "";
+        return await new Promise(async (resolve, reject) => {
+            await stripe.invoices.retrieveUpcoming(
+                data, (err, upcoming) => {
+                    if (err) { console.error(err); reject(err); }
+                    else resolve(upcoming);
+                }
+            );
+        });
+    } catch (e) {
+        return console.error(`getNextInvoice(): ${e.message}`);
+    }
+}
 
 let createWebhook = async (body, signature) => {
     //  Validate parameters.
     const PARAMS = [body, signature];
     if (PARAMS.filter(n => {return n}).length < PARAMS.length) {
-        console.error("createWebhook(): At least 1 parameter is undefined.");
-        return undefined;
+        return console.error("createWebhook(): At least 1 parameter is undefined.");
     }
-
-    return stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_ID);
+    else return stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_ID);
 };
 
 module.exports = {createCustomer, updateCustomer, deleteCustomer, updateSubscription, deleteSubscription,
     createMembershipSession, createEditCardSession, transferSubscription,
     getAllCustomers, getCustomer, getSession, getSetupIntent, getAllPaymentMethods, getPaymentMethod,
-    attachPaymentMethod, detachPaymentMethod, getInvoice, createWebhook};
+    attachPaymentMethod, detachPaymentMethod, getInvoice, getNextInvoice, createWebhook};

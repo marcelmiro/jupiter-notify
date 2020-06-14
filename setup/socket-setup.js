@@ -332,6 +332,35 @@ let setup = async server => {
                         return socket.emit("send-error", "Error when trying to transfer subscription.");
                     }
                 }
+                else if (name === "trial_days") {
+                    const DAYS = Number(value);
+                    if (isNaN(DAYS)) return socket.emit("send-error", "Value must be a number.");
+                    else if (DAYS % 1 !== 0) return socket.emit("send-error", "Value must be a full number");
+
+                    const USER = await dbUtils.getData("users", "user_id", userId);
+                    const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
+                    if (!CUSTOMER) return socket.emit("send-error", "Couldn't find customer.");
+                    if (CUSTOMER.subscriptions.data.length === 0) return socket.emit("send-error", "Customer doesn't have a subscription.");
+
+                    if (DAYS > 0) {
+                        const DATE = new Date();
+                        DATE.setDate(DATE.getDate() + DAYS);
+                        if (await stripeUtils.updateSubscription(
+                            CUSTOMER.subscriptions.data[0].id,
+                            {proration_behavior:"none", trial_end: Math.round(DATE.getTime()/1000)}
+                            )) {
+                            console.log(`User '${socket.request.user.username}' added ${DAYS} days to '${USER.username}'s subscription.`);
+                            return socket.emit("send-message", `Added ${DAYS} days to '${USER.username}'s subscription.`);
+                        }
+                    } else {
+                        if (await stripeUtils.updateSubscription(CUSTOMER.subscriptions.data[0].id, {proration_behavior: "create_prorations", trial_end: "now"})) {
+                            console.log(`User '${socket.request.user.username}' removed trial from '${USER.username}'s subscription.`);
+                            return socket.emit("send-message", `Removed trial from '${USER.username}'s subscription.`);
+                        }
+                    }
+                    console.error("Socket on 'update-member': Error on adding trial to subscription.");
+                    return socket.emit("send-error", "Error when trying to add trial to subscription.");
+                }
                 else {
                     return socket.emit("send-error", "Couldn't find value to update.");
                 }
@@ -381,12 +410,18 @@ let setup = async server => {
                         temp.sub_status = SUBSCRIPTION.status;
 
                         //  Get invoice and check if true.
-                        const INVOICE = SUBSCRIPTION.latest_invoice ? await stripeUtils.getInvoice(SUBSCRIPTION.latest_invoice) : undefined;
-                        if (INVOICE?.id) {
-                            temp.invoice_id = INVOICE.id;
-                            temp.invoice_status = INVOICE.status;
-                            temp.invoice_date = await utils.transformDate(new Date(INVOICE.created * 1000));
+                        const LAST_INVOICE = SUBSCRIPTION.latest_invoice ? await stripeUtils.getInvoice(SUBSCRIPTION.latest_invoice) : undefined;
+                        if (LAST_INVOICE?.id) {
+                            temp.last_invoice_id = LAST_INVOICE.id;
+                            temp.last_invoice_status = LAST_INVOICE.status;
+                            temp.last_invoice_date = await utils.transformDate(new Date(LAST_INVOICE.created * 1000));
                         }
+
+                        // TODO Get next invoice.
+                        /*const NEXT_INVOICE = await stripeUtils.getNextInvoice(CUSTOMER.id, SUBSCRIPTION.id);
+                        if (NEXT_INVOICE?.object === "invoice" && !NEXT_INVOICE.paid) {
+                            temp.next_invoice_date = await utils.transformDate(new Date(NEXT_INVOICE.next_payment_attempt));
+                        }*/
                     }
                     data = {...data, ...temp};
                 }
@@ -421,8 +456,15 @@ let setup = async server => {
                 //  Get subscription if customer has one.
                 const CUSTOMER = await stripeUtils.getCustomer(USER.stripe_id);
                 if (CUSTOMER.subscriptions.data.length > 0) {
-                    data.subscription = CUSTOMER.subscriptions.data[0].id;
+                    const SUBSCRIPTION = CUSTOMER.subscriptions.data[0];
+                    data.subscription = SUBSCRIPTION.id;
                     data.subscription_currency = CUSTOMER.currency.toUpperCase();
+                    data.trial_days = 0;
+                    if (SUBSCRIPTION.trial_end) {
+                        const d1 = new Date();
+                        const d2 = new Date(SUBSCRIPTION.trial_end * 1000);
+                        data.trial_days = Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24));
+                    }
                 }
 
                 socket.emit("set-member-edit", data);
