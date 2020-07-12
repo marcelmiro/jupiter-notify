@@ -7,10 +7,10 @@
 	<title>Jupiter Notify</title>
 	<meta name="description" content= "A private Discord group helping you secure limited items with any resellable value." />
 	<meta name="keywords" content="jupiter notify, jupiter, cop, sneakers, cop sneakers, cop alert, sneaker alert, discord community, discord cop, shopify monitor, dropshipping, drop shipping">
-	
+
 	<!--    MAIN CSS    -->
 	<link rel="stylesheet" href="index.css">
-	
+
 	<!--    FAVICON    -->
 	<link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
@@ -26,14 +26,14 @@
 
 <div class="section section-home">
 	<div class="bg"></div>
-	
+
 	<div class="navbar">
 		<a class="button" href="#features">Features</a>
 		<a class="button" href="#tools">Tools</a>
 		<a class="button" href="#faq">FAQ</a>
 
 		<a class="button" style="background-color:#8b50c3;"
-			<% if (hasMembership || hasRole) { %>
+			<% if (hasRole) { %>
 				href="/dashboard">Dashboard
 			<% } else if (isUser) { %>
 				href="/auth/logout">Log Out
@@ -45,25 +45,23 @@
 		<% if (isAdmin) { %>
 			<button class="hamburger"><img src="assets/icon_settings.svg" alt="Settings icon" /></button>
 			<div class="hamburger-container">
-				<% if (!hasMembership) { %>
-					<a class="button" href="/dashboard">Dashboard</a>
-				<% } %>
+				<a class="button" href="/dashboard">Dashboard</a>
 				<a class="button" href="/admin">Admin Panel</a>
 			</div>
 		<% } %>
 	</div>
-	
+
 	<div class="grid">
 		<div class="text">
 			<h1>Jupiter<span>Notify</span></h1>
 			<p>A private Discord group helping you secure limited items with any resellable value.</p>
 		</div>
-		
+
 		<div class="dashboard-button-container">
 			<img class="jupiter" src="assets/jupiter_planet.png" alt="Jupiter planet image" />
 			<img class="jupiter-wave" src="assets/jupiter_planet_wave.svg" alt="" />
 
-			<% if (hasMembership || hasRole) { %>
+			<% if (hasRole) { %>
 				<button class="button disabled">Already Subscribed</button>
 			<% } else if (!inStock) { %>
 				<button class="button disabled">Out of Stock</button>
@@ -80,7 +78,7 @@
 	        <path d="M-27.649,-126.048L972.351,-6.048L972.351,873.952L-27.649,873.952L-27.649,-126.048Z" style="fill:rgb(51,51,51);"/>
 	    </g>
 	</svg>
-	
+
 	<h2>Features</h2>
 	<div class="container">
 		<div class="card">
@@ -190,7 +188,7 @@
 				We help each other secure highly-demanded sneakers and items to help you generate large amounts of profit.
 			</p>
 		</div>
-		
+
 		<button class="accordion">What do I get if I buy a membership?</button>
 		<div class="panel">
 			<p>
@@ -199,7 +197,7 @@
 				post-release analysis, groupbuys and everything you will ever need to make sure you cop.
 			</p>
 		</div>
-		
+
 		<button class="accordion">How long does the membership last?</button>
 		<div class="panel">
 			<p>
@@ -207,7 +205,7 @@
 				Members can cancel or update their payment details through our dashboard.
 			</p>
 		</div>
-		
+
 		<button class="accordion">How often do you restock?</button>
 		<div class="panel">
 			<p>
@@ -216,21 +214,21 @@
 				by <b><a href="https://twitter.com/JupiterNotify" target="_blank">clicking here</a></b>.
 			</p>
 		</div>
-		
+
 		<button class="accordion">Do you offer groupbuys?</button>
 		<div class="panel">
 			<p>
 				Every now and then we do provide groupbuys with bots, tools and other services for our members to take advantage of.
 			</p>
 		</div>
-		
+
 		<button id="contact" class="accordion">Have another question? Contact Us</button>
 		<div class="panel">
 			<div class="form grid">
 				<div>
-					<input type="text" placeholder="Name" spellcheck="false" required />
-					<input type="email" placeholder="Email" spellcheck="false" required />
-					<button class="button" onclick="sendEmail()">Submit</button>
+					<input id="username" type="text" placeholder="Discord username" spellcheck="false" required />
+					<input id="user_id" type="text" placeholder="Discord user id" spellcheck="false" required />
+					<button class="button" onclick="sendSupport()">Submit</button>
 				</div>
 				<div>
 					<textarea placeholder="Text" maxlength="500" spellcheck="false" required></textarea>
@@ -247,7 +245,7 @@
 			<path d="M-27.649,-126.048L972.351,-66.048L972.351,-6.048L-27.649,-6.048L-27.649,-126.048Z" style="fill:rgb(139,80,195);"/>
 		</g>
 	</svg>
-	
+
 	<div class="text">
 		<a href="terms.html" class="underline">Terms & Conditions</a>
 		<p>Jupiter Notify Ltd ©</p>
@@ -263,7 +261,7 @@
 	</div>
 </div>
 
-<% if (inStock && !hasMembership && !hasRole) { %>
+<% if (inStock && !hasRole) { %>
 	<div class="currency-popup">
 		<div class="overlay"></div>
 		<div class="container">
@@ -302,9 +300,8 @@
 
 <!--    MAIN JS    -->
 <script type="text/javascript">
-	const IS_USER = Boolean("<%= isUser %>" === "true");
-	const IN_STOCK = Boolean(<%- inStock %>);
-	const HAS_HAMBURGER = Boolean("<%= isAdmin %>" === "true");
+	const IS_USER = '<%= isUser %>' === 'true'
+	const HAS_HAMBURGER = '<%= isAdmin %>' === 'true'
 </script>
 <script src="index.js"></script>
 </body>

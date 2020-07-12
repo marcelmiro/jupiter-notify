@@ -1,101 +1,46 @@
-require("dotenv").config();
+require('dotenv').config()
+require('./services/logger')
+require('./config')().then(() => {
+    const express = require('express')
+    const path = require('path')
+    const helmet = require('helmet')
+    const rateLimit = require('express-rate-limit')
+    const cookieSession = require('cookie-session')
+    const passport = require('passport')
+    const bodyParser = require('body-parser')
 
-//  Function to check log file size and remove some old logs if file size exceeds stated amount.
-const fs = require("fs");
-function clearLog() {
-    fs.stat(process.env.LOGGER_NAME, (err, stats) => {
-        if (err) console.error("fs.stat(): Can't read log file.");
-        else if (stats.size > parseInt(process.env.LOGGER_MAX_SIZE) * 1000) {
-            fs.readFile(process.env.LOGGER_NAME, 'utf8', (err, data) => {
-                if (err) { console.error("fs.readFile(): Can't read log file."); }
-                else {
-                    let newLines = parseInt(process.env.LOGGER_NEW_LINES);
-                    data = data.split("\n");
-                    data = data.length > newLines ?
-                        data.slice(data.length - newLines) : data.slice(data.length - data.length/2);
-                    fs.writeFile(process.env.LOGGER_NAME, data.join("\n"), err => {
-                        if (err) { console.error("fs.writeFile(): Can't write in log file."); }
-                    });
-                }
-            });
-        }
-    });
-}
-//  Setup logger and override default logging functions.
-const log = require("simple-node-logger").createSimpleLogger({
-    logFilePath: process.env.LOGGER_NAME,
-    timestampFormat: 'YYYY-MM-DD HH:mm:ss'
-});
-console.log = msg => { log.info(msg); clearLog(); };
-console.error = msg => { log.error(msg); clearLog(); };
+    const app = express()
+    const port = process.env.PORT || 8080
 
+    app.set('view engine', 'ejs')
+    app.set('views', path.join(__dirname, '/static'))
 
-const express = require('express');
-const helmet = require('helmet');
-const rateLimit = require("express-rate-limit");
+    const { trustProxy, windowMs, max } = require('./config/rate-limit')
+    app.use(helmet())
+    app.set('trust proxy', trustProxy)
+    app.use(rateLimit({ windowMs, max }))
 
-const path = require("path");
-const passport = require("passport");
-const cookieSession = require("cookie-session");
-const bodyParser = require("body-parser");
+    const { keys, maxAge } = require('./config/cookies')
+    app.use(cookieSession({ keys, maxAge }))
 
-const dbUtils = require("./utils/db-utils");
-dbUtils.openDb().then();
-dbUtils.setSettings().then(() => {
-    const utils = require("./utils/utils");
-    const routes = require("./routes/routes");
-    const passportSetup = require("./setup/passport-setup");
+    const { secret, saveUninitialized, resave } = require('./config/passport')
+    app.use(passport.initialize())
+    app.use(passport.session({ secret, saveUninitialized, resave }))
 
-    //  Init app and set port either to env number or number by default '8080'.
-    const app = express();
-    const port = process.env.PORT || 8080;
+    app.use(bodyParser.urlencoded({ extended: true }))
 
-    //  Set express template to ejs and set default location of ejs files.
-    app.set("view engine", "ejs");
-    app.set('views', path.join(__dirname, '/static'));
+    const { getBrowser, verifyRoute } = require('./utils')
+    app.use('/', getBrowser, verifyRoute, require('./routes'))
+    app.use(express.static(path.join(__dirname, '/static')))
+    app.use(express.static(path.join(__dirname, '/node_modules/vue/dist')))
+    app.use(express.static(path.join(__dirname, '/node_modules/socket.io-client/dist')))
+    app.use((req, res) => res.redirect('/'))
 
-    //  Set helmet and rate limit config.
-    app.use(helmet());
-    app.set('trust proxy', 1);
-    app.use(rateLimit({
-        windowMs: 60 * 1000,
-        max: 400
-    }));
+    const { key, cert } = require('./config/ssl')
+    const server = key && cert
+        ? require('https').createServer({ key, cert }, app)
+        : require('http').createServer(app)
 
-    //  Set cookie config.
-    app.use(cookieSession({
-        maxAge: 24*60*60*1000,
-        keys: process.env.COOKIE_KEY.split(";")
-    }));
-
-    //  Set passport config and encode bodyParser to be able to carry jsons in body.
-    app.use(passport.initialize());
-    app.use(passport.session({
-        secret: process.env.COOKIE_KEY.split(";"),
-        saveUninitialized: false,
-        resave: false
-    }));
-    app.use(bodyParser.urlencoded({ extended: true }));
-
-    //  Check if browser is 'IE', then check if user has permission to access static files, then check for url.
-    app.use("/", utils.checkBrowser, utils.authStaticRoute, routes);
-    //  Serve static files.
-    app.use(express.static(__dirname + '/static'));
-    app.use(express.static(__dirname + '/node_modules/vue/dist'));
-    app.use(express.static(__dirname + '/node_modules/socket.io-client/dist'));
-    //  If url not found, redirect to home page.
-    app.use((req,res) => { res.redirect("/"); });
-
-    //  Create server depending on if local or on heroku, for https.
-    let server = process.env.URL.includes("localhost") ?
-        require("https").createServer({
-            key: fs.readFileSync("./ssl/localhost-key.pem"),
-            cert: fs.readFileSync("./ssl/localhost-cert.pem")
-        }, app) : require("http").createServer(app);
-
-    //  Listen to server and setup socket connections.
-    server.listen(port,() => {
-        console.log(`Server connected at: ${port}`);
-    });
-    require("./setup/socket-setup")(server).then();
-});
+    server.listen(port, () => console.log('Server connected at: ' + port))
+    require('./config/socket').setup(server).then(io => require('./services/socket')(io))
+})

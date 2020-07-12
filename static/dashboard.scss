@@ -329,7 +329,7 @@ html, body {
     
     h2 { margin: 0; font-size: 46px; font-weight: normal; }
     svg { height: 55%; min-height: 150px; max-height: 200px; }
-    button {
+    a {
       font-size: 23px;
       font-weight: 500;
       padding: 18px 0;
@@ -578,7 +578,7 @@ html, body {
     height: 400px;
     h2 { font-size: 34px; }
     svg { height: 52%; }
-    button { font-size: 21px; padding: 16px 0; }
+    a { font-size: 21px; padding: 16px 0; }
   }
   .dashboard__links a { font-size: 19px; }
 }
@@ -603,7 +603,7 @@ html, body {
   }
   .dashboard__payment-details {
     h2 { font-size: 30px; }
-    button { font-size: 19px; padding: 14px 0; }
+    a { font-size: 19px; padding: 14px 0; }
   }
   .dashboard__links a { font-size: 18px; }
 }
@@ -692,7 +692,7 @@ html, body {
     height: 320px;
     h2 { font-size: 24px; }
     svg { height: 52%; }
-    button { font-size: 18px; padding: 12px 0; }
+    a { font-size: 18px; padding: 12px 0; }
   }
   .dashboard__links {
     height: 70px; min-width: 210px;
@@ -723,7 +723,7 @@ html, body {
     height: 300px;
     h2 { font-size: 22px; }
     svg { height: 50%; }
-    button { font-size: 16px; padding: 10px 0; }
+    a { font-size: 16px; padding: 10px 0; }
   }
 }
 @media screen and (max-width: 390px) {
