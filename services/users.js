@@ -37,6 +37,15 @@ const stripeCustomerChecker = async ({ dbUser, userId, username, email }) => {
     }
 }
 
+const checkInDb = async userId => {
+    try {
+        const DB_USER = await findUser(userId)
+        return Boolean(DB_USER)
+    } catch (e) {
+        return console.error('checkInDb(): ' + e.message)
+    }
+}
+
 const checkDifferences = async ({ userId, username, email, avatarUrl }) => {
     try {
         const DB_USER = await findUser(userId)
@@ -69,7 +78,7 @@ const createUser = async ({ userId, username, email, avatarUrl }) => {
         const CUSTOMER = CUSTOMERS.find(c => c.description === userId)
         const STRIPE_ID = CUSTOMER
             ? CUSTOMER.id
-            : await createCustomer({ userId, name: username, email })
+            : (await createCustomer({ userId, name: username, email }))?.id
 
         const USER = await insertUser({ userId, stripeId: STRIPE_ID, username, email, avatarUrl })
         if (USER) return USER
@@ -81,13 +90,16 @@ const createUser = async ({ userId, username, email, avatarUrl }) => {
 
 const userLogin = async ({ userId, username, email, avatarUrl }) => {
     try {
-        await validation({ userId, username, email, avatarUrl })
+        if (!(await validation({ userId, username, email, avatarUrl }))) return
 
-        if (await checkDifferences({ userId, username, email, avatarUrl })) console.log(`User '${username}' logged in.`)
-        else {
-            await createUser({ userId, username, email, avatarUrl })
+        const IN_DB = await checkInDb(userId)
+        if (IN_DB) {
+            if (!(await checkDifferences({ userId, username, email, avatarUrl }))) return
+            console.log(`User '${username}' logged in.`)
+        } else if (IN_DB === false) {
+            if (!(await createUser({ userId, username, email, avatarUrl }))) return
             console.log(`User '${username}' inserted in db.`)
-        }
+        } else return
 
         return await findUser(userId)
     } catch (e) {

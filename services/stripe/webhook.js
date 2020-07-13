@@ -10,7 +10,7 @@ const createWebhook = async (body, signature) => {
         }).required().validateAsync({ body, signature })
         return stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_ID)
     } catch (e) {
-        return console.error('createWebhook(): ' + e.message)
+        if (!e.message.startsWith('No signatures found matching the expected signature for payload.')) console.error('createWebhook(): ' + e.message)
     }
 }
 

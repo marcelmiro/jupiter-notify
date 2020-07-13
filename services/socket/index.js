@@ -20,4 +20,15 @@ module.exports = io => {
         socket.on('get-settings', () => require('./get-settings')(socket))
         socket.on('update-setting', ({ name, value }) => require('./update-setting')({ io, socket, name, value }))
     })
+
+    const CONSOLE_LOG = console.log
+    console.log = msg => {
+        CONSOLE_LOG(msg)
+        io.sockets.emit('get-logs')
+    }
+    const CONSOLE_ERROR = console.error
+    console.error = msg => {
+        CONSOLE_ERROR(msg)
+        io.sockets.emit('get-logs')
+    }
 }

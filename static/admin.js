@@ -19,7 +19,7 @@ new Vue({
     },
 
     methods: {
-        refresh: content => {
+        refresh: function (content) {
             let button
             if (content === 'members') {
                 SOCKET.emit('get-member-list')
@@ -31,59 +31,56 @@ new Vue({
 
             if (button) {
                 button.classList.remove('animation')
-                setTimeout(() => {
-                    button.classList.add('animation')
-                }, 10)
+                setTimeout(() => button.classList.add('animation'), 10)
             }
         },
 
-        addMember: ROLE?.['modify_members'] ? () => {
+        addMember: ROLE?.['modify_members'] ? function () {
             const userId = prompt("Enter user's Discord id.")
             const role = userId ? prompt('Enter role name.') : undefined
             if (role) SOCKET.emit('add-member', { userId, role })
         } : function () {},
-        deleteMember: ROLE?.['modify_members'] ? () => {
+        deleteMember: ROLE?.['modify_members'] ? function () {
             if (!this.memberEdit?.user?.userId) return console.error('deleteMember(): User id in \'this.memberEdit\' doesn\'t exist.')
             SOCKET.emit('delete-member', this.memberEdit.user.userId)
         } : function () {},
-        updateMember: ROLE?.['modify_members'] ? name => {
+        updateMember: ROLE?.['modify_members'] ? function (name) {
             if (!this.memberEdit?.user?.userId) return console.error('updateMember(): User id in \'this.memberEdit\' doesn\'t exist.')
 
             const VALUE = this.memberEdit[name] || this.memberEdit.user[name] || this.memberEdit.subscription[name]
-
             return console.log('VALUE:', VALUE)
             SOCKET.emit('update-member', { name, value: this.memberEdit[name] })
         } : function () {},
 
-        openMemberView: ROLE?.['view_members'] ? id => {
+        openMemberView: ROLE?.['view_members'] ? function (id) {
             SOCKET.emit('get-member-view', id)
             this.showMemberView = true
         } : function () {},
-        closeMemberView: ROLE?.['view_members'] ? () => {
+        closeMemberView: ROLE?.['view_members'] ? function () {
             const CONTAINER = document.querySelector('.content__members .member-details-view .container')
             if (CONTAINER) CONTAINER.scrollTop = 0
-            setTimeout(() => { this.showMemberView = false }, 0)
+            setTimeout(function () { this.showMemberView = false }, 0)
         } : function () {},
 
-        openMemberEdit: ROLE?.['modify_members'] ? id => {
+        openMemberEdit: ROLE?.['modify_members'] ? function (id) {
             SOCKET.emit('get-member-edit', id)
             this.showMemberEdit = true
         } : function () {},
-        closeMemberEdit: ROLE?.['modify_members'] ? () => {
+        closeMemberEdit: ROLE?.['modify_members'] ? function () {
             const CONTAINER = document.querySelector('.content__members .member-edit-view .container')
             if (CONTAINER) CONTAINER.scrollTop = 0
-            setTimeout(() => { this.showMemberEdit = false }, 0)
+            setTimeout(function () { this.showMemberEdit = false }, 0)
         } : function () {},
 
-        createRelease: ROLE?.['create_releases'] ? () => {
+        createRelease: ROLE?.['create_releases'] ? function () {
             const NUMBER = prompt('How many renewal licenses do you want to release?')
             if (NUMBER) SOCKET.emit('create-release', NUMBER)
         } : function () {},
-        deleteRelease: ROLE?.['create_releases'] ? () => {
+        deleteRelease: ROLE?.['create_releases'] ? function () {
             SOCKET.emit('delete-release')
         } : function () {},
 
-        updateSetting: ROLE?.['edit_config'] ? name => {
+        updateSetting: ROLE?.['edit_config'] ? function (name) {
             SOCKET.emit('update-setting', { name, value: this.settings[name] })
         } : function () {}
     },
@@ -95,7 +92,7 @@ new Vue({
     computed: {
         filteredMemberList: function () {
             if (!this.members) return
-            const members = this.members.filter(member => {
+            const members = this.members.filter(function (member) {
                 return (
                     member.username.toLowerCase().includes(this.search.toLowerCase()) &&
                     (this.dropdowns.role.name.toLowerCase() !== 'all' ? member.role.name.toLowerCase() === this.dropdowns.role.name.toLowerCase() : true)
@@ -157,7 +154,7 @@ new Vue({
             }
         },
 
-        'dropdowns.role.name': () => { this.dropdowns.role.show = false },
+        'dropdowns.role.name': function () { this.dropdowns.role.show = false },
 
         memberView: function () {
             if (!this.memberView.username) return
@@ -198,7 +195,7 @@ new Vue({
         'memberEdit.subscription_currency': function () { this.dropdowns.subscription_currency.show = false },
 
         members: function () { if (!this.members) { this.members = [] } },
-        showMemberView: function () { if (!this.showMemberView) { this.memberView = {} } },
+        showMemberView: function () { console.log('showMemberView'); if (!this.showMemberView) { this.memberView = {} } },
         showMemberEdit: function () { if (!this.showMemberEdit) { this.memberEdit = {} } },
         release: function () { if (!this.release) { this.release = {} } },
         logs: function () { if (!this.logs) { this.logs = [] } }
@@ -206,39 +203,44 @@ new Vue({
 
     mounted: function () {
         SOCKET.on('logout', () => { window.location.href = '/' })
-        SOCKET.on('send-message', msg => {
-            alert(msg)
-            // TODO Not sure if this works.
-            if (msg.includes('has no role now.')) this.memberView = {}
-        })
+        SOCKET.on('send-message', msg => alert(msg))
         SOCKET.on('send-error', msg => {
             console.error(msg)
             alert(msg)
         })
 
-        SOCKET.on('get-member-list', () => SOCKET.emit('get-member-list'))
-        SOCKET.on('set-member-list', list => { this.members = list || []; lengthManager() })
-        SOCKET.on('set-member-view', data => { this.memberView = data || {} })
+        SOCKET.on('get-member-list', function () { SOCKET.emit('get-member-list') })
+        SOCKET.on('set-member-list', function (list) { this.members = list || []; lengthManager() })
+
+        if (ROLE?.['view_members']) {
+            SOCKET.on('set-member-view', function (data) { this.memberView = data || {} })
+            SOCKET.on('close-member-view', function () { this.closeMemberView() })
+        }
 
         if (ROLE?.['modify_members']) {
-            SOCKET.on('get-member-edit', () => SOCKET.emit('get-member-edit'))
-            SOCKET.on('set-member-edit', data => { this.memberEdit = data || {} })
+            SOCKET.on('get-member-edit', function () { SOCKET.emit('get-member-edit') })
+            SOCKET.on('set-member-edit', function (data) { this.memberEdit = data || {} })
         }
 
         if (ROLE?.['create_releases']) {
-            SOCKET.on('get-release', () => SOCKET.emit('get-release'))
-            SOCKET.on('set-release', data => { this.release = data || {} })
+            SOCKET.on('get-release', function () { SOCKET.emit('get-release') })
+            SOCKET.on('set-release', function (data) { this.release = data || {} })
         }
 
         if (ROLE?.['view_console']) {
-            SOCKET.on('get-logs', () => SOCKET.emit('get-logs'))
-            SOCKET.on('send-logs', data => { this.logs = data || [] })
+            const CONTENT = document.querySelector('.content > div.content__console')
+            SOCKET.on('get-logs', function () { SOCKET.emit('get-logs') })
+            SOCKET.on('send-logs', function (data) {
+                this.logs = data || []
+                CONTENT.scrollTop = CONTENT.scrollHeight
+            })
         }
 
         if (ROLE?.['edit_config']) {
-            SOCKET.on('get-settings', () => SOCKET.emit('get-settings'))
-            SOCKET.on('set-settings', data => { this.settings = data || {} })
+            SOCKET.on('get-settings', function () { SOCKET.emit('get-settings') })
+            SOCKET.on('set-settings', function (data) { this.settings = data || {} })
         }
+
         setTimeout(() => lengthManager(), 200)
     }
 })

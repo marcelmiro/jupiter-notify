@@ -187,7 +187,8 @@ const transferMembership = async (req, res) => {
 const webhook = async (req, res) => {
     try {
         const EVENT = await createWebhook(req.body, req.headers['stripe-signature'])
-        const SESSION = EVENT.data.object
+        const SESSION = EVENT?.data?.object
+        if (!SESSION) return res.json({ received: false })
         const USER = SESSION.customer ? await findUserByStripe(SESSION.customer) : undefined
         if (!USER) return res.json({ received: false })
 

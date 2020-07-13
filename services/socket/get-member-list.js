@@ -10,10 +10,12 @@ module.exports = async socket => {
         const USERS = await listUsers()
 
         for (const user of USERS) {
-            user.avatar_url = user.avatar_url.includes('.png')
-                ? user.avatar_url
-                : user.avatar_url.slice(0, user.avatar_url.indexOf('?size=')) + '.png' +
-                user.avatar_url.slice(user.avatar_url.indexOf('?size='))
+            user.avatar_url = user.avatar_url
+                ? user.avatar_url.includes('.png')
+                    ? user.avatar_url
+                    : user.avatar_url.slice(0, user.avatar_url.indexOf('?size=')) + '.png' +
+                    user.avatar_url.slice(user.avatar_url.indexOf('?size='))
+                : 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'
 
             const role = await findRoleFromUserRole(user.user_id)
             if (!role) continue

@@ -14,14 +14,14 @@ const setup = async () => {
         })
 
         const { sendLogMessage } = require('../services/discord/utils')
-        /* const TRUE_CONSOLE_LOG = console.log
+        /* const CONSOLE_LOG = console.log
         console.log = msg => {
-            TRUE_CONSOLE_LOG(msg)
-            utils.sendDiscordMessage(process.env.DISCORD_LOGGER_CHANNEL, 'INFO: ' + msg)
+            CONSOLE_LOG(msg)
+            sendLogMessage('INFO  ' + msg)
         } */
-        const TRUE_CONSOLE_ERROR = console.error
+        const CONSOLE_ERROR = console.error
         console.error = msg => {
-            TRUE_CONSOLE_ERROR(msg)
+            CONSOLE_ERROR(msg)
             sendLogMessage('ERROR  ' + msg)
         }
     } catch (e) {

@@ -20,7 +20,7 @@ module.exports = async ({ socket, userId }) => {
                 userId,
                 username: USER.username,
                 email: USER.email,
-                avatarUrl: USER.avatar_url,
+                avatarUrl: USER.avatar_url || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048',
                 stripeId: USER.stripe_id
             },
             role: ROLE.name

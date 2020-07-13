@@ -137,7 +137,7 @@
 				</div>
 			</div>
 
-			<div :class="{'member-details-view': true, 'active': showMemberView}">
+			<div class="member-details-view" :class="{'active': showMemberView}">
 				<button class="back" @click="closeMemberView">
 					<img src="assets/arrow_left.svg" alt="Arrow left" />
 				</button>
@@ -159,7 +159,7 @@
 				<div class="container" v-else>
 					<div class="container__welcome">
 						<img class="avatar"
-							 :src="memberView.user.avatarUrl || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'"
+							 :src="memberView.user.avatarUrl"
 							 alt="Discord icon" />
 						<h2>{{ memberView.user.username || "Not found" }}</h2>
 					</div>
@@ -223,7 +223,7 @@
 				<div class="container" v-else>
 					<div class="container__welcome">
 						<img class="avatar"
-							 :src="memberEdit.user.avatarUrl || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'"
+							 :src="memberEdit.user.avatarUrl"
 							 alt="Discord icon" />
 						<h2>{{ memberEdit.user.username || "Not found" }}</h2>
 					</div>
@@ -398,7 +398,7 @@
 
 
 <!--	JS LIBS	-->
-<script src="vue.min.js"></script>
+<script src="vue.js"></script>
 <script src="socket.io.js"></script>
 
 <!--    MAIN JS    -->

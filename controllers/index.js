@@ -43,7 +43,7 @@ const dashboard = async (req, res) => {
 
         const USER = {
             username: req.user.username,
-            avatarUrl: req.user.avatar_url,
+            avatarUrl: req.user.avatar_url || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048',
             inServer: Boolean(await findDiscordUser(req.user.user_id))
         }
 
@@ -94,7 +94,7 @@ const dashboard = async (req, res) => {
             membershipDetails.dateNextPayment = 'Never'
             membershipDetails.dateCreated = parseInt(req.user.date_created)
                 ? await transformDate(new Date(parseInt(req.user.date_created)))
-                : undefined
+                : 'undefined'
 
             paymentDetails = undefined
         } else return res.redirect('/')

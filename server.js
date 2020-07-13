@@ -42,5 +42,5 @@ require('./config')().then(() => {
         : require('http').createServer(app)
 
     server.listen(port, () => console.log('Server connected at: ' + port))
-    require('./config/socket').setup(server).then(io => require('./services/socket')(io))
+    require('./config/socket')(server).then(io => require('./services/socket')(io))
 })
