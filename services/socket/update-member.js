@@ -56,7 +56,7 @@ const updateSubscriptionCurrencyFunction = async ({ socket, user, value }) => {
         if (!process.env['STRIPE_PLAN_ID_' + value.toUpperCase()]) return socket.emit('send-error', 'Currency doesn\'t exist.')
 
         if (!(await deleteCustomer(user.stripe_id))) return socket.emit('send-error', 'Error on deleting customer.')
-        const CUSTOMER_ID = await createCustomer({ userId: user.user_id, name: user.username, email: user.email })
+        const CUSTOMER_ID = (await createCustomer({ userId: user.user_id, name: user.username, email: user.email }))?.id
         if (!CUSTOMER_ID) return socket.emit('send-error', 'Error on creating customer.')
         if (!(await updateUser(user.user_id, 'stripe_id', CUSTOMER_ID))) return socket.emit('send-error', 'Couldn\'t update stripe id in database.')
 

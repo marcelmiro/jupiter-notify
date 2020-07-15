@@ -126,7 +126,7 @@
 
 			<div class="member" v-for="member in this.filteredMemberList">
 				<div class="member__info">
-					<img :src="member.avatarUrl" alt="Discord icon" />
+					<img :src="member.avatarUrl" @error="(() => member.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')" alt="Discord icon" />
 					<span>{{ member.username }}</span>
 					<button class="tag" :style="'background-color:' + member.role.color">{{ member.role.name }}</button>
 				</div>
@@ -164,6 +164,7 @@
 					<div class="container__welcome">
 						<img class="avatar"
 							 :src="memberView.user.avatarUrl"
+							 @error="(() => memberView.user.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')"
 							 alt="Discord icon" />
 						<h2>{{ memberView.user.username || "Not found" }}</h2>
 					</div>
@@ -228,6 +229,7 @@
 					<div class="container__welcome">
 						<img class="avatar"
 							 :src="memberEdit.user.avatarUrl"
+							 @error="(() => memberEdit.user.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')"
 							 alt="Discord icon" />
 						<h2>{{ memberEdit.user.username || "Not found" }}</h2>
 					</div>
@@ -409,6 +411,10 @@
 <script type="text/javascript">
 	const ROLE = JSON.parse('<%- JSON.stringify(role) %>');
 	const SOCKET = io();
+	SOCKET.emit('get-member-list')
+	SOCKET.emit('get-release')
+	SOCKET.emit('get-logs')
+	SOCKET.emit('get-settings')
 </script>
 <script src="admin.js"></script>
 </body>

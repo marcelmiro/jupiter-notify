@@ -9,7 +9,7 @@ module.exports = io => {
         socket.on('get-member-edit', userId => require('./get-member-edit')({ socket, userId }))
 
         socket.on('add-member', ({ userId, role }) => require('./add-member')({ io, socket, userId, role }))
-        socket.on('delete-member', ({ userId }) => require('./delete-member')({ io, socket, userId }))
+        socket.on('delete-member', userId => require('./delete-member')({ io, socket, userId }))
         socket.on('update-member', ({ userId, name, value }) => require('./update-member')({ io, socket, userId, name, value }))
 
         socket.on('get-release', () => require('./get-release')(socket))

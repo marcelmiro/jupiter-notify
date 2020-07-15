@@ -108,7 +108,7 @@ const cancelMembership = async (req, res) => {
             if (response) await kickDiscordUser(req.user.user_id)
         }
 
-        if (response) console.log(`User '${req.user.username}' has cancelled its membership.`)
+        if (response) console.log(`User '${req.user.username}' has cancelled its '${ROLE.name.toLowerCase()}' license.`)
         else console.error('Route \'/stripe/cancel-membership\': An unexpected error occurred.')
         if (ROLE.name.toLowerCase() === 'renewal') res.redirect('/dashboard')
         else res.render('response', { status: 'cancel-role' })
@@ -204,7 +204,7 @@ const webhook = async (req, res) => {
 
                 if (!(await findUserRole(USER.user_id))) {
                     const RENEWAL_ROLE = await findRoleByName('renewal')
-                    if (RENEWAL_ROLE) await insertUserRole(USER.user_id, RENEWAL_ROLE.id)
+                    if (RENEWAL_ROLE) await insertUserRole(USER.user_id, RENEWAL_ROLE.role_id)
                 }
 
                 console.log(`User '${USER.username}' has bought a subscription.`)

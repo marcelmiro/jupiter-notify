@@ -23,7 +23,7 @@ module.exports = async ({ io, socket, userId }) => {
         }
 
         if (ROLE.name.toLowerCase() === 'renewal') {
-            const CUSTOMER = findCustomer(USER.stripe_id)
+            const CUSTOMER = await findCustomer(USER.stripe_id)
             const SUBSCRIPTION = CUSTOMER?.subscriptions.data[0]
             if (SUBSCRIPTION) await deleteSubscription(SUBSCRIPTION.id)
         }
@@ -31,7 +31,7 @@ module.exports = async ({ io, socket, userId }) => {
         if (await deleteUserRole(userId)) {
             console.log(`User '${socket.request.user.username}' deleted user '${USER.username}'.`)
             io.sockets.emit('get-member-list')
-            socket.emit('close-member-view')
+            socket.emit('close-member-edit')
             socket.emit('send-message', `User '${USER.username}' has been deleted.`)
             await kickDiscordUser(userId)
         } else socket.emit('send-error', 'Couldn\'t delete user role from database.')

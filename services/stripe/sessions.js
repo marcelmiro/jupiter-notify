@@ -19,18 +19,16 @@ const createSubscriptionSession = async (customerId, currency) => {
         currency = currency && process.env['STRIPE_PLAN_ID_' + currency.toUpperCase()]
             ? currency : undefined
 
-        console.debug('CUSTOMER.currency:', CUSTOMER.currency)
-        console.debug('currency:', currency)
-
         let planId
         if (CUSTOMER.currency && currency) {
             if (CUSTOMER.currency !== currency) {
                 await deleteCustomer(customerId)
-                customerId = await createCustomer({
+                customerId = (await createCustomer({
                     userId: CUSTOMER.description,
                     name: CUSTOMER.name,
                     email: CUSTOMER.email
-                })
+                }))?.id
+                if (!customerId) return console.error('createSubscriptionSession(): Variable \'customerId\' is undefined.')
                 await updateUser(CUSTOMER.description, 'stripe_id', customerId)
             }
             planId = process.env['STRIPE_PLAN_ID_' + currency.toUpperCase()]

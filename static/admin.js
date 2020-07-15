@@ -225,7 +225,7 @@ new Vue({
 
         if (ROLE.view_members) {
             SOCKET.on('set-member-view', data => { this.memberView = data || {} })
-            SOCKET.on('close-member-view', () => this.closeMemberView())
+            SOCKET.on('close-member-edit', () => this.closeMemberEdit())
         }
 
         if (ROLE.modify_members) {

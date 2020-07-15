@@ -32,7 +32,7 @@ const findRoleFromUserRole = async id => {
 
 const insertUserRole = async (userId, roleId) => {
     try {
-        await model.schema.validateAsync({ userId: userId, roleId: roleId })
+        await model.schema.validateAsync({ userId, roleId })
         return await client.query(
             'INSERT INTO user_roles (user_id, role_id) VALUES ($1, $2)',
             [userId, roleId]
@@ -62,7 +62,7 @@ const deleteUserRole = async id => {
 
         if (await findUserRole(id)) {
             return await client.query('DELETE FROM user_roles WHERE user_id = $1', [id])
-        } else return console.error('deleteUserRole(): User id not found.')
+        }
     } catch (e) {
         return console.error('deleteUserRole(): ' + e.message)
     }

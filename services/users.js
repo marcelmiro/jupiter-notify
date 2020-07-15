@@ -27,7 +27,8 @@ const stripeCustomerChecker = async ({ dbUser, userId, username, email }) => {
             await updateUser(userId, 'stripe_id', CUSTOMER.id)
             console.log(`Stripe id for user '${username}' changed.`)
         } else {
-            const STRIPE_ID = await createCustomer({ userId, name: username, email })
+            const STRIPE_ID = (await createCustomer({ userId, name: username, email }))?.id
+            if (!STRIPE_ID) return console.error('stripeCustomerChecker(): Variable \'STRIPE_ID\' is undefined.')
             await updateUser(userId, 'stripe_id', STRIPE_ID)
             console.log(`Couldn't find customer linked to '${username}' so created new stripe customer.`)
         }
@@ -80,6 +81,7 @@ const createUser = async ({ userId, username, email, avatarUrl }) => {
             ? CUSTOMER.id
             : (await createCustomer({ userId, name: username, email }))?.id
 
+        if (!STRIPE_ID) return console.error('createUser(): Variable \'STRIPE_ID\' is undefined.')
         const USER = await insertUser({ userId, stripeId: STRIPE_ID, username, email, avatarUrl })
         if (USER) return USER
         return console.error('createUser(): Something went wrong.')
