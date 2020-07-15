@@ -1,3 +1,5 @@
+'use strict'
+
 const LENGTH_DISCORD_USERNAME = {
     container: document.querySelector('.dashboard__welcome .h1-container'),
     element: document.getElementById('discord-username'),

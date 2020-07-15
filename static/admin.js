@@ -1,3 +1,5 @@
+'use strict'
+
 new Vue({
     el: 'main',
     data: {
@@ -35,54 +37,63 @@ new Vue({
             }
         },
 
-        addMember: ROLE?.['modify_members'] ? function () {
+        addMember: function () {
+            if (!ROLE.modify_members) return
             const userId = prompt("Enter user's Discord id.")
             const role = userId ? prompt('Enter role name.') : undefined
             if (role) SOCKET.emit('add-member', { userId, role })
-        } : function () {},
-        deleteMember: ROLE?.['modify_members'] ? function () {
+        },
+        deleteMember: function () {
+            if (!ROLE.modify_members) return
             if (!this.memberEdit?.user?.userId) return console.error('deleteMember(): User id in \'this.memberEdit\' doesn\'t exist.')
             SOCKET.emit('delete-member', this.memberEdit.user.userId)
-        } : function () {},
-        updateMember: ROLE?.['modify_members'] ? function (name) {
+        },
+        updateMember: function (name) {
+            if (!ROLE.modify_members) return
             if (!this.memberEdit?.user?.userId) return console.error('updateMember(): User id in \'this.memberEdit\' doesn\'t exist.')
-
             const VALUE = this.memberEdit[name] || this.memberEdit.user[name] || this.memberEdit.subscription[name]
             return console.log('VALUE:', VALUE)
             SOCKET.emit('update-member', { name, value: this.memberEdit[name] })
-        } : function () {},
+        },
 
-        openMemberView: ROLE?.['view_members'] ? function (id) {
+        openMemberView: function (id) {
+            if (!ROLE.view_members) return
             SOCKET.emit('get-member-view', id)
             this.showMemberView = true
-        } : function () {},
-        closeMemberView: ROLE?.['view_members'] ? function () {
+        },
+        closeMemberView: function () {
+            if (!ROLE.view_members) return
             const CONTAINER = document.querySelector('.content__members .member-details-view .container')
             if (CONTAINER) CONTAINER.scrollTop = 0
-            setTimeout(function () { this.showMemberView = false }, 0)
-        } : function () {},
+            setTimeout(() => { this.showMemberView = false }, 0)
+        },
 
-        openMemberEdit: ROLE?.['modify_members'] ? function (id) {
+        openMemberEdit: function (id) {
+            if (!ROLE.modify_members) return
             SOCKET.emit('get-member-edit', id)
             this.showMemberEdit = true
-        } : function () {},
-        closeMemberEdit: ROLE?.['modify_members'] ? function () {
+        },
+        closeMemberEdit: function () {
+            if (!ROLE.modify_members) return
             const CONTAINER = document.querySelector('.content__members .member-edit-view .container')
             if (CONTAINER) CONTAINER.scrollTop = 0
-            setTimeout(function () { this.showMemberEdit = false }, 0)
-        } : function () {},
+            setTimeout(() => { this.showMemberEdit = false }, 0)
+        },
 
-        createRelease: ROLE?.['create_releases'] ? function () {
+        createRelease: function () {
+            if (!ROLE.create_releases) return
             const NUMBER = prompt('How many renewal licenses do you want to release?')
             if (NUMBER) SOCKET.emit('create-release', NUMBER)
-        } : function () {},
-        deleteRelease: ROLE?.['create_releases'] ? function () {
+        },
+        deleteRelease: function () {
+            if (!ROLE.create_releases) return
             SOCKET.emit('delete-release')
-        } : function () {},
+        },
 
-        updateSetting: ROLE?.['edit_config'] ? function (name) {
+        updateSetting: function (name) {
+            if (!ROLE.edit_config) return
             SOCKET.emit('update-setting', { name, value: this.settings[name] })
-        } : function () {}
+        }
     },
 
     filters: {
@@ -91,8 +102,8 @@ new Vue({
 
     computed: {
         filteredMemberList: function () {
-            if (!this.members) return
-            const members = this.members.filter(function (member) {
+            if (!this.members || this.members.length === 0) return
+            const members = this.members.filter(member => {
                 return (
                     member.username.toLowerCase().includes(this.search.toLowerCase()) &&
                     (this.dropdowns.role.name.toLowerCase() !== 'all' ? member.role.name.toLowerCase() === this.dropdowns.role.name.toLowerCase() : true)
@@ -158,7 +169,7 @@ new Vue({
 
         memberView: function () {
             if (!this.memberView.username) return
-            setTimeout(function () {
+            setTimeout(() => {
                 const username = document.querySelector('.content__members .member-details-view .container h2')
                 let firstLoop = true
                 const usernameLoop = () => {
@@ -176,7 +187,7 @@ new Vue({
         },
         memberEdit: function () {
             if (!this.memberEdit.username) return
-            setTimeout(function () {
+            setTimeout(() => {
                 const username = document.querySelector('.content__members .member-edit-view .container h2')
                 let firstLoop = true
                 const usernameLoop = () => {
@@ -195,7 +206,7 @@ new Vue({
         'memberEdit.subscription_currency': function () { this.dropdowns.subscription_currency.show = false },
 
         members: function () { if (!this.members) { this.members = [] } },
-        showMemberView: function () { console.log('showMemberView'); if (!this.showMemberView) { this.memberView = {} } },
+        showMemberView: function () { if (!this.showMemberView) { this.memberView = {} } },
         showMemberEdit: function () { if (!this.showMemberEdit) { this.memberEdit = {} } },
         release: function () { if (!this.release) { this.release = {} } },
         logs: function () { if (!this.logs) { this.logs = [] } }
@@ -209,43 +220,44 @@ new Vue({
             alert(msg)
         })
 
-        SOCKET.on('get-member-list', function () { SOCKET.emit('get-member-list') })
-        SOCKET.on('set-member-list', function (list) { this.members = list || []; lengthManager() })
+        SOCKET.on('get-member-list', () => SOCKET.emit('get-member-list'))
+        SOCKET.on('set-member-list', list => { this.members = list || []; usernameLengthMemberList() })
 
-        if (ROLE?.['view_members']) {
-            SOCKET.on('set-member-view', function (data) { this.memberView = data || {} })
-            SOCKET.on('close-member-view', function () { this.closeMemberView() })
+        if (ROLE.view_members) {
+            SOCKET.on('set-member-view', data => { this.memberView = data || {} })
+            SOCKET.on('close-member-view', () => this.closeMemberView())
         }
 
-        if (ROLE?.['modify_members']) {
-            SOCKET.on('get-member-edit', function () { SOCKET.emit('get-member-edit') })
-            SOCKET.on('set-member-edit', function (data) { this.memberEdit = data || {} })
+        if (ROLE.modify_members) {
+            SOCKET.on('get-member-edit', () => SOCKET.emit('get-member-edit'))
+            SOCKET.on('set-member-edit', data => { this.memberEdit = data || {} })
         }
 
-        if (ROLE?.['create_releases']) {
-            SOCKET.on('get-release', function () { SOCKET.emit('get-release') })
-            SOCKET.on('set-release', function (data) { this.release = data || {} })
+        if (ROLE.create_releases) {
+            SOCKET.on('get-release', () => SOCKET.emit('get-release'))
+            SOCKET.on('set-release', data => { this.release = data || {} })
         }
 
-        if (ROLE?.['view_console']) {
+        if (ROLE.view_console) {
             const CONTENT = document.querySelector('.content > div.content__console')
-            SOCKET.on('get-logs', function () { SOCKET.emit('get-logs') })
-            SOCKET.on('send-logs', function (data) {
+
+            SOCKET.on('get-logs', () => SOCKET.emit('get-logs'))
+            SOCKET.on('send-logs', data => {
                 this.logs = data || []
                 CONTENT.scrollTop = CONTENT.scrollHeight
             })
         }
 
-        if (ROLE?.['edit_config']) {
-            SOCKET.on('get-settings', function () { SOCKET.emit('get-settings') })
-            SOCKET.on('set-settings', function (data) { this.settings = data || {} })
+        if (ROLE.edit_config) {
+            SOCKET.on('get-settings', () => SOCKET.emit('get-settings'))
+            SOCKET.on('set-settings', data => { this.settings = data || {} })
         }
 
-        setTimeout(() => lengthManager(), 200)
+        setTimeout(() => usernameLengthMemberList(), 200)
     }
 })
 
-const lengthManager = () => {
+const usernameLengthMemberList = () => {
     const USERNAMES = document.querySelectorAll('.content__members .member span')
 
     USERNAMES.forEach(username => {

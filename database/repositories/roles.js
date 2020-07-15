@@ -16,7 +16,8 @@ const findRole = async id => {
         return (
             await client.query(
                 'SELECT * FROM roles NATURAL JOIN role_permissions WHERE role_id = $1',
-                [id])
+                [id]
+            )
         ).rows[0]
     } catch (e) {
         return console.error('findRole(): ' + e.message)
@@ -36,4 +37,18 @@ const findRoleByName = async name => {
     }
 }
 
-module.exports = { listRoles, findRole, findRoleByName }
+const findRolePermissions = async id => {
+    try {
+        await model.roleId.validateAsync(id)
+        return (
+            await client.query(
+                'SELECT * FROM role_permissions WHERE role_id = $1',
+                [id]
+            )
+        ).rows[0]
+    } catch (e) {
+        return console.error('findRolePermissions(): ' + e.message)
+    }
+}
+
+module.exports = { listRoles, findRole, findRoleByName, findRolePermissions }

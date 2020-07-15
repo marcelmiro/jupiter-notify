@@ -1,6 +1,6 @@
 'use strict'
 const Joi = require('@hapi/joi')
-const { findRoleByName } = require('../database/repositories/roles')
+const { findRoleByName, findRolePermissions } = require('../database/repositories/roles')
 const { findUserRole, findRoleFromUserRole, insertUserRole, deleteUserRole } = require('../database/repositories/user-roles')
 const { customers: { findCustomer }, paymentMethods: { findPaymentMethod } } = require('../services/stripe')
 const { findDiscordUser, inviteDiscordUser, kickDiscordUser, sendSupportMessage } = require('../services/discord/utils')
@@ -114,10 +114,11 @@ const dashboard = async (req, res) => {
 const admin = async (req, res) => {
     try {
         if (!req.user) return res.redirect('/')
-        const ROLE = await findRoleFromUserRole(req.user.user_id)
-        if (!ROLE?.['admin_panel']) return res.redirect('/')
+        const USER_ROLE = await findUserRole(req.user.user_id)
+        const ROLE_PERMS = USER_ROLE?.['role_id'] ? await findRolePermissions(USER_ROLE.role_id) : undefined
+        if (!ROLE_PERMS?.['admin_panel']) return res.redirect('/')
 
-        res.render('admin', { role: ROLE })
+        res.render('admin', { role: ROLE_PERMS })
     } catch (e) {
         console.error('Route \'/admin\': ' + e.message)
         res.redirect('/')
