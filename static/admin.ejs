@@ -384,6 +384,16 @@
 					<input id="setting-discord_guild_id" type="text" placeholder="guild id" v-model="settings['DISCORD_GUILD_ID']" @keyup.enter="updateSetting('DISCORD_GUILD_ID')" />
 					<button class="button" @click="updateSetting('DISCORD_GUILD_ID')">Update</button>
 				</div>
+				<div>
+					<label for="setting-discord_logger_channel">logger channel</label>
+					<input id="setting-discord_logger_channel" type="text" placeholder="logger channel" v-model="settings['DISCORD_LOGGER_CHANNEL']" @keyup.enter="updateSetting('DISCORD_LOGGER_CHANNEL')" />
+					<button class="button" @click="updateSetting('DISCORD_LOGGER_CHANNEL')">Update</button>
+				</div>
+				<div>
+					<label for="setting-discord_support_channel">support channel</label>
+					<input id="setting-discord_support_channel" type="text" placeholder="support channel" v-model="settings['DISCORD_SUPPORT_CHANNEL']" @keyup.enter="updateSetting('DISCORD_SUPPORT_CHANNEL')" />
+					<button class="button" @click="updateSetting('DISCORD_SUPPORT_CHANNEL')">Update</button>
+				</div>
 
 				<h2>Logger config</h2>
 				<div>

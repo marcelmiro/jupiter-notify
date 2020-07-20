@@ -3,6 +3,7 @@ const Joi = require('@hapi/joi')
 const { findUser } = require('../../database/repositories/users')
 const { findUserRole, insertUserRole } = require('../../database/repositories/user-roles')
 const { listRoles } = require('../../database/repositories/roles')
+const { addDiscordRole } = require('../discord/utils')
 
 module.exports = async ({ io, socket, userId, role }) => {
     try {
@@ -33,6 +34,7 @@ module.exports = async ({ io, socket, userId, role }) => {
             console.log(`User '${socket.request.user.username}' added '${USER.username}' to '${ROLE.name}'s role.`)
             io.sockets.emit('get-member-list')
             socket.emit('send-message', `User '${USER.username}' added to '${ROLE.name}'s role.`)
+            await addDiscordRole(userId, ROLE.role_id)
         } else socket.emit('send-error', 'Couldn\'t insert user role to database.')
     } catch (e) {
         console.error('Socket \'add-member\': ' + e.message)

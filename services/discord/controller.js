@@ -10,7 +10,7 @@ const newDiscordMember = async member => {
 
         const ROLE = await findUserRole(member.user.id)
         if (!ROLE?.['role_id']) return
-        return addDiscordRole(member.user.id, ROLE.role_id)
+        return await addDiscordRole(member.user.id, ROLE.role_id)
     } catch (e) {
         return console.error('newDiscordMember(): ' + e.message)
     }

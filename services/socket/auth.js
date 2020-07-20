@@ -1,9 +1,6 @@
 'use strict'
 const { name, keys } = require('../../config/cookies')
-const session = require('cookie-session')({
-    name: name,
-    keys: keys
-})
+const session = require('cookie-session')({ name, keys })
 const { findUserByCookie } = require('../../database/repositories/users')
 const { findRoleFromUserRole } = require('../../database/repositories/user-roles')
 

@@ -11,7 +11,7 @@ const {
     setupIntents: { findSetupIntent },
     webhook: { createWebhook }
 } = require('../services/stripe')
-const { kickDiscordUser } = require('../services/discord/utils')
+const { kickDiscordUser, addDiscordRole } = require('../services/discord/utils')
 const { getRelease, deleteRelease, useRelease } = require('../services/releases')
 const { inStock } = require('../utils')
 
@@ -204,7 +204,10 @@ const webhook = async (req, res) => {
 
                 if (!(await findUserRole(USER.user_id))) {
                     const RENEWAL_ROLE = await findRoleByName('renewal')
-                    if (RENEWAL_ROLE) await insertUserRole(USER.user_id, RENEWAL_ROLE.role_id)
+                    if (RENEWAL_ROLE) {
+                        await insertUserRole(USER.user_id, RENEWAL_ROLE.role_id)
+                        await addDiscordRole(USER.user_id, RENEWAL_ROLE.role_id)
+                    }
                 }
 
                 console.log(`User '${USER.username}' has bought a subscription.`)
