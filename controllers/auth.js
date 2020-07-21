@@ -36,12 +36,13 @@ const logout = async (req, res) => {
 
 const redirect = async (req, res) => {
     try {
-        if (!req.user) return res.redirect('/')
-        if (await findUserRole(req.user.user_id)) return res.redirect('/dashboard')
-
-        const { returnTo } = req.query.state
+        const { mode, returnTo } = req.query.state
             ? JSON.parse(Buffer.from(req.query.state, 'base64').toString())
             : {}
+
+        if (mode && mode === 'api') return res.redirect('/api/login/redirect')
+        if (!req.user) return res.redirect('/')
+        if (await findUserRole(req.user.user_id)) return res.redirect('/dashboard')
         if (!returnTo || !(typeof returnTo === 'string' && returnTo.length > 0)) return res.redirect('/')
 
         if (returnTo.startsWith('/')) return res.redirect(returnTo)

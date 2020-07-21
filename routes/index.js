@@ -4,6 +4,7 @@ const { index, dashboard, admin, discordJoin, sendSupport } = require('../contro
 
 router.use('/auth', require('./auth'))
 router.use('/stripe', require('./stripe'))
+router.use('/api', require('./api'))
 
 router.get('/', index)
 
