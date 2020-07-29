@@ -452,7 +452,8 @@ button.button, a.button, input.button {
       width: 100%;
       display: flex;
       flex-flow: row nowrap;
-      justify-content: space-between;
+      //justify-content: space-between;
+      justify-content: center;
       align-items: center;
       > div {
         position: relative;
