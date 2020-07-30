@@ -1,35 +1,24 @@
 'use strict'
 
-function smoothScroll () {
+const smoothScroll = () => {
     $('a[href*="#"]:not([href="#"])').click(function () {
         $('html, body').clearQueue()
-
-        if (location.pathname.replace(/^\//, '') ===
-            this.pathname.replace(/^\//, '') && location.hostname === this.hostname) {
+        if (
+            location.pathname.replace(/^\//, '') ===
+            this.pathname.replace(/^\//, '') &&
+            location.hostname === this.hostname
+        ) {
             let target = $(this.hash)
             target = target.length ? target : $('[name=' + this.hash.slice(1) + ']')
-
-            if (target.length) {
-                if ($(window).width() <= 700) {
-                    $('html, body').animate({
-                        scrollTop: target.offset().top
-                    }, 1500)
-                } else {
-                    $('html, body').animate({
-                        scrollTop: target.offset().top
-                    }, 1500)
-                }
-
-                return false
-            }
+            if (target.length) $('html, body').animate({ scrollTop: target.offset().top }, 1500)
         }
     })
 }
 
-function fadeOutLoader () {
+const fadeOutLoader = () => {
     const loaderStyle = document.getElementsByClassName('loader')[0].style
 
-    loaderStyle.opacity = 1;
+    loaderStyle.opacity = (1).toString();
     (function fade () {
         (loaderStyle.opacity -= (0.08).toString()) < 0
             ? loaderStyle.display = 'none'
@@ -49,15 +38,9 @@ if (document.querySelector('.currency-popup')) {
     })
 
     const CURRENCY_DROPDOWN = document.querySelector('.currency-popup .dropdown')
-    CURRENCY_DROPDOWN.addEventListener('mouseenter', () => {
-        CURRENCY_DROPDOWN.classList.add('active')
-    })
-    CURRENCY_DROPDOWN.addEventListener('mouseleave', () => {
-        CURRENCY_DROPDOWN.classList.remove('active')
-    })
-    CURRENCY_DROPDOWN.addEventListener('click', () => {
-        CURRENCY_DROPDOWN.classList.toggle('active')
-    })
+    CURRENCY_DROPDOWN.addEventListener('mouseenter', () => CURRENCY_DROPDOWN.classList.add('active'))
+    CURRENCY_DROPDOWN.addEventListener('mouseleave', () => CURRENCY_DROPDOWN.classList.remove('active'))
+    CURRENCY_DROPDOWN.addEventListener('click', () => CURRENCY_DROPDOWN.classList.toggle('active'))
 
     let currency = 'EUR'
     CURRENCY_DROPDOWN.querySelectorAll('.dropdown__content label').forEach(label => {
@@ -91,7 +74,7 @@ if (document.getElementById('slideshow')) {
 }
 
 const accordions = document.querySelectorAll('.section-faq .container .accordion')
-function collapseList () {
+const collapseList = () => {
     accordions.forEach(accordion => {
         accordion.addEventListener('click', function () {
             this.classList.toggle('active')
@@ -112,11 +95,10 @@ function resizeCollapseList () {
 window.addEventListener('load', function () {
     smoothScroll()
     collapseList()
-    setTimeout(() => fadeOutLoader(), 200)
+    fadeOutLoader()
 })
-window.addEventListener('resize', function () {
-    resizeCollapseList()
-})
+window.addEventListener('resize', () => resizeCollapseList())
+
 if (HAS_HAMBURGER) {
     const HAMBURGER = {
         icon: document.querySelector('.section-home .navbar .hamburger'),
@@ -153,10 +135,7 @@ const sendSupport = () => {
 }
 
 const controller = new ScrollMagic.Controller()
-
-const tweenBgStars = gsap.timeline()
-tweenBgStars.to('.section-home > .bg', { y: '17vh' })
-
+const tweenBgStars = gsap.timeline().to('.section-home > .bg', { y: '17vh' })
 const sceneBgStars = new ScrollMagic.Scene({
     offset: 1,
     triggerHook: '.section-home > .bg',

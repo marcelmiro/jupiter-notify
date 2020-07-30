@@ -39,9 +39,7 @@ if (document.getElementById('transfer-membership')) {
 document.querySelectorAll('.confirm-popup .overlay,' +
     '.confirm-popup a:nth-of-type(1)').forEach(item => {
     item.addEventListener('click', () => {
-        document.querySelectorAll('.confirm-popup').forEach(popup => {
-            popup.style.display = 'none'
-        })
+        document.querySelectorAll('.confirm-popup').forEach(popup => { popup.style.display = 'none' })
     })
 })
 
@@ -50,7 +48,7 @@ document.querySelectorAll('.confirm-popup .overlay,' +
 function lengthManager () {
     LENGTH_DISCORD_USERNAME.element.textContent = LENGTH_DISCORD_USERNAME.text
     let firstLoop = true
-    function usernameLoop () {
+    const usernameLoop = () => {
         if (LENGTH_DISCORD_USERNAME.element.offsetWidth + 10 >= LENGTH_DISCORD_USERNAME.container.offsetWidth) {
             if (firstLoop) {
                 firstLoop = false
@@ -66,7 +64,7 @@ function lengthManager () {
     if (LENGTH_CC_NAME) {
         LENGTH_CC_NAME.element.textContent = LENGTH_CC_NAME.text
         firstLoop = true
-        function cardNameLoop () {
+        const cardNameLoop = () => {
             if (LENGTH_CC_NAME.element.getBoundingClientRect().width + 10 >= LENGTH_CC_NAME.container.getBoundingClientRect().width) {
                 if (firstLoop) {
                     firstLoop = false

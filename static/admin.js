@@ -262,7 +262,7 @@ const usernameLengthMemberList = () => {
 
     USERNAMES.forEach(username => {
         let firstLoop = true
-        function usernameLoop () {
+        const usernameLoop = () => {
             if (username.offsetWidth + 10 >= 400) {
                 if (firstLoop) {
                     firstLoop = false
