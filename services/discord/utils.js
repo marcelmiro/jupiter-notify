@@ -54,10 +54,8 @@ const addDiscordRole = async (id, role) => {
         }).required().validateAsync({ id, role })
 
         const USER = await findDiscordUser(id)
-        if (!USER) return console.error('addDiscordRole(): User id not found in server.')
         const ROLE = await findRole(role)
-        if (!ROLE) return console.error('addDiscordRole(): Role not found in database.')
-        if (!ROLE.discord_id) return console.error('addDiscordRole(): Role\'s Discord id not found.')
+        if (!USER || !ROLE?.['discord_id']) return
 
         return await USER.roles.add(ROLE.discord_id)
     } catch (e) {

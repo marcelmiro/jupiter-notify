@@ -1,8 +1,8 @@
 'use strict'
 const router = require('express').Router()
-const { index, dashboard, admin, discordJoin, sendSupport } = require('../controllers')
+const { index, dashboard, admin, join, sendSupport } = require('../controllers')
 
-router.use('/auth', require('./auth'))
+router.use('/', require('./auth'))
 router.use('/stripe', require('./stripe'))
 router.use('/api', require('./api'))
 
@@ -12,7 +12,7 @@ router.get('/dashboard', dashboard)
 
 router.get('/admin', admin)
 
-router.get('/discord/join', discordJoin)
+router.get('/join', join)
 
 router.post('/send-support', sendSupport)
 

@@ -13,7 +13,7 @@ passport.use(new DiscordStrategy(
     {
         clientID: process.env.DISCORD_CLIENT_ID,
         clientSecret: process.env.DISCORD_CLIENT_SECRET,
-        callbackURL: process.env.URL + '/auth/redirect'
+        callbackURL: process.env.URL + '/login/redirect'
     },
 
     /**
@@ -27,7 +27,7 @@ passport.use(new DiscordStrategy(
      */
     (accessToken, refreshToken, profile, done) => {
         const { id, username, discriminator, email, avatar } = profile
-        const AVATAR_URL = avatar
+        const avatarUrl = avatar
             ? `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`
             : 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'
 
@@ -35,7 +35,7 @@ passport.use(new DiscordStrategy(
             userId: id,
             username: `${username}#${discriminator}`,
             email,
-            avatarUrl: AVATAR_URL
+            avatarUrl
         }).then(user => done(null, user)).catch(e => console.log('Error in passport login: ' + e.message))
     }
 ))

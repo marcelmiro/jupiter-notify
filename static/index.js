@@ -70,8 +70,8 @@ if (document.querySelector('.currency-popup')) {
 
     document.querySelector('.currency-popup .container .button').addEventListener('click', () => {
         window.location.href = !currency || currency.length !== 3
-            ? IS_USER ? '/stripe/pay' : '/auth/login?pay'
-            : (IS_USER ? '/stripe/pay?currency=' : '/auth/login?pay&currency=') + currency
+            ? IS_USER ? '/stripe/pay' : '/login?pay'
+            : (IS_USER ? '/stripe/pay?currency=' : '/login?pay&currency=') + currency
     })
 }
 

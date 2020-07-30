@@ -22,7 +22,7 @@ const verifyRoute = async (req, res, next) => {
             const USER_ROLE = await findUserRole(req.user.user_id)
             if (!USER_ROLE) {
                 const CUSTOMER = await findCustomer(req.user.stripe_id)
-                if (!CUSTOMER) return res.redirect('/auth/logout')
+                if (!CUSTOMER) return res.redirect('/logout')
                 if (!CUSTOMER.subscriptions.data[0]) return res.redirect('/')
             }
             return next()

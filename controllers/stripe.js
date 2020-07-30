@@ -22,7 +22,7 @@ const pay = async (req, res) => {
         if (await findUserRole(req.user.user_id)) return res.redirect('/dashboard')
 
         const CUSTOMER = await findCustomer(req.user.stripe_id)
-        if (!CUSTOMER) return res.redirect('/auth/logout')
+        if (!CUSTOMER) return res.redirect('/logout')
         if (CUSTOMER.subscriptions.data[0]) return res.redirect('/dashboard')
 
         const CURRENCY = req.url.includes('?currency=')
@@ -97,7 +97,7 @@ const cancelMembership = async (req, res) => {
         let response
         if (ROLE.name.toLowerCase() === 'renewal') {
             const CUSTOMER = await findCustomer(req.user.stripe_id)
-            if (!CUSTOMER) return res.redirect('/auth/logout')
+            if (!CUSTOMER) return res.redirect('/logout')
             const SUBSCRIPTION = CUSTOMER.subscriptions.data[0]
             if (!SUBSCRIPTION || SUBSCRIPTION.cancel_at_period_end) return res.redirect('/dashboard')
 
@@ -126,7 +126,7 @@ const renewMembership = async (req, res) => {
         if (ROLE.name.toLowerCase() !== 'renewal') return res.redirect('/dashboard')
 
         const CUSTOMER = await findCustomer(req.user.stripe_id)
-        if (!CUSTOMER) return res.redirect('/auth/logout')
+        if (!CUSTOMER) return res.redirect('/logout')
         const SUBSCRIPTION = CUSTOMER.subscriptions.data[0]
         if (!SUBSCRIPTION?.['cancel_at_period_end']) return res.redirect('/dashboard')
 

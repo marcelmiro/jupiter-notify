@@ -19,7 +19,7 @@ const login = async (req, res) => {
             { scope: ['identify', 'email'], state }
         )(req, res)
     } catch (e) {
-        console.error('Route \'/auth/login\': ' + e.message)
+        console.error('Route \'/login\': ' + e.message)
         res.redirect('/')
     }
 }
@@ -29,12 +29,12 @@ const logout = async (req, res) => {
         req.logout()
         res.redirect('/')
     } catch (e) {
-        console.error('Route \'/auth/logout\': ' + e.message)
+        console.error('Route \'/logout\': ' + e.message)
         res.redirect('/')
     }
 }
 
-const redirect = async (req, res) => {
+const loginRedirect = async (req, res) => {
     try {
         const { mode, returnTo } = req.query.state
             ? JSON.parse(Buffer.from(req.query.state, 'base64').toString())
@@ -55,9 +55,9 @@ const redirect = async (req, res) => {
 
         res.redirect('/')
     } catch (e) {
-        console.error('Route \'/auth/redirect\': ' + e.message)
+        console.error('Route \'/login/redirect\': ' + e.message)
         res.redirect('/')
     }
 }
 
-module.exports = { login, logout, redirect }
+module.exports = { login, logout, loginRedirect }

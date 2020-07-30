@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="dashboard__join">
-        <a class="button <% if (user.inServer) { %> disabled <% } %>" href="/discord/join" target="_blank">
+        <a class="button <% if (user.inServer) { %> disabled <% } %>" href="/join" target="_blank">
             <img src="assets/icon_discord.svg" alt="Discord icon" />
             <span>Join Discord</span>
         </a>
@@ -192,7 +192,7 @@
     <% if (isAdmin) { %>
         <a class="button" href="/admin">Admin Panel</a>
     <% } %>
-    <a class="underline" href="/auth/logout">Log Out</a>
+    <a class="underline" href="/logout">Log Out</a>
 </div>
 
 <!-- PLANET OPACITY 0.34 -->
@@ -225,9 +225,6 @@
     </div>
 </div>
 
-
-<!--    JS LIBRARIES    -->
-<script src="https://js.stripe.com/v3/"></script>
 
 <!--    MAIN JS    -->
 <script type="text/javascript">

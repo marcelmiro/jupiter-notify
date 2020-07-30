@@ -24,7 +24,7 @@ const dashboard = async (req, res) => {
     try {
         if (!req.user) return res.redirect('/')
         const CUSTOMER = await findCustomer(req.user.stripe_id)
-        if (!CUSTOMER) return res.redirect('/auth/logout')
+        if (!CUSTOMER) return res.redirect('/logout')
         const SUBSCRIPTION = CUSTOMER.subscriptions.data[0]
 
         let ROLE = await findRoleFromUserRole(req.user.user_id)
@@ -125,7 +125,7 @@ const admin = async (req, res) => {
     }
 }
 
-const discordJoin = async (req, res) => {
+const join = async (req, res) => {
     try {
         if (!req.user) return res.redirect('/')
         const ROLE = await findUserRole(req.user.user_id)
@@ -134,7 +134,7 @@ const discordJoin = async (req, res) => {
         const INVITE = await inviteDiscordUser(req.user.user_id)
         INVITE ? res.redirect(INVITE) : res.send('<script>window.close();</script>')
     } catch (e) {
-        console.error('Route \'/discord/join\': ' + e.message)
+        console.error('Route \'/join\': ' + e.message)
         res.redirect('/dashboard')
     }
 }
@@ -155,4 +155,4 @@ const sendSupport = async (req, res) => {
     }
 }
 
-module.exports = { index, dashboard, admin, discordJoin, sendSupport }
+module.exports = { index, dashboard, admin, join, sendSupport }

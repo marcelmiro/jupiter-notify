@@ -4,22 +4,22 @@
   "description": "Custom dashboard for monthly subscriptions",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest --detectOpenHandles --setupFiles dotenv/config"
   },
   "engines": {
     "node": "14.x"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marcelmiro/subscription-dashboard.git"
+    "url": "git+https://github.com/marcelmiro/jupiter-notify.git"
   },
   "author": "Marcel Miro",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/marcelmiro/subscription-dashboard/issues"
+    "url": "https://github.com/marcelmiro/jupiter-notify/issues"
   },
-  "homepage": "https://github.com/marcelmiro/subscription-dashboard#readme",
+  "homepage": "https://github.com/marcelmiro/jupiter-notify#readme",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "body-parser": "^1.19.0",
@@ -39,13 +39,13 @@
     "pg": "^8.3.0",
     "simple-node-logger": "^18.12.24",
     "socket.io": "^2.3.0",
-    "stripe": "^8.69.0",
-    "uuidv4": "^6.1.1",
+    "stripe": "^8.80.0",
+    "uuidv4": "^6.2.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.4.0",
+    "eslint": "^7.5.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",

@@ -12,7 +12,8 @@ const validation = async ({ userId, username, email, avatarUrl }) => {
             avatarUrl: Joi.string().required()
         }).required().validateAsync({ userId, username, email, avatarUrl })
     } catch (e) {
-        return console.error('validation(): ' + e.message)
+        console.error('validation(): ' + e.message)
+        return console.error(JSON.stringify({ userId, username, email, avatarUrl }))
     }
 }
 
@@ -77,12 +78,12 @@ const createUser = async ({ userId, username, email, avatarUrl }) => {
     try {
         const CUSTOMERS = await listCustomers()
         const CUSTOMER = CUSTOMERS.find(c => c.description === userId)
-        const STRIPE_ID = CUSTOMER
+        const stripeId = CUSTOMER
             ? CUSTOMER.id
             : (await createCustomer({ userId, name: username, email }))?.id
 
-        if (!STRIPE_ID) return console.error('createUser(): Variable \'STRIPE_ID\' is undefined.')
-        const USER = await insertUser({ userId, stripeId: STRIPE_ID, username, email, avatarUrl })
+        if (!stripeId) return console.error('createUser(): Variable \'stripeId\' is undefined.')
+        const USER = await insertUser({ userId, stripeId, username, email, avatarUrl })
         if (USER) return USER
         return console.error('createUser(): Something went wrong.')
     } catch (e) {

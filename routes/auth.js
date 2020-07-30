@@ -1,12 +1,12 @@
 'use strict'
 const router = require('express').Router()
 const passport = require('passport')
-const { login, logout, redirect } = require('../controllers/auth')
+const { login, logout, loginRedirect } = require('../controllers/auth')
 
 router.get('/login', login)
 
-router.get('/logout', logout)
+router.get('/login/redirect', passport.authenticate('discord', { failureRedirect: '/' }), loginRedirect)
 
-router.get('/redirect', passport.authenticate('discord', { failureRedirect: '/' }), redirect)
+router.get('/logout', logout)
 
 module.exports = router
