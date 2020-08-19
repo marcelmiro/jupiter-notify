@@ -4,7 +4,7 @@ const browser = require('browser-detect')
 const { findUserRole, findRoleFromUserRole } = require('../database/repositories/user-roles')
 const { customers: { findCustomer } } = require('../services/stripe')
 
-const getBrowser = (req, res, next) => {
+const checkIEBrowser = (req, res, next) => {
     browser(req.headers['user-agent']).name === 'ie'
         ? res.render('ie') : next()
 }
@@ -61,4 +61,4 @@ const inStock = async () => {
     }
 }
 
-module.exports = { getBrowser, verifyRoute, transformDate, inStock }
+module.exports = { checkIEBrowser, verifyRoute, transformDate, inStock }

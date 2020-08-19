@@ -36,11 +36,11 @@ const transferSubscription = async ({ customerId, date, currency }) => {
         const CUSTOMER = await findCustomer(customerId)
         if (!CUSTOMER) return console.error('transferSubscription(): Stripe customer not found.')
 
-        let planId = process.env.STRIPE_PLAN_ID
-        if (CUSTOMER.currency && process.env['STRIPE_PLAN_ID_' + CUSTOMER.currency.toUpperCase()]) {
-            planId = process.env['STRIPE_PLAN_ID_' + CUSTOMER.currency.toUpperCase()]
-        } else if (currency && process.env['STRIPE_PLAN_ID_' + currency.toUpperCase()]) {
-            planId = process.env['STRIPE_PLAN_ID_' + currency.toUpperCase()]
+        let planId = process.env.STRIPE_PLAN
+        if (CUSTOMER.currency && process.env['STRIPE_PLAN_' + CUSTOMER.currency.toUpperCase()]) {
+            planId = process.env['STRIPE_PLAN_' + CUSTOMER.currency.toUpperCase()]
+        } else if (currency && process.env['STRIPE_PLAN_' + currency.toUpperCase()]) {
+            planId = process.env['STRIPE_PLAN_' + currency.toUpperCase()]
         }
 
         return await stripe.subscriptions.create({

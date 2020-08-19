@@ -27,13 +27,13 @@ module.exports = async ({ io, socket, userId, role }) => {
         const IMPORTANCE_ADMIN = socket.request.role.importance
         const IMPORTANCE_USER = ROLE.importance || 10
         if ((IMPORTANCE_ADMIN > 2 && IMPORTANCE_ADMIN >= IMPORTANCE_USER) || IMPORTANCE_ADMIN > IMPORTANCE_USER) {
-            return socket.emit('send-error', `You don't have permission to delete a user with '${ROLE.name}'s role.`)
+            return socket.emit('send-error', `You don't have permission to delete a user with '${ROLE.name}' role.`)
         }
 
         if (await insertUserRole(userId, ROLE.role_id)) {
-            console.log(`User '${socket.request.user.username}' added '${USER.username}' to '${ROLE.name}'s role.`)
+            console.log(`User '${socket.request.user.username}' added '${USER.username}' to '${ROLE.name}' role.`)
             io.sockets.emit('get-member-list')
-            socket.emit('send-message', `User '${USER.username}' added to '${ROLE.name}'s role.`)
+            socket.emit('send-message', `User '${USER.username}' added to '${ROLE.name}' role.`)
             await addDiscordRole(userId, ROLE.role_id)
         } else socket.emit('send-error', 'Couldn\'t insert user role to database.')
     } catch (e) {

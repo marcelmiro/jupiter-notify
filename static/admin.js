@@ -50,10 +50,9 @@ new Vue({
         },
         updateMember: function (name) {
             if (!ROLE.modify_members) return
-            if (!this.memberEdit?.user?.userId) return console.error('updateMember(): User id in \'this.memberEdit\' doesn\'t exist.')
-            const VALUE = this.memberEdit[name] || this.memberEdit.user[name] || this.memberEdit.subscription[name]
-            return console.log('VALUE:', VALUE)
-            SOCKET.emit('update-member', { name, value: this.memberEdit[name] })
+            if (!this.memberEdit?.userId) return console.error('updateMember(): User id in \'this.memberEdit\' doesn\'t exist.')
+            const VALUE = this.memberEdit[name]
+            SOCKET.emit('update-member', { userId: this.memberEdit.userId, name, value: this.memberEdit[name] })
         },
 
         openMemberView: function (id) {
@@ -203,7 +202,7 @@ new Vue({
                 usernameLoop()
             }, 0)
         },
-        'memberEdit.subscription_currency': function () { this.dropdowns.subscription_currency.show = false },
+        'memberEdit.subscriptionCurrency': function () { this.dropdowns.subscription_currency.show = false },
 
         members: function () { if (!this.members) { this.members = [] } },
         showMemberView: function () { if (!this.showMemberView) { this.memberView = {} } },

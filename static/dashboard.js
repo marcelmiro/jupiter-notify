@@ -33,7 +33,9 @@ if (document.getElementById('transfer-membership')) {
         document.getElementById('transfer-membership-popup').style.display = 'block'
     })
     document.querySelector('#transfer-membership-popup button').addEventListener('click', () => {
-        window.location.href = '/stripe/transfer-membership?' + document.querySelector('#transfer-membership-popup input[type=text]').value
+        const VALUE = document.querySelector('#transfer-membership-popup input[type=text]').value
+        if (isNaN(VALUE)) return alert('Input is not a Discord id.')
+        window.location.href = '/stripe/transfer-membership?' + VALUE
     })
 }
 document.querySelectorAll('.confirm-popup .overlay,' +

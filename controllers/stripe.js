@@ -1,17 +1,18 @@
 'use strict'
 const Joi = require('@hapi/joi')
 const { findUser, findUserByStripe } = require('../database/repositories/users')
-const { findUserRole, findRoleFromUserRole, insertUserRole, deleteUserRole } = require('../database/repositories/user-roles')
+const { findUserRole, findRoleFromUserRole, insertUserRole } = require('../database/repositories/user-roles')
 const { findRoleByName } = require('../database/repositories/roles')
+const { deleteUser } = require('../services/users')
 const {
     customers: { findCustomer, updateCustomer },
-    subscriptions: { updateSubscription, deleteSubscription, transferSubscription },
+    subscriptions: { updateSubscription, transferSubscription },
     paymentMethods: { attachPaymentMethod },
     sessions: { createSubscriptionSession, createEditPaymentSession },
     setupIntents: { findSetupIntent },
     webhook: { createWebhook }
 } = require('../services/stripe')
-const { kickDiscordUser, addDiscordRole } = require('../services/discord/utils')
+const { addDiscordRole } = require('../services/discord/utils')
 const { getRelease, deleteRelease, useRelease } = require('../services/releases')
 const { inStock } = require('../utils')
 
@@ -103,13 +104,11 @@ const cancelMembership = async (req, res) => {
 
             response = await updateSubscription(SUBSCRIPTION.id,
                 { proration_behavior: 'none', cancel_at_period_end: true })
-        } else {
-            response = await deleteUserRole(req.user.user_id)
-            if (response) await kickDiscordUser(req.user.user_id)
-        }
+        } else { response = await deleteUser(req.user.user_id) }
 
-        if (response) console.log(`User '${req.user.username}' has cancelled its '${ROLE.name.toLowerCase()}' license.`)
-        else console.error('Route \'/stripe/cancel-membership\': An unexpected error occurred.')
+        if (!response) return console.error('Route \'/stripe/cancel-membership\': An unexpected error occurred.')
+
+        console.log(`User '${req.user.username}' has cancelled its '${ROLE.name.toLowerCase()}' license.`)
         if (ROLE.name.toLowerCase() === 'renewal') res.redirect('/dashboard')
         else res.render('response', { status: 'cancel-role' })
     } catch (e) {
@@ -162,16 +161,15 @@ const transferMembership = async (req, res) => {
             const SUBSCRIPTION = CUSTOMER?.subscriptions.data[0]
             if (!SUBSCRIPTION) return res.render('response', { status: 'transfer-fail' })
 
-            if (await transferSubscription({
+            if (!(await transferSubscription({
                 customerId: USER.stripe_id,
                 date: SUBSCRIPTION.current_period_end,
                 currency: CUSTOMER.currency
-            })) await deleteSubscription(SUBSCRIPTION.id)
-            else return res.render('response', { status: 'transfer-fail' })
+            }))) return res.render('response', { status: 'transfer-fail' })
         }
 
         if (await insertUserRole(USER_ID, ROLE.role_id)) {
-            await deleteUserRole(req.user.user_id)
+            await deleteUser(req.user.user_id)
             console.log(`User '${req.user.username}' transferred its '${ROLE.name}' license to '${USER.username}'.`)
             res.render('response', { status: 'transfer-success' })
         } else {
@@ -226,9 +224,8 @@ const webhook = async (req, res) => {
             await updateCustomer(CUSTOMER.id, { invoice_settings: { default_payment_method: defaultPayment } })
             await updateSubscription(SUBSCRIPTION.id, { default_payment_method: defaultPayment })
         } else if (EVENT.type === 'customer.subscription.deleted') {
-            await deleteUserRole(USER.user_id)
-            await kickDiscordUser(USER.user_id)
-            console.log(`User '${USER.username}'s membership has been deleted.`)
+            await deleteUser(USER.user_id)
+            console.log(`User '${USER.username}' membership has been deleted.`)
         }
 
         res.json({ received: true })

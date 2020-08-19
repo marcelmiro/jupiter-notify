@@ -215,7 +215,7 @@
 					<img src="assets/arrow_left.svg" alt="Arrow left" />
 				</button>
 
-				<div class="loader" v-if="!memberEdit.user">
+				<div class="loader" v-if="!memberEdit.userId">
 					<svg id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 						 width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 						<path fill="#FFF" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
@@ -232,10 +232,10 @@
 				<div class="container" v-else>
 					<div class="container__welcome">
 						<img class="avatar"
-							 :src="memberEdit.user.avatarUrl"
-							 @error="(() => memberEdit.user.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')"
+							 :src="memberEdit.avatarUrl"
+							 @error="(() => memberEdit.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')"
 							 alt="Discord icon" />
-						<h2>{{ memberEdit.user.username || "Not found" }}</h2>
+						<h2>{{ memberEdit.username || "Not found" }}</h2>
 					</div>
 					<div class="container__section">
 						<div class="input-change">
@@ -245,37 +245,37 @@
 						</div>
 						<div class="input-change">
 							<label for="member-edit-email">email</label>
-							<input id="member-edit-email" type="text" v-model="memberEdit.user.email" placeholder="email" @keyup.enter="updateMember('email')" />
+							<input id="member-edit-email" type="text" v-model="memberEdit.email" placeholder="email" @keyup.enter="updateMember('email')" />
 							<button class="button" @click="updateMember('email')">Update</button>
 						</div>
 						<div class="input-change">
 							<label for="member-edit-stripe_id">stripe id</label>
-							<input id="member-edit-stripe_id" type="text" v-model="memberEdit.user.stripeId" placeholder="stripe id" @keyup.enter="updateMember('stripe_id')" />
-							<button class="button" @click="updateMember('stripe_id')">Update</button>
+							<input id="member-edit-stripe_id" type="text" v-model="memberEdit.stripeId" placeholder="stripe id" @keyup.enter="updateMember('stripeId')" />
+							<button class="button" @click="updateMember('stripeId')">Update</button>
 						</div>
-						<div class="input-change" v-if="memberEdit.subscription">
+						<div class="input-change" v-if="memberEdit.subscriptionId">
 							<label for="member-edit-subscription_currency">Sub currency</label>
 							<div class="dropdown" :class="{'active' : dropdowns.subscription_currency.show}" @mouseleave="dropdowns.subscription_currency.show = false">
 								<button class="dropdown__button" @click="dropdowns.subscription_currency.show = !dropdowns.subscription_currency.show">
-									<span>{{ memberEdit.subscription.currency.toUpperCase() }}</span>
+									<span>{{ memberEdit.subscriptionCurrency.toUpperCase() }}</span>
 									<img src="assets/arrow_dropdown.svg" alt="Arrow down" />
 								</button>
 								<div class="dropdown__content">
-									<input type="radio" name="subscription_currency" id="subscription_currency-eur" value="eur" v-model="memberEdit.subscription.currency" checked />
+									<input type="radio" name="subscription_currency" id="subscription_currency-eur" value="eur" v-model="memberEdit.subscriptionCurrency" checked />
 									<label for="subscription_currency-eur">EUR</label>
-									<input type="radio" name="subscription_currency" id="subscription_currency-usd" value="usd" v-model="memberEdit.subscription.currency" />
+									<input type="radio" name="subscription_currency" id="subscription_currency-usd" value="usd" v-model="memberEdit.subscriptionCurrency" />
 									<label for="subscription_currency-usd">USD</label>
-									<input type="radio" name="subscription_currency" id="subscription_currency-gbp" value="gbp" v-model="memberEdit.subscription.currency" />
+									<input type="radio" name="subscription_currency" id="subscription_currency-gbp" value="gbp" v-model="memberEdit.subscriptionCurrency" />
 									<label for="subscription_currency-gbp">GBP</label>
 								</div>
 							</div>
 
-							<button class="button" @click="updateMember('currency')">Update</button>
+							<button class="button" @click="updateMember('subscriptionCurrency')">Update</button>
 						</div>
-						<div class="input-change" v-if="memberEdit.subscription">
-							<label for="member-edit-trial_days">sub trial</label>
-							<input id="member-edit-trial_days" type="text" v-model="memberEdit.subscription.trial" placeholder="trial days" @keyup.enter="updateMember('trial_days')" />
-							<button class="button" @click="updateMember('trial')">Update</button>
+						<div class="input-change" v-if="memberEdit.subscriptionId">
+							<label for="member-edit-subscription_trial">sub trial</label>
+							<input id="member-edit-subscription_trial" type="text" v-model="memberEdit.subscriptionTrial" placeholder="subscription trial" @keyup.enter="updateMember('subscriptionTrial')" />
+							<button class="button" @click="updateMember('subscriptionTrial')">Update</button>
 						</div>
 					</div>
 					<div class="container__section">
@@ -337,34 +337,34 @@
 					<button class="button" @click="updateSetting('STRIPE_KEY')">Update</button>
 				</div>
 				<div>
-					<label for="setting-stripe_secret_key">secret key</label>
-					<input id="setting-stripe_secret_key" type="text" placeholder="secret key" v-model="settings['STRIPE_SECRET_KEY']" @keyup.enter="updateSetting('STRIPE_SECRET_KEY')" />
-					<button class="button" @click="updateSetting('STRIPE_SECRET_KEY')">Update</button>
+					<label for="setting-stripe_secret">secret key</label>
+					<input id="setting-stripe_secret" type="text" placeholder="secret key" v-model="settings['STRIPE_SECRET']" @keyup.enter="updateSetting('STRIPE_SECRET')" />
+					<button class="button" @click="updateSetting('STRIPE_SECRET')">Update</button>
 				</div>
 				<div>
-					<label for="setting-stripe_plan_id">plan id</label>
-					<input id="setting-stripe_plan_id" type="text" placeholder="plan id" v-model="settings['STRIPE_PLAN_ID']" @keyup.enter="updateSetting('STRIPE_PLAN_ID')" />
-					<button class="button" @click="updateSetting('STRIPE_PLAN_ID')">Update</button>
+					<label for="setting-stripe_plan">plan id</label>
+					<input id="setting-stripe_plan" type="text" placeholder="plan id" v-model="settings['STRIPE_PLAN']" @keyup.enter="updateSetting('STRIPE_PLAN')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN')">Update</button>
 				</div>
 				<div>
-					<label for="setting-stripe_plan_id_eur">plan id eur</label>
-					<input id="setting-stripe_plan_id_eur" type="text" placeholder="plan id eur" v-model="settings['STRIPE_PLAN_ID_EUR']" @keyup.enter="updateSetting('STRIPE_PLAN_ID_EUR')" />
-					<button class="button" @click="updateSetting('STRIPE_PLAN_ID_EUR')">Update</button>
+					<label for="setting-stripe_plan_eur">plan id eur</label>
+					<input id="setting-stripe_plan_eur" type="text" placeholder="plan id eur" v-model="settings['STRIPE_PLAN_EUR']" @keyup.enter="updateSetting('STRIPE_PLAN_EUR')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_EUR')">Update</button>
 				</div>
 				<div>
-					<label for="setting-stripe_plan_id_usd">plan id usd</label>
-					<input id="setting-stripe_plan_id_usd" type="text" placeholder="plan id usd" v-model="settings['STRIPE_PLAN_ID_USD']" @keyup.enter="updateSetting('STRIPE_PLAN_ID_USD')" />
-					<button class="button" @click="updateSetting('STRIPE_PLAN_ID_USD')">Update</button>
+					<label for="setting-stripe_plan_usd">plan id usd</label>
+					<input id="setting-stripe_plan_usd" type="text" placeholder="plan id usd" v-model="settings['STRIPE_PLAN_USD']" @keyup.enter="updateSetting('STRIPE_PLAN_USD')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_USD')">Update</button>
 				</div>
 				<div>
-					<label for="setting-stripe_plan_id_gbp">plan id gbp</label>
-					<input id="setting-stripe_plan_id_gbp" type="text" placeholder="plan id gbp" v-model="settings['STRIPE_PLAN_ID_GBP']" @keyup.enter="updateSetting('STRIPE_PLAN_ID_GBP')" />
-					<button class="button" @click="updateSetting('STRIPE_PLAN_ID_GBP')">Update</button>
+					<label for="setting-stripe_plan_gbp">plan id gbp</label>
+					<input id="setting-stripe_plan_gbp" type="text" placeholder="plan id gbp" v-model="settings['STRIPE_PLAN_GBP']" @keyup.enter="updateSetting('STRIPE_PLAN_GBP')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_GBP')">Update</button>
 				</div>
 				<div>
-					<label for="setting-stripe_webhook_id">webhook id</label>
-					<input id="setting-stripe_webhook_id" type="text" placeholder="webhook id" v-model="settings['STRIPE_WEBHOOK_ID']" @keyup.enter="updateSetting('STRIPE_WEBHOOK_ID')" />
-					<button class="button" @click="updateSetting('STRIPE_WEBHOOK_ID')">Update</button>
+					<label for="setting-stripe_webhook">webhook id</label>
+					<input id="setting-stripe_webhook" type="text" placeholder="webhook id" v-model="settings['STRIPE_WEBHOOK']" @keyup.enter="updateSetting('STRIPE_WEBHOOK')" />
+					<button class="button" @click="updateSetting('STRIPE_WEBHOOK')">Update</button>
 				</div>
 
 				<h2>Discord config</h2>
@@ -425,10 +425,11 @@
 <script type="text/javascript">
 	const ROLE = JSON.parse('<%- JSON.stringify(role) %>');
 	const SOCKET = io();
+
 	SOCKET.emit('get-member-list')
-	SOCKET.emit('get-release')
-	SOCKET.emit('get-logs')
-	SOCKET.emit('get-settings')
+	<% if (role?.['create_releases']) { %> SOCKET.emit('get-release') <% } %>
+	<% if (role?.['view_console']) { %> SOCKET.emit('get-logs') <% } %>
+	<% if (role?.['edit_config']) { %> SOCKET.emit('get-settings') <% } %>
 </script>
 <script src="admin.js"></script>
 </body>

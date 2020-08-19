@@ -1,7 +1,12 @@
 'use strict'
 const Joi = require('@hapi/joi')
 const { findUser, insertUser, updateUser } = require('../database/repositories/users')
-const { customers: { listCustomers, findCustomer, createCustomer, updateCustomer } } = require('./stripe')
+const { findRoleFromUserRole, deleteUserRole } = require('../database/repositories/user-roles')
+const {
+    customers: { listCustomers, findCustomer, createCustomer, updateCustomer },
+    subscriptions: { deleteSubscription }
+} = require('./stripe')
+const { kickDiscordUser } = require('../services/discord/utils')
 
 const validation = async ({ userId, username, email, avatarUrl }) => {
     try {
@@ -91,7 +96,7 @@ const createUser = async ({ userId, username, email, avatarUrl }) => {
     }
 }
 
-const userLogin = async ({ userId, username, email, avatarUrl }) => {
+const loginUser = async ({ userId, username, email, avatarUrl }) => {
     try {
         if (!(await validation({ userId, username, email, avatarUrl }))) return
 
@@ -106,8 +111,28 @@ const userLogin = async ({ userId, username, email, avatarUrl }) => {
 
         return await findUser(userId)
     } catch (e) {
-        return console.error('userLogin(): ' + e.message)
+        return console.error('loginUser(): ' + e.message)
     }
 }
 
-module.exports = userLogin
+const deleteUser = async id => {
+    try {
+        await Joi.string().alphanum().required().validateAsync(id)
+
+        const USER = await findUser(id)
+        const ROLE = USER ? await findRoleFromUserRole(id) : undefined
+        if (!USER || !ROLE) return
+
+        const CUSTOMER = await findCustomer(USER.stripe_id)
+        const SUBSCRIPTION = CUSTOMER?.subscriptions.data[0]
+        if (SUBSCRIPTION) await deleteSubscription(SUBSCRIPTION.id)
+
+        const RESPONSE = await deleteUserRole(id)
+        if (RESPONSE) await kickDiscordUser(id)
+        return RESPONSE
+    } catch (e) {
+        return console.error('deleteUser(): ' + e.message)
+    }
+}
+
+module.exports = { loginUser, deleteUser }

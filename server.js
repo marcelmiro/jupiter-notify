@@ -29,8 +29,8 @@ require('./config')().then(() => {
 
     app.use(bodyParser.urlencoded({ extended: true }))
 
-    const { getBrowser, verifyRoute } = require('./utils')
-    app.use('/', getBrowser, verifyRoute, require('./routes'))
+    const { checkIEBrowser, verifyRoute } = require('./utils')
+    app.use('/', checkIEBrowser, verifyRoute, require('./routes'))
     app.use(express.static(path.join(__dirname, '/static')))
     app.use(express.static(path.join(__dirname, '/node_modules/vue/dist')))
     app.use(express.static(path.join(__dirname, '/node_modules/socket.io-client/dist')))

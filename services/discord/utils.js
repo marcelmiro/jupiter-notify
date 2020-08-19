@@ -25,7 +25,7 @@ const inviteDiscordUser = async id => {
             maxAge: 300
         })
 
-        console.log('Created invite:', INVITE.code)
+        console.log('Created Discord invite: ' + INVITE.code)
         return 'https://discord.gg/' + INVITE
     } catch (e) {
         return console.error('inviteDiscordUser(): ' + e.message)

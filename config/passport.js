@@ -2,7 +2,7 @@
 const passport = require('passport')
 const DiscordStrategy = require('passport-discord')
 const { findUserByCookie } = require('../database/repositories/users')
-const userLogin = require('../services/users')
+const { loginUser } = require('../services/users')
 const { keys } = require('./cookies')
 
 passport.serializeUser((user, done) => done(null, user.cookie_id))
@@ -31,12 +31,9 @@ passport.use(new DiscordStrategy(
             ? `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`
             : 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'
 
-        userLogin({
-            userId: id,
-            username: `${username}#${discriminator}`,
-            email,
-            avatarUrl
-        }).then(user => done(null, user)).catch(e => console.log('Error in passport login: ' + e.message))
+        loginUser({ userId: id, username: `${username}#${discriminator}`, email, avatarUrl })
+            .then(user => done(null, user))
+            .catch(e => console.log('Error in passport login: ' + e.message))
     }
 ))
 

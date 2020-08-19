@@ -16,27 +16,23 @@ module.exports = async ({ socket, userId }) => {
         const SUBSCRIPTION = CUSTOMER.subscriptions.data[0]
 
         const DATA = {
-            user: {
-                userId,
-                username: USER.username,
-                email: USER.email,
-                avatarUrl: USER.avatar_url || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048',
-                stripeId: USER.stripe_id
-            },
+            userId,
+            username: USER.username,
+            email: USER.email,
+            avatarUrl: USER.avatar_url || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048',
+            stripeId: USER.stripe_id,
             role: ROLE.name
         }
 
         if (SUBSCRIPTION) {
-            DATA.subscription = {
-                id: SUBSCRIPTION.id,
-                currency: CUSTOMER.currency,
-                trial: 0
-            }
+            DATA.subscriptionId = SUBSCRIPTION.id
+            DATA.subscriptionCurrency = CUSTOMER.currency
+            DATA.subscriptionTrial = 0
 
             if (SUBSCRIPTION.trial_end) {
                 const d1 = new Date()
                 const d2 = new Date(SUBSCRIPTION.trial_end * 1000)
-                DATA.subscription.trial = Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24))
+                DATA.subscriptionTrial = Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24))
             }
         }
 

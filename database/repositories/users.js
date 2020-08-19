@@ -1,5 +1,5 @@
 'use strict'
-const { uuid } = require('uuidv4')
+const { v4: uuidv4 } = require('uuid')
 const client = require('../../config/database')
 const model = require('../models/users')
 
@@ -43,7 +43,7 @@ const insertUser = async user => {
         await model.schema.validateAsync(user)
         const { userId, stripeId, username, email, avatarUrl } = user
         const COLUMNS = 'user_id, cookie_id, stripe_id, username, email, avatar_url, date_created'
-        const VALUES = [userId, uuid(), stripeId, username, email, avatarUrl, (new Date()).valueOf()]
+        const VALUES = [userId, uuidv4(), stripeId, username, email, avatarUrl, (new Date()).valueOf()]
 
         return await client.query(
             `INSERT INTO users (${COLUMNS}) VALUES ($1, $2, $3, $4, $5, $6, $7)`,

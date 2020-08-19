@@ -1,9 +1,10 @@
 'use strict'
 const Joi = require('@hapi/joi')
 const { findRoleByName, findRolePermissions } = require('../database/repositories/roles')
-const { findUserRole, findRoleFromUserRole, insertUserRole, deleteUserRole } = require('../database/repositories/user-roles')
+const { findUserRole, findRoleFromUserRole, insertUserRole } = require('../database/repositories/user-roles')
+const { deleteUser } = require('../services/users')
 const { customers: { findCustomer }, paymentMethods: { findPaymentMethod } } = require('../services/stripe')
-const { findDiscordUser, inviteDiscordUser, kickDiscordUser, sendSupportMessage } = require('../services/discord/utils')
+const { findDiscordUser, inviteDiscordUser, addDiscordRole, sendSupportMessage } = require('../services/discord/utils')
 const { inStock, transformDate } = require('../utils')
 
 const index = async (req, res) => {
@@ -32,12 +33,12 @@ const dashboard = async (req, res) => {
             if (!SUBSCRIPTION) return res.redirect('/')
             const RENEWAL_ROLE = await findRoleByName('renewal')
             if (RENEWAL_ROLE?.['role_id']) {
-                await insertUserRole(req.user.user_id, RENEWAL_ROLE.role_id)
                 ROLE = RENEWAL_ROLE
+                await insertUserRole(req.user.user_id, ROLE.role_id)
+                await addDiscordRole(req.user.user_id, ROLE.role_id)
             } else return res.redirect('/')
         } else if (ROLE.name.toLowerCase() === 'renewal' && !SUBSCRIPTION) {
-            await deleteUserRole(req.user.user_id)
-            await kickDiscordUser(req.user.user_id)
+            await deleteUser(req.user.user_id)
             return res.redirect('/')
         }
 

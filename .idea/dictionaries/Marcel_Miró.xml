@@ -4,6 +4,7 @@
       <w>bcrypt</w>
       <w>creds</w>
       <w>unhash</w>
+      <w>uuidv</w>
       <w>webhook</w>
     </words>
   </dictionary>

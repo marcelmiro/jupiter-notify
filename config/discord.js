@@ -24,6 +24,8 @@ const setup = async () => {
             CONSOLE_ERROR(msg)
             sendLogMessage('ERROR  ' + msg)
         }
+
+        require('../services/discord')
     } catch (e) {
         console.error('Could not log in to Discord bot.')
         process.exit(1)

@@ -14,9 +14,9 @@ const createSubscriptionSession = async (customerId, currency) => {
         const CUSTOMER = await findCustomer(customerId)
         if (!CUSTOMER) return console.error('createSubscriptionSession(): Stripe customer not found.')
 
-        CUSTOMER.currency = CUSTOMER.currency && process.env['STRIPE_PLAN_ID_' + CUSTOMER.currency.toUpperCase()]
+        CUSTOMER.currency = CUSTOMER.currency && process.env['STRIPE_PLAN_' + CUSTOMER.currency.toUpperCase()]
             ? CUSTOMER.currency : undefined
-        currency = currency && process.env['STRIPE_PLAN_ID_' + currency.toUpperCase()]
+        currency = currency && process.env['STRIPE_PLAN_' + currency.toUpperCase()]
             ? currency : undefined
 
         let planId
@@ -31,10 +31,10 @@ const createSubscriptionSession = async (customerId, currency) => {
                 if (!customerId) return console.error('createSubscriptionSession(): Variable \'customerId\' is undefined.')
                 await updateUser(CUSTOMER.description, 'stripe_id', customerId)
             }
-            planId = process.env['STRIPE_PLAN_ID_' + currency.toUpperCase()]
-        } else if (CUSTOMER.currency) planId = process.env['STRIPE_PLAN_ID_' + CUSTOMER.currency.toUpperCase()]
-        else if (currency) planId = process.env['STRIPE_PLAN_ID_' + currency.toUpperCase()]
-        else planId = process.env.STRIPE_PLAN_ID
+            planId = process.env['STRIPE_PLAN_' + currency.toUpperCase()]
+        } else if (CUSTOMER.currency) planId = process.env['STRIPE_PLAN_' + CUSTOMER.currency.toUpperCase()]
+        else if (currency) planId = process.env['STRIPE_PLAN_' + currency.toUpperCase()]
+        else planId = process.env.STRIPE_PLAN
 
         return await stripe.checkout.sessions.create({
             mode: 'subscription',
