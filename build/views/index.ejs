@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--    MAIN INFO    -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Jupiter Notify</title>
+	<meta name="description" content= "A private Discord group helping you secure limited items with any resellable value." />
+	<meta name="keywords" content="jupiter notify, jupiter, cop, sneakers, cop sneakers, cop alert, sneaker alert, discord community, discord cop, shopify monitor, dropshipping, drop shipping">
+
+	<!--    MAIN CSS    -->
+	<link rel="stylesheet" href="/css/index.css">
+
+	<!--    FAVICON    -->
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/assets/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#ff8e00">
+	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<div class="section section-home">
+	<div class="bg"></div>
+
+	<div class="navbar">
+		<a class="button" href="#features">Features</a>
+		<a class="button" href="#tools">Tools</a>
+		<a class="button" href="#faq">FAQ</a>
+
+		<a class="button" style="background-color:#8b50c3;"
+			<% if (hasRole) { %>
+				href="/dashboard">Dashboard
+			<% } else if (isUser) { %>
+				href="/logout">Log Out
+			<% } else { %>
+				href="/login">Log In
+			<% } %>
+		</a>
+
+		<% if (isAdmin) { %>
+			<button class="hamburger"><img src="/assets/icon_settings.svg" alt="Settings icon" /></button>
+			<div class="hamburger-container">
+				<a class="button" href="/dashboard">Dashboard</a>
+				<a class="button" href="/admin">Admin Panel</a>
+			</div>
+		<% } %>
+	</div>
+
+	<div class="grid">
+		<div class="text">
+			<h1>Jupiter<span>Notify</span></h1>
+			<p>A private Discord group helping you secure limited items with any resellable value.</p>
+		</div>
+
+		<div class="dashboard-button-container">
+			<img class="jupiter" src="/assets/jupiter_planet.png" alt="Jupiter planet image" />
+			<img class="jupiter-wave" src="/assets/jupiter_planet_wave.svg" alt="" />
+
+			<% if (hasRole) { %>
+				<button class="button disabled">Already Subscribed</button>
+			<% } else if (!inStock) { %>
+				<button class="button disabled">Out of Stock</button>
+			<% } else { %>
+				<button class="button buy-membership">Buy Membership</button>
+			<% } %>
+		</div>
+	</div>
+</div>
+
+<div id="features" class="section section-features">
+	<svg class="bg-shape" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+	    <g transform="matrix(1,0,0,1,27.6493,126.048)">
+	        <path d="M-27.649,-126.048L972.351,-6.048L972.351,873.952L-27.649,873.952L-27.649,-126.048Z" style="fill:rgb(51,51,51);"/>
+	    </g>
+	</svg>
+
+	<h2>Features</h2>
+	<div class="container">
+		<div class="card">
+			<div>
+				<h6>Releases</h6>
+				<p>Full release guidance for all profitable releases, including early links, resell estimations and post-release analysis.</p>
+			</div>
+		</div>
+		<div class="card">
+			<div>
+				<h6>Raffle link Bot</h6>
+				<p>Enter all raffles and never miss an opportunity to make profit.</p>
+			</div>
+		</div>
+		<div class="card">
+			<div>
+				<h6>Monitors</h6>
+				<p>Never miss any restock or shock drop with our lightning fast monitors tracking websites from all over the world.</p>
+			</div>
+		</div>
+		<div class="card">
+			<div>
+				<h6>Brick flipping</h6>
+				<p>Get help from specialised staff to learn how to flip cheaper and easier items than your usual sneaker release.</p>
+			</div>
+		</div>
+		<div class="card">
+			<div>
+				<h6>Twitter monitors</h6>
+				<p>One of the fastest in the market. Paired with in-depth checkout guides to get ahead of everyone else.</p>
+			</div>
+		</div>
+		<div class="card">
+			<div>
+				<h6>Sunday Giveaways</h6>
+				<p>Weekly events with many prizes given away to members such as PayPal money, Discord Nitro, bot rentals and way more.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="tools" class="section section-tools">
+	<h2>Tools</h2>
+
+	<div class="container">
+		<div class="card">
+			<div>
+				<h6>Jupiter Toolkit</h6>
+				<p>Fastest Discord toolkit for bot and group restocks, includes auto link opener, Discord joiner and Nitro claimer.</p>
+			</div>
+		</div>
+		<div class="card">
+			<div>
+				<h6>Jupiter Scripts</h6>
+				<p>Home coded scripts to help manual users throughout checkout process on many websites.</p>
+			</div>
+		</div>
+		<div class="card">
+			<div>
+				<h6>Jupiter Notify iOS App</h6>
+				<p>The perfect tool to keep track of your reselling business. Manage your stock, expenses, sales, shipments...</p>
+			</div>
+		</div>
+		<div class="card">
+			<div>
+				<h6>Custom Keywords Pinger</h6>
+				<p>Our members can decide to get pinged by monitors with specific custom keywords to secure the items they want.</p>
+			</div>
+		</div>
+		<div class="image-container">
+			<div id="slideshow">
+				<img style="visibility: hidden;" src="/assets/jupiter_app_1.png" alt="Jupiter App Img" />
+				<div><img src="/assets/jupiter_app_1.png" alt="Jupiter App Img" /></div>
+				<div><img src="/assets/jupiter_app_2.png" alt="Jupiter App Img" /></div>
+				<div><img src="/assets/jupiter_app_3.png" alt="Jupiter App Img" /></div>
+				<div><img src="/assets/jupiter_app_4.png" alt="Jupiter App Img" /></div>
+				<div><img src="/assets/jupiter_app_5.png" alt="Jupiter App Img" /></div>
+				<div><img src="/assets/jupiter_app_6.png" alt="Jupiter App Img" /></div>
+			</div>
+			<!--<div>
+				<img src="/assets/icon_raffle.png" alt="Jupiter Raffle Icon" />
+			</div>-->
+		</div>
+	</div>
+</div>
+
+
+<div id="faq" class="section section-faq">
+	<h2 class="title-separator">Get to know us more</h2>
+	<div class="container">
+		<button class="accordion">What is Jupiter Notify?</button>
+		<div class="panel">
+			<p>
+				Jupiter Notify is a community of resellers that work together to buy the most limited items.
+				We help each other secure highly-demanded sneakers and items to help you generate large amounts of profit.
+			</p>
+		</div>
+
+		<button class="accordion">What do I get if I buy a membership?</button>
+		<div class="panel">
+			<p>
+				With $25 a month you will have the chance to enjoy of our fast monitors, shock drops and restock notifications,
+				raffle bot, iOS app, bot restocks toolkit, raffle link bot, release guides, custom scripts, guides, bot support,
+				post-release analysis, groupbuys and everything you will ever need to make sure you cop.
+			</p>
+		</div>
+
+		<button class="accordion">How long does the membership last?</button>
+		<div class="panel">
+			<p>
+				Our membership lasts 30 days, which is automatically renewed at the end of the cycle.
+				Members can cancel or update their payment details through our dashboard.
+			</p>
+		</div>
+
+		<button class="accordion">How often do you restock?</button>
+		<div class="panel">
+			<p>
+				We do random restocks every month and announce them on our Twitter account.
+				In order to be notified of a restock we highly recommend you follow us on Twitter
+				by <b><a href="https://twitter.com/JupiterNotify" target="_blank">clicking here</a></b>.
+			</p>
+		</div>
+
+		<button class="accordion">Do you offer groupbuys?</button>
+		<div class="panel">
+			<p>
+				Every now and then we do provide groupbuys with bots, tools and other services for our members to take advantage of.
+			</p>
+		</div>
+
+		<button id="contact" class="accordion">Have another question? Contact Us</button>
+		<div class="panel">
+			<div class="form grid">
+				<div>
+					<input type="text" placeholder="Discord username" spellcheck="false" required />
+					<input type="email" placeholder="Email (Optional)" spellcheck="false" />
+					<button class="button" onclick="sendSupport()">Submit</button>
+				</div>
+				<div>
+					<textarea placeholder="Text" maxlength="500" spellcheck="false" required></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="footer">
+	<svg class="bg-shape" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1000 120" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+		<g transform="matrix(1,0,0,1,27.649,126.048)">
+			<path d="M-27.649,-126.048L972.351,-66.048L972.351,-6.048L-27.649,-6.048L-27.649,-126.048Z" style="fill:rgb(139,80,195);"/>
+		</g>
+	</svg>
+
+	<div class="text">
+		<a href="/terms" class="underline">Terms & Conditions</a>
+		<p>Jupiter Notify Ltd ©</p>
+		<span class="right">Made by <a class="underline" href="https://marcelmiro.com/" target="_blank">Marcel</a></span>
+	</div>
+</div>
+
+
+<div class="loader">
+	<img src="/assets/jupiter_planet_smaller_min.png" alt="" />
+	<div class="orbit">
+		<div class="orbit-circle"></div>
+	</div>
+</div>
+
+<% if (inStock && !hasRole) { %>
+	<div class="currency-popup">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="container__container">
+				<h3>Choose your preferred currency:</h3>
+				<img class="close" src="/assets/icon_cross.svg" alt="X icon" />
+
+				<div class="dropdown">
+					<button class="dropdown__button">
+						<span>Currency: <span>EUR (€)</span></span>
+						<img src="/assets/arrow_dropdown.svg" alt="Arrow down" />
+					</button>
+					<div class="dropdown__content">
+						<input type="radio" name="currencies" id="currency-eur" checked />
+						<label for="currency-eur">EUR (€)</label>
+						<input type="radio" name="currencies" id="currency-usd" />
+						<label for="currency-usd">USD ($)</label>
+						<input type="radio" name="currencies" id="currency-gbp" />
+						<label for="currency-gbp">GBP (£)</label>
+					</div>
+				</div>
+				<button class="button">Pay</button>
+			</div>
+		</div>
+	</div>
+<% } %>
+
+
+
+<!--    JS LIBRARIES    -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/scrollmagic/scrollmagic/minified/ScrollMagic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/scrollmagic/scrollmagic/minified/plugins/animation.gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap/dist/gsap.min.js"></script>
+
+<!--    MAIN JS    -->
+<script type="text/javascript">
+	window.isUser = '<%= isUser %>' === 'true'
+	window.hasHamburger = '<%= isAdmin %>' === 'true'
+</script>
+<script src="/js/index.js"></script>
+</body>
+</html>
