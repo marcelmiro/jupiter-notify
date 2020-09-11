@@ -1,0 +1,57 @@
+'use strict'
+const passport = require('passport')
+const { findUserRole } = require('../database/repositories/user-roles')
+
+const login = async (req, res) => {
+    try {
+        const { redirect } = req.query
+        const returnTo = redirect && (typeof redirect === 'string' || redirect instanceof String)
+            ? redirect
+            : undefined
+
+        if (req.user) {
+            if (returnTo) return res.redirect((returnTo.startsWith('http') || returnTo.startsWith('/') ? '' : '/') + returnTo)
+            else return res.redirect('/')
+        }
+
+        const state = returnTo
+            ? Buffer.from(JSON.stringify({ returnTo })).toString('base64')
+            : undefined
+
+        passport.authenticate(
+            'discord',
+            { scope: ['identify', 'email'], state }
+        )(req, res)
+    } catch (e) {
+        console.error(e)
+        res.redirect('/')
+    }
+}
+
+const logout = async (req, res) => {
+    try {
+        req.logout()
+        res.redirect('/')
+    } catch (e) {
+        console.error(e)
+        res.redirect('/')
+    }
+}
+
+const loginRedirect = async (req, res) => {
+    try {
+        const { returnTo } = req.query.state
+            ? JSON.parse(Buffer.from(req.query.state, 'base64').toString())
+            : {}
+
+        if (!req.user) res.redirect('/')
+        else if (returnTo) res.redirect((returnTo.startsWith('http') || returnTo.startsWith('/') ? '' : '/') + returnTo)
+        else if (await findUserRole(req.user.user_id)) res.redirect('/dashboard')
+        else res.redirect('/')
+    } catch (e) {
+        console.error(e)
+        res.redirect('/')
+    }
+}
+
+module.exports = { login, logout, loginRedirect }

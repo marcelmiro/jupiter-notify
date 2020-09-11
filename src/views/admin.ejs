@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--    MAIN INFO    -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin Panel</title>
+
+	<!--    MAIN CSS    -->
+	<link rel="stylesheet" href="/css/admin.css">
+
+	<!--    FAVICON    -->
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/assets/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#ff8e00">
+	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+
+	<% if (!role?.['admin_panel']) { %>
+		<script type="text/javascript">window.location.href = '/'</script>
+	<% } %>
+</head>
+<body>
+
+
+<main class="dashboard">
+	<div class="tabs-container">
+		<div class="tab active" @click="currentTab = 1">
+			<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+				<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
+					<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
+				</g>
+			</svg>
+
+			<input type="radio" name="tabs" id="tab-members" checked />
+			<label for="tab-members">Members</label>
+		</div>
+
+		<% if (role["create_releases"]) { %>
+			<div class="tab" @click="currentTab = 2">
+				<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+					<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
+						<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
+					</g>
+				</svg>
+
+				<input type="radio" name="tabs" id="tab-releases" />
+				<label for="tab-releases">Releases</label>
+			</div>
+		<% } %>
+
+		<% if (role["view_console"]) { %>
+			<div class="tab" @click="currentTab = 3">
+				<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+					<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
+						<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
+					</g>
+				</svg>
+
+				<input type="radio" name="tabs" id="tab-console" />
+				<label for="tab-console">Console</label>
+			</div>
+		<% } %>
+
+		<% if (role["edit_config"]) { %>
+			<div class="tab" @click="currentTab = 4">
+				<svg width="100%" height="100%" viewBox="0 0 280 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+					<g transform="matrix(1.86905,0,0,1.82983,-35.4765,-96.5727)">
+						<path d="M163.439,60.647C163.439,55.927 160.712,52.777 155.735,52.777L34.39,52.777C28.359,52.777 24.331,55.767 24.331,60.647L24.331,77.697C24.331,82.636 22.991,85.567 18.981,85.567L168.789,85.567C164.239,85.567 163.439,81.801 163.439,77.697L163.439,60.647Z"/>
+					</g>
+				</svg>
+
+				<input type="radio" name="tabs" id="tab-settings" />
+				<label for="tab-settings">Settings</label>
+			</div>
+		<% } %>
+	</div>
+
+	<div class="content">
+		<div class="content__members active">
+			<div class="content__members__settings">
+				<div class="left">
+					<input type="text" name="search" v-model="search" id="search-member" placeholder="member" v-on:contextmenu.prevent="clearInput" />
+					<label for="search-member" style="display:none;"></label>
+
+					<div class="dropdown" :class="{'active' : dropdowns.role.show}" @mouseleave="dropdowns.role.show = false">
+						<button class="dropdown__button" @click="dropdowns.role.show = !dropdowns.role.show">
+							<span>Role: {{ dropdowns.role.name | capitalize }}</span>
+							<img src="/assets/arrow_dropdown.svg" alt="Arrow down" />
+						</button>
+						<div class="dropdown__content">
+							<input type="radio" name="roles" id="role-all" value="all" v-model="dropdowns.role.name" checked />
+							<label for="role-all">all</label>
+							<% roles.forEach(role => { %>
+								<input type="radio" name="roles" id=<%= "role-" + role %> value=<%= role %> v-model="dropdowns.role.name" />
+								<label for=<%= "role-" + role %>><%= role %></label>
+							<% }) %>
+						</div>
+					</div>
+				</div>
+				<div class="right">
+					<span v-if="this.memberCount !== 1">{{ memberCount }} members</span>
+					<span v-else>{{ memberCount }} member</span>
+					<% if (role["modify_members"]) { %>
+						<button @click="addMember"><img src="/assets/icon_add.svg" alt="Plus icon" /></button>
+					<% } %>
+					<button id="refresh-members" @click="refresh('members')"><img src="/assets/icon_reload.svg" alt="Reload icon" /></button>
+				</div>
+			</div>
+
+			<div class="member" v-for="member in this.filteredMemberList">
+				<div class="member__info">
+					<img :src="member.avatarUrl" @error="(() => member.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')" alt="Discord icon" />
+					<span>{{ member.username }}</span>
+					<button class="tag" :style="'background-color:' + member.role.color">{{ member.role.name }}</button>
+				</div>
+				<div class="member__links">
+					<% if (role["view_members"]) { %>
+						<button class="button view_member" @click="openMemberView(member.userId)">View</button>
+					<% } %>
+
+					<% if (role["modify_members"]) { %>
+						<button class="button edit_member" @click="openMemberEdit(member.userId)">Edit</button>
+					<% } %>
+				</div>
+			</div>
+
+			<div class="member-details-view" :class="{'active': showMemberView}">
+				<button class="back" @click="closeMemberView">
+					<img src="/assets/arrow_left.svg" alt="Arrow left" />
+				</button>
+
+				<div class="loader" v-if="!memberView?.user">
+					<svg id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						 width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+						<path fill="#FFF" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+							<animateTransform attributeType="xml"
+											  attributeName="transform"
+											  type="rotate"
+											  from="0 25 25"
+											  to="360 25 25"
+											  dur="0.6s"
+											  repeatCount="indefinite"/>
+						</path>
+					</svg>
+				</div>
+				<div class="container" v-else>
+					<div class="container__welcome">
+						<img class="avatar"
+							 :src="memberView.user.avatarUrl"
+							 @error="(() => memberView.user.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')"
+							 alt="Discord icon" />
+						<h2>{{ memberView.user.username || "Not found" }}</h2>
+					</div>
+					<div class="container__section">
+						<h3>Basic info</h3>
+						<div v-if="memberView.role">
+							<h6>Role</h6>
+							<button class="role" :style="'background-color:' + (memberView.role.color || '#222222')">
+								{{ memberView.role.name || "null" }}
+							</button>
+						</div>
+						<div><h6>User id</h6><span>{{ memberView.user.userId || 'undefined' }}</span></div>
+						<div><h6>Email</h6><span>{{ memberView.user.email || 'undefined' }}</span></div>
+						<div><h6>User since</h6><span>{{ memberView.user.dateCreated || 'undefined' }}</span></div>
+						<div><h6>User in server</h6><span>{{ memberView.user.inServer || 'false' }}</span></div>
+						<div><h6>Cookie id</h6><span>{{ memberView.user.cookieId || 'undefined' }}</span></div>
+						<div><h6>Stripe id</h6><span>{{ memberView.user.stripeId || 'undefined' }}</span></div>
+					</div>
+
+					<div class="container__section" v-if="memberView.subscription">
+						<h3>Subscription info</h3>
+						<div><h6>Id</h6><span>{{ memberView.subscription.id || 'undefined' }}</span></div>
+						<div><h6>Status</h6><span>{{ memberView.subscription.status || 'undefined' }}</span></div>
+						<div><h6>Has default payment</h6><span>{{ memberView.subscription.hasDefaultPayment || 'false' }}</span></div>
+					</div>
+
+					<div class="container__section" v-if="memberView.subscription?.lastInvoice">
+						<h3>Last payment</h3>
+						<div><h6>Id</h6><span>{{ memberView.subscription.lastInvoice.id || 'undefined' }}</span></div>
+						<div><h6>Status</h6><span>{{ memberView.subscription.lastInvoice.status || 'undefined' }}</span></div>
+						<div><h6>Date</h6><span>{{ memberView.subscription.lastInvoice.date || 'undefined' }}</span></div>
+					</div>
+
+					<div class="container__section" v-if="memberView.subscription?.nextInvoice">
+						<h3>Next payment</h3>
+						<div><h6>Status</h6><span>{{ memberView.subscription.nextInvoice.status || 'undefined' }}</span></div>
+						<div><h6>Date</h6><span>{{ memberView.subscription.nextInvoice.date || 'undefined' }}</span></div>
+					</div>
+				</div>
+			</div>
+
+			<div :class="{'member-edit-view': true, 'active': showMemberEdit}">
+				<button class="back" @click="closeMemberEdit">
+					<img src="/assets/arrow_left.svg" alt="Arrow left" />
+				</button>
+
+				<div class="loader" v-if="!memberEdit.userId">
+					<svg id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						 width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+						<path fill="#FFF" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+							<animateTransform attributeType="xml"
+											  attributeName="transform"
+											  type="rotate"
+											  from="0 25 25"
+											  to="360 25 25"
+											  dur="0.6s"
+											  repeatCount="indefinite"/>
+						</path>
+					</svg>
+				</div>
+				<div class="container" v-else>
+					<div class="container__welcome">
+						<img class="avatar"
+							 :src="memberEdit.avatarUrl"
+							 @error="(() => memberEdit.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')"
+							 alt="Discord icon" />
+						<h2>{{ memberEdit.username || "Not found" }}</h2>
+					</div>
+					<div class="container__section">
+						<div class="input-change">
+							<label for="member-edit-role">role</label>
+							<input id="member-edit-role" type="text" v-model="memberEdit.role" placeholder="role" @keyup.enter="updateMember('role')" />
+							<button class="button" @click="updateMember('role')">Update</button>
+						</div>
+						<div class="input-change">
+							<label for="member-edit-stripe_id">stripe id</label>
+							<input id="member-edit-stripe_id" type="text" v-model="memberEdit.stripeId" placeholder="stripe id" @keyup.enter="updateMember('stripeId')" />
+							<button class="button" @click="updateMember('stripeId')">Update</button>
+						</div>
+						<div class="input-change" v-if="memberEdit.subscriptionCurrency">
+							<label for="member-edit-subscription_currency">Sub currency</label>
+							<div class="dropdown" :class="{'active' : dropdowns.subscription_currency.show}" @mouseleave="dropdowns.subscription_currency.show = false">
+								<button class="dropdown__button" @click="dropdowns.subscription_currency.show = !dropdowns.subscription_currency.show">
+									<span>{{ memberEdit.subscriptionCurrency.toUpperCase() }}</span>
+									<img src="/assets/arrow_dropdown.svg" alt="Arrow down" />
+								</button>
+								<div class="dropdown__content">
+									<input type="radio" name="subscription_currency" id="subscription_currency-eur" value="eur" v-model="memberEdit.subscriptionCurrency" checked />
+									<label for="subscription_currency-eur">EUR</label>
+									<input type="radio" name="subscription_currency" id="subscription_currency-usd" value="usd" v-model="memberEdit.subscriptionCurrency" />
+									<label for="subscription_currency-usd">USD</label>
+									<input type="radio" name="subscription_currency" id="subscription_currency-gbp" value="gbp" v-model="memberEdit.subscriptionCurrency" />
+									<label for="subscription_currency-gbp">GBP</label>
+								</div>
+							</div>
+
+							<button class="button" @click="updateMember('subscriptionCurrency')">Update</button>
+						</div>
+						<div class="input-change" v-if="memberEdit.subscriptionTrial">
+							<label for="member-edit-subscription_trial">sub trial</label>
+							<input id="member-edit-subscription_trial" type="text" v-model="memberEdit.subscriptionTrial" placeholder="subscription trial" @keyup.enter="updateMember('subscriptionTrial')" />
+							<button class="button" @click="updateMember('subscriptionTrial')">Update</button>
+						</div>
+					</div>
+					<div class="container__section">
+						<button class="button delete" @click="deleteMember">Delete Member</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<% if (role["create_releases"]) { %>
+			<div class="content__releases">
+				<div class="content__releases__settings">
+					<button @click="createRelease"><img src="/assets/icon_add.svg" alt="Plus icon" /></button>
+					<button id="refresh-releases" @click="refresh('release')"><img src="/assets/icon_reload.svg" alt="Reload icon" /></button>
+				</div>
+
+				<div class="container" v-if="JSON.stringify(release) !== '{}'">
+					<div class="release_details">
+						<div><h2>Release status:</h2><span>{{ parseInt(release.stock) > 0 ? "Active" : "OOS" }}</span></div>
+						<div><h2>Total stock:</h2><span>{{ parseInt(release.total) }}</span></div>
+						<div><h2>Remaining stock:</h2><span>{{ parseInt(release.stock) }}</span></div>
+					</div>
+					<button class="button" @click="deleteRelease">Stop Release</button>
+				</div>
+				<h2 v-else style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:32px;">No releases</h2>
+			</div>
+		<% } %>
+
+		<% if (role["view_console"]) { %>
+			<div class="content__console">
+				<div v-for="log in this.logs">
+					{{ log.time }}
+					<div :style="'color:' + log.color">
+						<b>{{ log.status }}</b>
+						<span v-html="log.text"></span>
+					</div>
+				</div>
+			</div>
+		<% } %>
+
+		<% if (role["edit_config"]) { %>
+			<div class="content__settings">
+				<h2>Web config</h2>
+				<div>
+					<label for="setting-in_stock">in stock</label>
+					<input id="setting-in_stock" type="text" placeholder="in stock" v-model="settings['IN_STOCK']" @keyup.enter="updateSetting('IN_STOCK')" />
+					<button class="button" @click="updateSetting('IN_STOCK')">Update</button>
+				</div>
+				<div>
+					<label for="setting-cookie_key">cookie key</label>
+					<input id="setting-cookie_key" type="text" placeholder="cookie key" v-model="settings['COOKIE_KEY']" @keyup.enter="updateSetting('COOKIE_KEY')" />
+					<button class="button" @click="updateSetting('COOKIE_KEY')">Update</button>
+				</div>
+				<div>
+					<label for="setting-api_key_timeout">api key timeout</label>
+					<input id="setting-api_key_timeout" type="text" placeholder="api key timeout" v-model="settings['ACCESS_TOKEN_TIMEOUT']" @keyup.enter="updateSetting('ACCESS_TOKEN_TIMEOUT')" />
+					<button class="button" @click="updateSetting('ACCESS_TOKEN_TIMEOUT')">Update</button>
+				</div>
+
+				<h2>Stripe config</h2>
+				<div>
+					<label for="setting-stripe_key">public key</label>
+					<input id="setting-stripe_key" type="text" placeholder="public key" v-model="settings['STRIPE_KEY']" @keyup.enter="updateSetting('STRIPE_KEY')" />
+					<button class="button" @click="updateSetting('STRIPE_KEY')">Update</button>
+				</div>
+				<div>
+					<label for="setting-stripe_secret">secret key</label>
+					<input id="setting-stripe_secret" type="text" placeholder="secret key" v-model="settings['STRIPE_SECRET']" @keyup.enter="updateSetting('STRIPE_SECRET')" />
+					<button class="button" @click="updateSetting('STRIPE_SECRET')">Update</button>
+				</div>
+				<div>
+					<label for="setting-stripe_plan">plan id</label>
+					<input id="setting-stripe_plan" type="text" placeholder="plan id" v-model="settings['STRIPE_PLAN']" @keyup.enter="updateSetting('STRIPE_PLAN')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN')">Update</button>
+				</div>
+				<div>
+					<label for="setting-stripe_plan_eur">plan id eur</label>
+					<input id="setting-stripe_plan_eur" type="text" placeholder="plan id eur" v-model="settings['STRIPE_PLAN_EUR']" @keyup.enter="updateSetting('STRIPE_PLAN_EUR')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_EUR')">Update</button>
+				</div>
+				<div>
+					<label for="setting-stripe_plan_usd">plan id usd</label>
+					<input id="setting-stripe_plan_usd" type="text" placeholder="plan id usd" v-model="settings['STRIPE_PLAN_USD']" @keyup.enter="updateSetting('STRIPE_PLAN_USD')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_USD')">Update</button>
+				</div>
+				<div>
+					<label for="setting-stripe_plan_gbp">plan id gbp</label>
+					<input id="setting-stripe_plan_gbp" type="text" placeholder="plan id gbp" v-model="settings['STRIPE_PLAN_GBP']" @keyup.enter="updateSetting('STRIPE_PLAN_GBP')" />
+					<button class="button" @click="updateSetting('STRIPE_PLAN_GBP')">Update</button>
+				</div>
+				<div>
+					<label for="setting-stripe_webhook">webhook id</label>
+					<input id="setting-stripe_webhook" type="text" placeholder="webhook id" v-model="settings['STRIPE_WEBHOOK']" @keyup.enter="updateSetting('STRIPE_WEBHOOK')" />
+					<button class="button" @click="updateSetting('STRIPE_WEBHOOK')">Update</button>
+				</div>
+
+				<h2>Discord config</h2>
+				<div>
+					<label for="setting-discord_client_id">client id</label>
+					<input id="setting-discord_client_id" type="text" placeholder="client id" v-model="settings['DISCORD_CLIENT_ID']" @keyup.enter="updateSetting('DISCORD_CLIENT_ID')" />
+					<button class="button" @click="updateSetting('DISCORD_CLIENT_ID')">Update</button>
+				</div>
+				<div>
+					<label for="setting-discord_client_secret">client secret</label>
+					<input id="setting-discord_client_secret" type="text" placeholder="client secret" v-model="settings['DISCORD_CLIENT_SECRET']" @keyup.enter="updateSetting('DISCORD_CLIENT_SECRET')" />
+					<button class="button" @click="updateSetting('DISCORD_CLIENT_SECRET')">Update</button>
+				</div>
+				<div>
+					<label for="setting-discord_bot_token">bot token</label>
+					<input id="setting-discord_bot_token" type="text" placeholder="bot token" v-model="settings['DISCORD_BOT_TOKEN']" @keyup.enter="updateSetting('DISCORD_BOT_TOKEN')" />
+					<button class="button" @click="updateSetting('DISCORD_BOT_TOKEN')">Update</button>
+				</div>
+				<div>
+					<label for="setting-discord_guild_id">guild id</label>
+					<input id="setting-discord_guild_id" type="text" placeholder="guild id" v-model="settings['DISCORD_GUILD_ID']" @keyup.enter="updateSetting('DISCORD_GUILD_ID')" />
+					<button class="button" @click="updateSetting('DISCORD_GUILD_ID')">Update</button>
+				</div>
+				<div>
+					<label for="setting-discord_logger_channel">logger channel</label>
+					<input id="setting-discord_logger_channel" type="text" placeholder="logger channel" v-model="settings['DISCORD_LOGGER_CHANNEL']" @keyup.enter="updateSetting('DISCORD_LOGGER_CHANNEL')" />
+					<button class="button" @click="updateSetting('DISCORD_LOGGER_CHANNEL')">Update</button>
+				</div>
+				<div>
+					<label for="setting-discord_ticket_channel">ticket channel</label>
+					<input id="setting-discord_ticket_channel" type="text" placeholder="ticket channel" v-model="settings['DISCORD_SUPPORT_CHANNEL']" @keyup.enter="updateSetting('DISCORD_SUPPORT_CHANNEL')" />
+					<button class="button" @click="updateSetting('DISCORD_SUPPORT_CHANNEL')">Update</button>
+				</div>
+
+				<h2>Logger config</h2>
+				<div>
+					<label for="setting-logger_max_size">max size (kb)</label>
+					<input id="setting-logger_max_size" type="text" placeholder="max size (kb)" v-model="settings['LOGGER_MAX_SIZE']" @keyup.enter="updateSetting('LOGGER_MAX_SIZE')" />
+					<button class="button" @click="updateSetting('LOGGER_MAX_SIZE')">Update</button>
+				</div>
+				<div>
+					<label for="setting-logger_new_lines">new lines</label>
+					<input id="setting-logger_new_lines" type="text" placeholder="new lines" v-model="settings['LOGGER_NEW_LINES']" @keyup.enter="updateSetting('LOGGER_NEW_LINES')" />
+					<button class="button" @click="updateSetting('LOGGER_NEW_LINES')">Update</button>
+				</div>
+
+				<h2>Encryption config</h2>
+				<div>
+					<label for="setting-encryption_key">key</label>
+					<input id="setting-encryption_key" type="text" placeholder="key" v-model="settings['ENCRYPTION_KEY']" @keyup.enter="updateSetting('ENCRYPTION_KEY')" />
+					<button class="button" @click="updateSetting('ENCRYPTION_KEY')">Update</button>
+				</div>
+				<div>
+					<label for="setting-encryption_key_length">key length</label>
+					<input id="setting-encryption_key_length" type="text" placeholder="key length" v-model="settings['ENCRYPTION_KEY_LENGTH']" @keyup.enter="updateSetting('ENCRYPTION_KEY_LENGTH')" />
+					<button class="button" @click="updateSetting('ENCRYPTION_KEY_LENGTH')">Update</button>
+				</div>
+				<div>
+					<label for="setting-encryption_iv_length">IV length</label>
+					<input id="setting-encryption_iv_length" type="text" placeholder="IV length" v-model="settings['ENCRYPTION_IV_LENGTH']" @keyup.enter="updateSetting('ENCRYPTION_IV_LENGTH')" />
+					<button class="button" @click="updateSetting('ENCRYPTION_IV_LENGTH')">Update</button>
+				</div>
+			</div>
+		<% } %>
+	</div>
+</main>
+
+<div class="screen-loader">
+	<img src="/assets/jupiter_planet_smaller_min.png" alt="" />
+	<div class="orbit">
+		<div class="orbit-circle"></div>
+	</div>
+</div>
+
+
+
+<!--	JS LIBS	-->
+<script src="/js/vue.min.js"></script>
+<script src="/js/socket.io.js"></script>
+
+<!--    MAIN JS    -->
+<script type="text/javascript">
+	window.role = JSON.parse('<%- JSON.stringify(role) %>');
+	window.socket = io();
+</script>
+<script src="/js/admin.js"></script>
+</body>
+</html>

@@ -3,6 +3,9 @@
     <words>
       <w>bcrypt</w>
       <w>creds</w>
+      <w>resetted</w>
+      <w>stringified</w>
+      <w>unexists</w>
       <w>unhash</w>
       <w>uuidv</w>
       <w>webhook</w>
