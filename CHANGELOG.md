@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/marcelmiro/jupiter-notify/compare/v3.0.1...v3.0.2) (2020-09-15)
+
+
+### Bug Fixes
+
+* **login:** give feedback when trying to login with a Discord account that has no email bound to it ([b10e942](https://github.com/marcelmiro/jupiter-notify/commit/b10e942204b3a617b3b3bead5c82230ab727960b))
+
 ### [3.0.1](https://github.com/marcelmiro/jupiter-notify/compare/v3.0.0...v3.0.1) (2020-09-15)
 
 ## 3.0.0 (2020-09-11)
