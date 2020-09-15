@@ -9,14 +9,14 @@ const setup = async () => {
     // Set guild after bot has logged in.
     guilds = await new Promise(resolve => {
         client.on('ready', () => {
-            console.log(`Discord bot logged in as ${client.user.tag}.`)
             const GUILD_IDS = process.env.DISCORD_GUILDS?.split(';').filter(Boolean)
-            GUILD_IDS.forEach(guildId => {
+            for (const guildId of GUILD_IDS) {
                 guilds.push(client.guilds.cache.get(guildId))
-            })
+            }
             resolve(guilds.filter(Boolean))
         })
     })
+    console.log(`Discord bot logged in as ${client.user.tag}`)
 
     // Send log message if console.error or console.fatal are used.
     const { sendLogMessage } = require('../services/discord/utils')

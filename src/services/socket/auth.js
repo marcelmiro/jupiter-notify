@@ -24,7 +24,7 @@ module.exports = io => {
 
         // Allow connection if user's role has admin panel perms
         // and save user and role objects to socket.
-        if (ROLE?.['admin_panel']) {
+        if (ROLE?.admin_panel) {
             socket.request.user = USER
             socket.request.role = ROLE
             next()

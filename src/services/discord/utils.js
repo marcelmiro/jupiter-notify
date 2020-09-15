@@ -17,9 +17,9 @@ const findDiscordUserInServers = async id => {
     } catch (e) { return }
 
     const USER = []
-    guilds.forEach(guild => {
+    for (const guild of guilds) {
         USER.push(guild.member(id) || undefined)
-    })
+    }
     return USER.filter(Boolean)
 }
 
@@ -52,8 +52,8 @@ const kickDiscordUser = async id => {
     if (!USER || USER.length === 0) return
 
     const KICK = []
-    for (let i = 0; i < USER.length; i++) {
-        KICK.push(await USER[i].kick())
+    for (const user of USER) {
+        KICK.push(await user.kick())
     }
     console.log(`User '${USER[0].user.username}#${USER[0].user.discriminator}' has been kicked from server.`)
     return KICK
@@ -69,7 +69,7 @@ const addDiscordRole = async (id, role) => {
 
     const USER = await findDiscordUser(id)
     const ROLE = USER ? await findRole(role) : undefined
-    if (!ROLE?.['discord_id']) return
+    if (!ROLE?.discord_id) return
 
     return USER.roles.add(ROLE.discord_id)
 }
@@ -84,7 +84,7 @@ const addDiscordRoleByName = async (id, role) => {
 
     const USER = await findDiscordUser(id)
     const ROLE = USER ? await findRoleByName(role) : undefined
-    if (!ROLE?.['discord_id']) return
+    if (!ROLE?.discord_id) return
 
     return USER.roles.add(ROLE.discord_id)
 }
@@ -99,7 +99,7 @@ const deleteDiscordRole = async (id, role) => {
 
     const USER = await findDiscordUser(id)
     const ROLE = USER ? await findRole(role) : undefined
-    if (!ROLE?.['discord_id']) return
+    if (!ROLE?.discord_id) return
 
     return USER.roles.remove(ROLE.discord_id)
 }
@@ -114,7 +114,7 @@ const deleteDiscordRoleByName = async (id, role) => {
 
     const USER = await findDiscordUser(id)
     const ROLE = USER ? await findRoleByName(role) : undefined
-    if (!ROLE?.['discord_id']) return
+    if (!ROLE?.discord_id) return
 
     return await USER.roles.remove(ROLE.discord_id)
 }

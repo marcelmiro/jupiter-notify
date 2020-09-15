@@ -41,7 +41,7 @@ module.exports = async message => {
 
     const ACCESS_TOKEN = await findAccessToken(message.author.id)
     if (!ACCESS_TOKEN) embed = TOKEN_UNEXISTS
-    else if (ACCESS_TOKEN?.['access_token']) embed = TOKEN_RETRIEVED(ACCESS_TOKEN.access_token)
+    else if (ACCESS_TOKEN?.access_token) embed = TOKEN_RETRIEVED(ACCESS_TOKEN.access_token)
     else embed = UNEXPECTED_ERROR
 
     return await message.author.send({ embed })

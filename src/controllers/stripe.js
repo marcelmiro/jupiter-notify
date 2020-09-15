@@ -127,7 +127,7 @@ const renewMembership = async (req, res) => {
         const CUSTOMER = await findCustomer(req.user.stripe_id)
         if (!CUSTOMER) return res.redirect('/logout')
         const SUBSCRIPTION = CUSTOMER.subscriptions.data[0]
-        if (!SUBSCRIPTION?.['cancel_at_period_end']) return res.redirect('/dashboard')
+        if (!SUBSCRIPTION?.cancel_at_period_end) return res.redirect('/dashboard')
 
         const RESPONSE = await updateSubscription(SUBSCRIPTION.id, { cancel_at_period_end: false })
 

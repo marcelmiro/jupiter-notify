@@ -3,7 +3,7 @@ const { getRelease, deleteRelease } = require('../releases')
 
 module.exports = async ({ io, socket }) => {
     try {
-        if (!socket.request.role?.['create_releases']) return socket.emit('send-error', 'You don\'t have permission to delete a release.')
+        if (!socket.request.role?.create_releases) return socket.emit('send-error', 'You don\'t have permission to delete a release.')
 
         if (!(await getRelease())?.stock) return socket.emit('send-error', 'Release doesn\'t exist.')
 

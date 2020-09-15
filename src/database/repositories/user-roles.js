@@ -15,7 +15,7 @@ const listUsersAndRolesFromUserRoles = async () => {
 
 const listRenewalUsers = async () => {
     const ROLE = await findRoleByName('renewal')
-    if (!ROLE?.['role_id']) return
+    if (!ROLE?.role_id) return
     return (await client.query(
         'SELECT * FROM user_roles NATURAL JOIN users WHERE role_id = $1',
         [ROLE.role_id]
@@ -30,7 +30,7 @@ const findUserRole = async id => {
 const findRoleFromUserRole = async id => {
     await model.userId.validateAsync(id)
     const USER_ROLE = (await client.query('SELECT * FROM user_roles WHERE user_id = $1 LIMIT 1', [id])).rows[0]
-    return USER_ROLE?.['role_id'] ? await findRole(USER_ROLE.role_id) : undefined
+    return USER_ROLE?.role_id ? await findRole(USER_ROLE.role_id) : undefined
 }
 
 const insertUserRole = async (userId, roleId) => {

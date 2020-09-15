@@ -7,7 +7,7 @@ const { transformDate } = require('../../utils')
 
 module.exports = async ({ socket, userId }) => {
     try {
-        if (!socket.request.role?.['view_members']) {
+        if (!socket.request.role?.view_members) {
             socket.emit('close-member-view')
             return socket.emit('send-error', 'You don\'t have permission to retrieve a member\'s data.')
         }
@@ -40,7 +40,7 @@ module.exports = async ({ socket, userId }) => {
             DATA.subscription = {
                 id: SUBSCRIPTION.id,
                 status: SUBSCRIPTION.cancel_at_period_end ? 'cancelled' : SUBSCRIPTION.status,
-                hasDefaultPayment: Boolean(CUSTOMER.invoice_settings?.['default_payment_method'])
+                hasDefaultPayment: Boolean(CUSTOMER.invoice_settings?.default_payment_method)
             }
 
             const LAST_INVOICE = SUBSCRIPTION.latest_invoice

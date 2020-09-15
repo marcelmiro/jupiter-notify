@@ -38,7 +38,7 @@ const checkCustomer = async ({ dbUser, userId, username, email }) => {
 }
 
 const checkUserExists = async userId => {
-    return Boolean((await findUser(userId))?.['user_id'])
+    return Boolean((await findUser(userId))?.user_id)
 }
 
 const checkDifferences = async ({ userId, username, email, avatarUrl }) => {
@@ -110,7 +110,7 @@ const deleteUser = async id => {
 
     const RESPONSE = await deleteUserRole(id)
     if (RESPONSE) {
-        const ACCESS_TOKEN = (await findAccessToken(id))?.['access_token']
+        const ACCESS_TOKEN = (await findAccessToken(id))?.access_token
         if (ACCESS_TOKEN) {
             await deleteAccessToken(id)
             await deleteSoftwareInstances(ACCESS_TOKEN)

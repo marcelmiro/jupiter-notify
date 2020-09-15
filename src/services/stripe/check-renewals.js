@@ -7,13 +7,13 @@ module.exports = async () => {
     try {
         const USERS = await listRenewalUsers()
 
-        for (let i = 0; i < USERS.length; i++) {
-            const CUSTOMER = await findCustomer(USERS[i].stripe_id)
+        for (const user of USERS) {
+            const CUSTOMER = await findCustomer(user.stripe_id)
             if (!CUSTOMER) continue
             const SUBSCRIPTION = CUSTOMER.subscriptions.data[0]
             if (!SUBSCRIPTION) {
-                if (!(await deleteUser(USERS[i].user_id))) continue
-                console.log(`User '${USERS[i].username}' had renewal role without subscription. User's role has been removed.`)
+                if (!(await deleteUser(user.user_id))) continue
+                console.log(`User '${user.username}' had renewal role without subscription. User's role has been removed.`)
             }
         }
     } catch (e) {

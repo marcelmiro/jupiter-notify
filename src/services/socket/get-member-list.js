@@ -3,12 +3,12 @@ const { listUsersAndRolesFromUserRoles } = require('../../database/repositories/
 
 module.exports = async socket => {
     try {
-        if (!socket.request.role?.['admin_panel']) return socket.disconnect()
+        if (!socket.request.role?.admin_panel) return socket.disconnect()
 
         const userList = []
         const USERS = await listUsersAndRolesFromUserRoles()
 
-        USERS.forEach(user => {
+        for (const user of USERS) {
             userList.push({
                 userId: user.user_id,
                 username: user.username,
@@ -24,7 +24,7 @@ module.exports = async socket => {
                     color: user.color
                 }
             })
-        })
+        }
 
         socket.emit('set-member-list', userList)
     } catch (e) {

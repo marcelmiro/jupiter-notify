@@ -6,7 +6,7 @@ const { deleteUser } = require('../users')
 
 module.exports = async ({ io, socket, userId }) => {
     try {
-        if (!socket.request.role?.['modify_members']) return socket.emit('send-error', 'You don\'t have permission to delete a member.')
+        if (!socket.request.role?.modify_members) return socket.emit('send-error', 'You don\'t have permission to delete a member.')
 
         try {
             await Joi.string().alphanum().required().validateAsync(userId)

@@ -7,19 +7,14 @@
     "start": "nodemon node src/server.js",
     "remote": "concurrently \"lt --port 8080 --subdomain jupiternotify\" \"SET NODE_ENV=production&& node src/server.js\"",
     "production": "node src/server.js",
-    "prebuild": "if exist build rmdir /q /s build && mkdir build",
-    "build": "babel -d ./build ./src --copy-files",
-    "heroku-prebuild": "",
-    "heroku-postbuild": "",
+    "lint": "eslint **/*.js --ignore-pattern node_modules/",
     "commit": "git-cz",
-    "prerelease": "git checkout master && npm i && git add .",
+    "prerelease": "git checkout master && npm i && npm run lint && git add .",
     "release": "standard-version -a",
     "postrelease": "run-s release:*",
     "release:tags": "git push --follow-tags origin master",
     "release:github": "conventional-github-releaser -p angular",
-    "predeploy": "git checkout -b deploy",
-    "deploy": "git push --follow-tags heroku master",
-    "postdeploy": ""
+    "deploy": "git push --follow-tags heroku master"
   },
   "config": {
     "commitizen": {
@@ -64,7 +59,7 @@
     "pg": "^8.3.3",
     "simple-node-logger": "^18.12.24",
     "socket.io": "^2.3.0",
-    "stripe": "^8.95.0",
+    "stripe": "^8.96.0",
     "uuid": "^8.3.0",
     "vue": "^2.6.12"
   },
@@ -72,6 +67,7 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@commitlint/prompt": "^11.0.0",
+    "babel-eslint": "^10.1.0",
     "commitizen": "^4.2.1",
     "concurrently": "^5.3.0",
     "conventional-github-releaser": "^3.1.5",
@@ -79,6 +75,7 @@
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "localtunnel": "^2.0.0",
     "npm-run-all": "^4.1.5",

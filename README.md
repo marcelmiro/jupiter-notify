@@ -152,9 +152,11 @@ Please find the steps for other operating systems [here](https://github.com/Filo
 Access tokens are used as keys to be used in our external software, to authenticate the user. Server members are allowed to create only one access token. Access tokens can be used only once per external software. Each software has a unique id so that the API can identify from which software the request is getting sent from.
 
 ##### How do softwares communicate with the API?
-On a member initializing a software instance, this software will ask the user to input their access token. Then the software will make a POST request to `https://jupiternotify.com/api/authorize`, with a JSON in the request's body. This JSON will have keys `softwareId` and `accessToken`, and their corresponding values. If successful, this request will return the status `200` as well as the user's accessToken and the software's token (named as `softwareToken`).
+On a member initializing a software instance, this software will ask the user to input their access token. Then the software will make a POST request to `https://www.jupiternotify.com/api/authorize`, with a JSON in the request's body. This JSON will have keys `softwareId` and `accessToken`, and their corresponding values. If successful, this request will return the status `200` as well as the user's accessToken and the software's token (named as `softwareToken`).
 
 On all later API requests, software will send the `accessToken` and `softwareToken` in the request's body, so that the API can verify the user.
+
+_NOTE: Request's url must contain `www` subdomain. This is due to POST requests getting converted to GET requests by DNS._
 
 ##### How to set up
 For each software type, a new row will be needed in the database table `software_ids`. In here, `software_id` will have to be created manually from a uuidv4 generator like [this one](https://www.uuidgenerator.net/version4). The software name will have to be unique from all other rows. `one_time_use` will only be set as true if the software type only requires an initial authorization for a user and doesn't need to interact with the API after authorizing said user.

@@ -20,7 +20,7 @@
 	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
 
-	<% if (!role?.['admin_panel']) { %>
+	<% if (!role?.admin_panel) { %>
 		<script type="text/javascript">window.location.href = '/'</script>
 	<% } %>
 </head>
@@ -95,10 +95,10 @@
 						<div class="dropdown__content">
 							<input type="radio" name="roles" id="role-all" value="all" v-model="dropdowns.role.name" checked />
 							<label for="role-all">all</label>
-							<% roles.forEach(role => { %>
+							<% for (const role of roles) { %>
 								<input type="radio" name="roles" id=<%= "role-" + role %> value=<%= role %> v-model="dropdowns.role.name" />
 								<label for=<%= "role-" + role %>><%= role %></label>
-							<% }) %>
+							<% } %>
 						</div>
 					</div>
 				</div>

@@ -5,7 +5,7 @@ const { findCustomer } = require('../stripe')
 
 module.exports = async ({ socket, userId }) => {
     try {
-        if (!socket.request.role?.['view_members']) {
+        if (!socket.request.role?.view_members) {
             socket.emit('close-member-edit')
             return socket.emit('send-error', 'You don\'t have permission to edit a member\'s data.')
         }

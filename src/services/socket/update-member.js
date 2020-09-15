@@ -90,7 +90,7 @@ const updateTrialDaysFunction = async ({ socket, user, value }) => {
 
 module.exports = async ({ io, socket, userId, name, value }) => {
     try {
-        if (!socket.request.role?.['modify_members']) {
+        if (!socket.request.role?.modify_members) {
             socket.emit('close-member-edit')
             return socket.emit('send-error', 'You don\'t have permission to update a member\'s data.')
         }

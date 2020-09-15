@@ -70,5 +70,5 @@ validation().then(() => {
             .catch(process.exit(1))
     }
 
-    console.log('Logger set up.')
+    console.log('Logger set up')
 })

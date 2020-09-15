@@ -13,7 +13,7 @@ const index = async (req, res) => {
             inStock: await inStock(),
             isUser: Boolean(req.user),
             hasRole: Boolean(ROLE),
-            isAdmin: Boolean(ROLE?.['admin_panel'])
+            isAdmin: Boolean(ROLE?.admin_panel)
         })
     } catch (e) {
         console.error(e)
@@ -31,7 +31,7 @@ const dashboard = async (req, res) => {
         if (!ROLE) {
             if (!SUBSCRIPTION) return res.redirect('/')
             const RENEWAL_ROLE = await findRoleByName('renewal')
-            if (RENEWAL_ROLE?.['role_id']) {
+            if (RENEWAL_ROLE?.role_id) {
                 ROLE = RENEWAL_ROLE
                 if (await insertUserRole(req.user.user_id, ROLE.role_id)) {
                     await addDiscordRole(req.user.user_id, ROLE.role_id)
@@ -102,7 +102,7 @@ const dashboard = async (req, res) => {
 
         res.render('dashboard', {
             user,
-            isAdmin: Boolean(ROLE?.['admin_panel']),
+            isAdmin: Boolean(ROLE?.admin_panel),
             paymentDetails,
             membershipDetails
         })
@@ -116,7 +116,7 @@ const admin = async (req, res) => {
     try {
         if (!req.user) return res.redirect('/login?redirect=admin')
         const role = await findRoleFromUserRole(req.user.user_id)
-        if (!role?.['admin_panel']) return res.redirect('/')
+        if (!role?.admin_panel) return res.redirect('/')
 
         let roles = await listRoles()
         if (roles) {

@@ -264,9 +264,9 @@ new Vue({
 
         // Emit socket events on startup.
         const EMITS = [SOCKET.emit('get-member-list')]
-        if (ROLE?.['create_releases']) EMITS.push(SOCKET.emit('get-release'))
-        if (ROLE?.['view_console']) EMITS.push(SOCKET.emit('get-logs'))
-        if (ROLE?.['edit_config']) EMITS.push(SOCKET.emit('get-settings'))
+        if (ROLE?.create_releases) EMITS.push(SOCKET.emit('get-release'))
+        if (ROLE?.view_console) EMITS.push(SOCKET.emit('get-logs'))
+        if (ROLE?.edit_config) EMITS.push(SOCKET.emit('get-settings'))
         Promise.all([EMITS]).then(() => {
             usernameLengthMemberList()
             fadeOutLoader()
@@ -290,7 +290,7 @@ const fadeOutLoader = () => {
 const usernameLengthMemberList = () => {
     const USERNAMES = document.querySelectorAll('.content__members .member span')
 
-    USERNAMES.forEach(username => {
+    for (const username of USERNAMES) {
         let firstLoop = true
         const usernameLoop = () => {
             if (username.offsetWidth + 10 >= 400) {
@@ -303,5 +303,5 @@ const usernameLengthMemberList = () => {
             }
         }
         usernameLoop()
-    })
+    }
 }

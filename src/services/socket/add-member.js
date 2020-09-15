@@ -7,7 +7,7 @@ const { addDiscordRole } = require('../discord/utils')
 
 module.exports = async ({ io, socket, userId, role }) => {
     try {
-        if (!socket.request.role?.['modify_members']) return socket.emit('send-error', 'You don\'t have permission to add a member.')
+        if (!socket.request.role?.modify_members) return socket.emit('send-error', 'You don\'t have permission to add a member.')
 
         try {
             await Joi.object().keys({

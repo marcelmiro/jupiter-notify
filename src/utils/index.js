@@ -21,7 +21,7 @@ const verifyRoute = async (req, res, next) => {
             if (await findUserRole(req.user.user_id)) return next()
         } else if (ROUTES.admin.find(route => req.path.includes(route))) {
             const ROLE = await findRoleFromUserRole(req.user.user_id)
-            if (ROLE?.['admin_panel']) return next()
+            if (ROLE?.admin_panel) return next()
         }
 
         res.redirect('/')

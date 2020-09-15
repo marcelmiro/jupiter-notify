@@ -5,7 +5,7 @@ const { getRelease } = require('../releases')
 
 module.exports = async ({ io, socket, name, value }) => {
     try {
-        if (!socket.request.role?.['edit_config']) return socket.emit('send-error', 'You don\'t have permission to update website\'s settings.')
+        if (!socket.request.role?.edit_config) return socket.emit('send-error', 'You don\'t have permission to update website\'s settings.')
 
         try {
             await Joi.object().keys({

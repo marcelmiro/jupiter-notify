@@ -4,7 +4,7 @@ const { getRelease, createRelease } = require('../releases')
 
 module.exports = async ({ io, socket, number }) => {
     try {
-        if (!socket.request.role?.['create_releases']) return socket.emit('send-error', 'You don\'t have permission to create releases.')
+        if (!socket.request.role?.create_releases) return socket.emit('send-error', 'You don\'t have permission to create releases.')
 
         try {
             await Joi.number().required().validateAsync(number)

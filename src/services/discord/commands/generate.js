@@ -43,7 +43,7 @@ module.exports = async message => {
     if (await findAccessToken(message.author.id)) embed = TOKEN_EXISTS
     else {
         const RESPONSE = await insertAccessToken(message.author.id)
-        embed = RESPONSE?.['access_token']
+        embed = RESPONSE?.access_token
             ? TOKEN_CREATED(RESPONSE.access_token)
             : UNEXPECTED_ERROR
     }
