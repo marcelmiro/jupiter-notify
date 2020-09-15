@@ -8,12 +8,14 @@ const { listCustomers, findCustomer, createCustomer, updateCustomer, deleteSubsc
 const { kickDiscordUser } = require('./discord/utils')
 
 const validation = async ({ userId, username, email, avatarUrl }) => {
-    return await Joi.object().keys({
-        userId: Joi.string().alphanum().required(),
-        username: Joi.string().required(),
-        email: Joi.string().email().required(),
-        avatarUrl: Joi.string().required()
-    }).required().validateAsync({ userId, username, email, avatarUrl })
+    try {
+        return await Joi.object().keys({
+            userId: Joi.string().alphanum().required(),
+            username: Joi.string().required(),
+            email: Joi.string().email().required(),
+            avatarUrl: Joi.string().required()
+        }).required().validateAsync({ userId, username, email, avatarUrl })
+    } catch (e) {}
 }
 
 const checkCustomer = async ({ dbUser, userId, username, email }) => {

@@ -38,6 +38,20 @@ const logout = async (req, res) => {
     }
 }
 
+const passportRedirect = async (req, res, next) => {
+    passport.authenticate('discord', (err, user, info) => {
+        if (err) return next(err)
+        if (user) {
+            req.logIn(user, err => {
+                if (err) return next(err)
+            })
+        }
+
+        if (info?.missing === 'email') return res.redirect('/?login_fail')
+        next()
+    })(req, res, next)
+}
+
 const loginRedirect = async (req, res) => {
     try {
         const { returnTo } = req.query.state
@@ -54,4 +68,4 @@ const loginRedirect = async (req, res) => {
     }
 }
 
-module.exports = { login, logout, loginRedirect }
+module.exports = { login, logout, passportRedirect, loginRedirect }

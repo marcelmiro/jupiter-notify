@@ -9,11 +9,13 @@ const { inStock, transformDate } = require('../utils')
 const index = async (req, res) => {
     try {
         const ROLE = req.user ? await findRoleFromUserRole(req.user.user_id) : undefined
+
         res.render('index', {
             inStock: await inStock(),
             isUser: Boolean(req.user),
             hasRole: Boolean(ROLE),
-            isAdmin: Boolean(ROLE?.admin_panel)
+            isAdmin: Boolean(ROLE?.admin_panel),
+            loginFail: Boolean('login_fail' in req.query)
         })
     } catch (e) {
         console.error(e)
@@ -102,9 +104,9 @@ const dashboard = async (req, res) => {
 
         res.render('dashboard', {
             user,
-            isAdmin: Boolean(ROLE?.admin_panel),
             paymentDetails,
-            membershipDetails
+            membershipDetails,
+            isAdmin: Boolean(ROLE?.admin_panel)
         })
     } catch (e) {
         console.error(e)

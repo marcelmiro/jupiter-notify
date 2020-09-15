@@ -34,6 +34,13 @@ const fadeOutLoader = () => {
 }
 
 //  CONFIRM POPUP EVENT HANDLERS
+document.querySelectorAll('.confirm-popup .overlay, .confirm-popup .close-popup').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelectorAll('.confirm-popup')
+            .forEach(popup => { popup.style.display = 'none' })
+    })
+})
+
 if (document.querySelector('.currency-popup')) {
     document.querySelector('.dashboard-button-container .buy-membership').addEventListener('click', () => {
         document.querySelector('.currency-popup').classList.add('active')
@@ -67,6 +74,10 @@ if (document.querySelector('.currency-popup')) {
         }
         window.location.href = redirect
     })
+}
+
+if (document.getElementById('login-fail')) {
+    document.getElementById('login-fail').style.display = 'block'
 }
 
 // Image slideshow rotation.

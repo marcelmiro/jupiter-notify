@@ -16,6 +16,7 @@ router.get('/cancel-membership', cancelMembership)
 router.get('/renew-membership', renewMembership)
 
 router.get('/transfer-membership/:userId', transferMembership)
+router.get('/transfer-membership', (req, res) => res.redirect('/dashboard'))
 
 router.post('/webhook', bodyParser.raw({ type: 'application/json' }), webhook)
 

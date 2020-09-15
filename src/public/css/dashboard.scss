@@ -96,6 +96,7 @@ button.button, a.button {
     background: linear-gradient(to bottom, #352746 0%,#8b50c3 100%);
     background-repeat: no-repeat;
     border-radius: 32px;
+    text-align: center;
     
     display: flex;
     flex-flow: column nowrap;
@@ -132,13 +133,15 @@ button.button, a.button {
       justify-content: space-around;
       align-items: center;
       
-      a {
+      a, button {
         font-size: 18px;
         cursor: pointer !important;
         pointer-events: auto !important;
         font-weight: 400;
         
-        &[href] {
+        &.button {
+          cursor: pointer !important;
+          pointer-events: auto !important;
           font-size: 20px;
           font-weight: bold;
           padding: 18px 32px;
@@ -146,17 +149,6 @@ button.button, a.button {
           transition: background-color 0.2s ease-in-out;
           @include hoverButton(#5b2872, 5);
         }
-      }
-      button {
-        cursor: pointer !important;
-        pointer-events: auto !important;
-        font-weight: 400;
-        font-size: 20px;
-        font-weight: bold;
-        padding: 18px 32px;
-        border-radius: 30px;
-        transition: background-color 0.2s ease-in-out;
-        @include hoverButton(#5b2872, 5);
       }
     }
   }
@@ -500,11 +492,10 @@ html, body {
       border-radius: 10px;
     }
     > div {
-      a {
+      a, button {
         font-size: 16px;
-        &[href] { font-size: 18px; padding: 14px 24px; }
+        &.button { font-size: 18px; padding: 14px 24px; }
       }
-      button { font-size: 18px; padding: 14px 24px; }
     }
   }
 }
@@ -654,11 +645,11 @@ html, body {
     p, label { font-size: 16px; }
     input[type=text] { min-width: 180px; }
     > div {
-      a {
+      a, button {
         font-size: 14px;
-        &[href] { font-size: 16px; }
+        &.button { font-size: 16px; }
       }
-      button { font-size: 16px; }
+      a:not(.close-popup), button:not(.close-popup) { font-size: 16px; }
     }
   }
 }

@@ -24,6 +24,12 @@ window.addEventListener('resize', () => {
 })
 
 //  CONFIRM POPUP EVENT HANDLERS
+document.querySelectorAll('.confirm-popup .overlay, .confirm-popup .close-popup').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelectorAll('.confirm-popup')
+            .forEach(popup => { popup.style.display = 'none' })
+    })
+})
 if (document.getElementById('cancel-membership')) {
     document.getElementById('cancel-membership').addEventListener('click', () => {
         document.getElementById('cancel-membership-popup').style.display = 'block'
@@ -33,18 +39,12 @@ if (document.getElementById('transfer-membership')) {
     document.getElementById('transfer-membership').addEventListener('click', () => {
         document.getElementById('transfer-membership-popup').style.display = 'block'
     })
-    document.querySelector('#transfer-membership-popup button').addEventListener('click', () => {
+    document.querySelector('#transfer-membership-popup .button').addEventListener('click', () => {
         const VALUE = document.querySelector('#transfer-membership-popup input[type=text]').value
-        if (isNaN(VALUE)) return alert('Input is not a Discord id.')
+        if (!(/^\d+$/).test(VALUE)) return alert('Input is not a Discord id.')
         window.location.href = '/stripe/transfer-membership/' + VALUE
     })
 }
-document.querySelectorAll('.confirm-popup .overlay,' +
-    '.confirm-popup a:nth-of-type(1)').forEach(item => {
-    item.addEventListener('click', () => {
-        document.querySelectorAll('.confirm-popup').forEach(popup => { popup.style.display = 'none' })
-    })
-})
 
 //  Function to check if length of text is almost greater than its container. If so, loop to
 //  reduce last character and check length again until text fits inside container.

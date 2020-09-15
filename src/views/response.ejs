@@ -23,13 +23,7 @@
 <body>
 
 <div class="container">
-	<% if (status === "login-fail-email") { %>	<%# Login w/o email fail %>
-		<h1>Login failed</h1>
-		<p>To login to Jupiter Notify, we require that all Discord accounts have an email bound to it.</p>
-		<a class="button" href="/">Go Back</a>
-	<% }
-
-	else if (status === "payment-success") { %>	<%# Payment statuses %>
+	<% if (status === "payment-success") { %>	<%# Payment statuses %>
 		<h1>Payment was successful</h1>
 		<p>Thanks for subscribing! If you have any issues, please contact a member of staff, we'll be glad to help.</p>
 		<a class="button" href="/dashboard">Go to Dashboard</a>

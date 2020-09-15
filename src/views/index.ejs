@@ -21,6 +21,10 @@
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
+
+	<% if (loginFail) { %>
+		<script type="text/javascript">window.history.pushState({}, document.title, '/')</script>
+	<% } %>
 </head>
 <body>
 
@@ -272,6 +276,18 @@
 					</div>
 				</div>
 				<button class="button">Pay</button>
+			</div>
+		</div>
+	</div>
+<% } %>
+
+<% if (loginFail) { %>
+	<div id="login-fail" class="confirm-popup">
+		<div class="overlay"></div>
+		<div class="container">
+			<p>In order to login to our website, you must have an email bound to your Discord account.</p>
+			<div>
+				<button class="close-popup button">OK</button>
 			</div>
 		</div>
 	</div>

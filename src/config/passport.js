@@ -30,8 +30,9 @@ passport.use(new DiscordStrategy(
             ? `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`
             : 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'
 
+        if (!email) return done(null, false, { missing: 'email' })
         loginUser({ userId: id, username: `${username}#${discriminator}`, email, avatarUrl })
-            .then(user => done(null, user))
+            .then(user => done(null, user || false))
             .catch(console.error)
     }
 ))
