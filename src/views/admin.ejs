@@ -313,6 +313,11 @@
 					<input id="setting-api_key_timeout" type="text" placeholder="api key timeout" v-model="settings['ACCESS_TOKEN_TIMEOUT']" @keyup.enter="updateSetting('ACCESS_TOKEN_TIMEOUT')" />
 					<button class="button" @click="updateSetting('ACCESS_TOKEN_TIMEOUT')">Update</button>
 				</div>
+				<div>
+					<label for="setting-download_jupiterscripts">jupiterscripts url</label>
+					<input id="setting-download_jupiterscripts" type="text" placeholder="jupiterscripts url" v-model="settings['DOWNLOAD_JUPITERSCRIPTS']" @keyup.enter="updateSetting('DOWNLOAD_JUPITERSCRIPTS')" />
+					<button class="button" @click="updateSetting('DOWNLOAD_JUPITERSCRIPTS')">Update</button>
+				</div>
 
 				<h2>Stripe config</h2>
 				<div>
@@ -368,9 +373,9 @@
 					<button class="button" @click="updateSetting('DISCORD_BOT_TOKEN')">Update</button>
 				</div>
 				<div>
-					<label for="setting-discord_guild_id">guild id</label>
-					<input id="setting-discord_guild_id" type="text" placeholder="guild id" v-model="settings['DISCORD_GUILD_ID']" @keyup.enter="updateSetting('DISCORD_GUILD_ID')" />
-					<button class="button" @click="updateSetting('DISCORD_GUILD_ID')">Update</button>
+					<label for="setting-discord_guilds">guilds</label>
+					<input id="setting-discord_guilds" type="text" placeholder="guilds" v-model="settings['DISCORD_GUILDS']" @keyup.enter="updateSetting('DISCORD_GUILDS')" />
+					<button class="button" @click="updateSetting('DISCORD_GUILDS')">Update</button>
 				</div>
 				<div>
 					<label for="setting-discord_logger_channel">logger channel</label>

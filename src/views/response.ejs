@@ -51,6 +51,16 @@
 		<h1>Transfer failed</h1>
 		<p>You can't transfer a staff role to another person. If you need help, contact one of the owners.</p>
 		<a class="button" href="/dashboard">Go Back</a>
+	<% }
+
+	else if (status === "download-fail") { %>	<%# Download statuses %>
+		<h1>Wrong download link</h1>
+		<p>There was an error trying to download the requested file. Please contact a member of staff if the error persists.</p>
+		<a class="button" href="/">Go Home</a>
+	<% }
+
+	else { %>
+		<script type="text/javascript">window.location.href = '/'</script>
 	<% } %>
 </div>
 

@@ -1,5 +1,7 @@
 'use strict'
+const Joi = require('joi')
 const { authenticate } = require('../../services/api')
+const { findUserRole } = require('../../database/repositories/user-roles')
 
 const authorize = async (req, res) => {
     try {
@@ -12,4 +14,23 @@ const authorize = async (req, res) => {
     }
 }
 
-module.exports = { authorize }
+const download = async (req, res) => {
+    try {
+        if (!req.user) return res.redirect('/login?redirect=' + req.originalUrl)
+        if (!(await findUserRole(req.user.user_id))) return res.redirect('/')
+        const URL = process.env.DOWNLOAD_JUPITERSCRIPTS
+
+        try {
+            await Joi.string().uri().required().validateAsync(URL)
+        } catch (e) {
+            return res.render('response', { status: 'download-fail' })
+        }
+
+        res.redirect(URL)
+    } catch (e) {
+        res.sendStatus(500)
+        console.error(e)
+    }
+}
+
+module.exports = { authorize, download }

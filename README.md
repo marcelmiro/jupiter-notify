@@ -116,6 +116,7 @@ DISCORD_CLIENT_SECRET | | Discord bot's client secret.
 DISCORD_GUILDS | | Discord servers separated by character ';'. First server id is the main server.
 DISCORD_LOGGER_CHANNEL | | Discord channel id where to output logger information.
 DISCORD_SUPPORT_CHANNEL | | Discord channel id where to output support tickets from website contact form.
+DOWNLOAD_JUPITERSCRIPTS | https://google.com | Url to the latest jupiterscripts download file.
 ENCRYPTION_IV_LENGTH | 16 | Length of IV string in encryption.
 ENCRYPTION_KEY | dawda0w9e2 | Password/Key used for encryption.
 ENCRYPTION_KEY_LENGTH | 32 | Length of encryption key.
