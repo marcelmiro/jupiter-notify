@@ -14,13 +14,7 @@ const { inStock, getDomain } = require('../utils')
 
 const pay = async (req, res) => {
     try {
-        const { currency } = req.query
-
-        if (!req.user) {
-            let redirect = '/login?redirect=/stripe/pay'
-            if (currency) redirect += '?currency=' + currency
-            return res.redirect(redirect)
-        }
+        if (!req.user) return res.redirect('/login?redirect=' + req.originalUrl)
         if (!(await inStock())) return res.redirect('/')
         if ((await getRelease())?.stock <= 0) { await deleteRelease(); return res.redirect('/') }
         if (await findUserRole(req.user.user_id)) return res.redirect('/dashboard')
@@ -29,6 +23,7 @@ const pay = async (req, res) => {
         if (!CUSTOMER) return res.redirect('/logout')
         if (CUSTOMER.subscriptions.data[0]) return res.redirect('/dashboard')
 
+        const { currency } = req.query
         const SESSION = await createSubscriptionSession(req.user.stripe_id, currency, await getDomain(req))
         if (SESSION) {
             res.send(`

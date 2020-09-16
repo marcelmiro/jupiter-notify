@@ -46,7 +46,7 @@ const updateUser = async (id, column, value) => {
 
     return await client.query(
         `UPDATE users SET ${column} = $1 WHERE user_id = $2`,
-        [column, value, id]
+        [value, id]
     )
 }
 

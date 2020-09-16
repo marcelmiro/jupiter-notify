@@ -10,8 +10,11 @@ const login = async (req, res) => {
             : undefined
 
         if (req.user) {
-            if (returnTo) return res.redirect((returnTo.startsWith('http') || returnTo.startsWith('/') ? '' : '/') + returnTo)
-            else return res.redirect('/')
+            return res.redirect(
+                returnTo
+                    ? (returnTo.startsWith('http') || returnTo.startsWith('/') ? '' : '/') + returnTo
+                    : '/'
+            )
         }
 
         const state = returnTo
