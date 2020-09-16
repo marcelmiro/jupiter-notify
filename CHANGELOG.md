@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/marcelmiro/jupiter-notify/compare/v3.0.2...v3.1.0) (2020-09-16)
+
+
+### Features
+
+* **api:** download jupiterscripts file from api route ([e454d3c](https://github.com/marcelmiro/jupiter-notify/commit/e454d3c596faa474fd450aaa7dbc1d1746a37d14))
+
+
+### Bug Fixes
+
+* **discord:** fix error as access token cant be deleted before software instances (foreign key) ([5d45636](https://github.com/marcelmiro/jupiter-notify/commit/5d4563618ec97d3f0c8ec67c1e089ca1b9204443))
+
 ### [3.0.2](https://github.com/marcelmiro/jupiter-notify/compare/v3.0.1...v3.0.2) (2020-09-15)
 
 
