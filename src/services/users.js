@@ -114,8 +114,8 @@ const deleteUser = async id => {
     if (RESPONSE) {
         const ACCESS_TOKEN = (await findAccessToken(id))?.access_token
         if (ACCESS_TOKEN) {
-            await deleteAccessToken(id)
             await deleteSoftwareInstances(ACCESS_TOKEN)
+            await deleteAccessToken(id)
         }
         await kickDiscordUser(id)
     }

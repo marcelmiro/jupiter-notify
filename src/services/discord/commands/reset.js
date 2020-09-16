@@ -75,12 +75,13 @@ module.exports = async message => {
             : undefined
 
         if (ACCESS_TOKEN_TIMEOUT > ACCESS_TOKEN_DATE) embed = TOKEN_TIMEOUT(ACCESS_TOKEN_TIMEOUT - ACCESS_TOKEN_DATE)
-        else if (await deleteAccessToken(message.author.id)) {
-            await deleteSoftwareInstances(ACCESS_TOKEN.access_token)
-            const RESPONSE = await insertAccessToken(message.author.id)
-            embed = RESPONSE?.access_token
-                ? TOKEN_CREATED(RESPONSE.access_token)
-                : UNEXPECTED_ERROR
+        else if (await deleteSoftwareInstances(ACCESS_TOKEN.access_token)) {
+            if (await deleteAccessToken(message.author.id)) {
+                const RESPONSE = await insertAccessToken(message.author.id)
+                embed = RESPONSE?.access_token
+                    ? TOKEN_CREATED(RESPONSE.access_token)
+                    : UNEXPECTED_ERROR
+            } else embed = UNEXPECTED_ERROR
         } else embed = UNEXPECTED_ERROR
     }
 
