@@ -20,7 +20,7 @@ const validation = async ({ userId, username, email, avatarUrl }) => {
 
 const checkCustomer = async ({ dbUser, userId, username, email }) => {
     const DB_CUSTOMER = await findCustomer(dbUser.stripe_id)
-    if (DB_CUSTOMER && DB_CUSTOMER.description === userId) return DB_CUSTOMER
+    if (DB_CUSTOMER && DB_CUSTOMER.description === userId) return DB_CUSTOMER.id
 
     const CUSTOMERS = await listCustomers()
     const CUSTOMER = CUSTOMERS.find(c => c.description === userId)

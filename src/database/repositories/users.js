@@ -27,10 +27,10 @@ const insertUser = async ({ userId, stripeId, username, email, avatarUrl }) => {
     const COLUMNS = 'user_id, cookie_id, stripe_id, username, email, avatar_url, created'
     const VALUES = [userId, uuidv4(), stripeId, username, email, avatarUrl, Date.now()]
 
-    return await client.query(
+    if (await client.query(
         `INSERT INTO users (${COLUMNS}) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         VALUES
-    )
+    )) return await findUser(userId)
 }
 
 const updateUser = async (id, column, value) => {
