@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/marcelmiro/jupiter-notify/compare/v3.1.0...v3.1.1) (2020-09-17)
+
+
+### Bug Fixes
+
+* **users:** fix error on inserting user to database ([82f0413](https://github.com/marcelmiro/jupiter-notify/commit/82f0413bb9cc458411c794731dee49705b82f803))
+
 ## [3.1.0](https://github.com/marcelmiro/jupiter-notify/compare/v3.0.2...v3.1.0) (2020-09-16)
 
 
