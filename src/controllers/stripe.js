@@ -168,6 +168,7 @@ const transferMembership = async (req, res) => {
             !(await deleteUser(req.user.user_id))
         ) return res.render('response', { status: 'transfer-fail' })
 
+        await addDiscordRole(userId, ROLE.role_id)
         console.log(`User '${req.user.username}' transferred its '${ROLE.name}' license to '${USER.username}'.`)
         res.render('response', { status: 'transfer-success' })
     } catch (e) {
