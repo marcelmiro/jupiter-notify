@@ -144,7 +144,7 @@ const transferMembership = async (req, res) => {
 
         const { userId } = req.params
         try {
-            await Joi.number().required().validateAsync(userId)
+            await Joi.number().unsafe().required().validateAsync(userId)
         } catch (e) { return res.render('response', { status: 'transfer-fail' }) }
 
         const USER = await findUser(userId)

@@ -8,9 +8,9 @@ const createWebhook = async (body, signature) => {
             body: Joi.required(),
             signature: Joi.required()
         }).required().validateAsync({ body, signature })
-    } catch (e) { return }
 
-    return stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK)
+        return stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK)
+    } catch (e) {}
 }
 
 module.exports = { createWebhook }
