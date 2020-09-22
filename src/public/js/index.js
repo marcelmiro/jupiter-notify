@@ -42,7 +42,7 @@ document.querySelectorAll('.confirm-popup .overlay, .confirm-popup .close-popup'
 })
 
 if (document.querySelector('.currency-popup')) {
-    document.querySelector('.dashboard-button-container .buy-membership').addEventListener('click', () => {
+    document.querySelector('#purchase-button').addEventListener('click', () => {
         document.querySelector('.currency-popup').classList.add('active')
     });
 

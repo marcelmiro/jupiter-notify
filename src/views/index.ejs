@@ -37,9 +37,7 @@
 		<a class="button" href="#faq">FAQ</a>
 
 		<a class="button" style="background-color:#8b50c3;"
-			<% if (hasRole) { %>
-				href="/dashboard">Dashboard
-			<% } else if (isUser) { %>
+			<% if (isUser) { %>
 				href="/logout">Log Out
 			<% } else { %>
 				href="/login">Log In
@@ -66,11 +64,11 @@
 			<img class="jupiter-wave" src="/assets/jupiter_planet_wave.svg" alt="" />
 
 			<% if (hasRole) { %>
-				<button class="button disabled">Already Subscribed</button>
+				<a class="button" href="/dashboard">Dashboard</a>
 			<% } else if (!inStock) { %>
 				<button class="button disabled">Out of Stock</button>
 			<% } else { %>
-				<button class="button buy-membership">Buy Membership</button>
+				<button id="purchase-button" class="button">Buy Membership</button>
 			<% } %>
 		</div>
 	</div>

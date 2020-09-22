@@ -64,7 +64,7 @@ const updatePayment = async (req, res) => {
     try {
         const CUSTOMER = req.user ? await findCustomer(req.user.stripe_id) : undefined
         if (!CUSTOMER) return res.redirect('/logout')
-        if (CUSTOMER.subscriptions.data[0]) return res.redirect('/dashboard')
+        if (!CUSTOMER.subscriptions.data[0]) return res.redirect('/dashboard')
 
         const SESSION = await createEditPaymentSession(CUSTOMER.id, await getDomain(req))
         if (SESSION) {

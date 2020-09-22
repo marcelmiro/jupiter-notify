@@ -44,10 +44,7 @@ require('./config')().then(() => {
 
     // Routes & fallback function.
     app.use('/', checkIEBrowser, verifyRoute, require('./routes'))
-    app.use((err, req, res, next) => {
-        console.error(err)
-        res.redirect('/')
-    })
+    app.use((req, res) => res.redirect('/'))
 
     const server = sslKey && sslCert
         ? require('https').createServer({ key: sslKey, cert: sslCert }, app)
