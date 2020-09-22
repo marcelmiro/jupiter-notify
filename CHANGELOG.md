@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.4](https://github.com/marcelmiro/jupiter-notify/compare/v3.1.3...v3.1.4) (2020-09-22)
+
+
+### Bug Fixes
+
+* **stripe:** fix update payment route ([77ff751](https://github.com/marcelmiro/jupiter-notify/commit/77ff7517e19cb08db72bf3e89a590a9078f6cf81))
+
 ### [3.1.3](https://github.com/marcelmiro/jupiter-notify/compare/v3.1.2...v3.1.3) (2020-09-20)
 
 
