@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/marcelmiro/jupiter-notify/compare/v4.0.0...v4.1.0) (2020-09-29)
+
+
+### Features
+
+* **discord:** add setting to allow anyone join Discord server from /join route ([a878ab2](https://github.com/marcelmiro/jupiter-notify/commit/a878ab280c329ccc2579330e5f65c769410dce67))
+
 ## [4.0.0](https://github.com/marcelmiro/jupiter-notify/compare/v3.1.4...v4.0.0) (2020-09-29)
 
 
