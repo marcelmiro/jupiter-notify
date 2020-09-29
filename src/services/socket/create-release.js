@@ -16,7 +16,7 @@ module.exports = async ({ io, socket, number }) => {
 
         if (parseInt(number) < 1) return socket.emit('send-error', 'Amount of licenses released must be greater than 0.')
         if (await createRelease(number)) {
-            console.log(`User '${socket.request.user.username}' has released ${number} renewal license${parseInt(number) > 1 ? 's' : ''}.`)
+            console.log(`User '${socket.request.user.username}' has released ${number} subscription license${parseInt(number) > 1 ? 's' : ''}.`)
             socket.emit('send-message', 'Stock released.')
             io.sockets.emit('get-release')
         } else socket.emit('send-error', 'Couldn\'t create release.')

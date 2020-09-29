@@ -3,6 +3,7 @@ const Joi = require('joi')
 const { findUser } = require('../../database/repositories/users')
 const { findUserRole, insertUserRole } = require('../../database/repositories/user-roles')
 const { findRoleByName } = require('../../database/repositories/roles')
+const { listRoleIdsFromPlans } = require('../../database/repositories/plans')
 const { addDiscordRole } = require('../discord/utils')
 
 module.exports = async ({ io, socket, userId, role }) => {
@@ -24,7 +25,9 @@ module.exports = async ({ io, socket, userId, role }) => {
 
         const ROLE = await findRoleByName(role)
         if (!ROLE) return socket.emit('send-error', 'Role doesn\'t exist.')
-        if (role.toLowerCase() === 'renewal') return socket.emit('send-error', 'You can\'t add members to the renewal role.')
+
+        const PLAN_ROLES = await listRoleIdsFromPlans()
+        if (PLAN_ROLES?.includes(ROLE.role_id)) return socket.emit('send-error', 'You can\'t add members to a subscription role.')
 
         const IMPORTANCE_ADMIN = socket.request.role.importance
         const IMPORTANCE_USER = ROLE.importance || 10

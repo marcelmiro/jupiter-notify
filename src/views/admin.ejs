@@ -84,7 +84,7 @@
 		<div class="content__members active">
 			<div class="content__members__settings">
 				<div class="left">
-					<input type="text" name="search" v-model="search" id="search-member" placeholder="member" v-on:contextmenu.prevent="clearInput" />
+					<input type="text" name="search" v-model="search" id="search-member" placeholder="member" @contextmenu.prevent="clearInput" />
 					<label for="search-member" style="display:none;"></label>
 
 					<div class="dropdown" :class="{'active' : dropdowns.role.show}" @mouseleave="dropdowns.role.show = false">
@@ -93,18 +93,17 @@
 							<img src="/assets/arrow_dropdown.svg" alt="Arrow down" />
 						</button>
 						<div class="dropdown__content">
-							<input type="radio" name="roles" id="role-all" value="all" v-model="dropdowns.role.name" checked />
+							<input type="radio" name="roles" id="role-all" value="all" v-model="dropdowns.role.name" @click="dropdowns.role.show = false" checked />
 							<label for="role-all">all</label>
 							<% for (const role of roles) { %>
-								<input type="radio" name="roles" id=<%= "role-" + role %> value=<%= role %> v-model="dropdowns.role.name" />
-								<label for=<%= "role-" + role %>><%= role %></label>
+								<input type="radio" name="roles" id="<%= "role-" + role %>" value="<%= role %>" v-model="dropdowns.role.name" @click="dropdowns.role.show = false" />
+								<label for="<%= "role-" + role %>"><%= role %></label>
 							<% } %>
 						</div>
 					</div>
 				</div>
 				<div class="right">
-					<span v-if="this.memberCount !== 1">{{ memberCount }} members</span>
-					<span v-else>{{ memberCount }} member</span>
+					<span>{{ memberCount }} {{ this.memberCount === 1 ? 'member' : 'members' }}</span>
 					<% if (role["modify_members"]) { %>
 						<button @click="addMember"><img src="/assets/icon_add.svg" alt="Plus icon" /></button>
 					<% } %>
@@ -232,33 +231,21 @@
 							<input id="member-edit-stripe_id" type="text" v-model="memberEdit.stripeId" placeholder="stripe id" @keyup.enter="updateMember('stripeId')" />
 							<button class="button" @click="updateMember('stripeId')">Update</button>
 						</div>
-						<div class="input-change" v-if="memberEdit.subscriptionCurrency">
+						<div class="input-change" v-if="memberEdit.subscription">
 							<label for="member-edit-subscription_currency">Sub currency</label>
-							<div class="dropdown" :class="{'active' : dropdowns.subscription_currency.show}" @mouseleave="dropdowns.subscription_currency.show = false">
-								<button class="dropdown__button" @click="dropdowns.subscription_currency.show = !dropdowns.subscription_currency.show">
-									<span>{{ memberEdit.subscriptionCurrency.toUpperCase() }}</span>
-									<img src="/assets/arrow_dropdown.svg" alt="Arrow down" />
-								</button>
-								<div class="dropdown__content">
-									<input type="radio" name="subscription_currency" id="subscription_currency-eur" value="eur" v-model="memberEdit.subscriptionCurrency" checked />
-									<label for="subscription_currency-eur">EUR</label>
-									<input type="radio" name="subscription_currency" id="subscription_currency-usd" value="usd" v-model="memberEdit.subscriptionCurrency" />
-									<label for="subscription_currency-usd">USD</label>
-									<input type="radio" name="subscription_currency" id="subscription_currency-gbp" value="gbp" v-model="memberEdit.subscriptionCurrency" />
-									<label for="subscription_currency-gbp">GBP</label>
-								</div>
-							</div>
-
+							<input id="member-edit-subscription_currency" type="text" v-model="memberEdit.subscriptionCurrency" placeholder="currency" @keyup.enter="updateMember('subscriptionCurrency')" />
 							<button class="button" @click="updateMember('subscriptionCurrency')">Update</button>
 						</div>
-						<div class="input-change" v-if="memberEdit.subscriptionTrial">
+						<%#<div class="input-change" v-if="memberEdit.subscription">
 							<label for="member-edit-subscription_trial">sub trial</label>
 							<input id="member-edit-subscription_trial" type="text" v-model="memberEdit.subscriptionTrial" placeholder="subscription trial" @keyup.enter="updateMember('subscriptionTrial')" />
 							<button class="button" @click="updateMember('subscriptionTrial')">Update</button>
-						</div>
+						</div>%>
 					</div>
 					<div class="container__section">
-						<button class="button delete" @click="deleteMember">Delete Member</button>
+						<button class="button delete" @click="deleteMember">
+							{{ memberEdit.subscription ? 'Delete Subscription' : 'Delete Member' }}
+						</button>
 					</div>
 				</div>
 			</div>
@@ -329,26 +316,6 @@
 					<label for="setting-stripe_secret">secret key</label>
 					<input id="setting-stripe_secret" type="text" placeholder="secret key" v-model="settings['STRIPE_SECRET']" @keyup.enter="updateSetting('STRIPE_SECRET')" />
 					<button class="button" @click="updateSetting('STRIPE_SECRET')">Update</button>
-				</div>
-				<div>
-					<label for="setting-stripe_plan">plan id</label>
-					<input id="setting-stripe_plan" type="text" placeholder="plan id" v-model="settings['STRIPE_PLAN']" @keyup.enter="updateSetting('STRIPE_PLAN')" />
-					<button class="button" @click="updateSetting('STRIPE_PLAN')">Update</button>
-				</div>
-				<div>
-					<label for="setting-stripe_plan_eur">plan id eur</label>
-					<input id="setting-stripe_plan_eur" type="text" placeholder="plan id eur" v-model="settings['STRIPE_PLAN_EUR']" @keyup.enter="updateSetting('STRIPE_PLAN_EUR')" />
-					<button class="button" @click="updateSetting('STRIPE_PLAN_EUR')">Update</button>
-				</div>
-				<div>
-					<label for="setting-stripe_plan_usd">plan id usd</label>
-					<input id="setting-stripe_plan_usd" type="text" placeholder="plan id usd" v-model="settings['STRIPE_PLAN_USD']" @keyup.enter="updateSetting('STRIPE_PLAN_USD')" />
-					<button class="button" @click="updateSetting('STRIPE_PLAN_USD')">Update</button>
-				</div>
-				<div>
-					<label for="setting-stripe_plan_gbp">plan id gbp</label>
-					<input id="setting-stripe_plan_gbp" type="text" placeholder="plan id gbp" v-model="settings['STRIPE_PLAN_GBP']" @keyup.enter="updateSetting('STRIPE_PLAN_GBP')" />
-					<button class="button" @click="updateSetting('STRIPE_PLAN_GBP')">Update</button>
 				</div>
 				<div>
 					<label for="setting-stripe_webhook">webhook id</label>

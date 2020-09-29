@@ -28,8 +28,8 @@ const download = async (req, res) => {
 
         res.redirect(URL)
     } catch (e) {
-        res.sendStatus(500)
         console.error(e)
+        res.redirect('/')
     }
 }
 

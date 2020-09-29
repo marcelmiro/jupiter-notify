@@ -25,17 +25,18 @@ created | text | ❌ | ❌ | ❌ | Epoch number that represents user's sign up d
 ##### Table: roles -> Stores role's basic information.
 Column name | Type | PK | FK | Unique | Used for
 --- | --- | --- | --- | --- | --- |
-role_id | text | ✅  | ❌ | ❌ | Role identifier.
+role_id | integer | ✅  | ❌ | ❌ | Role identifier.
 name | text | ❌ | ❌ | ✅  | Role name.
 color | text | ❌ | ❌ | ❌ | Hex color to represent role.
 discord_id | text | ❌ | ❌ | ❌ | Discord role id to link database role to Discord role.
+transferable | ❌ | ❌ | ❌ | Can role be transferred to another user?
 
 <br>
 
 ##### Table: role_permissions -> Stores role's permissions.
 Column name | Type | PK | FK | Unique | Used for
 --- | --- | --- | --- | --- | --- |
-role_id | text | ✅  | ✅  (From table: roles) |❌ | Role identifier.
+role_id | integer | ✅ | ✅ (From table: roles) | ❌ | Role identifier.
 admin_panel | boolean | ❌ | ❌ | ❌ | Permission to access admin panel.
 importance | integer | ❌ | ❌ | ❌ | Role's importance to create priority. '1' is the most important role.
 view_members | boolean | ❌ | ❌ | ❌ | Permission to view member's individual information.
@@ -49,8 +50,8 @@ edit_config | boolean | ❌ | ❌ | ❌ | Permission to edit website's settings.
 ##### Table: user_roles -> Stores users who have a role bound to their user id.
 Column name | Type | PK | FK | Unique | Used for
 --- | --- | --- | --- | --- | --- |
-user_id | text | ✅  | ✅  (From table: users) |❌ | User identifier.
-role_id | text | ❌ | ✅ (From table: roles) | ❌ | Role id identify role.
+user_id | text | ✅  | ✅ (From table: users) | ❌ | User identifier.
+role_id | integer | ❌ | ✅ (From table: roles) | ❌ | Role id identify role.
 
 <br>
 
@@ -59,6 +60,15 @@ Column name | Type | PK | FK | Unique | Used for
 --- | --- | --- | --- | --- | --- |
 name | text | ✅ | ❌ | ❌ | Setting name.
 value | text | ❌ | ❌ | ❌ | Setting value.
+
+<br>
+
+##### Table: plans -> Stores stripe subscription plans.
+Column name | Type | PK | FK | Unique | Used for
+--- | --- | --- | --- | --- | --- |
+plan_id | text | ✅ | ❌ | ❌ | Stripe's plan id (Used with Stripe's Price API).
+role_id | integer | ❌ | ✅ (From table: roles) | ✅ (With column: currency) | Role id linked to plan.
+currency | text | ❌ | ❌ | ✅ (With column: role_id) | Currency 3-letter lowercase ISO format.
 
 <br>
 
@@ -77,7 +87,6 @@ Column name | Type | PK | FK | Unique | Used for
 --- | --- | --- | --- | --- | --- |
 software_id | text | ✅ | ❌ | ❌ | Software identifier.
 name | text | ❌ | ❌ | ✅ | Name of given software.
-one_time_use | boolean | ❌ | ❌ | ❌ | Check if API is only used as authorization for given software.
 
 <br>
 
@@ -110,6 +119,7 @@ Setting name | Example | Explanation
 --- | --- | ---
 ACCESS_TOKEN_TIMEOUT | 100 | Timeout before allowing a user to generate a new access token (in seconds).
 COOKIE_KEY | nhv#;P>;)GQ;!4HQ | Key used as global password to cookie sessions. Key is split to an array of many passwords by character ';'.
+DASHBOARD_SOCIAL_URL | https://twitter.com/ | Url link used in dashboard's social button.
 DISCORD_BOT_TOKEN | | Discord bot's token.
 DISCORD_CLIENT_ID | | Discord bot's client id.
 DISCORD_CLIENT_SECRET | | Discord bot's client secret.
@@ -124,10 +134,6 @@ IN_STOCK | true | Boolean string value to toggle between allowing users to pay f
 LOGGER_MAX_SIZE | 100 | Log file's maximum allowed size in kilobytes. File will be resetted when exceeding said amount.
 LOGGER_NEW_LINES | 50 | Amount of lines to keep from old log file before resetting it.
 STRIPE_KEY | | Stripe's API key.
-STRIPE_PLAN | | Stripe's default membership plan.
-STRIPE_PLAN_EUR | | Stripe's EUR plan.
-STRIPE_PLAN_GBP | | Stripe's GBP plan.
-STRIPE_PLAN_USD | | Stripe's USD plan.
 STRIPE_SECRET | | Stripe's API secret.
 STRIPE_WEBHOOK | | Stripe's API webhook id.
 

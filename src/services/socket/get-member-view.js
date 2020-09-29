@@ -13,11 +13,20 @@ module.exports = async ({ socket, userId }) => {
         }
 
         const USER = await findUser(userId)
-        if (!USER) return socket.emit('send-error', 'User id doesn\'t exist in database.')
+        if (!USER) {
+            socket.emit('close-member-view')
+            return socket.emit('send-error', 'User id doesn\'t exist in database.')
+        }
         const ROLE = await findRoleFromUserRole(userId)
-        if (!ROLE) return socket.emit('send-error', 'User doesn\'t have a role.')
+        if (!ROLE) {
+            socket.emit('close-member-view')
+            return socket.emit('send-error', 'User doesn\'t have a role.')
+        }
         const CUSTOMER = await findCustomer(USER.stripe_id)
-        if (!CUSTOMER) return socket.emit('send-error', 'Couldn\'t find customer.')
+        if (!CUSTOMER) {
+            socket.emit('close-member-view')
+            return socket.emit('send-error', 'Couldn\'t find customer.')
+        }
         const SUBSCRIPTION = CUSTOMER.subscriptions.data[0]
 
         const DATA = {

@@ -1,7 +1,41 @@
 'use strict'
 const Joi = require('joi')
 const stripe = require('../../config/stripe')
-const { findCustomer } = require('./customers')
+const { updateUser } = require('../../database/repositories/users')
+const { findPlan } = require('../../database/repositories/plans')
+const { findCustomer, createCustomer, deleteCustomer } = require('./customers')
+
+const createSubscription = async ({ customerId, planId, date }) => {
+    try {
+        await Joi.object().keys({
+            customerId: Joi.string().required(),
+            planId: Joi.string().required(),
+            date: [Joi.string().alphanum(), Joi.number().unsafe()]
+        }).required().validateAsync({ customerId, planId, date })
+    } catch (e) { return }
+
+    const CUSTOMER = await findCustomer(customerId)
+    const PLAN = await findPlan(planId)
+    if (!CUSTOMER || !PLAN) return
+
+    if (CUSTOMER.currency?.toLowerCase() !== PLAN.currency.toLowerCase()) {
+        await deleteCustomer(customerId)
+        customerId = (await createCustomer({
+            userId: CUSTOMER.description,
+            name: CUSTOMER.name,
+            email: CUSTOMER.email
+        }))?.id
+        if (!customerId) throw new Error(`Couldn't create new Stripe customer for user '${CUSTOMER.description}'.`)
+        await updateUser(CUSTOMER.description, 'stripe_id', customerId)
+    }
+
+    return await stripe.subscriptions.create({
+        customer: customerId,
+        items: [{ plan: planId }],
+        billing_cycle_anchor: date || 'now',
+        proration_behavior: 'none'
+    })
+}
 
 const updateSubscription = async (id, data) => {
     try {
@@ -22,31 +56,4 @@ const deleteSubscription = async id => {
     return await stripe.subscriptions.del(id)
 }
 
-const transferSubscription = async ({ customerId, date, currency }) => {
-    try {
-        await Joi.object().keys({
-            customerId: Joi.string().required(),
-            date: [Joi.string().alphanum().required(), Joi.number().required()],
-            currency: Joi.string()
-        }).required().validateAsync({ customerId, date, currency })
-    } catch (e) { return }
-
-    const CUSTOMER = await findCustomer(customerId)
-    if (!CUSTOMER) return
-
-    let planId = process.env.STRIPE_PLAN
-    if (CUSTOMER.currency && process.env['STRIPE_PLAN_' + CUSTOMER.currency.toUpperCase()]) {
-        planId = process.env['STRIPE_PLAN_' + CUSTOMER.currency.toUpperCase()]
-    } else if (currency && process.env['STRIPE_PLAN_' + currency.toUpperCase()]) {
-        planId = process.env['STRIPE_PLAN_' + currency.toUpperCase()]
-    }
-
-    return await stripe.subscriptions.create({
-        customer: customerId,
-        items: [{ plan: planId }],
-        billing_cycle_anchor: date,
-        proration_behavior: 'none'
-    })
-}
-
-module.exports = { updateSubscription, deleteSubscription, transferSubscription }
+module.exports = { createSubscription, updateSubscription, deleteSubscription }

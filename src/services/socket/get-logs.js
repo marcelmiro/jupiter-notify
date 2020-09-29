@@ -34,8 +34,8 @@ module.exports = async socket => {
 
             TEMP.status = TEMP.text[0]
             TEMP.text = TEMP.text.slice(1).join(' ')
-            TEMP.color = TEMP.status.toLowerCase() in LOG_COLORS
-                ? LOG_COLORS[TEMP.status.toLowerCase()]
+            TEMP.color = TEMP.status?.toLowerCase() in LOG_COLORS
+                ? LOG_COLORS[TEMP.status?.toLowerCase()]
                 : LOG_COLORS.default || '#FFFFFF'
 
             TEMP_LOGS.push(TEMP)

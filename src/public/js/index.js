@@ -57,7 +57,7 @@ if (document.querySelector('.currency-popup')) {
     CURRENCY_DROPDOWN.addEventListener('mouseleave', () => CURRENCY_DROPDOWN.classList.remove('active'))
     CURRENCY_DROPDOWN.addEventListener('click', () => CURRENCY_DROPDOWN.classList.toggle('active'))
 
-    let currency = 'EUR'
+    let currency = 'USD'
     CURRENCY_DROPDOWN.querySelectorAll('.dropdown__content label').forEach(label => {
         label.addEventListener('click', () => {
             currency = label.textContent.slice(0, 3)
@@ -68,16 +68,12 @@ if (document.querySelector('.currency-popup')) {
 
     document.querySelector('.currency-popup .container .button').addEventListener('click', () => {
         let redirect = '/stripe/pay'
-        if (!isUser) redirect = '/login?redirect=' + redirect
-        if (currency && (typeof currency === 'string' || currency instanceof String) && currency.length === 3) {
-            redirect += '?currency=' + currency
+        if (currency && typeof currency === 'string' && currency.length === 3) {
+            redirect += (redirect.split('?')[1] ? '&' : '?') + 'currency=' + currency
         }
-        window.location.href = redirect
-    })
-}
 
-if (document.getElementById('login-fail')) {
-    document.getElementById('login-fail').style.display = 'block'
+        window.location.href = (isUser ? '' : '/login?redirect=') + redirect
+    })
 }
 
 // Image slideshow rotation.

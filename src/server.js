@@ -52,5 +52,5 @@ require('./config')().then(() => {
     server.listen(port, () => console.log('Server connected at: ' + port))
 
     require('./config/socket')(server).then(io => require('./services/socket')(io))
-    require('./services/stripe/check-renewals')()
+    require('./services/stripe/check-subscriptions')()
 })

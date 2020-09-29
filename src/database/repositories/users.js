@@ -34,7 +34,7 @@ const insertUser = async ({ userId, stripeId, username, email, avatarUrl }) => {
 }
 
 const updateUser = async (id, column, value) => {
-    column = column.toLowerCase()
+    column = column?.toLowerCase()
     if (column === 'user_id') return
     const FIELDS = (await client.query('SELECT * FROM users WHERE false')).fields.map(f => f.name)
     if (!FIELDS.includes(column)) return

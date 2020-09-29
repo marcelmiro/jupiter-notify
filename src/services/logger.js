@@ -66,7 +66,7 @@ validation().then(() => {
     console.fatal = msg => {
         // Exit process if console.fatal is called.
         logMessage(logger.fatal, msg)
-            .then(() => setTimeout(() => process.exit(1), 1000))
+            .then(() => setTimeout(async () => await process.exit(1), 1000))
             .catch(process.exit(1))
     }
 

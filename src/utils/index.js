@@ -3,6 +3,12 @@ const Joi = require('joi')
 const browser = require('browser-detect')
 const { findUserRole, findRoleFromUserRole } = require('../database/repositories/user-roles')
 
+const CURRENCIES = {
+    usd: '$',
+    eur: '€',
+    gbp: '£'
+}
+
 const checkIEBrowser = (req, res, next) => {
     browser(req.headers['user-agent']).name === 'ie'
         ? res.render('ie') : next()
@@ -45,7 +51,7 @@ const transformDate = async date => {
 }
 
 const inStock = async () => {
-    return Boolean(process.env.IN_STOCK.toLowerCase() === 'true')
+    return Boolean(process.env.IN_STOCK?.toLowerCase() === 'true')
 }
 
 const getDomain = async req => {
@@ -60,4 +66,12 @@ const getDomain = async req => {
     return PROTOCOL + '://' + DOMAIN
 }
 
-module.exports = { checkIEBrowser, verifyRoute, transformDate, inStock, getDomain }
+const getCurrencySymbol = async currency => {
+    try {
+        await Joi.string().alphanum().required().validateAsync(currency)
+    } catch (e) { return }
+
+    return CURRENCIES[currency.toLowerCase()]
+}
+
+module.exports = { checkIEBrowser, verifyRoute, transformDate, inStock, getDomain, getCurrencySymbol }

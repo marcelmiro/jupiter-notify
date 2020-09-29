@@ -66,8 +66,8 @@
             <img src="/assets/icon_discord.svg" alt="Discord icon" />
             <span>Join Discord</span>
         </a>
-        <a class="button" href="https://twitter.com/jupiternotify" target="_blank">
-            <img src="/assets/icon_twitter.svg" alt="Twitter icon" />
+        <a class="button" href="<%= socialUrl || '/' %>" target="_blank">
+            <img src="/assets/icon_social.svg" alt="Social icon" />
             <span>Follow Us</span>
         </a>
     </div>
@@ -178,7 +178,7 @@
                 </g>
                 <defs>
                     <image id="_Image2" width="324px" height="204px" xlink:href="data:image/jpeg;base64,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"/>
-                    <image id="_Image3" width="1819px" height="1819px" style="opacity: 0.8;" xlink:href="assets/jupiter_planet.svg"/>
+                    <image id="_Image3" width="1819px" height="1819px" style="opacity: 0.8;" xlink:href="assets/icon_cc.png"/>
                 </defs>
             </svg>
 
@@ -209,6 +209,16 @@
                 <button class="close-popup">Cancel</button>
                 <a class="button" href="/stripe/cancel-membership">Confirm</a>
             </div>
+        </div>
+    </div>
+<% } %>
+
+<% if (membershipDetails.subscription && !paymentDetails.name && !paymentDetails.last4 && !paymentDetails.dateExpiry) { %>
+    <div class="confirm-popup" style="display: block;">
+        <div class="overlay"></div>
+        <div class="container">
+            <p>Please set up your payment details. If not, your subscription will automatically cancel on the next payment.</p>
+            <div><button class="close-popup button">OK</button></div>
         </div>
     </div>
 <% } %>

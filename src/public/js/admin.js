@@ -13,10 +13,7 @@ new Vue({
         memberEdit: {},
         memberCount: 0,
         search: '',
-        dropdowns: {
-            role: { name: 'all', show: false },
-            subscription_currency: { name: 'EUR', show: false }
-        },
+        dropdowns: { role: { name: 'all', show: false } },
         showMemberView: false,
         showMemberEdit: false,
         release: {},
@@ -83,7 +80,7 @@ new Vue({
         },
         createRelease: function () {
             if (!ROLE.create_releases) return
-            const NUMBER = prompt('How many renewal licenses do you want to release?')
+            const NUMBER = prompt('How many subscription licenses do you want to release?')
             if (NUMBER) SOCKET.emit('create-release', NUMBER)
         },
         deleteRelease: function () {
@@ -170,8 +167,6 @@ new Vue({
             }
         },
 
-        'dropdowns.role.name': function () { this.dropdowns.role.show = false },
-
         memberView: function () {
             // Modify username if length too long.
             if (!this.memberView.username) return
@@ -210,7 +205,6 @@ new Vue({
                 usernameLoop()
             }, 0)
         },
-        'memberEdit.subscriptionCurrency': function () { this.dropdowns.subscription_currency.show = false },
 
         // Modify variables if null.
         members: function () { if (!this.members) { this.members = [] } },

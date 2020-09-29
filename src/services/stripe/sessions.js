@@ -1,42 +1,33 @@
 'use strict'
 const Joi = require('joi')
 const stripe = require('../../config/stripe')
-const { findCustomer, createCustomer, deleteCustomer } = require('./customers')
 const { updateUser } = require('../../database/repositories/users')
+const { findPlan } = require('../../database/repositories/plans')
+const { findCustomer, createCustomer, deleteCustomer } = require('./customers')
 
-const createSubscriptionSession = async (customerId, currency, url) => {
+const createSubscriptionSession = async ({ customerId, planId, url }) => {
     try {
         await Joi.object().keys({
             customerId: Joi.string().required(),
-            currency: Joi.string(),
+            planId: Joi.string().required(),
             url: Joi.string().required()
-        }).required().validateAsync({ customerId, currency, url })
+        }).required().validateAsync({ customerId, planId, url })
     } catch (e) { return }
 
     const CUSTOMER = await findCustomer(customerId)
-    if (!CUSTOMER) return
+    const PLAN = await findPlan(planId)
+    if (!CUSTOMER || !PLAN) return
 
-    CUSTOMER.currency = CUSTOMER.currency && process.env['STRIPE_PLAN_' + CUSTOMER.currency.toUpperCase()]
-        ? CUSTOMER.currency : undefined
-    currency = currency && process.env['STRIPE_PLAN_' + currency.toUpperCase()]
-        ? currency : undefined
-
-    let planId
-    if (CUSTOMER.currency && currency) {
-        if (CUSTOMER.currency !== currency) {
-            await deleteCustomer(customerId)
-            customerId = (await createCustomer({
-                userId: CUSTOMER.description,
-                name: CUSTOMER.name,
-                email: CUSTOMER.email
-            }))?.id
-            if (!customerId) throw new Error('Couldn\'t create new Stripe customer.')
-            await updateUser(CUSTOMER.description, 'stripe_id', customerId)
-        }
-        planId = process.env['STRIPE_PLAN_' + currency.toUpperCase()]
-    } else if (CUSTOMER.currency) planId = process.env['STRIPE_PLAN_' + CUSTOMER.currency.toUpperCase()]
-    else if (currency) planId = process.env['STRIPE_PLAN_' + currency.toUpperCase()]
-    else planId = process.env.STRIPE_PLAN
+    if (CUSTOMER.currency && CUSTOMER.currency.toLowerCase() !== PLAN.currency.toLowerCase()) {
+        await deleteCustomer(customerId)
+        customerId = (await createCustomer({
+            userId: CUSTOMER.description,
+            name: CUSTOMER.name,
+            email: CUSTOMER.email
+        }))?.id
+        if (!customerId) throw new Error(`Couldn't create new Stripe customer for user '${CUSTOMER.description}'.`)
+        await updateUser(CUSTOMER.description, 'stripe_id', customerId)
+    }
 
     return await stripe.checkout.sessions.create({
         mode: 'subscription',

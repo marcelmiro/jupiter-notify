@@ -40,9 +40,8 @@ if (document.getElementById('transfer-membership')) {
         document.getElementById('transfer-membership-popup').style.display = 'block'
     })
     document.querySelector('#transfer-membership-popup .button').addEventListener('click', () => {
-        const VALUE = document.querySelector('#transfer-membership-popup input[type=text]').value
-        if (!(/^\d+$/).test(VALUE)) return alert('Input is not a Discord id.')
-        window.location.href = '/stripe/transfer-membership/' + VALUE
+        const VALUE = document.querySelector('#transfer-membership-popup input[type=text]').value.trim()
+        if (VALUE) window.location.href = '/stripe/transfer-membership/' + VALUE
     })
 }
 

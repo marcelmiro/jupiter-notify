@@ -261,14 +261,14 @@
 
 				<div class="dropdown">
 					<button class="dropdown__button">
-						<span>Currency: <span>EUR (€)</span></span>
+						<span>Currency: <span>USD ($)</span></span>
 						<img src="/assets/arrow_dropdown.svg" alt="Arrow down" />
 					</button>
 					<div class="dropdown__content">
-						<input type="radio" name="currencies" id="currency-eur" checked />
-						<label for="currency-eur">EUR (€)</label>
 						<input type="radio" name="currencies" id="currency-usd" />
 						<label for="currency-usd">USD ($)</label>
+						<input type="radio" name="currencies" id="currency-eur" checked />
+						<label for="currency-eur">EUR (€)</label>
 						<input type="radio" name="currencies" id="currency-gbp" />
 						<label for="currency-gbp">GBP (£)</label>
 					</div>
@@ -280,7 +280,7 @@
 <% } %>
 
 <% if (loginFail) { %>
-	<div id="login-fail" class="confirm-popup">
+	<div id="login-fail" class="confirm-popup" style="display: block;">
 		<div class="overlay"></div>
 		<div class="container">
 			<p>In order to login to our website, you must have an email bound to your Discord account.</p>

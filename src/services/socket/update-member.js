@@ -3,37 +3,48 @@ const Joi = require('joi')
 const { findUser, findUserByStripe, updateUser } = require('../../database/repositories/users')
 const { findRoleFromUserRole, updateUserRole } = require('../../database/repositories/user-roles')
 const { findRoleByName } = require('../../database/repositories/roles')
-const { listCustomers, findCustomer, createCustomer, deleteCustomer, updateSubscription, transferSubscription } = require('../stripe')
-const { addDiscordRole, deleteDiscordRoleByName } = require('../discord/utils')
+const { listRoleIdsFromPlans } = require('../../database/repositories/plans')
+const { findPlanByRoleAndCurrency } = require('../../database/repositories/plans')
+const { listCustomers, findCustomer, createCustomer, deleteCustomer, createSubscription } = require('../stripe')
+const { addDiscordRole, deleteDiscordRole } = require('../discord/utils')
 
-const updateRoleFunction = async ({ socket, user, role }) => {
-    if (user.role.toLowerCase() === role.toLowerCase()) return socket.emit('send-error', 'You can\'t update to the same role.')
-    if (user.role.toLowerCase() === 'renewal') return socket.emit('send-error', 'You can\'t change the renewal role.')
-    if (role.toLowerCase() === 'renewal') return socket.emit('send-error', 'You can\'t add a member to the renewal role.')
+const updateRoleFunction = async ({ socket, user, oldRoleId, newRoleName }) => {
+    try {
+        await Joi.object().keys({
+            oldRoleId: [Joi.string().alphanum().required(), Joi.number().required()],
+            newRoleName: Joi.string().required()
+        }).required().validateAsync({ oldRoleId, newRoleName })
+    } catch (e) { return socket.emit('send-error', 'Parameter validation failed.') }
 
-    const ROLE = await findRoleByName(role)
-    if (!ROLE) return socket.emit('send-error', 'Role doesn\'t exist.')
+    const newRole = await findRoleByName(newRoleName)
+    if (!newRole?.role_id) return socket.emit('send-error', 'Desired role doesn\'t exist.')
+    if (oldRoleId === newRole.role_id) return socket.emit('send-error', 'You can\'t update to the same role.')
 
-    if (await updateUserRole(user.user_id, ROLE.role_id)) {
-        if (await deleteDiscordRoleByName(user.user_id, user.role)) {
-            await addDiscordRole(user.user_id, ROLE.role_id)
+    const PLAN_ROLES = await listRoleIdsFromPlans()
+    if (PLAN_ROLES?.includes(oldRoleId)) return socket.emit('send-error', 'You can\'t change a subscription role.')
+    if (PLAN_ROLES?.includes(newRole.role_id)) return socket.emit('send-error', 'You can\'t add a member to a subscription role.')
+
+    if (await updateUserRole(user.user_id, newRole.role_id)) {
+        if (await deleteDiscordRole(user.user_id, oldRoleId)) {
+            await addDiscordRole(user.user_id, newRole.role_id)
         }
-        console.log(`User '${socket.request.user.username}' changed '${user.username}' role to '${role}'.`)
-        socket.emit('send-message', `User '${user.username}' role changed to '${role}'.`)
+        console.log(`User '${socket.request.user.username}' changed '${user.username}' role to '${newRole.name}'.`)
+        socket.emit('send-message', `User '${user.username}' role changed to '${newRole.name}'.`)
     } else socket.emit('send-error', 'Couldn\'t insert user role to database.')
 }
 
 const updateUserFunction = async ({ socket, user, name, value }) => {
+    try {
+        await Joi.object().keys({
+            stripe_id: Joi.string(),
+            email: Joi.string().email()
+        }).or('stripe_id', 'email').required().validateAsync({ [name]: value })
+    } catch (e) { return socket.emit('send-error', 'Parameter validation failed.') }
+
     if (name === 'stripe_id') {
         const CUSTOMERS = await listCustomers()
         if (!CUSTOMERS.find(CUSTOMER => CUSTOMER.id === value)) return socket.emit('send-error', 'Stripe id doesn\'t exist.')
         if (await findUserByStripe(user.stripe_id)) return socket.emit('send-error', 'Stripe id already assigned to a user.')
-    } else if (name === 'email') {
-        try {
-            await Joi.string().email().required().validateAsync(value)
-        } catch (e) {
-            return socket.emit('send-error', 'Parameter validation failed: ' + e.message)
-        }
     }
 
     if (user[name] === value) return socket.emit('send-error', `You can't update ${name} to the same value.`)
@@ -44,26 +55,32 @@ const updateUserFunction = async ({ socket, user, name, value }) => {
     } else socket.emit('send-error', 'Couldn\'t update user data.')
 }
 
-const updateSubscriptionCurrencyFunction = async ({ socket, user, value }) => {
-    const CUSTOMER = await findCustomer(user.stripe_id)
-    const SUBSCRIPTION = CUSTOMER?.subscriptions.data[0]
-    if (!SUBSCRIPTION) return socket.emit('send-error', 'User doesn\'t have a subscription.')
+const updateSubscriptionCurrencyFunction = async ({ socket, user, roleId, currency }) => {
+    try {
+        await Joi.string().alphanum().required().validateAsync(currency)
+    } catch (e) { return socket.emit('send-error', 'Parameter validation failed.') }
 
-    if (CUSTOMER.currency.toLowerCase() === value.toLowerCase()) return socket.emit('send-error', 'You can\'t update currency to the same value.')
-    if (!process.env['STRIPE_PLAN_' + value.toUpperCase()]) return socket.emit('send-error', 'Currency plan doesn\'t exist.')
+    const PLAN = await findPlanByRoleAndCurrency(roleId, currency)
+    if (!PLAN) return socket.emit('send-error', 'Couldn\'t find plan id.')
+
+    const CUSTOMER = await findCustomer(user.stripe_id)
+    if (!CUSTOMER) return socket.emit('send-error', 'Customer doesn\'t exist.')
+    if (CUSTOMER.currency?.toLowerCase() === currency.toLowerCase()) return socket.emit('send-error', 'You can\'t update currency to the same value.')
+    const SUBSCRIPTION = CUSTOMER.subscriptions.data[0]
+    if (!SUBSCRIPTION) return socket.emit('send-error', 'User doesn\'t have a subscription.')
 
     if (!(await deleteCustomer(user.stripe_id))) return socket.emit('send-error', 'Error on deleting customer.')
     const CUSTOMER_ID = (await createCustomer({ userId: user.user_id, name: user.username, email: user.email }))?.id
     if (!CUSTOMER_ID) return socket.emit('send-error', 'Error on creating customer.')
     if (!(await updateUser(user.user_id, 'stripe_id', CUSTOMER_ID))) return socket.emit('send-error', 'Couldn\'t update stripe id in database.')
 
-    if (await transferSubscription({ customerId: CUSTOMER_ID, date: SUBSCRIPTION.current_period_end, currency: value.toUpperCase() })) {
-        console.log(`User '${socket.request.user.username}' changed '${user.username}'s subscription currency to '${value.toUpperCase()}'`)
+    if (await createSubscription({ customerId: CUSTOMER_ID, planId: PLAN.plan_id, date: SUBSCRIPTION.current_period_end })) {
+        console.log(`User '${socket.request.user.username}' changed '${user.username}'s subscription currency to '${currency.toUpperCase()}'`)
         socket.emit('send-message', `User '${user.username}'s subscription currency has been updated.`)
-    } else socket.emit('send-error', 'Couldn\'t transfer subscription.')
+    } else socket.emit('send-error', 'Couldn\'t create subscription.')
 }
 
-const updateTrialDaysFunction = async ({ socket, user, value }) => {
+/* const updateTrialDaysFunction = async ({ socket, user, value }) => {
     const DAYS = Number(value)
     if (isNaN(DAYS) || DAYS % 1 !== 0) return socket.emit('send-error', 'Input must be an integer.')
 
@@ -86,7 +103,7 @@ const updateTrialDaysFunction = async ({ socket, user, value }) => {
         console.log(`User '${socket.request.user.username}' removed trial from '${user.username}'s subscription.`)
         socket.emit('send-message', `User '${user.username}'s subscription trial days removed.`)
     } else socket.emit('send-error', 'Couldn\'t update subscription to remove trial.')
-}
+} */
 
 module.exports = async ({ io, socket, userId, name, value }) => {
     try {
@@ -98,12 +115,9 @@ module.exports = async ({ io, socket, userId, name, value }) => {
         try {
             await Joi.object().keys({
                 userId: Joi.string().alphanum().required(),
-                name: Joi.string().required(),
-                value: Joi.string().required()
-            }).required().validateAsync({ userId, name, value: value.toString() })
-        } catch (e) {
-            return socket.emit('send-error', 'Parameter validation failed: ' + e.message)
-        }
+                name: Joi.string().required()
+            }).required().validateAsync({ userId, name })
+        } catch (e) { return socket.emit('send-error', 'Parameter validation failed.') }
 
         const USER = await findUser(userId)
         if (!USER) return socket.emit('send-error', 'User id doesn\'t exist in database.')
@@ -118,23 +132,27 @@ module.exports = async ({ io, socket, userId, name, value }) => {
 
         switch (name) {
         case 'role':
-            await updateRoleFunction({ socket, user: { ...USER, role: ROLE.name }, role: value })
+            await updateRoleFunction({ socket, user: USER, oldRoleId: ROLE.role_id, newRoleName: value })
             io.sockets.emit('get-member-list')
             break
         case 'email':
-            await updateUserFunction({ socket, user: USER, name, value })
+            await updateUserFunction({ socket, user: USER, name: 'email', value })
             break
         case 'stripeId':
             await updateUserFunction({ socket, user: USER, name: 'stripe_id', value })
             break
         case 'subscriptionCurrency':
-            await updateSubscriptionCurrencyFunction({ socket, user: USER, value })
+            await updateSubscriptionCurrencyFunction({ socket, user: USER, roleId: ROLE.role_id, currency: value })
             break
-        case 'subscriptionTrial':
+        /* case 'subscriptionTrial':
+            try {
+                await Joi.alternatives([Joi.number().required(), Joi.string().alphanum().required()]).required()
+                    .validateAsync(value)
+            } catch (e) { return socket.emit('send-error', 'Parameter validation failed.') }
             await updateTrialDaysFunction({ socket, user: USER, value })
-            break
+            break */
         default:
-            socket.emit('send-error', 'Field name to update doesn\'t exist.')
+            socket.emit('send-error', 'Field name doesn\'t exist.')
         }
     } catch (e) {
         console.error(e)

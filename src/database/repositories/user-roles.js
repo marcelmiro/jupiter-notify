@@ -1,7 +1,7 @@
 'use strict'
 const client = require('../../config/database')
 const model = require('../models/user-roles')
-const { findRole, findRoleByName } = require('./roles')
+const { findRole } = require('./roles')
 
 const listUserRoles = async () => {
     return (await client.query('SELECT * FROM user_roles')).rows
@@ -13,13 +13,16 @@ const listUsersAndRolesFromUserRoles = async () => {
     )).rows
 }
 
-const listRenewalUsers = async () => {
-    const ROLE = await findRoleByName('renewal')
-    if (!ROLE?.role_id) return
-    return (await client.query(
-        'SELECT * FROM user_roles NATURAL JOIN users WHERE role_id = $1',
-        [ROLE.role_id]
-    )).rows
+const listUsersFromRoles = async array => {
+    await model.arrayRoleIds.validateAsync(array)
+
+    let query = []
+    for (let i = 0; i < array.length; i++) query.push(`role_id = $${i + 1}`)
+    query = query.join(' OR ')
+
+    return (
+        await client.query('SELECT * FROM user_roles NATURAL JOIN users WHERE ' + query, array)
+    ).rows
 }
 
 const findUserRole = async id => {
@@ -57,7 +60,7 @@ const deleteUserRole = async id => {
 module.exports = {
     listUserRoles,
     listUsersAndRolesFromUserRoles,
-    listRenewalUsers,
+    listUsersFromRoles,
     findUserRole,
     findRoleFromUserRole,
     insertUserRole,
