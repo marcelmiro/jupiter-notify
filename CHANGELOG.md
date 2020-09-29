@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/marcelmiro/jupiter-notify/compare/v3.1.4...v4.0.0) (2020-09-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* Dynamic subscriptions and dynamic dashboard images.
+
+
+### Features
+
+* **login:** add full url login redirects
+* add feedback responses to transfer membership controller
+* add update payment popup when subscription has no payment method
+
+
+### Bug Fixes
+* **database:** remove one_time_use column from software_ids table
+* **admin:** make role dropdown always hide when clicking a role
+* **admin:** fix roles in role dropdown show correctly when containing spaces
+
 ### [3.1.4](https://github.com/marcelmiro/jupiter-notify/compare/v3.1.3...v3.1.4) (2020-09-22)
 
 
