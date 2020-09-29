@@ -151,7 +151,13 @@ const admin = async (req, res) => {
 const join = async (req, res) => {
     try {
         if (!req.user) return res.redirect('/login?redirect=' + req.originalUrl)
-        if (!(await findUserRole(req.user.user_id))) return res.redirect('/')
+        if (
+            !(await findUserRole(req.user.user_id)) &&
+            (
+                !process.env.DISCORD_ALLOW_EVERYONE ||
+                process.env.DISCORD_ALLOW_EVERYONE.toLowerCase() !== 'true'
+            )
+        ) return res.redirect('/')
 
         const INVITE = await inviteDiscordUser(req.user.user_id, req.user.username)
         INVITE ? res.redirect(INVITE) : res.send('<script>window.close();</script>')

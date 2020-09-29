@@ -117,25 +117,26 @@ LOGGER_NEW_LINES | 50 | Amount of lines to keep from old log file before resetti
 ##### Database table: settings
 Setting name | Example | Explanation
 --- | --- | ---
-ACCESS_TOKEN_TIMEOUT | 100 | Timeout before allowing a user to generate a new access token (in seconds).
-COOKIE_KEY | nhv#;P>;)GQ;!4HQ | Key used as global password to cookie sessions. Key is split to an array of many passwords by character ';'.
-DASHBOARD_SOCIAL_URL | https://twitter.com/ | Url link used in dashboard's social button.
-DISCORD_BOT_TOKEN | | Discord bot's token.
-DISCORD_CLIENT_ID | | Discord bot's client id.
-DISCORD_CLIENT_SECRET | | Discord bot's client secret.
+ACCESS_TOKEN_TIMEOUT | 100 | Timeout (in seconds) before allowing a user to generate a new access token.
+COOKIE_KEY | nhv#;P>;)GQ;!4HQ | Global cookie sessions password. Key is split into an array of many passwords by character ';'.
+DASHBOARD_SOCIAL_URL | https://twitter.com/ | Dashboard's social button url.
+DISCORD_ALLOW_EVERYONE | false | Boolean string to allow anyone to join Discord server from /join route. Value is true if value.toLowerCase() === 'true'.
+DISCORD_BOT_TOKEN | | Discord bot token.
+DISCORD_CLIENT_ID | | Discord client id.
+DISCORD_CLIENT_SECRET | | Discord client secret.
 DISCORD_GUILDS | | Discord servers separated by character ';'. First server id is the main server.
 DISCORD_LOGGER_CHANNEL | | Discord channel id where to output logger information.
-DISCORD_SUPPORT_CHANNEL | | Discord channel id where to output support tickets from website contact form.
-DOWNLOAD_JUPITERSCRIPTS | https://google.com | Url to the latest jupiterscripts download file.
+DISCORD_SUPPORT_CHANNEL | | Discord channel id where to output support tickets from website's contact form.
+DOWNLOAD_JUPITERSCRIPTS | https://google.com | Url to jupiterscripts' download file.
 ENCRYPTION_IV_LENGTH | 16 | Length of IV string in encryption.
 ENCRYPTION_KEY | dawda0w9e2 | Password/Key used for encryption.
 ENCRYPTION_KEY_LENGTH | 32 | Length of encryption key.
-IN_STOCK | true | Boolean string value to toggle between allowing users to pay for membership or not. Value will only be true if value.toLowerCase() === 'true'.
+IN_STOCK | true | Boolean string to check if users can buy subscriptions. Value is true if value.toLowerCase() === 'true'.
 LOGGER_MAX_SIZE | 100 | Log file's maximum allowed size in kilobytes. File will be resetted when exceeding said amount.
 LOGGER_NEW_LINES | 50 | Amount of lines to keep from old log file before resetting it.
-STRIPE_KEY | | Stripe's API key.
-STRIPE_SECRET | | Stripe's API secret.
-STRIPE_WEBHOOK | | Stripe's API webhook id.
+STRIPE_KEY | | Stripe API key.
+STRIPE_SECRET | | Stripe API secret.
+STRIPE_WEBHOOK | | Stripe webhook id.
 
 <br>
 

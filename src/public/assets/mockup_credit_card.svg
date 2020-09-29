@@ -10,7 +10,7 @@
                 <use xlink:href="#_Image2" x="0" y="0" width="324px" height="204px"/>
             </g>
         </g>
-        <g id="JUPITER" transform="matrix(0.0190706,0,0,0.0179094,274.704,39.5716)">
+        <g transform="matrix(0.0190706,0,0,0.0179094,274.704,39.5716)">
             <g transform="matrix(1,0,0,1,-909.5,-909.5)">
                 <use id="Calque_1" xlink:href="#_Image3" x="0" y="0" width="1819px" height="1819px"/>
             </g>
