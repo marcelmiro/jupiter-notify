@@ -4,7 +4,7 @@ const Joi = require('joi')
 module.exports = {
     schema: Joi.object().keys({
         userId: Joi.string().alphanum().required(),
-        cookieId: Joi.string().required(),
+        cookieId: Joi.string(),
         stripeId: Joi.string().required(),
         username: Joi.string().required(),
         email: Joi.string().email().required(),

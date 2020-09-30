@@ -132,7 +132,7 @@ html, body {
 	background: linear-gradient(to bottom, #352746 0%,#8b50c3 100%);
 	background-repeat: no-repeat;
 }
-.screen-loader {
+.loader {
 	width: 100%;
 	height: 100%;
 	position: fixed;
@@ -382,7 +382,7 @@ html, body {
 				left: 40px;
 				transition: transform 0.3s ease;
 			}
-			.loader{
+			.content-loader {
 				width: 80px;
 				height: 80px;
 				position: absolute;

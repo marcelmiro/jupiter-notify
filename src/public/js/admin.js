@@ -270,7 +270,7 @@ new Vue({
 
 // Fade out screen loader.
 const fadeOutLoader = () => {
-    const loaderStyle = document.getElementsByClassName('screen-loader')[0].style
+    const loaderStyle = document.getElementsByClassName('loader')[0].style
 
     loaderStyle.opacity = (1).toString();
     (function fade () {
