@@ -29,7 +29,7 @@ role_id | integer | ✅  | ❌ | ❌ | Role identifier.
 name | text | ❌ | ❌ | ✅  | Role name.
 color | text | ❌ | ❌ | ❌ | Hex color to represent role.
 discord_id | text | ❌ | ❌ | ❌ | Discord role id to link database role to Discord role.
-transferable | ❌ | ❌ | ❌ | Can role be transferred to another user?
+transferable | boolean | ❌ | ❌ | ❌ | Can role be transferred to another user?
 
 <br>
 

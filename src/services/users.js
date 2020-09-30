@@ -88,16 +88,16 @@ const createUser = async ({ userId, username, email, avatarUrl }) => {
 const loginUser = async ({ userId, username, email, avatarUrl }) => {
     if (!(await validation({ userId, username, email, avatarUrl }))) return
 
-    let response
+    let user
     if (await checkUserExists(userId)) {
-        response = await checkDifferences({ userId, username, email, avatarUrl })
+        user = await checkDifferences({ userId, username, email, avatarUrl })
         console.log(`User '${username}' logged in.`)
     } else {
-        response = await createUser({ userId, username, email, avatarUrl })
+        user = await createUser({ userId, username, email, avatarUrl })
         console.log(`User '${username}' inserted in db.`)
     }
 
-    return response
+    return user
 }
 
 const deleteUser = async id => {

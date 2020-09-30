@@ -6,7 +6,9 @@ const { findUserByCookie } = require('../database/repositories/users')
 const { loginUser } = require('../services/users')
 
 passport.serializeUser((user, done) => done(null, user.cookie_id))
-passport.deserializeUser((id, done) => findUserByCookie(id).then(user => done(null, user)))
+passport.deserializeUser((id, done) => {
+    findUserByCookie(id).then(user => done(null, user || null)).catch(e => done(e, null))
+})
 
 passport.use(new DiscordStrategy(
     {
