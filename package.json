@@ -1,6 +1,6 @@
 {
   "name": "jupiter-notify",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Custom dashboard for monthly subscriptions.",
   "main": "src/server.js",
   "scripts": {
