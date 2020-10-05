@@ -263,7 +263,7 @@
 		<% if (role["view_console"]) { %>
 			<div class="content__console">
 				<div v-for="log in this.logs">
-					{{ parseInt(log.time) ? new Date(parseInt(log.time)).toLocaleString() : '' }}
+					{{ parseInt(log.time) ? new Date(parseInt(log.time)).toLocaleString().replace(/,/g, '') : '' }}
 					<div :style="'color:' + log.color">
 						<b>{{ log.level.toUpperCase() }}</b>
 						<span v-html="log.message"></span>
