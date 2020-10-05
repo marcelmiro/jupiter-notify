@@ -25,7 +25,7 @@ const findUserByStripe = async id => {
 const insertUser = async ({ userId, stripeId, username, email, avatarUrl }) => {
     await model.schema.validateAsync({ userId, stripeId, username, email, avatarUrl })
     const COLUMNS = 'user_id, cookie_id, stripe_id, username, email, avatar_url, created'
-    const VALUES = [userId, uuidv4(), stripeId, username, email, avatarUrl, Date.now()]
+    const VALUES = [userId, uuidv4(), stripeId, username, email, avatarUrl, new Date().getTime()]
 
     if (await client.query(
         `INSERT INTO users (${COLUMNS}) VALUES ($1, $2, $3, $4, $5, $6, $7)`,

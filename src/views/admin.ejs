@@ -113,9 +113,9 @@
 
 			<div class="member" v-for="member in this.filteredMemberList">
 				<div class="member__info">
-					<img :src="member.avatarUrl" @error="(() => member.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')" alt="Discord icon" />
+					<img :src="member.avatarUrl || 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'" @error="(() => member.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048')" alt="Discord icon" />
 					<span>{{ member.username }}</span>
-					<button class="tag" :style="'background-color:' + member.role.color">{{ member.role.name }}</button>
+					<button class="tag" :style="'background-color:' + (member.role.color || '#99AAB5')">{{ member.role.name }}</button>
 				</div>
 				<div class="member__links">
 					<% if (role["view_members"]) { %>
@@ -263,10 +263,10 @@
 		<% if (role["view_console"]) { %>
 			<div class="content__console">
 				<div v-for="log in this.logs">
-					{{ log.time }}
+					{{ parseInt(log.time) ? new Date(parseInt(log.time)).toLocaleString() : '' }}
 					<div :style="'color:' + log.color">
-						<b>{{ log.status }}</b>
-						<span v-html="log.text"></span>
+						<b>{{ log.level.toUpperCase() }}</b>
+						<span v-html="log.message"></span>
 					</div>
 				</div>
 			</div>
@@ -294,6 +294,11 @@
 					<label for="setting-download_jupiterscripts">jupiterscripts url</label>
 					<input id="setting-download_jupiterscripts" type="text" placeholder="jupiterscripts url" v-model="settings['DOWNLOAD_JUPITERSCRIPTS']" @keyup.enter="updateSetting('DOWNLOAD_JUPITERSCRIPTS')" />
 					<button class="button" @click="updateSetting('DOWNLOAD_JUPITERSCRIPTS')">Update</button>
+				</div>
+				<div>
+					<label for="setting-logger_reset_days">logger reset days</label>
+					<input id="setting-logger_reset_days" type="text" placeholder="logger reset days" v-model="settings['LOGGER_RESET_DAYS']" @keyup.enter="updateSetting('LOGGER_RESET_DAYS')" />
+					<button class="button" @click="updateSetting('LOGGER_RESET_DAYS')">Update</button>
 				</div>
 
 				<h2>Stripe config</h2>
@@ -343,18 +348,6 @@
 					<label for="setting-discord_ticket_channel">ticket channel</label>
 					<input id="setting-discord_ticket_channel" type="text" placeholder="ticket channel" v-model="settings['DISCORD_SUPPORT_CHANNEL']" @keyup.enter="updateSetting('DISCORD_SUPPORT_CHANNEL')" />
 					<button class="button" @click="updateSetting('DISCORD_SUPPORT_CHANNEL')">Update</button>
-				</div>
-
-				<h2>Logger config</h2>
-				<div>
-					<label for="setting-logger_max_size">max size (kb)</label>
-					<input id="setting-logger_max_size" type="text" placeholder="max size (kb)" v-model="settings['LOGGER_MAX_SIZE']" @keyup.enter="updateSetting('LOGGER_MAX_SIZE')" />
-					<button class="button" @click="updateSetting('LOGGER_MAX_SIZE')">Update</button>
-				</div>
-				<div>
-					<label for="setting-logger_new_lines">new lines</label>
-					<input id="setting-logger_new_lines" type="text" placeholder="new lines" v-model="settings['LOGGER_NEW_LINES']" @keyup.enter="updateSetting('LOGGER_NEW_LINES')" />
-					<button class="button" @click="updateSetting('LOGGER_NEW_LINES')">Update</button>
 				</div>
 
 				<h2>Encryption config</h2>

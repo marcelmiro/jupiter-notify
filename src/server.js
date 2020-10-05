@@ -9,7 +9,6 @@ const passport = require('passport')
 const bodyParser = require('body-parser')
 const compression = require('compression')
 
-require('./services/logger')
 require('./config')().then(() => {
     const csp = require('./config/csp')
     const { trustProxy, windowMs, max: maxRequests } = require('./config/rate-limit')

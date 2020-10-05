@@ -18,7 +18,7 @@ stripe_id | text | ❌ | ❌ | ✅ | Unique stripe id used to link to stripe cus
 username | text | ❌ | ❌ | ❌ | Discord user's username.
 email | text | ❌ | ❌ | ❌ | Discord user's email address.
 avatar_url | text | ❌ | ❌ | ❌ | Discord user's avatar url.
-created | text | ❌ | ❌ | ❌ | Epoch number that represents user's sign up date.
+created | text | ❌ | ❌ | ❌ | Epoch number (in milliseconds) that represents user's sign up date.
 
 <br>
 
@@ -72,13 +72,23 @@ currency | text | ❌ | ❌ | ✅ (With column: role_id) | Currency 3-letter low
 
 <br>
 
+##### Table: logs -> Stores website's audit logs.
+Column name | Type | PK | FK | Unique | Used for
+--- | --- | --- | --- | --- | --- |
+log_id | serial | ✅ | ❌ | ❌ | Unique id created automatically by serial sequence.
+level | text | ❌ | ❌ | ❌ | Log's level/status (e.g. info, warn, error).
+message | text | ❌ | ❌ | ❌ | Log's message.
+created | text | ❌ | ❌ | ❌ | Epoch number (in milliseconds) that represents log's creation date.
+
+<br>
+
 ##### Table: access_tokens -> Stores user's access tokens (1 user can only have 1 access token).
 Column name | Type | PK | FK | Unique | Used for
 --- | --- | --- | --- | --- | --- |
 user_id | text | ✅ | ✅ (From table: users) | ❌ | User identifier.
 access_token | text | ❌ | ❌ | ✅ | Access token to be used in external software.
 iv | text | ❌ | ❌ | ✅ | IV to encrypt and decrypt software token.
-created | text | ❌ | ❌ | ❌ | Epoch number that represents token's creation date.
+created | text | ❌ | ❌ | ❌ | Epoch number (in milliseconds) that represents token's creation date.
 
 <br>
 
@@ -108,9 +118,6 @@ Settings are stored in the `.env` file and in the database.
 Setting name | Example | Explanation
 --- | --- | ---
 DATABASE_URL | postgresql://postgres:postgres@localhost:5432/postgres | Database url where the server connects to.
-LOGGER_NAME | logs.log | File name to store website's logs. Will be saved in project's root folder.
-LOGGER_MAX_SIZE | 100 | Log file's maximum allowed size in kilobytes. File will be resetted when exceeding said amount.
-LOGGER_NEW_LINES | 50 | Amount of lines to keep from old log file before resetting it.
 
 <br>
 
@@ -132,8 +139,7 @@ ENCRYPTION_IV_LENGTH | 16 | Length of IV string in encryption.
 ENCRYPTION_KEY | dawda0w9e2 | Password/Key used for encryption.
 ENCRYPTION_KEY_LENGTH | 32 | Length of encryption key.
 IN_STOCK | true | Boolean string to check if users can buy subscriptions. Value is true if value.toLowerCase() === 'true'.
-LOGGER_MAX_SIZE | 100 | Log file's maximum allowed size in kilobytes. File will be resetted when exceeding said amount.
-LOGGER_NEW_LINES | 50 | Amount of lines to keep from old log file before resetting it.
+LOGGER_RESET_DAYS | 2 | Logs' maximum allowed time to be stored in database before deleting.
 STRIPE_KEY | | Stripe API key.
 STRIPE_SECRET | | Stripe API secret.
 STRIPE_WEBHOOK | | Stripe webhook id.

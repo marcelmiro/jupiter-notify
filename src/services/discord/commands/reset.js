@@ -71,7 +71,7 @@ module.exports = async message => {
     else {
         const ACCESS_TOKEN_TIMEOUT = parseInt(process.env.ACCESS_TOKEN_TIMEOUT)
         const ACCESS_TOKEN_DATE = parseInt(ACCESS_TOKEN.created)
-            ? Math.round((Date.now() - (new Date(parseInt(ACCESS_TOKEN.created)))) / 1000)
+            ? Math.round((new Date().getTime() - (new Date(parseInt(ACCESS_TOKEN.created)))) / 1000)
             : undefined
 
         if (ACCESS_TOKEN_TIMEOUT > ACCESS_TOKEN_DATE) embed = TOKEN_TIMEOUT(ACCESS_TOKEN_TIMEOUT - ACCESS_TOKEN_DATE)

@@ -5,6 +5,8 @@ let client
 const setup = async () => {
     client = new Client(process.env.DATABASE_URL)
     await client.connect()
+
+    await require('../services/logger')()
     console.log('Database opened')
 
     // Load website settings.
