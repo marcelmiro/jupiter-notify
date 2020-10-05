@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/marcelmiro/jupiter-notify/compare/v4.1.2...v4.2.0) (2020-10-05)
+
+
+### Features
+
+* **logger:** change logger location from file to database ([c51b3f8](https://github.com/marcelmiro/jupiter-notify/commit/c51b3f8e76aa8c9d29da1b05fec13a06a098a696))
+
 ### [4.1.2](https://github.com/marcelmiro/jupiter-notify/compare/v4.1.1...v4.1.2) (2020-09-30)
 
 
