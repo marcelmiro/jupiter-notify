@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/marcelmiro/jupiter-notify/compare/v4.2.1...v4.3.0) (2020-10-06)
+
+
+### Features
+
+* **discord:** add setting to check if user should be kicked from server on subscription cancel ([3e25b3d](https://github.com/marcelmiro/jupiter-notify/commit/3e25b3d7e01f8161a0e392241deb7a82320e4e73))
+
 ### [4.2.1](https://github.com/marcelmiro/jupiter-notify/compare/v4.2.0...v4.2.1) (2020-10-05)
 
 ## [4.2.0](https://github.com/marcelmiro/jupiter-notify/compare/v4.1.2...v4.2.0) (2020-10-05)
