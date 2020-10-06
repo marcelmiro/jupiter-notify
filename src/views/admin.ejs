@@ -26,6 +26,12 @@
 </head>
 <body>
 
+<div class="loader">
+	<img src="/assets/jupiter_planet_smaller_min.png" alt="" />
+	<div class="orbit">
+		<div class="orbit-circle"></div>
+	</div>
+</div>
 
 <main class="dashboard">
 	<div class="tabs-container">
@@ -286,6 +292,11 @@
 					<button class="button" @click="updateSetting('COOKIE_KEY')">Update</button>
 				</div>
 				<div>
+					<label for="setting-dashboard_social_url">dashboard social url</label>
+					<input id="setting-dashboard_social_url" type="text" placeholder="dashboard social url" v-model="settings['DASHBOARD_SOCIAL_URL']" @keyup.enter="updateSetting('DASHBOARD_SOCIAL_URL')" />
+					<button class="button" @click="updateSetting('DASHBOARD_SOCIAL_URL')">Update</button>
+				</div>
+				<div>
 					<label for="setting-api_key_timeout">api key timeout</label>
 					<input id="setting-api_key_timeout" type="text" placeholder="api key timeout" v-model="settings['ACCESS_TOKEN_TIMEOUT']" @keyup.enter="updateSetting('ACCESS_TOKEN_TIMEOUT')" />
 					<button class="button" @click="updateSetting('ACCESS_TOKEN_TIMEOUT')">Update</button>
@@ -340,6 +351,16 @@
 					<button class="button" @click="updateSetting('DISCORD_GUILDS')">Update</button>
 				</div>
 				<div>
+					<label for="setting-discord_allow_everyone">allow everyone</label>
+					<input id="setting-discord_allow_everyone" type="text" placeholder="allow everyone" v-model="settings['DISCORD_ALLOW_EVERYONE']" @keyup.enter="updateSetting('DISCORD_ALLOW_EVERYONE')" />
+					<button class="button" @click="updateSetting('DISCORD_ALLOW_EVERYONE')">Update</button>
+				</div>
+				<div>
+					<label for="setting-discord_kick_on_cancel">kick on cancel</label>
+					<input id="setting-discord_kick_on_cancel" type="text" placeholder="kick on cancel" v-model="settings['DISCORD_KICK_ON_CANCEL']" @keyup.enter="updateSetting('DISCORD_KICK_ON_CANCEL')" />
+					<button class="button" @click="updateSetting('DISCORD_KICK_ON_CANCEL')">Update</button>
+				</div>
+				<div>
 					<label for="setting-discord_logger_channel">logger channel</label>
 					<input id="setting-discord_logger_channel" type="text" placeholder="logger channel" v-model="settings['DISCORD_LOGGER_CHANNEL']" @keyup.enter="updateSetting('DISCORD_LOGGER_CHANNEL')" />
 					<button class="button" @click="updateSetting('DISCORD_LOGGER_CHANNEL')">Update</button>
@@ -370,14 +391,6 @@
 		<% } %>
 	</div>
 </main>
-
-<div class="loader">
-	<img src="/assets/jupiter_planet_smaller_min.png" alt="" />
-	<div class="orbit">
-		<div class="orbit-circle"></div>
-	</div>
-</div>
-
 
 
 <!--	JS LIBS	-->

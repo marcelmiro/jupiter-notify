@@ -5,7 +5,7 @@ const { findUserRole, deleteUserRole } = require('../database/repositories/user-
 const { findAccessToken, deleteAccessToken } = require('../database/repositories/access_tokens')
 const { deleteSoftwareInstances } = require('../database/repositories/software_instances')
 const { listCustomers, findCustomer, createCustomer, updateCustomer, deleteSubscription } = require('./stripe')
-const { kickDiscordUser } = require('./discord/utils')
+const { kickDiscordUser, deleteDiscordRole } = require('./discord/utils')
 
 const validation = async ({ userId, username, email, avatarUrl }) => {
     try {
@@ -104,7 +104,8 @@ const deleteUser = async id => {
     await Joi.string().alphanum().required().validateAsync(id)
 
     const USER = await findUser(id)
-    if (!USER || !(await findUserRole(id))) return
+    const USER_ROLE = USER ? await findUserRole(id) : undefined
+    if (!USER_ROLE?.user_id) return
 
     const CUSTOMER = await findCustomer(USER.stripe_id)
     const SUBSCRIPTION = CUSTOMER?.subscriptions.data[0]
@@ -117,7 +118,9 @@ const deleteUser = async id => {
             await deleteSoftwareInstances(ACCESS_TOKEN)
             await deleteAccessToken(id)
         }
-        await kickDiscordUser(id)
+
+        if (process.env.DISCORD_KICK_ON_CANCEL?.toLowerCase() === 'true') await kickDiscordUser(id)
+        else await deleteDiscordRole(id, USER_ROLE.role_id)
     }
 
     return RESPONSE
