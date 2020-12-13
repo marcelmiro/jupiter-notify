@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--    MAIN INFO    -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Admin Panel</title>
+
+	<!--    FONTS    -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+	<!--    MAIN CSS    -->
+	<link rel="stylesheet" href="/css/admin/admin.css">
+	<link rel="stylesheet" href="/Components/Sidebar.css">
+	<link rel="stylesheet" href="/Components/Dropdown.css">
+	<link rel="stylesheet" href="/css/admin/logs.css">
+
+	<!--    FAVICON    -->
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/assets/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#ff8e00">
+	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<main v-cloak>
+	<sidebar page="logs"></sidebar>
+
+	<div class="app">
+		<div class="app__container">
+			<h1>Logs</h1>
+			<div class="card min-height">
+				<div class="card__container">
+					<div class="card__interaction">
+						<dropdown v-model="level" :items="['all', 'info', 'warn', 'error', 'fatal']"></dropdown>
+					</div>
+					<div class="table">
+						<div class="table__line"></div>
+						<div class="table__content">
+							<div class="table__row" v-for="log in paginatedLogs">
+								<div class="date">
+									<span>
+										{{ parseInt(log.created)
+												? new Date(parseInt(log.created)).toLocaleString().replace(/,/g, '')
+												: log.created || '' }}
+									</span>
+								</div>
+								<div class="level" :style="{ color: getLogColor(log.level) }">
+									<span>{{ log.level }}</span>
+								</div>
+								<div class="message" :style="{ color: getLogColor(log.level) }">
+									<span v-html="log.message"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button
+						class="load-more"
+						@click="listSize += initSize"
+						v-if="filteredLogs.length > listSize"
+					>Load More</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+
+<script src="/js/vue.js"></script>
+<script src="/js/socket.io.js"></script>
+<script src="/Components/Sidebar.js"></script>
+<script src="/Components/Dropdown.js"></script>
+
+<script type="text/javascript">
+	window.socket = io()
+</script>
+<script src="/js/admin/logs.js"></script>
+</body>
+</html>

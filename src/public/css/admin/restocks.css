@@ -1,0 +1,280 @@
+.dropdown {
+  margin-right: auto;
+}
+
+.in-stock {
+  font-size: 18px;
+  font-weight: 400;
+  color: #DDDDDD;
+  text-transform: uppercase;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.in-stock .toggle {
+  margin-left: 20px;
+}
+
+.add {
+  margin-left: 50px;
+}
+
+.heading-status, .status {
+  width: 40px;
+}
+
+.heading-password, .password {
+  flex: 2;
+}
+
+.heading-role, .role, .heading-stock, .stock {
+  flex: 1;
+}
+
+.heading-interaction, .table__row__interaction {
+  width: 70px;
+}
+
+.role, .stock {
+  padding-right: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.status .checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 5000vmax;
+  background-color: #333333;
+}
+.status .checkbox.active {
+  background-color: #8B50C3;
+}
+
+.password {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.password span {
+  flex: 1;
+  padding-right: 20px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.password button {
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  margin-right: 50px;
+}
+
+.stock span {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 1500px) {
+  .password button {
+    margin-right: 30px;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .add {
+    margin-left: 30px;
+  }
+}
+@media screen and (max-width: 1050px) {
+  .add {
+    margin-left: 20px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .password button {
+    margin-right: 24px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .add {
+    margin-left: 14px;
+  }
+}
+@media screen and (max-width: 750px) {
+  .card {
+    padding: 36px 36px 24px;
+  }
+  .card__interaction {
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .card__interaction > * + * {
+    margin-left: 0;
+  }
+  .card__interaction .dropdown {
+    width: 100%;
+  }
+  .card__interaction .dropdown button {
+    width: 100%;
+  }
+
+  .in-stock, .add {
+    margin-top: 16px;
+  }
+
+  .in-stock {
+    height: 56px;
+  }
+
+  .table__header {
+    margin-top: 24px;
+  }
+
+  .password button {
+    margin-right: 16px;
+  }
+
+  .load-more {
+    margin-top: 36px;
+  }
+}
+@media screen and (max-width: 650px) {
+  .card {
+    padding: 30px 28px 22px;
+  }
+
+  .card__interaction .dropdown, .in-stock, .add {
+    height: 52px;
+  }
+
+  .add {
+    min-width: 80px;
+    padding: 0 16px;
+  }
+
+  .table__content {
+    font-size: 15px;
+  }
+
+  .heading-interaction, .table__row__interaction {
+    width: 52px;
+  }
+
+  .table__row__interaction {
+    height: 18px;
+  }
+
+  .table__row__interaction button + button {
+    margin-left: 16px;
+  }
+
+  .in-stock, .add {
+    font-size: 17px;
+  }
+
+  .heading-status, .status {
+    width: 30px;
+  }
+
+  .status .checkbox {
+    width: 14px;
+    height: 14px;
+  }
+
+  .password button {
+    width: 18px;
+    height: 18px;
+  }
+}
+@media screen and (max-width: 550px) {
+  .card__interaction .dropdown {
+    font-size: 17px;
+  }
+  .card__interaction .toggle label {
+    width: 56px;
+    height: 30px;
+  }
+  .card__interaction .toggle label:after {
+    width: 22px;
+    height: 22px;
+  }
+  .card__interaction .toggle label:active:after {
+    width: 28px;
+  }
+
+  .in-stock, .add {
+    font-size: 16px;
+  }
+
+  .table__header {
+    display: none;
+  }
+
+  .table__row {
+    flex-flow: row wrap;
+  }
+
+  .table__row__interaction button + button {
+    margin-left: 10px;
+  }
+
+  .status, .password {
+    margin-bottom: 5px;
+  }
+
+  .status {
+    width: 24px;
+  }
+
+  .status .checkbox {
+    width: 12px;
+    height: 12px;
+  }
+
+  .password {
+    flex: auto;
+    width: calc(100% - 24px);
+  }
+
+  .password button {
+    margin-right: 0;
+  }
+
+  .role {
+    margin-left: 24px;
+  }
+
+  .tag {
+    max-width: 100%;
+  }
+
+  .load-more {
+    height: 52px;
+    margin-top: 20px;
+    padding: 0 24px;
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .card__interaction .dropdown, .in-stock, .add {
+    height: 50px;
+  }
+
+  .in-stock, .add {
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  .in-stock .toggle {
+    margin-left: auto;
+  }
+
+  .add {
+    max-width: initial;
+  }
+}
+
+/*# sourceMappingURL=restocks.css.map */

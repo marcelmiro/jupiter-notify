@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--    MAIN INFO    -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Admin Panel</title>
+
+	<!--    FONTS    -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+	<!--    MAIN CSS    -->
+	<link rel="stylesheet" href="/css/admin/admin.css">
+	<link rel="stylesheet" href="/Components/Sidebar.css">
+	<link rel="stylesheet" href="/Components/Dropdown.css">
+	<link rel="stylesheet" href="/Components/Toggle.css">
+	<link rel="stylesheet" href="/css/admin/settings.css">
+
+	<!--    FAVICON    -->
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/assets/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#ff8e00">
+	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<main v-cloak>
+	<sidebar page="settings"></sidebar>
+
+	<div class="app">
+		<div class="app__container">
+			<h1>Settings</h1>
+			<div class="card min-height">
+				<div class="card__container">
+					<div class="card__interaction">
+						<dropdown v-model="config" :items="settingNames"></dropdown>
+					</div>
+					<div class="table">
+						<div class="table__line"></div>
+						<div class="table__content">
+							<div class="table__row" v-for="setting in paginatedSettings">
+								<div class="field">
+									<div class="inline">
+										<p>{{ setting.name }}</p>
+										<a class="question-mark" href="#">?</a>
+									</div>
+
+									<toggle
+										v-if="setting.type.toLowerCase() === 'boolean'"
+										v-model="setting.value"
+										output-type="string"
+										<% if (!permissions.includes('m') && !permissions.includes('u')) { %>
+											disabled="true"
+										<% } %>
+									></toggle>
+									<div class="input" v-else>
+										<% if (permissions.includes('m') || permissions.includes('u')) { %>
+											<label>
+												<input
+													:type="setting.type.toLowerCase() === 'number' ? 'number' : 'text'"
+													v-model="setting.value"
+													:placeholder="setting.name">
+											</label>
+										<% } else { %>
+											<span>{{ setting.value }}</span>
+										<% } %>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div
+						class="card__interaction bottom"
+						v-if="filteredSettings.length > listSize || !compareSettings"
+					>
+						<button
+								class="load-more"
+								@click="listSize += initSize"
+								v-if="filteredSettings.length > listSize"
+						>Load More</button>
+						<button class="save" @click="updateSettings" v-if="!compareSettings">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+
+<script src="/js/vue.js"></script>
+<script src="/js/socket.io.js"></script>
+<script src="/Components/Sidebar.js"></script>
+<script src="/Components/Dropdown.js"></script>
+<script src="/Components/Toggle.js"></script>
+
+<script type="text/javascript">
+	window.socket = io()
+</script>
+<script src="/js/admin/settings.js"></script>
+</body>
+</html>

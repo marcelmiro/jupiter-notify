@@ -1,0 +1,288 @@
+.overview__container {
+  margin-top: 16px;
+  height: 256px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+}
+
+.stat {
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.stat .text {
+  margin: 0 42px;
+  overflow: hidden;
+}
+.stat h6 {
+  font-size: 15px;
+  font-weight: 500;
+  color: #EEEEEE;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stat p {
+  font-size: 36px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stat:nth-of-type(1) {
+  background: #52c38f;
+  background: linear-gradient(120deg, #88e2c0 0%, #52c38f 100%);
+}
+.stat:nth-of-type(2) {
+  background: #65BBCA;
+  background: linear-gradient(120deg, #93DCED 0%, #65BBCA 100%);
+}
+.stat:nth-of-type(3) {
+  background: #FF546E;
+  background: linear-gradient(120deg, #FFA2A2 0%, #FF546E 100%);
+}
+.stat:nth-of-type(4) {
+  background: #E4C444;
+  background: linear-gradient(120deg, #E4E068 0%, #E4C444 100%);
+}
+
+.graphs {
+  margin-top: 50px;
+  height: 380px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+.graphs h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.graphs__subscriptions, .graphs__currencies {
+  padding: 15px 20px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: #262626;
+}
+.graphs__subscriptions {
+  flex: 2 0 0;
+}
+.graphs__currencies {
+  margin-left: 40px;
+  flex: 1 0 0;
+  min-width: 300px;
+}
+
+.balance {
+  margin-top: 44px;
+}
+
+.balance__container {
+  margin-top: 16px;
+  padding-bottom: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-flow: row nowrap;
+}
+.balance__container::-webkit-scrollbar {
+  height: 8px;
+}
+.balance__container::-webkit-scrollbar-track {
+  background-color: #202020;
+  border-radius: 1000vmax;
+  border: none;
+}
+.balance__container::-webkit-scrollbar-thumb {
+  background-color: #8B50C3;
+  border-radius: 1000vmax;
+  border: none;
+}
+.balance__container::-webkit-scrollbar-thumb:hover {
+  background-color: #8B50C3;
+}
+.balance__container::-webkit-scrollbar-thumb:active {
+  background-color: #8648c0;
+}
+
+.currency {
+  min-width: 250px;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  overflow: hidden;
+  flex: 1 0 auto;
+  background-color: #262626;
+}
+.currency + .currency {
+  margin-left: 30px;
+}
+.currency .row {
+  margin-top: 2px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.currency .row:first-of-type {
+  margin-top: 8px;
+}
+.currency h3 {
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.currency h6 {
+  font-size: 14px;
+  font-weight: 400;
+  color: #DDDDDD;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+.currency span {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: right;
+  flex: 1;
+  margin-left: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 1500px) {
+  .graphs__currencies {
+    margin-left: 30px;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .overview__container {
+    height: 240px;
+  }
+
+  .stat h6 {
+    font-size: 14px;
+  }
+  .stat p {
+    font-size: 32px;
+  }
+
+  .graphs__currencies {
+    margin-left: 16px;
+  }
+}
+@media screen and (min-width: 1001px) and (max-width: 1150px) {
+  nav.active ~ .app .graphs {
+    height: 700px;
+    flex-flow: column nowrap;
+  }
+  nav.active ~ .app .graphs__subscriptions {
+    flex: 1 0 0;
+  }
+  nav.active ~ .app .graphs__currencies {
+    margin-left: 0;
+    margin-top: 16px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .overview__container {
+    margin-top: 8px;
+    height: 220px;
+  }
+
+  .graphs {
+    margin-top: 40px;
+    height: 320px;
+  }
+  .graphs__currencies {
+    min-width: 270px;
+  }
+
+  .balance {
+    margin-top: 34px;
+  }
+}
+@media screen and (max-width: 800px) {
+  h2 {
+    font-size: 21px;
+  }
+
+  .graphs {
+    height: 300px;
+  }
+
+  .graphs__currencies {
+    min-width: 250px;
+  }
+}
+@media screen and (max-width: 700px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  .overview__container {
+    height: 210px;
+  }
+
+  .stat .text {
+    margin: 0 36px;
+  }
+  .stat p {
+    font-size: 28px;
+  }
+
+  .graphs {
+    height: 528px;
+    flex-flow: column nowrap;
+  }
+  .graphs__subscriptions {
+    flex: 1 0 0;
+  }
+  .graphs__currencies {
+    margin-left: 0;
+    margin-top: 16px;
+  }
+
+  .currency h3 {
+    font-size: 19px;
+  }
+  .currency h6 {
+    font-size: 13px;
+  }
+  .currency span {
+    font-size: 17px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .overview__container {
+    display: flex;
+    flex-flow: column nowrap;
+    height: auto;
+  }
+
+  .stat {
+    height: 100px;
+  }
+  .stat .text {
+    margin: 0 50px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .stat .text {
+    margin: 0 36px;
+  }
+}
+@media screen and (max-width: 350px) {
+  .stat .text {
+    margin: 0 32px;
+  }
+}
+
+/*# sourceMappingURL=overview.css.map */

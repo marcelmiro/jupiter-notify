@@ -1,0 +1,48 @@
+.table__row { align-items: flex-start; }
+.date, .level {
+	margin-right: 10px;
+	padding-right: 10px;
+	box-sizing: border-box;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.date { max-width: 250px; }
+.level { max-width: 100px; font-weight: 700; text-transform: uppercase; }
+.message { flex: 1 0 0; font-size: 15px; margin-top: 1px; }
+
+
+// MEDIA QUERIES
+@media screen and (max-width: 1030px) and (min-width: 1001px) {
+	nav.active ~ .app .card { padding: 30px 24px 20px; }
+}
+@media screen and (max-width: 1200px) {
+	.date, .level { padding-right: 0; }
+}
+@media screen and (max-width: 750px) {
+	.card { padding: 30px 24px 20px; }
+	.card__interaction .dropdown { height: 54px; }
+	.table__content { font-size: 15px; }
+	.table__row + .table__row { padding-top: 12px; }
+	.table__row:not(:last-of-type) { padding-bottom: 12px; }
+	.message {
+		font-size: 14px;
+		span { word-break: break-all; }
+	}
+	.load-more { margin-top: 30px; }
+}
+@media screen and (max-width: 700px) {
+	.table__header, .table__row {
+		flex-flow: row wrap;
+		&::before, &::after { content: ''; width: 100%; order: 1; }
+	}
+	.date, .level { max-width: initial; order: 0; }
+	.date { max-width: 230px; }
+	.level { flex: 1; margin-right: 0; text-align: right; }
+	.message { order: 1; margin-top: 5px; }
+	.load-more { margin-top: 24px; }
+}
+@media screen and (max-width: 500px) {
+	.card { padding: 20px 16px; }
+	.card__interaction .dropdown, .card__interaction .dropdown button { width: 100%; }
+}

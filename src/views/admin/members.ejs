@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--    MAIN INFO    -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Admin Panel</title>
+
+	<!--    FONTS    -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+	<!--    MAIN CSS    -->
+	<link rel="stylesheet" href="/css/admin/admin.css">
+	<link rel="stylesheet" href="/Components/Sidebar.css">
+	<link rel="stylesheet" href="/Components/Popup.css">
+	<link rel="stylesheet" href="/Components/Dropdown.css">
+	<link rel="stylesheet" href="/Components/Toggle.css">
+	<link rel="stylesheet" href="/css/admin/members.css">
+
+	<!--    FAVICON    -->
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/assets/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#ff8e00">
+	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+
+	<% if (!permissions) { %>
+		<script type="text/javascript">window.location.href = '/admin'</script>
+	<% } %>
+</head>
+<body>
+
+<main v-cloak>
+	<sidebar page="members"></sidebar>
+
+	<div class="app">
+		<div class="app__container">
+			<h1>Members</h1>
+			<div class="card min-height">
+				<div class="card__container">
+					<div class="card__interaction">
+						<div class="search-box">
+							<img
+								class="search-icon"
+								src="/assets/icon_search.svg"
+								onclick="nextElementSibling.focus()"
+								alt="Search"
+							>
+							<label><input type="text" v-model="search" placeholder="Search"></label>
+							<img
+								class="clear-icon"
+								:class="{ active: search.length > 0 }"
+								src="/assets/icon_cross.svg"
+								@click="search = ''"
+								alt="Clear"
+							>
+						</div>
+						<dropdown v-model="role" :items="['all', ...roleNames]"></dropdown>
+
+						<% if (permissions.includes('m') || permissions.includes('c')) { %>
+							<button class="add" @click="$refs.addMember.open()">Add Member</button>
+						<% } %>
+					</div>
+					<div class="table">
+						<div class="table__header">
+							<span class="heading heading-avatar">avatar</span>
+							<span class="heading heading-username">username</span>
+							<span class="heading heading-role">role</span>
+						</div>
+						<div class="table__line"></div>
+						<div class="table__content">
+							<div class="table__row" v-for="member in paginatedMembers">
+								<div class="avatar">
+									<img
+										:src="member.avatarUrl"
+										@error="member.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png'"
+										alt="Profile pic"
+									>
+								</div>
+								<div class="username">
+									<button @click="openMemberPage(member.userId)">{{ member.username }}</button>
+								</div>
+								<div class="role">
+									<tag :text="member.role.name" :background-color="member.role.color"></tag>
+								</div>
+							</div>
+
+							<div
+								class="table__row search-in-db"
+								v-if="paginatedMembers.length === 0 && search.length > 3"
+							>
+								<button @click="getDbMember">Search user in database</button>
+							</div>
+						</div>
+					</div>
+					<div class="pagination">
+						<button @click="pageNumber--" v-if="pageNumber > 0">
+							<img src="/assets/arrow_head.svg" alt="Arrow left" style="transform: rotate(90deg)">
+						</button>
+						<button
+							v-for="number in paginationRange"
+							:class="{ active: pageNumber === number }"
+							@click="pageNumber = number"
+						>{{ number + 1 }}</button>
+						<button @click="pageNumber++" v-if="pageNumber < pageCount - 1">
+							<img src="/assets/arrow_head.svg" alt="Arrow right" style="transform: rotate(-90deg)">
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% if (permissions.includes('m') || permissions.includes('c')) { %>
+		<popup ref="addMember">
+			<div class="field">
+				<p>Discord User Id</p>
+				<div class="input">
+					<label><input type="text" v-model="addMemberObject.userId" placeholder="Discord User Id"></label>
+					<a
+							class="question-mark"
+							href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-"
+							target="_blank"
+					>?</a>
+				</div>
+			</div>
+			<div class="field">
+				<p>Role</p>
+				<dropdown v-model="addMemberObject.role" :items="roleNames"></dropdown>
+			</div>
+			<div class="field" v-if="currencies && currencies.length > 0">
+				<p>Currency</p>
+				<dropdown v-model="addMemberObject.currency" :items="currencies"></dropdown>
+			</div>
+			<div class="field" v-if="currencies && currencies.length > 0">
+				<p>Trial days</p>
+				<div class="input">
+					<label><input type="number" v-model="addMemberObject.trial" placeholder="Trial days"></label>
+				</div>
+			</div>
+
+			<div class="popup__interaction">
+				<button @click="$refs.addMember.close()">Cancel</button>
+				<button @click="addMember">Add</button>
+			</div>
+		</popup>
+	<% } %>
+
+	<popup ref="dbMember" @close="dbMember = {}">
+		<div class="field" v-if="dbMember.userId">
+			<p>Discord User Id</p>
+			<div class="input">
+				<span>{{ dbMember.userId }}</span>
+				<button @click="copy(dbMember.userId)">
+					<img src="/assets/icon_copy.svg" alt="Copy">
+				</button>
+			</div>
+		</div>
+		<div class="field" v-if="dbMember.username">
+			<p>Username</p>
+			<div class="input">
+				<span>{{ dbMember.username }}</span>
+				<button @click="copy(dbMember.username)">
+					<img src="/assets/icon_copy.svg" alt="Copy">
+				</button>
+			</div>
+		</div>
+		<div class="field" v-if="dbMember.email">
+			<p>Email</p>
+			<div class="input">
+				<span>{{ dbMember.email }}</span>
+				<button @click="copy(dbMember.email)">
+					<img src="/assets/icon_copy.svg" alt="Copy">
+				</button>
+			</div>
+		</div>
+		<div class="field" v-if="dbMember.stripeId">
+			<p>Stripe Id</p>
+			<div class="input">
+				<span>{{ dbMember.stripeId }}</span>
+				<a
+					:href="'https://dashboard.stripe.com/customers/' + dbMember.stripeId"
+					target="_blank"
+				>
+					<img src="/assets/icon_link.svg" alt="Link">
+				</a>
+			</div>
+		</div>
+
+		<div class="popup__interaction">
+			<button @click="$refs.dbMember.close()">Close</button>
+		</div>
+	</popup>
+</main>
+
+
+<script src="/js/vue.js"></script>
+<script src="/js/socket.io.js"></script>
+<script src="/Components/Sidebar.js"></script>
+<script src="/Components/Popup.js"></script>
+<script src="/Components/Dropdown.js"></script>
+<script src="/Components/Toggle.js"></script>
+<script src="/Components/Tag.js"></script>
+
+<script type="text/javascript">
+	window.socket = io()
+	window.roles = JSON.parse('<%- JSON.stringify(roles) %>')
+</script>
+<script src="/js/admin/members.js"></script>
+</body>
+</html>

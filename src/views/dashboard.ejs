@@ -53,7 +53,7 @@
 
 <main class="dashboard <% if (!membershipDetails.subscription) { %>lifetime<% } %>">
     <div class="dashboard__welcome">
-        <img src="<%= user.avatarUrl %>" onerror="this.onerror=null;this.src='https://cdn.discordapp.com/embed/avatars/1.png?size=2048';" alt="Avatar icon" />
+        <img src="<%= user.avatarUrl %>" onerror="this.src='https://cdn.discordapp.com/embed/avatars/1.png?size=2048'" alt="Avatar icon" />
         <div>
             <div class="h1-container">
                 <h1 id="discord-username"><%= user.username %></h1>
@@ -84,11 +84,11 @@
             </div>
             <div>
                 <h3>Next Payment</h3>
-                <p><%= membershipDetails.dateNextPayment %></p>
+                <p><%= parseInt(membershipDetails.dateNextPayment) ? new Date(parseInt(membershipDetails.dateNextPayment)).toLocaleDateString() : membershipDetails.dateNextPayment %></p>
             </div>
             <div>
                 <h3>User Since</h3>
-                <p><%= membershipDetails.dateCreated %></p>
+                <p><%= parseInt(membershipDetails.dateCreated) ? new Date(parseInt(membershipDetails.dateCreated)).toLocaleDateString() : membershipDetails.dateCreated %></p>
             </div>
             <% if (membershipDetails.cancelled) { %>
                 <a class="button" href="/stripe/renew-membership">Renew</a>

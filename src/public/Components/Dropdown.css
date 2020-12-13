@@ -1,0 +1,112 @@
+.dropdown {
+  height: 56px;
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: uppercase;
+  outline: none;
+  transition: box-shadow 0.08s ease;
+}
+.dropdown span {
+  margin-right: 10px;
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dropdown button {
+  width: 230px;
+  height: 100%;
+  padding: 0 18px 0 24px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  font-size: inherit;
+  font-weight: inherit;
+  text-transform: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  background-color: #333333;
+}
+.dropdown button img {
+  width: 16px;
+  transition: transform 0.25s ease;
+}
+.dropdown input {
+  display: none;
+}
+.dropdown label {
+  position: relative;
+  min-width: 180px;
+  max-width: 300px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.25s linear;
+}
+.dropdown label img {
+  position: relative;
+  left: 0;
+  width: 8px;
+  margin-left: auto;
+  transform: rotate(-90deg);
+  transition: all 0.25s ease;
+}
+.dropdown label:hover {
+  color: #8B50C3;
+}
+.dropdown label:hover img {
+  left: 5px;
+}
+.dropdown__content {
+  max-height: 250px;
+  overflow-y: auto;
+  position: absolute;
+  top: auto;
+  left: auto;
+  transform: translateY(20px);
+  padding: 16px 30px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  z-index: 19;
+  display: flex;
+  flex-flow: column nowrap;
+  border: 2px solid #333333;
+  box-shadow: 1px 2px 20px -2px rgba(0, 0, 0, 0.25);
+  background-color: #262626;
+  transition: all 0.25s ease;
+}
+.dropdown__content::-webkit-scrollbar {
+  width: 8px;
+}
+.dropdown__content::-webkit-scrollbar-track {
+  background: #202020;
+  border-radius: 1000vmax;
+  border: none;
+}
+.dropdown__content::-webkit-scrollbar-thumb {
+  background: #8B50C3;
+  border-radius: 1000vmax;
+  border: none;
+}
+.dropdown__content::-webkit-scrollbar-thumb:hover {
+  background: #8B50C3;
+}
+.dropdown__content::-webkit-scrollbar-thumb:active {
+  background: #8648c0;
+}
+.dropdown.active button img {
+  transform: rotate(180deg);
+}
+.dropdown.active button {
+  box-shadow: 0 0 0 2px #8B50C3;
+}
+.dropdown .dropdown-animation-enter {
+  opacity: 0;
+}
+.dropdown .dropdown-animation-leave-active {
+  opacity: 0;
+}
+
+/*# sourceMappingURL=Dropdown.css.map */
