@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--    MAIN INFO    -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Admin Panel</title>
+
+	<!--    FONTS    -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+	<!--    MAIN CSS    -->
+	<link rel="stylesheet" href="/css/admin/admin.css">
+	<link rel="stylesheet" href="/Components/Sidebar.css">
+	<link rel="stylesheet" href="/Components/Popup.css">
+	<link rel="stylesheet" href="/Components/Dropdown.css">
+	<link rel="stylesheet" href="/css/admin/member.css">
+
+	<!--    FAVICON    -->
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/assets/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#ff8e00">
+	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+
+	<% if (!permissions) { %>
+		<script type="text/javascript">window.location.href = '/admin/members'</script>
+	<% } %>
+</head>
+<body>
+
+<main v-cloak>
+	<sidebar></sidebar>
+
+	<div class="app">
+		<div class="app__container">
+			<div class="card-header">
+				<h2>Overview</h2>
+				<div class="role">
+					<tag v-if="member.role.name" :text="member.role.name" :background-color="member.role.color"></tag>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card__container">
+					<div class="card__interaction" v-if="member.userId">
+						<% if (permissions.includes('m') || permissions.includes('u')) { %>
+							<button @click="$refs.editMember.open()">
+								<svg width="100%" height="100%" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+									<g transform="matrix(0.10463,0,0,0.10463,0,-0.00039027)">
+										<path d="M392.533,238.937C383.107,238.937 375.466,246.578 375.466,256.004L375.466,426.67C375.466,436.096 367.825,443.737 358.399,443.737L51.2,443.737C41.774,443.737 34.133,436.096 34.133,426.67L34.133,85.337C34.133,75.911 41.774,68.27 51.2,68.27L256,68.27C265.426,68.27 273.067,60.629 273.067,51.203C273.067,41.777 265.426,34.137 256,34.137L51.2,34.137C22.923,34.137 0,57.06 0,85.337L0,426.67C0,454.947 22.923,477.87 51.2,477.87L358.4,477.87C386.677,477.87 409.6,454.947 409.6,426.67L409.6,256.003C409.6,246.578 401.959,238.937 392.533,238.937Z" style="fill-rule:nonzero;"/>
+									</g>
+									<g transform="matrix(0.10463,0,0,0.10463,0,-0.00039027)">
+										<path d="M458.742,19.142C446.488,6.886 429.867,0.002 412.536,0.004C395.195,-0.046 378.557,6.85 366.337,19.153L141.534,243.937C139.669,245.816 138.262,248.1 137.421,250.61L103.288,353.01C100.309,361.953 105.144,371.617 114.087,374.595C115.822,375.173 117.639,375.468 119.467,375.47C121.299,375.467 123.12,375.173 124.86,374.6L227.26,340.467C229.775,339.627 232.06,338.213 233.933,336.337L458.735,111.535C484.25,86.023 484.253,44.657 458.742,19.142ZM434.603,87.419L212.736,309.286L146.449,331.421L168.516,265.219L390.468,43.353C402.67,31.175 422.435,31.195 434.613,43.397C440.43,49.226 443.708,57.117 443.733,65.352C443.754,73.631 440.467,81.575 434.603,87.419Z" style="fill-rule:nonzero;"/>
+									</g>
+								</svg>
+							</button>
+						<% } %>
+
+						<% if (permissions.includes('m') || permissions.includes('d')) { %>
+							<button @click="$refs.deleteMember.open()">
+								<svg width="100%" height="100%" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+									<g transform="matrix(0.956007,0,0,0.956007,-3.6915,-3.31195)">
+										<path d="M12.45,19.988C12.45,19.988 12.45,43.061 12.45,48.735C12.45,52.587 15.072,55.75 18.923,55.75C23.397,55.75 36.464,55.784 41.091,55.75C44.819,55.722 47.55,52.464 47.55,48.735C47.55,43.007 47.55,19.988 47.55,19.988L43.95,19.988C43.95,19.988 43.95,43.007 43.95,48.735C43.95,50.484 42.812,52.137 41.064,52.15C36.442,52.184 23.391,52.15 18.923,52.15C17.122,52.15 16.05,50.536 16.05,48.735C16.05,43.061 16.05,19.988 16.05,19.988L12.45,19.988Z" />
+									</g>
+									<g transform="matrix(0.956007,0,0,0.956007,-3.6915,-3.56207)">
+										<path d="M14.199,10.45C14.199,10.45 11.718,10.436 10.222,12.178C9.581,12.925 9.076,13.984 9.076,15.529C9.076,17.084 9.586,18.139 10.231,18.879C11.736,20.605 14.231,20.549 14.231,20.549L14.169,20.55L45.831,20.55L45.714,20.546C45.714,20.546 48.254,20.679 49.786,18.926C50.431,18.188 50.947,17.122 50.947,15.53C50.947,13.947 50.437,12.877 49.795,12.132C48.272,10.362 45.746,10.452 45.746,10.452L45.831,10.45L14.169,10.45L14.199,10.45ZM14.139,14.05C14.149,14.05 14.159,14.05 14.169,14.05L45.831,14.05C45.86,14.05 45.888,14.049 45.916,14.048C45.916,14.048 46.64,13.984 47.067,14.48C47.261,14.706 47.347,15.051 47.347,15.53C47.347,16.001 47.267,16.338 47.076,16.556C46.658,17.034 45.949,16.954 45.949,16.954C45.91,16.951 45.87,16.95 45.831,16.95L14.169,16.95C14.148,16.95 14.128,16.95 14.107,16.951C14.107,16.951 13.376,17.007 12.944,16.513C12.759,16.3 12.676,15.977 12.676,15.529C12.676,15.074 12.764,14.743 12.953,14.523C13.394,14.01 14.139,14.05 14.139,14.05Z" />
+									</g>
+									<g transform="matrix(0.956007,0,0,0.956007,-3.6915,-4.15863)">
+										<path d="M23.15,11.089C23.15,11.089 23.15,9.998 23.15,9.625C23.15,8.907 23.706,7.95 24.801,7.95C27.082,7.95 32.825,7.95 35.199,7.95C36.156,7.95 36.85,8.668 36.85,9.625C36.85,10.091 36.85,11.089 36.85,11.089L40.45,11.089C40.45,11.089 40.45,10.091 40.45,9.625C40.45,6.595 38.229,4.35 35.199,4.35C32.825,4.35 27.082,4.35 24.801,4.35C21.335,4.35 19.55,7.351 19.55,9.625C19.55,9.998 19.55,11.089 19.55,11.089L23.15,11.089Z" />
+									</g>
+									<g transform="matrix(0.956007,0,0,5.17767,5.17596,-93.4796)">
+										<path d="M25.824,21.89L25.824,26.155C25.824,26.339 26.631,26.488 27.624,26.488C28.618,26.488 29.424,26.339 29.424,26.155L29.424,21.89C29.424,21.707 28.618,21.558 27.624,21.558C26.631,21.558 25.824,21.707 25.824,21.89Z" />
+									</g>
+									<g transform="matrix(0.956007,0,0,5.17767,-8.01693,-93.4796)">
+										<path d="M25.824,21.89L25.824,26.155C25.824,26.339 26.631,26.488 27.624,26.488C28.618,26.488 29.424,26.339 29.424,26.155L29.424,21.89C29.424,21.707 28.618,21.558 27.624,21.558C26.631,21.558 25.824,21.707 25.824,21.89Z" />
+									</g>
+									<g transform="matrix(0.956007,0,0,5.17767,-1.42048,-93.4796)">
+										<path d="M25.824,21.89L25.824,26.155C25.824,26.339 26.631,26.488 27.624,26.488C28.618,26.488 29.424,26.339 29.424,26.155L29.424,21.89C29.424,21.707 28.618,21.558 27.624,21.558C26.631,21.558 25.824,21.707 25.824,21.89Z" />
+									</g>
+								</svg>
+							</button>
+						<% } %>
+					</div>
+					<div class="card__main">
+						<div class="avatar">
+							<img
+								:src="member.avatarUrl"
+								@error="member.avatarUrl = 'https://cdn.discordapp.com/embed/avatars/1.png'"
+								alt="Profile pic"
+							>
+						</div>
+						<div class="username">
+							<h1>{{ member.username }}</h1>
+						</div>
+
+						<div class="fields">
+							<div class="field">
+								<p>Discord User Id</p>
+								<div class="input">
+									<span>{{ member.userId }}</span>
+									<button @click="copy(member.userId)">
+										<img src="/assets/icon_copy.svg" alt="Copy">
+									</button>
+								</div>
+							</div>
+							<div class="field">
+								<p>Email</p>
+								<div class="input">
+									<span>{{ member.email }}</span>
+									<button @click="copy(member.email)">
+										<img src="/assets/icon_copy.svg" alt="Copy">
+									</button>
+								</div>
+							</div>
+							<div class="field">
+								<p>Customer Id</p>
+								<div class="input">
+									<span>{{ member.stripeId }}</span>
+									<a
+										:href="'https://dashboard.stripe.com/customers/' + member.stripeId"
+										target="_blank"
+									>
+										<img src="/assets/icon_link.svg" alt="Link">
+									</a>
+								</div>
+							</div>
+							<div class="field">
+								<p>User Since</p>
+								<div class="input">
+									<span>
+										{{ parseInt(member.dateCreated)
+												? new Date(parseInt(member.dateCreated)).toLocaleDateString()
+												: member.dateCreated }}
+									</span>
+								</div>
+							</div>
+							<div class="field">
+								<p>Joined Discord</p>
+								<div class="input">
+									<span>{{ member.inServer }}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card-header" v-if="member.subscription.id">
+				<h2>Subscription</h2>
+				<tag
+					v-if="member.subscription.status"
+					:text="member.subscription.status"
+					:background-color="findStatusColor(member.subscription.status, subscriptionStatuses)"
+				></tag>
+			</div>
+			<div class="card" v-if="member.subscription.id">
+				<div class="card__container">
+					<div class="card__main">
+						<div class="fields">
+							<div class="field">
+								<p>Subscription Id</p>
+								<div class="input">
+									<span>{{ member.subscription.id }}</span>
+									<a
+										:href="'https://dashboard.stripe.com/subscriptions/' + member.subscription.id"
+										target="_blank"
+									>
+										<img src="/assets/icon_link.svg" alt="Link">
+									</a>
+								</div>
+							</div>
+							<div class="field">
+								<p>Default Payment</p>
+								<div class="input">
+									<span>{{ member.subscription.hasDefaultPayment }}</span>
+								</div>
+							</div>
+							<div class="field" v-if="member.subscription.lastInvoice">
+								<div class="field__label">
+                                    <p>Last Payment Id</p>
+									<tag
+										v-if="member.subscription.lastInvoice.status"
+										:text="member.subscription.lastInvoice.status"
+										:background-color="findStatusColor(member.subscription.lastInvoice.status, invoiceStatuses)"
+									></tag>
+                                </div>
+								<div class="input">
+									<span>{{ member.subscription.lastInvoice.id }}</span>
+									<a
+										:href="'https://dashboard.stripe.com/invoices/' + member.subscription.lastInvoice.id"
+										target="_blank"
+									>
+										<img src="/assets/icon_link.svg" alt="Link">
+									</a>
+								</div>
+							</div>
+							<div class="field" v-if="member.subscription.lastInvoice">
+								<p>Last Invoice Date</p>
+								<div class="input">
+									<span>
+										{{ parseInt(member.subscription.lastInvoice.date)
+												? new Date(parseInt(member.subscription.lastInvoice.date)).toLocaleDateString()
+												: member.subscription.lastInvoice.date }}
+									</span>
+								</div>
+							</div>
+							<div class="field" v-if="member.subscription.nextInvoiceDate">
+								<p>Next Invoice Date</p>
+								<div class="input">
+									<span>
+										{{ parseInt(member.subscription.nextInvoiceDate)
+												? new Date(parseInt(member.subscription.nextInvoiceDate)).toLocaleDateString()
+												: member.subscription.nextInvoiceDate }}
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% if (permissions.includes('m') || permissions.includes('u')) { %>
+		<popup ref="editMember">
+			<div class="field">
+				<p>Role</p>
+				<dropdown v-model="editMember.role" :items="roleNames"></dropdown>
+			</div>
+			<div class="field" v-if="editMember.currency">
+				<p>Currency</p>
+				<dropdown v-model="editMember.currency" :items="member.subscription.currencies"></dropdown>
+			</div>
+
+			<div class="popup__interaction">
+				<button @click="$refs.editMember.close()">Cancel</button>
+				<button :class="{ disabled: editMemberFlag }" @click="updateMember">Save</button>
+			</div>
+		</popup>
+	<% } %>
+
+	<% if (permissions.includes('m') || permissions.includes('d')) { %>
+		<popup ref="deleteMember">
+			<button
+				class="field"
+				@click="cancelSubscription"
+				v-if="member.subscription.id && !member.subscription.cancelled"
+			>Cancel Subscription</button>
+			<button class="field" @click="deleteMember">Delete Member</button>
+
+			<div class="popup__interaction">
+				<button @click="$refs.deleteMember.close()">Close</button>
+			</div>
+		</popup>
+	<% } %>
+</main>
+
+
+<script src="/js/vue.js"></script>
+<script src="/js/socket.io.js"></script>
+<script src="/Components/Sidebar.js"></script>
+<script src="/Components/Popup.js"></script>
+<script src="/Components/Dropdown.js"></script>
+<script src="/Components/Tag.js"></script>
+
+<script type="text/javascript">
+	window.socket = io()
+	window.userId = '<%- userId %>'
+	window.roles = JSON.parse('<%- JSON.stringify(roles) %>')
+</script>
+<script src="/js/admin/member.js"></script>
+</body>
+</html>

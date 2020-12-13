@@ -31,9 +31,15 @@ passport.use(new DiscordStrategy(
      */
     (accessToken, refreshToken, profile, done) => {
         const { id, username, discriminator, email, avatar } = profile
+<<<<<<< Updated upstream:config/passport.js
         const AVATAR_URL = avatar
             ? `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`
             : 'https://cdn.discordapp.com/embed/avatars/1.png?size=2048'
+=======
+        const avatarUrl = avatar
+            ? `https://cdn.discordapp.com/avatars/${id}/${avatar}`
+            : 'https://cdn.discordapp.com/embed/avatars/1.png'
+>>>>>>> Stashed changes:src/config/passport.js
 
         userLogin({
             userId: id,

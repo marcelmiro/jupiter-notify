@@ -1,0 +1,91 @@
+.dropdown {
+	height: 56px;
+	font-size: 18px;
+	font-weight: 500;
+	text-transform: uppercase;
+	outline: none;
+	transition: box-shadow 0.08s ease;
+	
+	span {
+		margin-right: 10px;
+		flex: 1;
+		text-align: left;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	button {
+		width: 230px;
+		height: 100%;
+		padding: 0 18px 0 24px;
+		box-sizing: border-box;
+		border-radius: 16px;
+		font-size: inherit;
+		font-weight: inherit;
+		text-transform: inherit;
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: center;
+		align-items: center;
+		background-color: #333333;
+		img { width: 16px; transition: transform 0.25s ease; }
+	}
+	input { display: none; }
+	label {
+		position: relative;
+		min-width: 180px;
+		max-width: 300px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		transition: all 0.25s linear;
+		
+		img {
+			position: relative;
+			left: 0;
+			width: 8px;
+			margin-left: auto;
+			transform: rotate(-90deg);
+			transition: all 0.25s ease;
+		}
+		&:hover {
+			color: #8B50C3;
+			img { left: 5px; }
+		}
+	}
+	&__content {
+		max-height: 250px;
+		overflow-y: auto;
+		position: absolute;
+		top: auto;
+		left: auto;
+		transform: translateY(20px);
+		padding: 16px 30px;
+		box-sizing: border-box;
+		border-radius: 20px;
+		z-index: 19;
+		display: flex;
+		flex-flow: column nowrap;
+		border: 2px solid #333333;
+		box-shadow: 1px 2px 20px -2px rgba(0, 0, 0, 0.25);
+		background-color: #262626;
+		transition: all 0.25s ease;
+		
+		&::-webkit-scrollbar { width: 8px; }
+		&::-webkit-scrollbar-track { background: #202020; border-radius: 1000vmax; border: none; }
+		&::-webkit-scrollbar-thumb {
+			background: #8B50C3;
+			border-radius: 1000vmax;
+			border: none;
+			&:hover { background: #8B50C3; }
+			&:active { background: darken(#8B50C3, 2); }
+		}
+	}
+	&.active {
+		button img { transform: rotate(180deg); }
+		button { box-shadow: 0 0 0 2px #8B50C3; }
+	}
+	
+	.dropdown-animation-enter { opacity: 0; }
+	.dropdown-animation-leave-active { opacity: 0; }
+}

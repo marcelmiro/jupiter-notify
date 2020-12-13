@@ -1,0 +1,541 @@
+::selection {
+  color: black;
+  background-color: #E9F0F9;
+}
+
+::-moz-selection {
+  color: black;
+  background-color: #E9F0F9;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #202020;
+  border-radius: 1000vmax;
+  border: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8B50C3;
+  border-radius: 1000vmax;
+  border: none;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #8B50C3;
+}
+::-webkit-scrollbar-thumb:active {
+  background-color: #8648c0;
+}
+
+h1, h2, h3, h4, h5, h6, p, span {
+  margin: 0;
+  padding: 0;
+  color: inherit;
+}
+
+button, a, input {
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  color: white;
+}
+button:focus, a:focus, input:focus {
+  outline: inherit;
+}
+button:disabled, button.disabled, a:disabled, a.disabled, input:disabled, input.disabled {
+  cursor: auto !important;
+  pointer-events: none !important;
+}
+button:disabled a, button.disabled a, a:disabled a, a.disabled a, input:disabled a, input.disabled a {
+  cursor: auto !important;
+  pointer-events: none !important;
+}
+
+[v-cloak] {
+  display: none !important;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Poppins, sans-serif;
+  color: white;
+  background-color: #333333;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: calc(100vh - calc(100vh - 100%));
+  overflow-x: hidden;
+  display: flex;
+}
+
+h1, h2 {
+  font-size: 26px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+main {
+  width: 100%;
+  min-width: 330px;
+}
+
+.app {
+  position: relative;
+  margin-left: 255px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+.app__container {
+  width: 1100px;
+  min-height: 100%;
+  padding: 30px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.title h1, .title h2, .title h3, .title h4, .title h5, .title h6 {
+  display: inline-block;
+}
+.title a {
+  margin-left: 30px;
+}
+.title img {
+  width: 20px;
+}
+
+.card {
+  margin-top: 20px;
+  padding: 36px 50px 30px;
+  border-radius: 22px;
+  text-align: left;
+  display: flex;
+  background-color: #262626;
+}
+.card.min-height {
+  min-height: 750px;
+}
+.card__container {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.card__interaction {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  z-index: 10;
+}
+.card__interaction > * + * {
+  margin-left: 14px;
+}
+
+.card-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+}
+.card-header:not(:first-of-type) {
+  margin-top: 40px;
+}
+.card-header h1, .card-header h2, .card-header h3, .card-header h4, .card-header h5, .card-header h6, .card-header p, .card-header span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.add {
+  min-width: 140px;
+  max-width: 250px;
+  height: 56px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: #8B50C3;
+  transition: background-color 0.25s ease;
+}
+.add:hover {
+  background-color: #7e40ba;
+}
+
+.table {
+  flex: 1 0 0;
+  z-index: 5;
+}
+.table__header {
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #DDDDDD;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.table__header span {
+  padding-right: 10px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.table__line {
+  margin: 14px 0 26px;
+  border-bottom: 1px solid #444444;
+}
+.table__content {
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.table__row {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.table__row + .table__row {
+  padding-top: 16px;
+  border-top: 0.2px solid #444444;
+}
+.table__row:not(:last-of-type) {
+  padding-bottom: 16px;
+}
+.table__row__interaction {
+  height: 20px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+.table__row__interaction button, .table__row__interaction img {
+  height: 100%;
+}
+.table__row__interaction button + button {
+  margin-left: 30px;
+}
+
+.load-more {
+  max-width: 200px;
+  height: 56px;
+  margin: 40px auto 0;
+  padding: 0 30px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  background-color: #1C1C1C;
+  transition: background-color 0.25s ease;
+}
+.load-more:hover {
+  background-color: #171717;
+}
+
+.tag {
+  max-width: 100%;
+  height: 26px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 5000vmax;
+  text-transform: lowercase;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  background-color: #555555;
+}
+.tag span {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.field.inline, .field .inline {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.field.inline p, .field .inline p {
+  flex: 1 0 0;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+.field.inline .input, .field .inline .input {
+  width: 50%;
+  height: 40px;
+}
+.field:not(.inline) > *:not(:first-child) {
+  width: 100%;
+  height: 56px;
+  margin-top: 16px;
+}
+.field .field__label {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.field p {
+  font-size: 18px;
+  font-weight: 400;
+  color: #DDDDDD;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.field .dropdown {
+  font-size: 20px;
+}
+.field .dropdown button {
+  width: 100%;
+}
+.field .dropdown__content {
+  z-index: 60;
+}
+.field.title {
+  font-size: 20px;
+  font-weight: 400;
+  color: #DDDDDD;
+  text-align: center;
+}
+button.field {
+  width: 100%;
+  height: 56px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: #333333;
+  transition: background-color 0.25s ease;
+}
+button.field:hover {
+  background-color: #2e2e2e;
+}
+
+.input {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  border-radius: 16px;
+  background-color: #333333;
+}
+.input label, .input span {
+  flex: 1 0 0;
+  height: 100%;
+}
+.input span, .input input {
+  font-size: 19px;
+  font-weight: 500;
+}
+.input span, .input input[type=text], .input input[type=number], .input input[type=datetime-local] {
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  cursor: text;
+}
+.input span::placeholder, .input input[type=text]::placeholder, .input input[type=number]::placeholder, .input input[type=datetime-local]::placeholder {
+  color: #777777;
+  text-transform: capitalize;
+}
+.input span {
+  height: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.input input::-webkit-outer-spin-button, .input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input input[type=number] {
+  -moz-appearance: textfield;
+}
+.input input[type=datetime-local]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+.input a, .input button {
+  margin-right: 16px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #CCCCCC;
+  fill: #CCCCCC;
+  transition: all 0.25s ease;
+}
+.input a:not(.question-mark), .input button:not(.question-mark) {
+  width: 24px;
+  height: 24px;
+}
+.input a:hover, .input button:hover {
+  color: white;
+  fill: white;
+  border-color: white;
+}
+
+.question-mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 5000vmax;
+  border: 1px solid #CCCCCC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1500px) {
+  .app__container {
+    width: 1000px;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .app__container {
+    width: 900px;
+  }
+}
+@media screen and (max-width: 1200px) {
+  nav:not(.active) ~ .app {
+    margin-left: 110px;
+  }
+
+  .app__container {
+    width: 100%;
+    padding: 30px;
+  }
+}
+@media screen and (max-width: 1000px) {
+  nav:not(.active) ~ .app {
+    margin-left: 0;
+    left: 0;
+    padding-top: 50px;
+  }
+
+  .app {
+    margin-left: 0;
+    left: 210px;
+    padding-top: 50px;
+  }
+}
+@media screen and (max-width: 900px) {
+  h2 {
+    font-size: 22px;
+  }
+
+  .title img {
+    width: 18px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .app {
+    left: 200px;
+  }
+
+  .app__container {
+    padding: 30px 20px;
+  }
+}
+@media screen and (max-width: 700px) {
+  h1, h2 {
+    font-size: 25px;
+  }
+
+  .app {
+    left: 180px;
+  }
+
+  .app__container {
+    padding: 16px 20px;
+  }
+
+  .card {
+    margin-top: 10px;
+  }
+
+  .table__header {
+    font-size: 13px;
+  }
+
+  .table__line {
+    margin: 12px 0 24px;
+  }
+
+  .tag {
+    font-size: 13px;
+    padding: 0 10px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .card {
+    padding: 32px 30px 22px;
+  }
+
+  .table__header {
+    font-size: 12px;
+  }
+
+  .table__line {
+    margin: 12px 0 20px;
+  }
+
+  .tag {
+    height: 24px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 550px) {
+  .tag {
+    height: 22px;
+    font-size: 11px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .card {
+    padding: 30px 20px 24px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .app__container {
+    padding: 16px 12px;
+  }
+}
+
+/*# sourceMappingURL=admin.css.map */

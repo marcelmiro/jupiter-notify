@@ -1,0 +1,190 @@
+.popup {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  padding-left: 255px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: padding-left 0.25s ease;
+}
+.popup__container {
+  width: 450px;
+  min-width: 290px;
+  max-height: 750px;
+  border-radius: 20px;
+  z-index: 51;
+  display: flex;
+  background-color: #262626;
+}
+.popup__content {
+  width: 100%;
+  margin: 0 20px;
+  padding: 32px 30px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.popup__content > *:not(:first-child):not(.popup__interaction) {
+  margin-top: 40px;
+}
+.popup__content::-webkit-scrollbar {
+  width: 8px;
+}
+.popup__content::-webkit-scrollbar-track {
+  background: #202020;
+  border-radius: 1000vmax;
+  border: none;
+}
+.popup__content::-webkit-scrollbar-thumb {
+  background: #8B50C3;
+  border-radius: 1000vmax;
+  border: none;
+}
+.popup__content::-webkit-scrollbar-thumb:hover {
+  background: #8B50C3;
+}
+.popup__content::-webkit-scrollbar-thumb:active {
+  background: #8648c0;
+}
+.popup__interaction {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+}
+.popup__interaction button {
+  width: 112px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 16px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: #333333;
+  transition: background-color 0.25s ease;
+}
+.popup__interaction button:hover {
+  background-color: #2e2e2e;
+}
+.popup__interaction button:not(:first-of-type) {
+  margin-left: auto;
+  background-color: #8B50C3;
+}
+.popup__interaction button:not(:first-of-type):hover {
+  background-color: #7e40ba;
+}
+.popup__interaction button.red {
+  background-color: #D84546;
+}
+.popup__interaction button.red:hover {
+  background-color: #d43435;
+}
+.popup__interaction button.disabled {
+  cursor: auto;
+  pointer-events: none;
+  background-color: #666666;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-animation-enter-active, .popup-animation-enter-active *, .popup-animation-leave-active, .popup-animation-leave-active * {
+  transition: all 0.05s linear;
+}
+.popup-animation-enter {
+  opacity: 0;
+}
+.popup-animation-enter .popup__container {
+  transform: scale(0.9);
+}
+.popup-animation-leave-active {
+  opacity: 0;
+}
+.popup-animation-leave-active .popup__container {
+  transform: scale(0.9);
+}
+
+@media screen and (max-width: 1200px) {
+  .popup {
+    padding-left: 0;
+  }
+}
+@media screen and (max-width: 700px) {
+  .popup__container {
+    width: 400px;
+  }
+  .popup .dropdown {
+    font-size: 19px;
+  }
+  .popup .input span, .popup .input input {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .popup__container {
+    width: 100%;
+    max-width: 380px;
+    margin: 0 20px;
+  }
+  .popup__content {
+    padding: 28px 16px;
+  }
+  .popup__content > *:not(:first-child):not(.popup__interaction) {
+    margin-top: 30px;
+  }
+  .popup__interaction {
+    margin-top: 50px;
+  }
+  .popup__interaction button {
+    font-size: 15px;
+  }
+  .popup .field:not(.inline) > *:not(:first-child) {
+    height: 52px;
+    margin-top: 10px;
+  }
+  .popup .field p {
+    font-size: 16px;
+  }
+  .popup .input span, .popup .input input {
+    font-size: 17px;
+  }
+  .popup .input a, .popup .input button {
+    font-size: 15px;
+  }
+  .popup .input span, .popup .input input[type=text], .popup .input input[type=number], .popup .input input[type=datetime-local] {
+    padding-right: 8px;
+  }
+  .popup .question-mark {
+    width: 24px;
+    height: 24px;
+  }
+  .popup .dropdown {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .popup__content {
+    margin: 0 10px;
+    padding: 22px 12px;
+  }
+}
+@media screen and (max-height: 700px) {
+  .popup__container {
+    max-height: calc(100% - 40px);
+  }
+}
+
+/*# sourceMappingURL=Popup.css.map */

@@ -1,0 +1,52 @@
+.add { margin-left: auto; }
+.heading-role, .role, .heading-discord_id, .discord-id, .heading-transferable, .transferable { flex: 2; }
+.heading-discord_id, .discord-id { flex: 3; }
+.heading-interaction, .table__row__interaction { width: 70px; }
+.role, .discord-id, .transferable {
+	padding-right: 10px;
+	box-sizing: border-box;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.tag { font-size: 15px; }
+
+
+// MEDIA QUERIES
+@media screen and (max-width: 750px) {
+	.card { padding: 20px 24px 24px; }
+	.add { min-width: 100px; height: 54px; padding: 0 24px; font-size: 17px; }
+	.table__header { font-size: 13px; }
+	.table__content { font-size: 15px; }
+	.heading-interaction, .table__row__interaction { width: 58px; }
+	.table__row__interaction { height: 19px; }
+	.table__row__interaction button + button { margin-left: 20px; }
+	.tag { font-size: 14px; }
+}
+@media screen and (max-width: 650px) {
+	.heading-role, .role { flex: 3; }
+	.heading-discord_id, .discord-id { flex: 4; }
+	.tag { font-size: 13px; }
+}
+@media screen and (max-width: 550px) {
+	.add { min-width: 60px; height: 50px; padding: 0 22px; font-size: 16px; }
+	.table__header, .table__row {
+		flex-flow: row wrap;
+		&::before, &::after { content: ''; width: 100%; order: 1; }
+	}
+	.table__header { margin-top: 20px; }
+	.heading, .role, .discord-id, .transferable { flex: initial; }
+	.table__header .heading-discord_id, .discord-id { padding-right: 0; text-align: right; }
+	.table__header .heading-discord_id, .discord-id, .heading-transferable, .transferable { flex: 1; }
+	.heading-transferable, .transferable, .heading-interaction, .table__row__interaction { order: 1; }
+	.heading-role, .role, .heading-discord_id, .discord-id { margin-bottom: 5px; }
+	.role { max-width: 150px; }
+}
+@media screen and (max-width: 500px) {
+	.add { height: 50px; padding: 0 22px; font-size: 16px; }
+}
+@media screen and (max-width: 450px) {
+	.heading-interaction, .table__row__interaction { width: 48px; }
+	.table__row__interaction { height: 18px; }
+	.table__row__interaction button + button { margin-left: 12px; }
+}

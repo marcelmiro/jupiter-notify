@@ -1,0 +1,165 @@
+.table__content {
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.table__row {
+  width: calc(50% - 20px);
+  max-width: 400px;
+  display: inline-block;
+}
+.table__row + .table__row {
+  border: none;
+  padding: 0;
+}
+.table__row:not(:last-of-type) {
+  padding: 0;
+}
+.table__row:nth-of-type(n + 3) {
+  margin-top: 36px;
+}
+
+.field {
+  width: 100%;
+}
+
+.field .toggle {
+  display: flex;
+  align-items: center;
+}
+
+.question-mark {
+  margin-right: 10px;
+}
+
+.card__interaction.bottom {
+  height: 56px;
+  margin-top: 40px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.load-more {
+  height: 100%;
+  margin: 0;
+}
+
+.save {
+  max-width: 160px;
+  height: 100%;
+  padding: 0 40px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  background-color: #8B50C3;
+  transition: background-color 0.25s ease;
+}
+.save:hover {
+  background-color: #8141be;
+}
+
+@media screen and (max-width: 1100px) and (min-width: 1001px) {
+  nav.active ~ .app .card {
+    padding: 30px 24px 20px;
+  }
+  nav.active ~ .app .table__row {
+    width: calc(50% - 10px);
+  }
+}
+@media screen and (max-width: 800px) {
+  .card {
+    padding: 30px 24px 20px;
+  }
+
+  .table__row {
+    width: calc(50% - 10px);
+  }
+
+  .card__interaction.bottom {
+    height: 52px;
+  }
+}
+@media screen and (max-width: 700px) {
+  .table__content {
+    justify-content: center;
+  }
+
+  .table__row {
+    width: 100%;
+  }
+
+  .table__row:nth-of-type(n + 3) {
+    margin-top: initial;
+  }
+
+  .table__row + .table__row {
+    margin-top: 30px;
+  }
+
+  .field .toggle {
+    height: auto !important;
+  }
+}
+@media screen and (max-width: 640px) {
+  .card {
+    padding-top: 28px;
+  }
+
+  .save {
+    position: relative;
+    margin-left: auto;
+  }
+}
+@media screen and (max-width: 550px) {
+  .card__interaction .dropdown {
+    height: 54px;
+    font-size: 17px;
+  }
+
+  .table__content {
+    font-size: 15px;
+  }
+
+  .field p {
+    font-size: 17px;
+  }
+
+  .input span, .input input {
+    font-size: 18px;
+  }
+
+  .question-mark {
+    width: 24px;
+    height: 24px;
+  }
+}
+@media screen and (max-width: 470px) {
+  .card__interaction.bottom {
+    height: auto;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+  }
+
+  .load-more, .save {
+    width: 100%;
+    max-width: initial;
+    height: 50px;
+  }
+
+  .load-more + .save {
+    margin-top: 20px;
+  }
+}
+
+/*# sourceMappingURL=settings.css.map */

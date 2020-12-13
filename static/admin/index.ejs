@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--    MAIN INFO    -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Admin Panel</title>
+
+	<!--    FONTS    -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+	<!--    MAIN CSS    -->
+	<link rel="stylesheet" href="/css/admin/admin.css">
+	<link rel="stylesheet" href="/css/admin/overview.css">
+	<link rel="stylesheet" href="/Components/Sidebar.css">
+
+	<!--    FAVICON    -->
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/assets/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#ff8e00">
+	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<main v-cloak>
+	<sidebar page="overview"></sidebar>
+
+	<div class="app">
+		<div class="app__container">
+			<div class="overview">
+				<h1>Overview</h1>
+				<div class="overview__container">
+					<div class="stat">
+						<div class="text">
+							<h6>Monthly Revenue</h6>
+							<p>$1,745</p>
+						</div>
+						<div class="graph"></div>
+					</div>
+					<div class="stat">
+						<div class="text">
+							<h6>Subscriptions</h6>
+							<p>121</p>
+						</div>
+						<div class="graph"></div>
+					</div>
+					<div class="stat">
+						<div class="text">
+							<h6>Upcoming Cancels</h6>
+							<p>6</p>
+						</div>
+						<div class="graph"></div>
+					</div>
+					<div class="stat">
+						<div class="text">
+							<h6>Retention Rate</h6>
+							<p>71%</p>
+						</div>
+						<div class="graph"></div>
+					</div>
+				</div>
+			</div>
+			<div class="graphs">
+				<div class="graphs__subscriptions">
+					<h2>Members by subscriptions</h2>
+				</div>
+				<div class="graphs__currencies">
+					<h2>Currencies</h2>
+				</div>
+			</div>
+			<div class="balance">
+				<div class="title">
+					<h2>Balance</h2>
+					<a href="https://dashboard.stripe.com/balance/overview" target="_blank">
+						<img src="/assets/icon_link.svg" alt="Link">
+					</a>
+				</div>
+				<div class="balance__container">
+					<div class="currency">
+						<h3>EUR</h3>
+						<div class="text">
+							<div class="row">
+								<h6>Available</h6>
+								<span>€267.80</span>
+							</div>
+							<div class="row">
+								<h6>In Transit</h6>
+								<span>€4,357.31</span>
+							</div>
+							<div class="row">
+								<h6>Upcoming</h6>
+								<span>€24,357.00</span>
+							</div>
+						</div>
+					</div>
+					<div class="currency">
+						<h3>EUR</h3>
+						<div class="text">
+							<div class="row">
+								<h6>Available</h6>
+								<span>€267.80</span>
+							</div>
+							<div class="row">
+								<h6>In Transit</h6>
+								<span>€4,357.31</span>
+							</div>
+							<div class="row">
+								<h6>Upcoming</h6>
+								<span>€24,357.00</span>
+							</div>
+						</div>
+					</div>
+					<div class="currency">
+						<h3>EUR</h3>
+						<div class="text">
+							<div class="row">
+								<h6>Available</h6>
+								<span>€267.80</span>
+							</div>
+							<div class="row">
+								<h6>In Transit</h6>
+								<span>€4,357.31</span>
+							</div>
+							<div class="row">
+								<h6>Upcoming</h6>
+								<span>€24,357.00</span>
+							</div>
+						</div>
+					</div>
+					<div class="currency">
+						<h3>EUR</h3>
+						<div class="text">
+							<div class="row">
+								<h6>Available</h6>
+								<span>€267.80</span>
+							</div>
+							<div class="row">
+								<h6>In Transit</h6>
+								<span>€4,357.31</span>
+							</div>
+							<div class="row">
+								<h6>Upcoming</h6>
+								<span>€24,357.00</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+
+<script src="/js/vue.js"></script>
+<script src="/Components/Sidebar.js"></script>
+<script type="text/javascript">
+	'use strict'
+	new window.Vue({ el: 'main'	})
+</script>
+</body>
+</html>
