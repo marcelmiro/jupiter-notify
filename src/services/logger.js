@@ -29,16 +29,16 @@ const logMessage = async (level, message) => {
 module.exports = async () => {
     await clearLogs()
 
-    console.log = msg => { logMessage('info', msg).then().catch(console.fatal) }
-    console.info = msg => { logMessage('info', msg).then().catch(console.fatal) }
-    console.warn = msg => { logMessage('warn', msg).then().catch(console.fatal) }
-    console.error = msg => { logMessage('error', msg).then().catch(console.fatal) }
     console.fatal = msg => {
         // Exit process if console.fatal is called.
         logMessage('fatal', msg)
             .then(() => setTimeout(async () => await process.exit(1), 1000))
             .catch(() => process.exit(1))
     }
+    console.log = msg => { logMessage('info', msg).then().catch(console.fatal) }
+    console.info = msg => { logMessage('info', msg).then().catch(console.fatal) }
+    console.warn = msg => { logMessage('warn', msg).then().catch(console.fatal) }
+    console.error = msg => { logMessage('error', msg).then().catch(console.fatal) }
 
     console.log('Logger set up')
 }
