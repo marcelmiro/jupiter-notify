@@ -9,7 +9,7 @@ const ticket = async (req, res) => {
         try {
             await Joi.object().keys({
                 username: Joi.string().required(),
-                email: Joi.string().email(),
+                email: Joi.string().email().required(),
                 text: Joi.string().required()
             }).required().validateAsync({ username, email, text })
         } catch (e) {

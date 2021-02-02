@@ -16,8 +16,8 @@ const findAccessTokenByToken = async token => {
 const insertAccessToken = async userId => {
     await model.userId.validateAsync(userId)
     if (await client.query(
-        'INSERT INTO access_tokens (user_id, access_token, iv, created) VALUES ($1, $2, $3, $4)',
-        [userId, uuidv4(), uuidv4().slice(0, parseInt(process.env.ENCRYPTION_IV_LENGTH)), new Date().getTime()]
+        'INSERT INTO access_tokens (user_id, access_token, created) VALUES ($1, $2, $3)',
+        [userId, uuidv4(), new Date().getTime()]
     )) return await findAccessToken(userId)
 }
 

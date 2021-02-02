@@ -1,7 +1,7 @@
 'use strict'
 const bodyParser = require('body-parser')
 const router = require('express').Router()
-const { authorize } = require('../../controllers/api')
+// const { authorize } = require('../../controllers/api')
 
 router.use(bodyParser.json())
 router.use((err, req, res, next) => {
@@ -19,8 +19,9 @@ router.use((err, req, res, next) => {
 
 router.use('/discord', require('./discord'))
 router.use('/jupiterscripts', require('./jupiterscripts'))
+router.use('/jupitertoolkit', require('./jupitertoolkit'))
 
-router.post('/authorize', authorize)
+// router.post('/authorize', authorize)
 
 // Fallback when route doesn't exist.
 router.use((req, res) => res.sendStatus(404))
