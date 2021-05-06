@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--    MAIN INFO    -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Jupiter Notify | Secure limited items with any resellable value</title>
+	<meta name="title" content="Jupiter Notify | Secure limited items with any resellable value">
+	<meta name="description" content= "A private Discord group that provides our members with the resources to secure limited items with any resellable value." />
+	<meta name="keywords" content="jupiternotify, jupiter notify, jupiter, cop, sneakers, cop sneakers, cop alert, sneaker alert, discord community, discord cop, shopify monitor, dropshipping, drop shipping, cook, cook group, cookgroup, best cookgroup, best cook group, cookgroup eu, cook group eu, eu cook group, limited sneakers, discord cookgroup, discord cook group">
+	<meta name="robots" content="noindex,follow">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://www.jupiternotify.com/">
+	<meta property="og:title" content="Jupiter Notify | Secure limited items with any resellable value">
+	<meta property="og:description" content="A private Discord group that provides our members with the resources to secure limited items with any resellable value.">
+	<meta property="og:image" content="https://i.imgur.com/gHpaNTR.png">
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://www.jupiternotify.com/">
+	<meta property="twitter:title" content="Jupiter Notify | Secure limited items with any resellable value">
+	<meta property="twitter:description" content="A private Discord group that provides our members with the resources to secure limited items with any resellable value.">
+	<meta property="twitter:image" content="https://i.imgur.com/gHpaNTR.png">
+
+	<!--    FAVICON    -->
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/assets/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#ff8e00">
+	<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+
+	<link rel="stylesheet" href="/css/response.css">
+</head>
+<body>
+
+<div class="container">
+	<% if (status === "payment-success") { %>	<%# Payment statuses %>
+		<h1>Payment was successful</h1>
+		<p>Thanks for subscribing! If you have any issues please contact a member of staff. We'll be glad to help!</p>
+		<a class="button" href="/dashboard">Go to Dashboard</a>
+
+	<% } else if (status === "payment-fail") { %>
+		<h1>Payment failed</h1>
+		<p>Something went wrong during the payment phase. If you can't complete the payment, please contact a member of staff or use the contact form in our website.</p>
+		<a class="button" href="/">Go Back</a>
+	<% }
+
+	else if (status === "oos") { %>	<%# Out of stock %>
+			<h1>Out of stock</h1>
+			<p>We are currently out of stock. Please follow our twitter account <a href="https://twitter.com/JupiterNotify" target="_blank">@JupiterNotify</a> and turn notification on.</p>
+			<a class="button" href="/">Go Home</a>
+	<% }
+
+
+	else if (status === "cancel-role") { %>		<%# Cancel statuses %>
+		<h1>Cancel was successful</h1>
+		<p>You have cancelled your membership. If there was an error, please contact a member of staff or use the contact form in our website.</p>
+		<a class="button" href="/">Go Home</a>
+	<% }
+
+	else if (status === "renew-not-possible") { %>	<%# Renew statuses %>
+		<h1>Renew failed</h1>
+		<p>Your role can't be renewed. If you need help, contact one of the owners.</p>
+		<a class="button" href="/dashboard">Go Back</a>
+	<% }
+
+
+	else if (status === "transfer-success") { %>	<%# Transfer statuses %>
+		<h1>Transfer successful</h1>
+		<p>You transferred your membership successfully. We're sorry that you're leaving us. If you need help, don't hesitate contacting us.</p>
+		<a class="button" href="/">Go Home</a>
+
+	<% } else if (status === "transfer-input-fail") { %>
+		<h1>Transfer failed</h1>
+		<p>
+			Input validation failed. Please use a
+			<a href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID" target="_blank">discord user id</a>
+			as the input for transfer.
+		</p>
+		<a class="button" href="/dashboard">Go Back</a>
+
+	<% } else if (status === "transfer-user-fail") { %>
+		<h1>Transfer failed</h1>
+		<p>The transferee must have logged in at least once to our website in order to perform the transfer.</p>
+		<a class="button" href="/dashboard">Go Back</a>
+
+	<% } else if (status === "transfer-role-fail") { %>
+		<h1>Transfer failed</h1>
+		<p>The transferee already has a role in our server. You can only transfer your role to users that don't have a role already.</p>
+		<a class="button" href="/dashboard">Go Back</a>
+
+	<% } else if (status === "transfer-fail") { %>
+		<h1>Transfer failed</h1>
+		<p>Transfer could not be completed. If you need help, please contact a member of staff or use the contact form in our website.</p>
+		<a class="button" href="/dashboard">Go Back</a>
+
+	<% } else if (status === "transfer-not-possible") { %>
+		<h1>Transfer failed</h1>
+		<p>Your role can't be transferred to another person. If you need help, contact one of the owners.</p>
+		<a class="button" href="/dashboard">Go Back</a>
+	<% }
+
+	else if (status === "download-fail") { %>	<%# Download statuses %>
+		<h1>Wrong download link</h1>
+		<p>There was an error trying to download the requested file. Please contact a member of staff if the error persists.</p>
+		<a class="button" href="/">Go Home</a>
+	<% }
+
+	else { %>
+		<script type="text/javascript">window.location.href = '/'</script>
+	<% } %>
+</div>
+
+</body>
+</html>

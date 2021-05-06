@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--    MAIN INFO    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <meta name="title" content="Dashboard">
+    <meta name="description" content= "A private Discord group that provides our members with the resources to secure limited items with any resellable value." />
+    <meta name="keywords" content="jupiternotify, jupiter notify, jupiter, cop, sneakers, cop sneakers, cop alert, sneaker alert, discord community, discord cop, shopify monitor, dropshipping, drop shipping, cook, cook group, cookgroup, best cookgroup, best cook group, cookgroup eu, cook group eu, eu cook group, limited sneakers, discord cookgroup, discord cook group">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.jupiternotify.com/">
+    <meta property="og:title" content="Dashboard">
+    <meta property="og:description" content="A private Discord group that provides our members with the resources to secure limited items with any resellable value.">
+    <meta property="og:image" content="https://i.imgur.com/gHpaNTR.png">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.jupiternotify.com/">
+    <meta property="twitter:title" content="Dashboard">
+    <meta property="twitter:description" content="A private Discord group that provides our members with the resources to secure limited items with any resellable value.">
+    <meta property="twitter:image" content="https://i.imgur.com/gHpaNTR.png">
+
+    <!--    FAVICON    -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#ff8e00">
+    <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+    <% if (!membershipDetails.subscription) { %>
+        <style>
+	        @media screen and (min-width: 1301px) {
+		        html, body { height: auto; }
+		        body { background: none; position: relative; }
+		        .dashboard {
+			        margin: 100px auto 50px; width: 86%; max-width: 900px; height: auto; top: 0; transform: translate(0,0);
+			        grid-template-columns: 1fr;
+			        grid-template-rows: 1fr 0.6fr 2fr;
+			        grid-column-gap: 0;
+			        grid-row-gap: 40px;
+		        }
+		        .dashboard__welcome .h1-container h1 { font-size: 60px; }
+		        .dashboard__welcome h2 { font-size: 50px; }
+		        .dashboard__welcome img { max-height: 222px; max-width: 222px; }
+
+		        .dashboard__join button img, .dashboard__join a img { height: 32px; }
+		        .dashboard__join button span, .dashboard__join a span { font-size: 25px; }
+
+		        .dashboard__membership-details { height: 500px; }
+		        .dashboard__membership-details h2 { font-size: 44px; }
+		        .dashboard__membership-details .container h3 { font-size: 26px; }
+		        .dashboard__membership-details .container p { font-size: 25px; }
+
+		        .dashboard__links { width: calc(86% - 40px); max-width: 860px; height: 100px; }
+	        }
+        </style>
+    <% } %>
+</head>
+<body>
+
+<main class="dashboard <% if (!membershipDetails.subscription) { %>lifetime<% } %>">
+    <div class="dashboard__welcome">
+        <div class="dashboard__avatar">
+            <div class="placeholder"></div>
+            <div class="image"></div>
+            <img
+                class="low-res"
+                src="<%= user.avatarUrl + (user.avatarUrl.includes('.png') ? '' : '.png') + '?size=256' %>"
+                alt="Avatar"
+            >
+            <img class="high-res" src="<%= user.avatarUrl + '?size=256' %>" alt="Avatar">
+        </div>
+        <div class="dashboard__welcome__message">
+            <div class="h1-container">
+                <h1 id="discord-username"><%= user.username %></h1>
+            </div>
+            <h2>Welcome to Jupiter</h2>
+        </div>
+    </div>
+    <div class="dashboard__join">
+        <a class="button <% if (user.inServer) { %> disabled <% } %>" href="/join" target="_blank">
+            <img src="/assets/icon_discord.svg" alt="Discord icon" />
+            <span>Join Discord</span>
+        </a>
+        <a class="button" href="https://twitter.com/jupiternotify" target="_blank">
+            <img src="/assets/icon_twitter.svg" alt="Twitter icon" />
+            <span>Follow Us</span>
+        </a>
+    </div>
+    <div class="dashboard__membership-details">
+        <h2>Membership Details</h2>
+        <div class="container">
+            <div>
+                <h3>Plan</h3>
+                <p><%= membershipDetails.plan %></p>
+            </div>
+            <div>
+                <h3>Pricing</h3>
+                <p><%= membershipDetails.price %></p>
+            </div>
+            <div>
+                <h3>Next Payment</h3>
+                <p><%= membershipDetails.dateNextPayment %></p>
+            </div>
+            <div>
+                <h3>User Since</h3>
+                <p><%= membershipDetails.dateCreated %></p>
+            </div>
+            <% if (membershipDetails.cancelled) { %>
+                <a class="button" href="/stripe/renew-membership">Renew</a>
+            <% } else { %>
+                <button id="cancel-membership" class="button">Cancel</button>
+            <% } %>
+            <button id="transfer-membership" class="button">Transfer</button>
+        </div>
+    </div>
+    <% if (membershipDetails.subscription) { %>
+        <div class="dashboard__payment-details">
+            <h2>Payment Details</h2>
+
+            <svg width="100%" height="100%" viewBox="0 0 324 204" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+                <g id="bg" transform="matrix(1.15309,0,0,1.22785,-27.7584,-15.488)">
+                    <clipPath id="_clip1">
+                        <path d="M305.057,25.058C305.057,18.639 298.641,12.614 291.806,12.614L37.324,12.614C30.489,12.614 24.073,18.639 24.073,25.058L24.073,166.314C24.073,172.732 30.489,178.758 37.324,178.758L291.806,178.758C298.641,178.758 305.057,172.732 305.057,166.314L305.057,25.058Z"/>
+                    </clipPath>
+                    <g clip-path="url(#_clip1)">
+                        <g transform="matrix(0.867235,-0,-0,0.814432,24.0731,12.6139)">
+                            <use xlink:href="#_Image2" x="0" y="0" width="324px" height="204px"/>
+                        </g>
+                    </g>
+                    <g id="JUPITER" transform="matrix(0.0190706,0,0,0.0179094,274.704,39.5716)">
+                        <g transform="matrix(1,0,0,1,-909.5,-909.5)">
+                            <use id="Calque_1" xlink:href="#_Image3" x="0" y="0" width="1819px" height="1819px"/>
+                        </g>
+                    </g>
+                </g>
+                <g id="card-details">
+                    <g id="card-name-holder" transform="matrix(1,0,0,1,-4,-6)">
+                        <g id="name-container" transform="matrix(1,0,0,1.05505,4,-2.37709)">
+                            <rect id="cardholder-container" x="32.31" y="152.184" width="179.059" height="19.478" style="fill:none;"/>
+                        </g>
+                        <g transform="matrix(1,0,0,1,34.728,177.574)">
+                            <text id="cardholder-name" x="0px" y="0px" style="font-family:Clean,sans-serif;font-weight:400;font-size:27.5px;fill:white;"><%= paymentDetails.name %></text>
+                        </g>
+                    </g>
+                    <g id="card-number" transform="matrix(1,0,0,1,0,-8)">
+                        <g transform="matrix(1,0,0,1,191.615,118.587)">
+                            <g id="card-last-4">
+                                <text x="0px" y="0px" style="font-family:Clean,sans-serif;font-weight:400;font-size:25px;fill:white;"><%= paymentDetails.last4 %></text>
+                            </g>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,29.4432,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,81.4721,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,133.439,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,40.4614,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,92.4904,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,144.458,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,51.4797,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,103.509,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,155.476,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,62.4317,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,114.461,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.134502,0,0,0.134502,166.428,99.4558)">
+                            <circle cx="70.065" cy="80.118" r="26.022" style="fill:white;"/>
+                        </g>
+                    </g>
+                    <g transform="matrix(1,0,0,1,222.064,171.068)">
+                        <g id="card-expiry-date">
+                            <text x="0px" y="0px" style="font-family:Clean,sans-serif;font-weight:400;font-size:25px;fill:white;"><%= paymentDetails.dateExpiry %></text>
+                        </g>
+                    </g>
+                </g>
+                <defs>
+                    <image id="_Image2" width="324px" height="204px" xlink:href="data:image/jpeg;base64,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"/>
+                    <image id="_Image3" width="1819px" height="1819px" style="opacity: 0.8;" xlink:href="assets/jupiter_planet.svg"/>
+                </defs>
+            </svg>
+
+            <a class="button" href="/stripe/update-payment">Update Payment Method</a>
+        </div>
+    <% } %>
+</main>
+
+<div class="dashboard__links <% if (isAdmin) { %>button-container<% } %>">
+    <a class="underline" href="/">Home</a>
+    <% if (isAdmin) { %>
+        <a class="button" href="/admin">Admin Panel</a>
+    <% } %>
+    <a class="underline" href="/logout">Log Out</a>
+</div>
+
+<!-- PLANET OPACITY 0.34 -->
+<div class="bg">
+    <img src="/assets/design_test.png" alt="" />
+</div>
+
+<% if (!membershipDetails.cancelled) { %>
+    <div id="cancel-membership-popup" class="confirm-popup">
+        <div class="overlay"></div>
+        <div class="container">
+            <p>Are you sure you want to cancel your membership?</p>
+            <div>
+                <a>Cancel</a>
+                <a href="/stripe/cancel-membership">Confirm</a>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+<% if (membershipDetails.subscription && !paymentDetails.name && !paymentDetails.last4 && !paymentDetails.dateExpiry) { %>
+    <div class="confirm-popup" style="display: block;">
+        <div class="overlay"></div>
+        <div class="container">
+            <p>Please set up your payment details. If not, your subscription will automatically cancel on the next payment.</p>
+            <div><button class="close-popup button">OK</button></div>
+        </div>
+    </div>
+<% } %>
+
+<div id="transfer-membership-popup" class="confirm-popup">
+    <div class="overlay"></div>
+    <div class="container">
+        <label for="transfer-discord-id">Enter the user's Discord id (Must have logged in first):</label>
+        <input id="transfer-discord-id" type="text" />
+        <div>
+            <button class="close-popup">Cancel</button>
+            <button class="button">Confirm</button>
+        </div>
+    </div>
+</div>
+
+
+<!--    MAIN JS    -->
+<script type="text/javascript">
+    window.hasMembership = '<%= membershipDetails.subscription %>' === 'true'
+</script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>
