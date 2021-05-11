@@ -317,6 +317,11 @@
 					<input id="setting-api_timeout" type="text" placeholder="api timeout" v-model="settings['ACCESS_TOKEN_TIMEOUT']" @keyup.enter="updateSetting('ACCESS_TOKEN_TIMEOUT')" />
 					<button class="button" @click="updateSetting('ACCESS_TOKEN_TIMEOUT')">Update</button>
 				</div>
+				<div>
+					<label for="setting-waiting_room">waiting room</label>
+					<input id="setting-waiting_room" type="text" placeholder="waiting room" v-model="settings['WAITING_ROOM_LINK']" @keyup.enter="updateSetting('WAITING_ROOM_LINK')" />
+					<button class="button" @click="updateSetting('WAITING_ROOM_LINK')">Update</button>
+				</div>
 
 				<h2>Stripe config</h2>
 				<div>

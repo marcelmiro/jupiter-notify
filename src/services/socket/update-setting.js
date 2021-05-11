@@ -7,7 +7,6 @@ module.exports = async ({ io, socket, name, value }) => {
     try {
         if (!socket.request.role?.edit_config) return socket.emit('send-error', 'You don\'t have permission to update website\'s settings.')
 
-        console.debug('before')
         try {
             await Joi.object().keys({
                 name: Joi.string().required(),
@@ -16,7 +15,6 @@ module.exports = async ({ io, socket, name, value }) => {
         } catch (e) {
             return socket.emit('send-error', 'Parameter validation failed: ' + e.message)
         }
-        console.debug('after')
 
         if (!(await findSetting(name))) return socket.emit('send-error', 'Setting name doesn\'t exist.')
         if (value === process.env[name]) return socket.emit('send-error', 'Setting already has the same value.')

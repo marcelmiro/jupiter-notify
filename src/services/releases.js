@@ -11,7 +11,7 @@ const getRelease = async () => {
         process.env.RELEASE_TOTAL_STOCK
     ) {
         if (parseInt(process.env.RELEASE_STOCK)) DATA.stock = parseInt(process.env.RELEASE_STOCK)
-        if (parseInt(process.env.RELEASE_STOCK)) DATA.total = parseInt(process.env.RELEASE_TOTAL_STOCK)
+        if (parseInt(process.envi.RELEASE_STOCK)) DATA.total = parseInt(process.env.RELEASE_TOTAL_STOCK)
     }
 
     return DATA

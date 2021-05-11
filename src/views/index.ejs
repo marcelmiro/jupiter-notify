@@ -80,6 +80,8 @@
 
 			<% if (hasRole) { %>
 				<button class="button disabled">Already Subscribed</button>
+			<% } else if (waitingRoomLink) { %>
+				<a class="button" href="<%= waitingRoomLink %>" target="_blank">Waiting Room</a>
 			<% } else if (!inStock) { %>
 				<button class="button disabled">Out of Stock</button>
 			<% } else { %>

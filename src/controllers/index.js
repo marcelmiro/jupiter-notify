@@ -21,7 +21,8 @@ const index = async (req, res) => {
             inStock: stock,
             hasRole: Boolean(ROLE),
             isAdmin: Boolean(ROLE?.admin_panel),
-            loginFail: Boolean('login_fail' in req.query)
+            loginFail: Boolean('login_fail' in req.query),
+            waitingRoomLink: process.env.WAITING_ROOM_LINK
         })
     } catch (e) {
         console.error(e)
