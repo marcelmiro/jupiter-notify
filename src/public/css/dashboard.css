@@ -257,6 +257,7 @@ html, body {
 .dashboard__welcome {
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
 }
 .dashboard__welcome * {
   margin: 0;
@@ -287,8 +288,8 @@ html, body {
   font-size: 46px;
 }
 .dashboard__avatar {
-  width: 222px;
-  height: 222px;
+  width: 147px;
+  height: 147px;
   margin-left: 3%;
   position: relative;
   border-radius: 50%;
@@ -579,6 +580,10 @@ html, body {
   .dashboard.lifetime {
     grid-template-rows: 1fr 0.6fr 2fr;
   }
+  .dashboard__avatar {
+    width: 200px;
+    height: 200px;
+  }
 
   .dashboard__welcome .h1-container h1 {
     font-size: 60px;
@@ -641,6 +646,10 @@ html, body {
   .dashboard__welcome h2 {
     font-size: 48px;
   }
+  .dashboard__avatar {
+    width: 190px;
+    height: 190px;
+  }
 }
 @media screen and (max-width: 900px) {
   .dashboard__welcome .h1-container h1 {
@@ -648,6 +657,10 @@ html, body {
   }
   .dashboard__welcome h2 {
     font-size: 42px;
+  }
+  .dashboard__avatar {
+    width: 174px;
+    height: 174px;
   }
 }
 @media screen and (max-width: 800px) {
@@ -660,6 +673,10 @@ html, body {
   }
   .dashboard > div {
     border-radius: 36px;
+  }
+  .dashboard__avatar {
+    width: 160px;
+    height: 160px;
   }
 
   .dashboard__welcome .h1-container h1 {
@@ -744,6 +761,10 @@ html, body {
   .dashboard > div {
     border-radius: 30px;
   }
+  .dashboard__avatar {
+    width: 146px;
+    height: 146px;
+  }
 
   .dashboard__welcome .h1-container h1 {
     font-size: 40px;
@@ -808,6 +829,10 @@ html, body {
   }
   .dashboard > div {
     border-radius: 26px;
+  }
+  .dashboard__avatar {
+    width: 120px;
+    height: 120px;
   }
 
   .dashboard__welcome .h1-container h1 {
@@ -877,6 +902,10 @@ html, body {
   }
   .dashboard.lifetime {
     grid-template-rows: 1fr 0.6fr min-content;
+  }
+  .dashboard__avatar {
+    width: 110px;
+    height: 110px;
   }
 
   .dashboard__welcome .h1-container h1 {
@@ -955,6 +984,11 @@ html, body {
   }
 }
 @media screen and (max-width: 480px) {
+  .dashboard__avatar {
+    width: 100px;
+    height: 100px;
+  }
+
   .dashboard__welcome .h1-container h1 {
     font-size: 28px;
   }
@@ -1011,6 +1045,10 @@ html, body {
   }
   .dashboard > div {
     border-radius: 22px;
+  }
+  .dashboard__avatar {
+    width: 90px;
+    height: 90px;
   }
 
   .dashboard__welcome img {
@@ -1086,6 +1124,10 @@ html, body {
   .dashboard.lifetime {
     grid-template-rows: 0.9fr 0.6fr min-content;
   }
+  .dashboard__avatar {
+    width: 80px;
+    height: 80px;
+  }
 
   .dashboard__membership-details {
     height: 300px;
@@ -1117,7 +1159,7 @@ html, body {
 }
 @media screen and (max-width: 390px) {
   .dashboard {
-    grid-template-rows: 0.72fr 0.55fr repeat(2, min-content);
+    grid-template-rows: 0.8fr 0.55fr repeat(2, min-content);
     min-width: 250px;
   }
   .dashboard.lifetime {

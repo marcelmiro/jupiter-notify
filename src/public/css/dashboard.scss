@@ -211,6 +211,7 @@ html, body {
   &__welcome {
     display: flex;
     flex-flow: row nowrap;
+    align-items: center;
     
     * { margin: 0; padding: 0; min-width: 0; min-height: 0; }
     &__message {
@@ -235,8 +236,8 @@ html, body {
     }
   }
   &__avatar {
-    width: 222px;
-    height: 222px;
+    width: 147px;
+    height: 147px;
     margin-left: $columnSpacing;
     position: relative;
     border-radius: 50%;
@@ -439,6 +440,7 @@ html, body {
     grid-column-gap: 0;
     grid-row-gap: 40px;
     &.lifetime { grid-template-rows: 1fr 0.6fr 2fr; }
+    &__avatar { width: 200px; height: 200px; }
   }
   .dashboard__welcome {
     .h1-container h1 { font-size: 60px; }
@@ -466,15 +468,21 @@ html, body {
   .bg img { min-width: 1200px; }
 }
 @media screen and (max-width: 1000px) {
-  .dashboard__welcome {
-    .h1-container h1 { font-size: 58px; }
-    h2 { font-size: 48px; }
+  .dashboard {
+    &__welcome {
+      .h1-container h1 { font-size: 58px; }
+      h2 { font-size: 48px; }
+    }
+    &__avatar { width: 190px; height: 190px; }
   }
 }
 @media screen and (max-width: 900px) {
-  .dashboard__welcome {
-    .h1-container h1 { font-size: 52px; }
-    h2 { font-size: 42px; }
+  .dashboard {
+    &__welcome {
+      .h1-container h1 { font-size: 52px; }
+      h2 { font-size: 42px; }
+    }
+    &__avatar { width: 174px; height: 174px; }
   }
 }
 @media screen and (max-width: 800px) {
@@ -482,6 +490,7 @@ html, body {
     grid-template-rows: 1fr 0.7fr repeat(2, min-content); margin: 90px auto 45px;
     &.lifetime { grid-template-rows: 1fr 0.7fr min-content; }
     > div { border-radius: 36px; }
+    &__avatar { width: 160px; height: 160px; }
   }
   .dashboard__welcome {
     .h1-container h1 { font-size: 46px; }
@@ -532,6 +541,7 @@ html, body {
     grid-template-rows: 0.9fr 0.6fr repeat(2, min-content);
     &.lifetime { grid-template-rows: 0.9fr 0.6fr min-content; }
     > div { border-radius: 30px; }
+    &__avatar { width: 146px; height: 146px; }
   }
   .dashboard__welcome {
     .h1-container h1 { font-size: 40px; }
@@ -569,6 +579,7 @@ html, body {
     grid-row-gap: 34px;
     &.lifetime { grid-template-rows: 0.94fr 0.6fr min-content; }
     > div { border-radius: 26px; }
+    &__avatar { width: 120px; height: 120px; }
   }
   .dashboard__welcome {
     .h1-container h1 { font-size: 34px; }
@@ -604,6 +615,7 @@ html, body {
     grid-template-rows: 1fr 0.6fr repeat(2, min-content);
     grid-row-gap: 28px;
     &.lifetime { grid-template-rows: 1fr 0.6fr min-content; }
+    &__avatar { width: 110px; height: 110px; }
   }
   .dashboard__welcome {
     .h1-container h1 { font-size: 31px; }
@@ -651,6 +663,7 @@ html, body {
   }
 }
 @media screen and (max-width: 480px) {
+  .dashboard__avatar { width: 100px; height: 100px; }
   .dashboard__welcome {
     .h1-container h1 { font-size: 28px; }
     h2 { font-size: 22px; }
@@ -685,6 +698,7 @@ html, body {
   .dashboard {
     margin: 70px auto 35px;
     > div { border-radius: 22px; }
+    &__avatar { width: 90px; height: 90px; }
   }
   .dashboard__welcome {
     img { margin-left: 1%; }
@@ -727,6 +741,7 @@ html, body {
   .dashboard {
     grid-template-rows: 0.9fr 0.6fr repeat(2, min-content);
     &.lifetime { grid-template-rows: 0.9fr 0.6fr min-content; }
+    &__avatar { width: 80px; height: 80px; }
   }
   .dashboard__membership-details {
     height: 300px;
@@ -745,7 +760,7 @@ html, body {
 }
 @media screen and (max-width: 390px) {
   .dashboard {
-    grid-template-rows: 0.72fr 0.55fr repeat(2, min-content);
+    grid-template-rows: 0.8fr 0.55fr repeat(2, min-content);
     min-width: 250px;
     &.lifetime { grid-template-rows: 0.72fr 0.55fr min-content; }
   }
