@@ -401,6 +401,9 @@ html, body {
 
 
 //  MEDIA QUERIES
+@media screen and (min-width: 1301px) {
+  .dashboard.lifetime .dashboard__avatar { width: 200px; height: 200px; }
+}
 //  Queries when dashboard is 1-page no scroll design, and height is < dashboard height.
 @media screen and (min-width: 1301px) and (max-height: 800px) {
   .dashboard { height: 600px; grid-row-gap: 50px; }
@@ -741,7 +744,7 @@ html, body {
   .dashboard {
     grid-template-rows: 0.9fr 0.6fr repeat(2, min-content);
     &.lifetime { grid-template-rows: 0.9fr 0.6fr min-content; }
-    &__avatar { width: 80px; height: 80px; }
+    &__avatar { width: 80px; height: 80px; margin-left: 0; }
   }
   .dashboard__membership-details {
     height: 300px;
@@ -762,7 +765,7 @@ html, body {
   .dashboard {
     grid-template-rows: 0.8fr 0.55fr repeat(2, min-content);
     min-width: 250px;
-    &.lifetime { grid-template-rows: 0.72fr 0.55fr min-content; }
+    &.lifetime { grid-template-rows: 0.8fr 0.55fr min-content; }
   }
   .dashboard__welcome {
     .h1-container h1 { font-size: 22px; }
