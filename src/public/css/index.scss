@@ -293,7 +293,11 @@ button.button, a.button, input.button {
     position: relative;
     padding-top: 20px;
     z-index: 5;
-    > a.button + a.button { margin-left: 30px; }
+    &__link {
+      display: inline-block;
+      &--active { background-color:#8B50C3; }
+      + .navbar__link { margin-left: 30px; }
+    }
     
     .hamburger {
       position: absolute;
@@ -325,7 +329,7 @@ button.button, a.button, input.button {
   }
   .grid {
     width: 100%;
-    height: calc(100% - 132px);
+    height: calc(100% - 142px);
 
     display: flex;
     flex-flow: column nowrap;
@@ -730,8 +734,10 @@ button.button, a.button, input.button {
 @media screen and (max-width: 700px) {
   .section-home {
     .navbar {
-      > a.button + a.button { margin-left: 12px; }
-      a.button { font-size: 18px; border-width: 3px; }
+      &__link {
+        font-size: 18px; border-width: 3px;
+        & + .navbar__link { margin-left: 12px; }
+      }
       .hamburger { width: 32px; height: 32px; }
       .hamburger-container  * + * { margin-top: 26px; }
     }
@@ -758,8 +764,10 @@ button.button, a.button, input.button {
 }
 @media screen and (max-width: 600px) {
   .section-home .navbar {
-    > a.button + a.button { margin-left: 10px; }
-    a.button { font-size: 16px; padding: 8px 18px; }
+    &__link {
+      font-size: 16px; padding: 8px 18px;
+      & + .navbar__link { margin-left: 10px; }
+    }
     .hamburger { width: 28px; height: 28px; top: 10px; left: 10px; }
     .hamburger-container {
       top: 60px;
@@ -796,7 +804,7 @@ button.button, a.button, input.button {
 @media screen and (max-width: 500px) {
   .currency-popup { h3 { text-align: center; } img.close { display: none; } }
   .section-home .navbar {
-    a.button { font-size: 15px; padding: 8px 12px; }
+    &__link { font-size: 15px; padding: 8px 12px; }
     .hamburger { width: 22px; height: 22px; }
     .hamburger-container.active { transform: translateX(20px); }
   }
@@ -849,8 +857,10 @@ button.button, a.button, input.button {
   .section-home {
     .navbar {
       min-width: 310px;
-      > a.button + a.button { margin-left: 8px; }
-      a.button { font-size: 14px; border-width: 2px; padding: 6px 10px; }
+      &__link {
+        font-size: 14px; border-width: 2px; padding: 6px 10px;
+        & + .navbar__link { margin-left: 8px; }
+      }
     }
     .grid {
       .text p { width: 90%; }
@@ -873,9 +883,7 @@ button.button, a.button, input.button {
     min-width: 280px;
     padding: 20px;
   }
-  .section-home .navbar {
-    > a.button + a.button { margin-left: 5px; }
-  }
+  .section-home .navbar__link + .navbar__link { margin-left: 5px; }
 }
 @media screen and (max-width: 400px) {
   .section-home .navbar {
@@ -904,7 +912,7 @@ button.button, a.button, input.button {
   .section-home .navbar {
     left: -8px;
     min-width: 326px;
-    > a.button + a.button { margin-left: 3px; }
+    &__link + .navbar__link { margin-left: 3px; }
     .hamburger { left: 18px; }
     .hamburger-container.active { transform: translateX(18px); }
   }

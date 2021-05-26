@@ -349,7 +349,13 @@ button.button:focus, a.button:focus, input.button:focus {
   padding-top: 20px;
   z-index: 5;
 }
-.section-home .navbar > a.button + a.button {
+.section-home .navbar__link {
+  display: inline-block;
+}
+.section-home .navbar__link--active {
+  background-color: #8B50C3;
+}
+.section-home .navbar__link + .navbar__link {
   margin-left: 30px;
 }
 .section-home .navbar .hamburger {
@@ -390,7 +396,7 @@ button.button:focus, a.button:focus, input.button:focus {
 }
 .section-home .grid {
   width: 100%;
-  height: calc(100% - 132px);
+  height: calc(100% - 142px);
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -868,12 +874,12 @@ button.button:focus, a.button:focus, input.button:focus {
   }
 }
 @media screen and (max-width: 700px) {
-  .section-home .navbar > a.button + a.button {
-    margin-left: 12px;
-  }
-  .section-home .navbar a.button {
+  .section-home .navbar__link {
     font-size: 18px;
     border-width: 3px;
+  }
+  .section-home .navbar__link + .navbar__link {
+    margin-left: 12px;
   }
   .section-home .navbar .hamburger {
     width: 32px;
@@ -919,12 +925,12 @@ button.button:focus, a.button:focus, input.button:focus {
   }
 }
 @media screen and (max-width: 600px) {
-  .section-home .navbar > a.button + a.button {
-    margin-left: 10px;
-  }
-  .section-home .navbar a.button {
+  .section-home .navbar__link {
     font-size: 16px;
     padding: 8px 18px;
+  }
+  .section-home .navbar__link + .navbar__link {
+    margin-left: 10px;
   }
   .section-home .navbar .hamburger {
     width: 28px;
@@ -988,7 +994,7 @@ button.button:focus, a.button:focus, input.button:focus {
     display: none;
   }
 
-  .section-home .navbar a.button {
+  .section-home .navbar__link {
     font-size: 15px;
     padding: 8px 12px;
   }
@@ -1070,13 +1076,13 @@ button.button:focus, a.button:focus, input.button:focus {
   .section-home .navbar {
     min-width: 310px;
   }
-  .section-home .navbar > a.button + a.button {
-    margin-left: 8px;
-  }
-  .section-home .navbar a.button {
+  .section-home .navbar__link {
     font-size: 14px;
     border-width: 2px;
     padding: 6px 10px;
+  }
+  .section-home .navbar__link + .navbar__link {
+    margin-left: 8px;
   }
   .section-home .grid .text p {
     width: 90%;
@@ -1106,7 +1112,7 @@ button.button:focus, a.button:focus, input.button:focus {
     padding: 20px;
   }
 
-  .section-home .navbar > a.button + a.button {
+  .section-home .navbar__link + .navbar__link {
     margin-left: 5px;
   }
 }
@@ -1157,7 +1163,7 @@ button.button:focus, a.button:focus, input.button:focus {
     left: -8px;
     min-width: 326px;
   }
-  .section-home .navbar > a.button + a.button {
+  .section-home .navbar__link + .navbar__link {
     margin-left: 3px;
   }
   .section-home .navbar .hamburger {

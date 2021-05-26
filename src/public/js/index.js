@@ -22,7 +22,7 @@ const smoothScroll = () => {
 }
 
 // Fade out screen loader.
-const fadeOutLoader = () => {
+function fadeOutLoader () {
     const loaderStyle = document.getElementsByClassName('loader')[0].style
 
     loaderStyle.opacity = (1).toString();
@@ -108,6 +108,13 @@ function resizeCollapseList () {
         const panel = accordion.nextElementSibling
         if (panel.style.maxHeight !== '') panel.style.maxHeight = panel.scrollHeight + 'px'
     })
+}
+
+function loginRedirect () {
+    let url = '/login'
+    const params = window.location.search.slice(1)
+    if (params) { url += '?redirect=' + '/?' + encodeURIComponent(params) }
+    window.location.href = url
 }
 
 // EVENT HANDLERS
