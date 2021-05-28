@@ -45,7 +45,7 @@ const kickDiscordUser = async (id, username) => {
     } catch (e) { return console.error(e) }
 
     const USER = await findDiscordMember(id)
-    if (!USER) return console.error(`kickDiscordUser(): User '${username}' (${id}) not found.`)
+    if (!USER) return console.debug(`kickDiscordUser(): User '${username}' (${id}) not found.`)
 
     const KICK = await USER.kick()
     if (!KICK) return console.error(`Discord bot couldn't kick user '${username}' (${id}).`)
