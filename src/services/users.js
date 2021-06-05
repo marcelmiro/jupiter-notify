@@ -72,11 +72,18 @@ const checkDifferences = async ({ userId, username, email, avatarUrl }) => {
 const createUser = async ({ userId, username, email, avatarUrl }) => {
     const CUSTOMERS = await listCustomers()
     const CUSTOMER = CUSTOMERS.find(c => c.description === userId)
-    const stripeId = CUSTOMER
-        ? CUSTOMER.id
-        : (await createCustomer({ userId, name: username, email }))?.id
 
+    let stripeId
+    if (CUSTOMER) {
+        stripeId = CUSTOMER.id
+
+        const data = {}
+        if (CUSTOMER.email !== email) data.email = email
+        if (CUSTOMER.name !== username) data.name = username
+        if (Object.keys(data).length > 0) await updateCustomer(stripeId, data)
+    } else stripeId = (await createCustomer({ userId, name: username, email }))?.id
     if (!stripeId) throw new Error('Couldn\'t create new Stripe customer.')
+
     const USER = await insertUser({ userId, stripeId, username, email, avatarUrl })
 
     if (USER) return USER
